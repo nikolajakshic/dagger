@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#424242</color>
+    <color name="colorAccent">#42a5f5</color>
+
+    <color name="match_won">#00760a</color>
+    <color name="match_lost">#d20000</color>
+</resources>
