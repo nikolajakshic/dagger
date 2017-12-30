@@ -53,7 +53,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
 
         mProgressBar = findViewById(R.id.progress_search);
 
-        mAdapter = new PlayerAdapter(this, new ArrayList<>());
+        mAdapter = new PlayerAdapter(this);
         RecyclerView recyclerView = findViewById(R.id.recview_player);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);

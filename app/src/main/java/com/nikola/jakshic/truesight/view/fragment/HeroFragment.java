@@ -52,7 +52,7 @@ public class HeroFragment extends Fragment implements LoaderManager.LoaderCallba
         View root = inflater.inflate(R.layout.fragment_hero, container, false);
 
         RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
-        mAdapter = new HeroAdapter(getActivity(), new ArrayList<>());
+        mAdapter = new HeroAdapter(getActivity());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setHasFixedSize(true);
@@ -83,7 +83,7 @@ public class HeroFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onLoadFinished(Loader<List<Hero>> loader, List<Hero> data) {
         mRefresh.setRefreshing(false);
         if (data != null && data.size() != 0) {
-            mAdapter.setData(data);
+            mAdapter.addData(data);
         }
     }
 

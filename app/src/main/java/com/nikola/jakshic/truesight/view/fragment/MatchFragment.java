@@ -51,7 +51,7 @@ public class MatchFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_match, container, false);
 
-        mAdapter = new MatchAdapter(getActivity(), new ArrayList<>());
+        mAdapter = new MatchAdapter(getActivity());
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -85,7 +85,7 @@ public class MatchFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoadFinished(Loader<List<Match>> loader, List<Match> data) {
         mRefresh.setRefreshing(false);
         if (data != null && data.size() != 0) {
-            mAdapter.setData(data);
+            mAdapter.addData(data);
         }
 
     }
