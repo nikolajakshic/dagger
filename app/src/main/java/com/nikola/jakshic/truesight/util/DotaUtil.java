@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.util;
 
-
 import android.content.Context;
 import android.util.SparseArray;
 
@@ -8,11 +7,10 @@ import com.nikola.jakshic.truesight.R;
 
 public class DotaUtil {
 
-
     public static class Image {
+
         private static final SparseArray<String> hero = new SparseArray<>();
         private static final SparseArray<String> item = new SparseArray<>();
-
 
         private static void initializeHeroes(Context context) {
 
@@ -107,5 +105,4 @@ public class DotaUtil {
             return skill.get(id, defaultValue);
         }
     }
-
 }

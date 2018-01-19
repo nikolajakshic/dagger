@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-
 public class MatchViewModel {
 
     private Match match;

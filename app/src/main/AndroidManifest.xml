@@ -17,10 +17,8 @@
             android:theme="@style/DetailTheme" />
 
         <activity android:name=".view.activity.HomeActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -29,11 +27,5 @@
             android:name=".view.activity.SearchActivity"
             android:theme="@style/SearchTheme" />
 
-        <provider
-            android:name=".data.local.DotaProvider"
-            android:authorities="com.nikola.jakshic.truesight"
-            android:exported="false" />
-
     </application>
-
 </manifest>

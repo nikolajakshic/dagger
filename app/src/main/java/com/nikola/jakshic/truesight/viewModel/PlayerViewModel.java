@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.viewModel;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
@@ -35,7 +34,7 @@ public class PlayerViewModel {
     }
 
     public String getPlayerID() {
-        return String.valueOf(player.getID());
+        return String.valueOf(player.getId());
     }
 
     @BindingAdapter("avatarUrl")

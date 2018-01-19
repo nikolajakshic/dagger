@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.util;
 
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

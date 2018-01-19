@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.viewModel;
 
-
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.widget.ImageView;

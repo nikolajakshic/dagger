@@ -1,18 +1,18 @@
 package com.nikola.jakshic.truesight.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Player implements Parcelable {
 
-    @SerializedName("account_id")
-    private long id;
-    @SerializedName("personaname")
-    private String name;
-    @SerializedName("avatarfull")
-    private String avatarUrl;
+    @PrimaryKey @SerializedName("account_id") private long id;
+    @SerializedName("personaname") private String name;
+    @SerializedName("avatarfull") private String avatarUrl;
 
     public Player() {
     }
@@ -23,8 +23,19 @@ public class Player implements Parcelable {
         avatarUrl = in.readString();
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public long getID() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public long getId() {
         return id;
     }
 

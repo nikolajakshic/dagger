@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.view.fragment;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,7 +44,6 @@ public class HeroFragment extends Fragment implements LoaderManager.LoaderCallba
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,7 +57,7 @@ public class HeroFragment extends Fragment implements LoaderManager.LoaderCallba
         mRefresh = root.findViewById(R.id.swiperefresh_hero);
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
         Bundle bundle = new Bundle();
-        bundle.putLong(BUNDLE_PLAYER_ID, player.getID());
+        bundle.putLong(BUNDLE_PLAYER_ID, player.getId());
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity()))
                 getLoaderManager().restartLoader(0, bundle, this);

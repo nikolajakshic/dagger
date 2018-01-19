@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TrueSight.iml" filepath="$PROJECT_DIR$/TrueSight.iml" />
+      <module fileurl="file://C:\Users\nikola\Desktop\TRUESIGHT_LOCAL\truesight\TrueSight.iml" filepath="C:\Users\nikola\Desktop\TRUESIGHT_LOCAL\truesight\TrueSight.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\nikola\Desktop\TRUESIGHT_LOCAL\truesight\app\app.iml" filepath="C:\Users\nikola\Desktop\TRUESIGHT_LOCAL\truesight\app\app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/truesight.iml" filepath="$PROJECT_DIR$/truesight.iml" />
     </modules>
   </component>
 </project>

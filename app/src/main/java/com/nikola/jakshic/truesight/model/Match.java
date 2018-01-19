@@ -4,24 +4,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Match {
 
-    @SerializedName("match_id")
-    private long matchID;
-    @SerializedName("hero_id")
-    private long heroID;
-    @SerializedName("radiant_win")
-    private boolean radiantWon;
-    @SerializedName("player_slot")
-    private long playerSlot;
-    @SerializedName("skill")
-    private int skillLevel;
-    @SerializedName("lobby_type")
-    private int lobbyType;
-    @SerializedName("game_mode")
-    private int gameMode;
-    @SerializedName("duration")
-    private long duration;
-    @SerializedName("start_time")
-    private long startTime;
+    @SerializedName("match_id") private long matchID;
+    @SerializedName("hero_id") private long heroID;
+    @SerializedName("radiant_win") private boolean radiantWon;
+    @SerializedName("player_slot") private long playerSlot;
+    @SerializedName("skill") private int skillLevel;
+    @SerializedName("lobby_type") private int lobbyType;
+    @SerializedName("game_mode") private int gameMode;
+    @SerializedName("duration") private long duration;
+    @SerializedName("start_time") private long startTime;
 
     public long getMatchID() {
         return matchID;
