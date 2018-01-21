@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.nikola.jakshic.truesight.model.Player;
@@ -11,14 +12,13 @@ import com.nikola.jakshic.truesight.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchViewModel extends AndroidViewModel {
+public class SearchViewModel extends ViewModel {
 
     private MutableLiveData<List<Player>> list = new MutableLiveData<>();
     private SearchRepository searchRepository;
     private MutableLiveData<Boolean> loading = new MutableLiveData<>();
 
-    public SearchViewModel(@NonNull Application application) {
-        super(application);
+    public SearchViewModel(){
         searchRepository = new SearchRepository();
         loading.setValue(false);
     }
@@ -27,8 +27,8 @@ public class SearchViewModel extends AndroidViewModel {
         return list;
     }
 
-    public void findPlayer(String name) {
-        searchRepository.findPlayer(list, loading, name);
+    public void fetchPlayers(String name) {
+        searchRepository.fetchPlayers(list, loading, name);
     }
 
     public MutableLiveData<Boolean> isLoading() {

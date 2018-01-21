@@ -19,7 +19,7 @@ public interface OpenDotaClient {
     Call<List<Player>> searchPlayers(@Query("q") String name);
 
     @GET("players/{account_id}/matches")
-    Call<List<Match>> getMatches(@Path("account_id") long playerID, @Query("limit") int limit);
+    Call<List<Match>> getMatches(@Path("account_id") long playerID);
 
     @GET("players/{account_id}/heroes")
     Call<List<Hero>> getHeroes(@Path("account_id") long playerID);

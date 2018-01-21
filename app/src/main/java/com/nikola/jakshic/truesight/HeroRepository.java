@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HeroRepository {
     private static final String LOG_TAG = HeroRepository.class.getSimpleName();
 
-    public void findPlayer(MutableLiveData<List<Hero>> list, MutableLiveData<Boolean> loading, long id) {
+    public void fetchHeroes(MutableLiveData<List<Hero>> list, MutableLiveData<Boolean> loading, long id) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         OkHttpClient okClient = new OkHttpClient.Builder()

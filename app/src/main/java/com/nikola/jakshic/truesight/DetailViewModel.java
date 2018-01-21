@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 
 import com.nikola.jakshic.truesight.model.Player;
 
-import java.util.List;
-
 public class DetailViewModel extends AndroidViewModel {
 
     private LiveData<Player> list;

@@ -1,6 +1,5 @@
 package com.nikola.jakshic.truesight.view.activity;
 
-import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -11,19 +10,20 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.nikola.jakshic.truesight.DetailViewModel;
 import com.nikola.jakshic.truesight.FollowDialog;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.Singletons;
 import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
-import com.nikola.jakshic.truesight.DetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.PlayerViewModel;
+
+//TODO REFAKTORIZUJ FRAGMENTE I REPOSITORIJUME MNOGO JE KODA ZAJEDNICKOG
 
 public class DetailActivity extends AppCompatActivity {
 

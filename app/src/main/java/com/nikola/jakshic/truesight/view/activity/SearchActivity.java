@@ -91,7 +91,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 viewModel.clearList();
                 if (NetworkUtil.isActive(SearchActivity.this)) {
-                    viewModel.findPlayer(query);
+                    viewModel.fetchPlayers(query);
                 } else {
                     Toast.makeText(SearchActivity.this, "Check network connection!", Toast.LENGTH_SHORT).show();
                 }
