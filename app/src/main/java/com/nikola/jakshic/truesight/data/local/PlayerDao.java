@@ -14,9 +14,9 @@ import java.util.List;
 public interface PlayerDao {
 
     @Query("SELECT * FROM player WHERE player.id = :id")
-    LiveData<List<Player>> getPlayer(long id);
+    LiveData<Player> getPlayer(long id);
 
-    @Query("SELECT * FROM player")
+    @Query("SELECT * FROM player ORDER BY player.count DESC")
     LiveData<List<Player>> getPlayers();
 
     @Insert

@@ -5,14 +5,16 @@ import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity
 public class Player implements Parcelable {
 
-    @PrimaryKey @SerializedName("account_id") private long id;
-    @SerializedName("personaname") private String name;
-    @SerializedName("avatarfull") private String avatarUrl;
+    @Expose @SerializedName("account_id") private long id;
+    @Expose @SerializedName("personaname") private String name;
+    @Expose @SerializedName("avatarfull") private String avatarUrl;
+    @PrimaryKey(autoGenerate = true) private long count;
 
     public Player() {
     }
@@ -35,6 +37,10 @@ public class Player implements Parcelable {
         this.avatarUrl = avatarUrl;
     }
 
+    public void setCount(long count) {
+        this.count = count;
+    }
+
     public long getId() {
         return id;
     }
@@ -45,6 +51,10 @@ public class Player implements Parcelable {
 
     public String getAvatarUrl() {
         return avatarUrl;
+    }
+
+    public long getCount() {
+        return count;
     }
 
     @Override

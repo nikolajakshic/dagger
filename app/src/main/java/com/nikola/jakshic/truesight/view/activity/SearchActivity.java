@@ -1,9 +1,6 @@
 package com.nikola.jakshic.truesight.view.activity;
 
-import android.app.LoaderManager;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
-import android.content.Loader;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,31 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.data.remote.OpenDotaClient;
-import com.nikola.jakshic.truesight.model.Player;
+import com.nikola.jakshic.truesight.SearchViewModel;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+public class SearchActivity extends AppCompatActivity {
 
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class SearchActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Player>> {
-
-    private static final String STATE_PROGRESS = "progressbar-state";
     private static final String STATE_QUERY = "query-state";
     private static final String STATE_FOCUS = "searchview-focus";
-    private static final String BUNDLE_PLAYER_NAME = "player-name";
     private static final String LOG_TAG = SearchActivity.class.getSimpleName();
 
-    private PlayerAdapter mAdapter;
-    private ProgressBar mProgressBar;
+    private SearchViewModel viewModel;
     private SearchView mSearchView;
     private String mQuery;
     private boolean mFocus = true;
@@ -51,15 +34,26 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_search);
 
-        mProgressBar = findViewById(R.id.progress_search);
+        ProgressBar mProgressBar = findViewById(R.id.progress_search);
 
-        mAdapter = new PlayerAdapter(this);
+        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+
+        PlayerAdapter mAdapter = new PlayerAdapter(this);
+
+        viewModel.getPlayers().observe(this, mAdapter::addData);
         RecyclerView recyclerView = findViewById(R.id.recview_player);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
-        getLoaderManager().initLoader(0, null, this);
+        recyclerView.setOnTouchListener((v, event) -> {
+            mSearchView.clearFocus();
+            return false;
+        });
+
+        viewModel.isLoading().observe(this, aBoolean -> {
+            mProgressBar.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+        });
     }
 
     @Override
@@ -95,13 +89,12 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Bundle bundle = new Bundle();
-                bundle.putString(BUNDLE_PLAYER_NAME, query);
-                mAdapter.addData(new ArrayList<>());
-                if (NetworkUtil.isActive(SearchActivity.this))
-                    getLoaderManager().restartLoader(0, bundle, SearchActivity.this);
-                else
+                viewModel.clearList();
+                if (NetworkUtil.isActive(SearchActivity.this)) {
+                    viewModel.findPlayer(query);
+                } else {
                     Toast.makeText(SearchActivity.this, "Check network connection!", Toast.LENGTH_SHORT).show();
+                }
                 mSearchView.clearFocus();
                 return true;
             }
@@ -118,9 +111,7 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString(STATE_QUERY, String.valueOf(mSearchView.getQuery()));
-        outState.putInt(STATE_PROGRESS, mProgressBar.getVisibility());
         outState.putBoolean(STATE_FOCUS, mSearchView.hasFocus());
-
         super.onSaveInstanceState(outState);
     }
 
@@ -129,80 +120,5 @@ public class SearchActivity extends AppCompatActivity implements LoaderManager.L
         super.onRestoreInstanceState(savedInstanceState);
         mQuery = savedInstanceState.getString(STATE_QUERY);
         mFocus = savedInstanceState.getBoolean(STATE_FOCUS);
-        mProgressBar.setVisibility(savedInstanceState.getInt(STATE_PROGRESS));
-    }
-
-    @Override
-    public Loader<List<Player>> onCreateLoader(int id, Bundle args) {
-        if (args != null)
-            mProgressBar.setVisibility(View.VISIBLE);
-        return new PlayerLoader(this, args);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<Player>> loader, List<Player> data) {
-        mProgressBar.setVisibility(View.GONE);
-        if (data != null) {
-            mAdapter.addData(data);
-        } else
-            Toast.makeText(this, "Network problem...\nTry again!", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<Player>> loader) {
-
-    }
-
-    private static class PlayerLoader extends AsyncTaskLoader<List<Player>> {
-
-        private List<Player> mData;
-        private Bundle bundle;
-
-        public PlayerLoader(Context context, Bundle bundle) {
-            super(context);
-            this.bundle = bundle;
-        }
-
-        @Override
-        protected void onStartLoading() {
-            if (mData != null)
-                deliverResult(mData);
-            else if (bundle != null)
-                forceLoad();
-        }
-
-        @Override
-        public List<Player> loadInBackground() {
-            List<Player> list = new ArrayList<>();
-            String query = bundle.getString(BUNDLE_PLAYER_NAME);
-
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
-            OkHttpClient okClient = new OkHttpClient.Builder()
-                    .addInterceptor(interceptor)
-                    .readTimeout(0, TimeUnit.SECONDS)
-                    .build();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(OpenDotaClient.BASE_URL)
-                    .client(okClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            OpenDotaClient client = retrofit.create(OpenDotaClient.class);
-
-            try {
-                list = client.searchPlayers(query).execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return list;
-        }
-
-        @Override
-        public void deliverResult(List<Player> data) {
-            mData = data;
-            super.deliverResult(data);
-        }
     }
 }

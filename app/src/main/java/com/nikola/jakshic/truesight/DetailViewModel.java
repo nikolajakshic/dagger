@@ -11,7 +11,7 @@ import java.util.List;
 
 public class DetailViewModel extends AndroidViewModel {
 
-    private LiveData<List<Player>> list;
+    private LiveData<Player> list;
     private boolean isChecked;
 
     public DetailViewModel(@NonNull Application application) {
@@ -24,11 +24,11 @@ public class DetailViewModel extends AndroidViewModel {
         isChecked = true;
     }
 
-    public LiveData<List<Player>> getPlayer() {
+    public LiveData<Player> getPlayer() {
         return list;
     }
 
     public boolean isFollowed() {
-        return list.getValue().size() != 0;
+        return list.getValue() != null;
     }
 }

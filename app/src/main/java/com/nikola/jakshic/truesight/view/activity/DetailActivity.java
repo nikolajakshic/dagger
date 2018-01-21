@@ -11,10 +11,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.nikola.jakshic.truesight.FollowDialog;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.Singletons;
 import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
@@ -28,6 +30,7 @@ public class DetailActivity extends AppCompatActivity {
     private Player mPlayer;
     private Button mButtonFollow;
     private ActivityDetailBinding mBinding;
+    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +40,25 @@ public class DetailActivity extends AppCompatActivity {
         mPlayer = getIntent().getParcelableExtra("player-parcelable");
         DetailViewModel viewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
         viewModel.checkPlayer(mPlayer.getId());
+
         viewModel.getPlayer().observe(this, players -> {
+
             mButtonFollow.setTextColor(
-                    players.size() == 0
+                    players == null
                             ? ContextCompat.getColor(DetailActivity.this, android.R.color.white)
                             : ContextCompat.getColor(DetailActivity.this, R.color.colorAccent));
+
             mButtonFollow.setText(
-                    players.size() == 0
+                    players == null
                             ? "Follow"
                             : "Unfollow");
+
             mButtonFollow.setBackground(
-                    players.size() == 0
+                    players == null
                             ? ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_inactive)
                             : ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_active));
         });
+
         mBinding.toolbarPlayer.setViewModel(new PlayerViewModel(this, mPlayer));
         mBinding.setViewModel(new PlayerViewModel(this, mPlayer));
         mButtonFollow = findViewById(R.id.buttonToolbar);
@@ -61,18 +69,8 @@ public class DetailActivity extends AppCompatActivity {
 
         mButtonFollow.setOnClickListener(v -> {
             if (viewModel.isFollowed()) {
-                new AlertDialog.Builder(DetailActivity.this)
-                        .setTitle("Confirmation")
-                        .setMessage("Are you sure you want to unfollow?")
-                        .setPositiveButton("Confirm", (dialog, which) -> {
-                                    Singletons.getDb(this).playerDao().deletePlayer(mPlayer);
-                                }
-                        )
-                        .setNegativeButton("Cancel", (dialog, which) -> {
-                        })
-                        .show();
+                FollowDialog.newInstance(mPlayer).show(getSupportFragmentManager(), "follow-dialog");
             } else {
-
                 Singletons.getDb(this).playerDao().insertPlayer(mPlayer);
             }
         });
