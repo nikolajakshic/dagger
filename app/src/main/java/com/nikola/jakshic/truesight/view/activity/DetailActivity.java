@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
 
         mButtonFollow.setOnClickListener(v -> {
             if (viewModel.isFollowed()) {
-                FollowDialog.newInstance(mPlayer).show(getSupportFragmentManager(), "follow-dialog");
+                FollowDialog.newInstance(mPlayer.getId()).show(getSupportFragmentManager(), "follow-dialog");
             } else {
                 Singletons.getDb(this).playerDao().insertPlayer(mPlayer);
             }

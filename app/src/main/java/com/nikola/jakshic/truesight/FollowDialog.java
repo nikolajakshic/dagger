@@ -10,14 +10,14 @@ import com.nikola.jakshic.truesight.model.Player;
 
 public class FollowDialog extends DialogFragment {
 
-    private static Player mPlayer;
+    private static long playerId;
 
     public FollowDialog() {
     }
 
-    public static FollowDialog newInstance(Player player) {
+    public static FollowDialog newInstance(long id) {
         FollowDialog followDialog = new FollowDialog();
-        mPlayer = player;
+        playerId = id;
         return followDialog;
     }
 
@@ -28,7 +28,7 @@ public class FollowDialog extends DialogFragment {
                 .setTitle("Confirmation")
                 .setMessage("Are you sure you want to unfollow?")
                 .setPositiveButton("Confirm", (dialog, which) -> {
-                            Singletons.getDb(getContext()).playerDao().deletePlayer(mPlayer);
+                            Singletons.getDb(getContext()).playerDao().deletePlayer(playerId);
                         })
                 .setNegativeButton("Cancel", null)
                 .create();
