@@ -1,16 +1,11 @@
 package com.nikola.jakshic.truesight;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.data.remote.OpenDotaClient;
+import com.nikola.jakshic.truesight.data.remote.OpenDotaService;
 import com.nikola.jakshic.truesight.model.Player;
-import com.nikola.jakshic.truesight.view.activity.SearchActivity;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -34,12 +29,12 @@ public class SearchRepository {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(OpenDotaClient.BASE_URL)
+                .baseUrl(OpenDotaService.BASE_URL)
                 .client(okClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        OpenDotaClient client = retrofit.create(OpenDotaClient.class);
+        OpenDotaService client = retrofit.create(OpenDotaService.class);
 
         loading.setValue(true);
         client.searchPlayers(name).enqueue(new Callback<List<Player>>() {

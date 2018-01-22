@@ -3,9 +3,8 @@ package com.nikola.jakshic.truesight;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import com.nikola.jakshic.truesight.data.remote.OpenDotaClient;
+import com.nikola.jakshic.truesight.data.remote.OpenDotaService;
 import com.nikola.jakshic.truesight.model.Hero;
-import com.nikola.jakshic.truesight.model.Player;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,12 +28,12 @@ public class HeroRepository {
                 .readTimeout(30, TimeUnit.SECONDS)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(OpenDotaClient.BASE_URL)
+                .baseUrl(OpenDotaService.BASE_URL)
                 .client(okClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        OpenDotaClient client = retrofit.create(OpenDotaClient.class);
+        OpenDotaService client = retrofit.create(OpenDotaService.class);
 
         loading.setValue(true);
         client.getHeroes(id).enqueue(new Callback<List<Hero>>() {

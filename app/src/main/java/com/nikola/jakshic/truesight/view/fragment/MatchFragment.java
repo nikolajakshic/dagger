@@ -1,6 +1,7 @@
 package com.nikola.jakshic.truesight.view.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,9 +14,13 @@ import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.MatchFragmentViewModel;
 import com.nikola.jakshic.truesight.R;
+import com.nikola.jakshic.truesight.TrueSightApp;
+import com.nikola.jakshic.truesight.data.local.PlayerDao;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.MatchAdapter;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +31,11 @@ public class MatchFragment extends Fragment {
 
     public MatchFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     //TODO REORGANIZUJ DA SE NE POZIVA SVE U ONCREATE, VIEWMODEL TREBA DA SE NALAZI U ACTIVITYATTACHED

@@ -7,6 +7,8 @@ import com.nikola.jakshic.truesight.model.Match;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MatchFragmentViewModel extends ViewModel{
 
     private MutableLiveData<List<Match>> list = new MutableLiveData<>();

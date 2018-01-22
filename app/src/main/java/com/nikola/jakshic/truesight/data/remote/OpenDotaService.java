@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface OpenDotaClient {
+public interface OpenDotaService {
 
     String BASE_URL = "https://api.opendota.com/api/";
 
