@@ -1,6 +1,8 @@
 package com.nikola.jakshic.truesight.view.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,17 +15,29 @@ import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.HeroFragmentViewModel;
 import com.nikola.jakshic.truesight.R;
+import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.HeroAdapter;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HeroFragment extends Fragment {
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     public HeroFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        ((TrueSightApp) getActivity().getApplication()).getAppComponent().inject(this);
+        super.onAttach(context);
     }
 
     //TODO REORGANIZUJ DA SE NE POZIVA SVE U ONCREATE, VIEWMODEL TREBA DA SE NALAZI U ACTIVITYATTACHED
@@ -35,7 +49,7 @@ public class HeroFragment extends Fragment {
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
-        HeroFragmentViewModel viewModel = ViewModelProviders.of(this).get(HeroFragmentViewModel.class);
+        HeroFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroFragmentViewModel.class);
 
         RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
         HeroAdapter mAdapter = new HeroAdapter(getActivity());

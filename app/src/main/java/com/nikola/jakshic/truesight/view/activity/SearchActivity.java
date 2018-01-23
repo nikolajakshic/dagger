@@ -1,5 +1,6 @@
 package com.nikola.jakshic.truesight.view.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +14,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.SearchViewModel;
+import com.nikola.jakshic.truesight.PlayerViewModel;
+import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
+
+import javax.inject.Inject;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -23,20 +27,23 @@ public class SearchActivity extends AppCompatActivity {
     private static final String STATE_FOCUS = "searchview-focus";
     private static final String LOG_TAG = SearchActivity.class.getSimpleName();
 
-    private SearchViewModel viewModel;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    private PlayerViewModel viewModel;
     private SearchView mSearchView;
     private String mQuery;
     private boolean mFocus = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((TrueSightApp) getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_search);
 
         ProgressBar mProgressBar = findViewById(R.id.progress_search);
 
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel.class);
 
         PlayerAdapter mAdapter = new PlayerAdapter(this);
 

@@ -4,27 +4,31 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.nikola.jakshic.truesight.model.Match;
+import com.nikola.jakshic.truesight.repository.MatchRepository;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class MatchFragmentViewModel extends ViewModel{
+public class MatchFragmentViewModel extends ViewModel {
 
-    private MutableLiveData<List<Match>> list = new MutableLiveData<>();
-    private MatchRepository heroRepository;
-    private MutableLiveData<Boolean> loading = new MutableLiveData<>();
+    private MutableLiveData<List<Match>> list;
+    private MatchRepository repository;
+    private MutableLiveData<Boolean> loading;
 
-    public MatchFragmentViewModel() {
-        heroRepository = new MatchRepository();
+    @Inject
+    public MatchFragmentViewModel(MatchRepository repository) {
+        this.repository = repository;
+        list = new MutableLiveData<>();
+        loading = new MutableLiveData<>();
         loading.setValue(false);
     }
 
     public void fetchHeroes(long id) {
-        heroRepository.fetchMatches(list, loading, id);
+        repository.fetchMatches(list, loading, id);
     }
 
-    public MutableLiveData<List<Match>> getHeroes() {
+    public MutableLiveData<List<Match>> getMatches() {
         return list;
     }
 

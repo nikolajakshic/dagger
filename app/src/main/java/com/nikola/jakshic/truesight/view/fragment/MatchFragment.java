@@ -1,5 +1,6 @@
 package com.nikola.jakshic.truesight.view.fragment;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import com.nikola.jakshic.truesight.MatchFragmentViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
-import com.nikola.jakshic.truesight.data.local.PlayerDao;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.MatchAdapter;
@@ -28,6 +28,8 @@ import javax.inject.Inject;
 public class MatchFragment extends Fragment {
 
     private SwipeRefreshLayout mRefresh;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     public MatchFragment() {
         // Required empty public constructor
@@ -35,6 +37,7 @@ public class MatchFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        ((TrueSightApp) getActivity().getApplication()).getAppComponent().inject(this);
         super.onAttach(context);
     }
 
@@ -44,7 +47,7 @@ public class MatchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_match, container, false);
 
-        MatchFragmentViewModel viewModel = ViewModelProviders.of(this).get(MatchFragmentViewModel.class);
+        MatchFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MatchFragmentViewModel.class);
 
         mRefresh = root.findViewById(R.id.swiperefresh_match);
         MatchAdapter mAdapter = new MatchAdapter(getActivity());
@@ -58,7 +61,7 @@ public class MatchFragment extends Fragment {
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.fetchHeroes(player.getId());
-        viewModel.getHeroes().observe(this, mAdapter::addData);
+        viewModel.getMatches().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
         mRefresh.setOnRefreshListener(() -> {
