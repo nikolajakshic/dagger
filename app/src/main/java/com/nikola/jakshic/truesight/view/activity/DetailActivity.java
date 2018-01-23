@@ -1,5 +1,6 @@
 package com.nikola.jakshic.truesight.view.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -17,11 +18,13 @@ import android.widget.TextView;
 import com.nikola.jakshic.truesight.DetailViewModel;
 import com.nikola.jakshic.truesight.FollowDialog;
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.Singletons;
+import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
 import com.nikola.jakshic.truesight.viewModel.PlayerViewModel;
+
+import javax.inject.Inject;
 
 //TODO REFAKTORIZUJ FRAGMENTE I REPOSITORIJUME MNOGO JE KODA ZAJEDNICKOG
 
@@ -30,15 +33,18 @@ public class DetailActivity extends AppCompatActivity {
     private Player mPlayer;
     private Button mButtonFollow;
     private ActivityDetailBinding mBinding;
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
     private static final String LOG_TAG = DetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((TrueSightApp) getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         mPlayer = getIntent().getParcelableExtra("player-parcelable");
-        DetailViewModel viewModel = ViewModelProviders.of(this).get(DetailViewModel.class);
+        DetailViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel.class);
         viewModel.checkPlayer(mPlayer.getId());
 
         viewModel.getPlayer().observe(this, players -> {
@@ -69,9 +75,9 @@ public class DetailActivity extends AppCompatActivity {
 
         mButtonFollow.setOnClickListener(v -> {
             if (viewModel.isFollowed()) {
-                FollowDialog.newInstance(mPlayer.getId()).show(getSupportFragmentManager(), "follow-dialog");
+                FollowDialog.newInstance(viewModel.new OnClickListener(mPlayer.getId())).show(getSupportFragmentManager(), "follow-dialog");
             } else {
-                Singletons.getDb(this).playerDao().insertPlayer(mPlayer);
+                viewModel.insertPlayer(mPlayer);
             }
         });
 

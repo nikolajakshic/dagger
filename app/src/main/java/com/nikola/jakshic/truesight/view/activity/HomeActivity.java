@@ -1,5 +1,6 @@
 package com.nikola.jakshic.truesight.view.activity;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,17 +12,24 @@ import android.view.MenuItem;
 
 import com.nikola.jakshic.truesight.HomeViewModel;
 import com.nikola.jakshic.truesight.R;
+import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
+
+import javax.inject.Inject;
 
 public class HomeActivity extends AppCompatActivity {
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ((TrueSightApp) getApplication()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         setTitle("Home");
-        HomeViewModel viewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        HomeViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel.class);
         PlayerAdapter mAdapter = new PlayerAdapter(this);
         RecyclerView recyclerView = findViewById(R.id.recview_home);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

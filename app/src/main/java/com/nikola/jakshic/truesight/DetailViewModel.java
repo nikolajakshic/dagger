@@ -1,24 +1,29 @@
 package com.nikola.jakshic.truesight;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.ViewModel;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 
+import com.nikola.jakshic.truesight.data.local.PlayerDao;
 import com.nikola.jakshic.truesight.model.Player;
 
-public class DetailViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class DetailViewModel extends ViewModel {
 
     private LiveData<Player> list;
+    private PlayerDao playerDao;
     private boolean isChecked;
 
-    public DetailViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public DetailViewModel(PlayerDao playerDao) {
+        this.playerDao = playerDao;
     }
 
     public void checkPlayer(long id) {
         if (!isChecked)
-            list = Singletons.getDb(getApplication()).playerDao().getPlayer(id);
+            list = playerDao.getPlayer(id);
         isChecked = true;
     }
 
@@ -26,7 +31,25 @@ public class DetailViewModel extends AndroidViewModel {
         return list;
     }
 
+    public void insertPlayer(Player player) {
+        playerDao.insertPlayer(player);
+    }
+
     public boolean isFollowed() {
         return list.getValue() != null;
+    }
+
+    public class OnClickListener implements AlertDialog.OnClickListener {
+
+        private long id;
+
+        public OnClickListener(long id) {
+            this.id = id;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            playerDao.deletePlayer(id);
+        }
     }
 }

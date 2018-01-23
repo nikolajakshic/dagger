@@ -1,5 +1,7 @@
 package com.nikola.jakshic.truesight.di;
 
+import com.nikola.jakshic.truesight.view.activity.DetailActivity;
+import com.nikola.jakshic.truesight.view.activity.HomeActivity;
 import com.nikola.jakshic.truesight.view.activity.SearchActivity;
 import com.nikola.jakshic.truesight.view.fragment.HeroFragment;
 import com.nikola.jakshic.truesight.view.fragment.MatchFragment;
@@ -17,4 +19,8 @@ public interface AppComponent {
     void inject(MatchFragment fragment);
 
     void inject(HeroFragment fragment);
+
+    void inject(DetailActivity activity);
+
+    void inject(HomeActivity activity);
 }

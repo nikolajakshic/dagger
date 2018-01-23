@@ -6,18 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
-import com.nikola.jakshic.truesight.model.Player;
-
 public class FollowDialog extends DialogFragment {
 
-    private static long playerId;
+    private static AlertDialog.OnClickListener mListener;
 
     public FollowDialog() {
     }
 
-    public static FollowDialog newInstance(long id) {
+    public static FollowDialog newInstance(AlertDialog.OnClickListener listener) {
         FollowDialog followDialog = new FollowDialog();
-        playerId = id;
+        mListener = listener;
         return followDialog;
     }
 
@@ -27,9 +25,7 @@ public class FollowDialog extends DialogFragment {
         return new AlertDialog.Builder(getContext())
                 .setTitle("Confirmation")
                 .setMessage("Are you sure you want to unfollow?")
-                .setPositiveButton("Confirm", (dialog, which) -> {
-                            Singletons.getDb(getContext()).playerDao().deletePlayer(playerId);
-                        })
+                .setPositiveButton("Confirm", mListener)
                 .setNegativeButton("Cancel", null)
                 .create();
     }
