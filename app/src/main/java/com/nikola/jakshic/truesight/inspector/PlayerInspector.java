@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight.viewModel;
+package com.nikola.jakshic.truesight.inspector;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,12 +15,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-public class PlayerViewModel {
+public class PlayerInspector {
 
     private Context context;
     private Player player;
 
-    public PlayerViewModel(Context context, Player player) {
+    public PlayerInspector(Context context, Player player) {
         this.context = context;
         this.player = player;
     }

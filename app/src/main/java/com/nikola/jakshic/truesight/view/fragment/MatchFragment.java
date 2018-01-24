@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.MatchFragmentViewModel;
+import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
@@ -47,7 +47,7 @@ public class MatchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_match, container, false);
 
-        MatchFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MatchFragmentViewModel.class);
+        MatchViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MatchViewModel.class);
 
         mRefresh = root.findViewById(R.id.swiperefresh_match);
         MatchAdapter mAdapter = new MatchAdapter(getActivity());

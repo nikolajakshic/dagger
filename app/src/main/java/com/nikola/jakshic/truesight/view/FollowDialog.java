@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight;
+package com.nikola.jakshic.truesight.view;
 
 import android.app.Dialog;
 import android.os.Bundle;

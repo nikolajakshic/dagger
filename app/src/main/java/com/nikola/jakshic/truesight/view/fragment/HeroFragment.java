@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.HeroFragmentViewModel;
+import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
@@ -49,7 +49,7 @@ public class HeroFragment extends Fragment {
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
-        HeroFragmentViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroFragmentViewModel.class);
+        HeroViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
 
         RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
         HeroAdapter mAdapter = new HeroAdapter(getActivity());

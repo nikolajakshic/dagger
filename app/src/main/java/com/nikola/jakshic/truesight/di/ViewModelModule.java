@@ -3,12 +3,12 @@ package com.nikola.jakshic.truesight.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.nikola.jakshic.truesight.DetailViewModel;
-import com.nikola.jakshic.truesight.HeroFragmentViewModel;
-import com.nikola.jakshic.truesight.HomeViewModel;
-import com.nikola.jakshic.truesight.MatchFragmentViewModel;
-import com.nikola.jakshic.truesight.PlayerViewModel;
-import com.nikola.jakshic.truesight.TrueSightViewModelFactory;
+import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
+import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
+import com.nikola.jakshic.truesight.viewModel.HomeViewModel;
+import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
+import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
+import com.nikola.jakshic.truesight.viewModel.TrueSightViewModelFactory;
 
 import dagger.Binds;
 import dagger.Module;
@@ -19,18 +19,18 @@ public interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MatchFragmentViewModel.class)
-    ViewModel bindMatchFragmentViewModel(MatchFragmentViewModel viewModel);
+    @ViewModelKey(MatchViewModel.class)
+    ViewModel bindMatchFragmentViewModel(MatchViewModel viewModel);
 
     @Binds
     @IntoMap
-    @ViewModelKey(HeroFragmentViewModel.class)
-    ViewModel bindHeroFragmentViewModel(HeroFragmentViewModel viewModel);
+    @ViewModelKey(HeroViewModel.class)
+    ViewModel bindHeroFragmentViewModel(HeroViewModel viewModel);
 
     @Binds
     @IntoMap
-    @ViewModelKey(PlayerViewModel.class)
-    ViewModel bindPlayerViewModel(PlayerViewModel viewModel);
+    @ViewModelKey(SearchViewModel.class)
+    ViewModel bindPlayerViewModel(SearchViewModel viewModel);
 
     @Binds
     @IntoMap

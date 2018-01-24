@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.nikola.jakshic.truesight.databinding.ItemMatchBinding;
 import com.nikola.jakshic.truesight.model.Match;
-import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
+import com.nikola.jakshic.truesight.inspector.MatchInspector;
 
 public class MatchAdapter extends DetailAdapter<Match, ItemMatchBinding> {
 
@@ -16,7 +16,7 @@ public class MatchAdapter extends DetailAdapter<Match, ItemMatchBinding> {
 
     @Override
     public void bindViewHolder(Context context, DataBindHolder<ItemMatchBinding> holder, Match item) {
-        holder.binding.setViewModel(new MatchViewModel(context, item));
+        holder.binding.setViewModel(new MatchInspector(context, item));
     }
 
     @Override

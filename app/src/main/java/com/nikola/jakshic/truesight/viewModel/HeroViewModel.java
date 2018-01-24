@@ -1,58 +1,38 @@
 package com.nikola.jakshic.truesight.viewModel;
 
-import android.content.Context;
-import android.databinding.BindingAdapter;
-import android.widget.ImageView;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.nikola.jakshic.truesight.model.Hero;
-import com.nikola.jakshic.truesight.util.DotaUtil;
+import com.nikola.jakshic.truesight.repository.HeroRepository;
 
-import java.text.DecimalFormat;
+import java.util.List;
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import javax.inject.Inject;
 
-public class HeroViewModel {
+public class HeroViewModel extends ViewModel {
 
-    private Context context;
-    private Hero hero;
+    private MutableLiveData<List<Hero>> list;
+    private HeroRepository repository;
+    private MutableLiveData<Boolean> loading;
 
-    public HeroViewModel(Context context, Hero hero) {
-        this.context = context;
-        this.hero = hero;
+    @Inject
+    public HeroViewModel(HeroRepository repository) {
+        this.repository = repository;
+        list = new MutableLiveData<>();
+        loading = new MutableLiveData<>();
+        loading.setValue(false);
     }
 
-    public String getGames() {
-        return String.valueOf(hero.getGamesPlayed());
+    public void fetchHeroes(long id) {
+        repository.fetchHeroes(list, loading, id);
     }
 
-    public String getWinRate() {
-        float games = hero.getGamesPlayed();
-        if (games == 0) return "0.00%";
-        float win = hero.getGamesWon();
-        float winRate = (win / games) * 100.00f;
-        DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(winRate) + "%";
+    public MutableLiveData<List<Hero>> getHeroes() {
+        return list;
     }
 
-    public String getWinLoss() {
-        int win = hero.getGamesWon();
-        int lose = hero.getGamesPlayed() - win;
-        return win + "/" + lose;
-    }
-
-    @BindingAdapter("heroUrl")
-    public static void setImageUrl(ImageView imageView, String url) {
-        RequestOptions options = new RequestOptions().centerCrop();
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(options)
-                .transition(withCrossFade())
-                .into(imageView);
-    }
-
-    public String getImageUrl() {
-        return DotaUtil.Image.getHeroUrl(context, (int) hero.getID());
+    public MutableLiveData<Boolean> isLoading() {
+        return loading;
     }
 }

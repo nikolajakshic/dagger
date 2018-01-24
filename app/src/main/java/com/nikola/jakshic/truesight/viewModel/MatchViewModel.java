@@ -1,126 +1,38 @@
 package com.nikola.jakshic.truesight.viewModel;
 
-import android.content.Context;
-import android.databinding.BindingAdapter;
-import android.support.v4.content.ContextCompat;
-import android.widget.ImageView;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.model.Match;
-import com.nikola.jakshic.truesight.util.DotaUtil;
+import com.nikola.jakshic.truesight.repository.MatchRepository;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import javax.inject.Inject;
 
-public class MatchViewModel {
+public class MatchViewModel extends ViewModel {
 
-    private Match match;
-    private Context context;
+    private MutableLiveData<List<Match>> list;
+    private MatchRepository repository;
+    private MutableLiveData<Boolean> loading;
 
-    public MatchViewModel(Context context, Match match) {
-        this.match = match;
-        this.context = context;
+    @Inject
+    public MatchViewModel(MatchRepository repository) {
+        this.repository = repository;
+        list = new MutableLiveData<>();
+        loading = new MutableLiveData<>();
+        loading.setValue(false);
     }
 
-    public String getWin() {
-        String result;
-        if (match.radiantWon() && match.getPlayerSlot() <= 4)
-            result = "Won";
-        else if (!match.radiantWon() && match.getPlayerSlot() > 4)
-            result = "Won";
-        else
-            result = "Lost";
-        return result;
+    public void fetchHeroes(long id) {
+        repository.fetchMatches(list, loading, id);
     }
 
-    public int getResultColor() {
-        int color;
-        if (getWin().equals("Won"))
-            color = ContextCompat.getColor(context, R.color.match_won);
-        else
-            color = ContextCompat.getColor(context, R.color.match_lost);
-        return color;
+    public MutableLiveData<List<Match>> getMatches() {
+        return list;
     }
 
-    public String getSkill() {
-        return DotaUtil.Match.getSkill(match.getSkillLevel(), "Unknown");
-    }
-
-    public String getLobby() {
-        return DotaUtil.Match.getLobby(match.getLobbyType(), "Unknown");
-    }
-
-    public String getDuration() {
-        long hours, minutes, seconds;
-
-        hours = TimeUnit.SECONDS.toHours(match.getDuration());
-
-        if (hours > 0) {
-            minutes = TimeUnit.SECONDS.toMinutes(match.getDuration() - hours * 60 * 60);
-            seconds = match.getDuration() - hours * 60 * 60 - minutes * 60;
-        } else {
-            minutes = TimeUnit.SECONDS.toMinutes(match.getDuration());
-            seconds = match.getDuration() - minutes * 60;
-        }
-
-        String min = String.valueOf(minutes);
-        String sec = String.valueOf(seconds);
-
-        if (minutes < 10)
-            min = 0 + String.valueOf(minutes);
-        if (seconds < 10)
-            sec = 0 + String.valueOf(seconds);
-        if (hours > 0)
-            return hours + ":" + min + ":" + sec;
-        else
-            return min + ":" + sec;
-    }
-
-    public String getEndTime() {
-        long SECOND_IN_MILLIS = 1000;
-        long MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
-        long HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
-        long DAY_IN_MILLIS = HOUR_IN_MILLIS * 24;
-        long MONTH_IN_MILLIS = DAY_IN_MILLIS * 30;
-        long YEAR_IN_MILLIS = MONTH_IN_MILLIS * 12;
-
-        long time = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(match.getStartTime()) - TimeUnit.SECONDS.toMillis(match.getDuration());
-        long minute = time / MINUTE_IN_MILLIS;
-        long hour = time / HOUR_IN_MILLIS;
-        long day = time / DAY_IN_MILLIS;
-        long month = time / MONTH_IN_MILLIS;
-        long year = time / YEAR_IN_MILLIS;
-
-        if (year > 0)
-            return context.getResources().getQuantityString(R.plurals.year, (int) year, year);
-        else if (month > 0)
-            return context.getResources().getQuantityString(R.plurals.month, (int) month, month);
-        else if (day > 0)
-            return context.getResources().getQuantityString(R.plurals.day, (int) day, day);
-        else if (hour > 0)
-            return context.getResources().getQuantityString(R.plurals.hour, (int) hour, hour);
-        else
-            return context.getResources().getQuantityString(R.plurals.minute, (int) minute, minute);
-    }
-
-    public String getMode() {
-        return DotaUtil.Match.getMode(match.getGameMode(), "Unknown");
-    }
-
-    @BindingAdapter("imageUrl")
-    public static void setImageUrl(ImageView imageView, String url) {
-        RequestOptions options = new RequestOptions().centerCrop();
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(options)
-                .transition(withCrossFade())
-                .into(imageView);
-    }
-
-    public String getImageUrl() {
-        return DotaUtil.Image.getHeroUrl(context, (int) match.getHeroID());
+    public MutableLiveData<Boolean> isLoading() {
+        return loading;
     }
 }

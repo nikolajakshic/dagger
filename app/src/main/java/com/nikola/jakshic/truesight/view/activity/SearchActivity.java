@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.PlayerViewModel;
+import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
@@ -29,7 +29,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    private PlayerViewModel viewModel;
+    private SearchViewModel viewModel;
     private SearchView mSearchView;
     private String mQuery;
     private boolean mFocus = true;
@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
 
         ProgressBar mProgressBar = findViewById(R.id.progress_search);
 
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(PlayerViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel.class);
 
         PlayerAdapter mAdapter = new PlayerAdapter(this);
 

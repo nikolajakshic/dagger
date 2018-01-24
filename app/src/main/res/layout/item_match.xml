@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.nikola.jakshic.truesight.viewModel.MatchViewModel" />
+            type="com.nikola.jakshic.truesight.inspector.MatchInspector" />
     </data>
 
     <LinearLayout

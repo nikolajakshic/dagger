@@ -15,14 +15,14 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.nikola.jakshic.truesight.DetailViewModel;
-import com.nikola.jakshic.truesight.FollowDialog;
+import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
+import com.nikola.jakshic.truesight.view.FollowDialog;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
-import com.nikola.jakshic.truesight.viewModel.PlayerViewModel;
+import com.nikola.jakshic.truesight.inspector.PlayerInspector;
 
 import javax.inject.Inject;
 
@@ -65,8 +65,8 @@ public class DetailActivity extends AppCompatActivity {
                             : ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_active));
         });
 
-        mBinding.toolbarPlayer.setViewModel(new PlayerViewModel(this, mPlayer));
-        mBinding.setViewModel(new PlayerViewModel(this, mPlayer));
+        mBinding.toolbarPlayer.setViewModel(new PlayerInspector(this, mPlayer));
+        mBinding.setViewModel(new PlayerInspector(this, mPlayer));
         mButtonFollow = findViewById(R.id.buttonToolbar);
         Toolbar toolbar = findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);

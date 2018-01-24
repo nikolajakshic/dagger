@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.nikola.jakshic.truesight.databinding.ItemPlayerBinding;
 import com.nikola.jakshic.truesight.model.Player;
-import com.nikola.jakshic.truesight.viewModel.PlayerViewModel;
+import com.nikola.jakshic.truesight.inspector.PlayerInspector;
 
 public class PlayerAdapter extends DetailAdapter<Player, ItemPlayerBinding> {
 
@@ -16,7 +16,7 @@ public class PlayerAdapter extends DetailAdapter<Player, ItemPlayerBinding> {
 
     @Override
     public void bindViewHolder(Context context, DataBindHolder<ItemPlayerBinding> holder, Player item) {
-        holder.binding.setViewModel(new PlayerViewModel(context, item));
+        holder.binding.setViewModel(new PlayerInspector(context, item));
     }
 
     @Override

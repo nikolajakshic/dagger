@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight;
+package com.nikola.jakshic.truesight.viewModel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

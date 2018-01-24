@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.nikola.jakshic.truesight.HomeViewModel;
+import com.nikola.jakshic.truesight.viewModel.HomeViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
