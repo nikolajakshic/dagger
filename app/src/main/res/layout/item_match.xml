@@ -18,7 +18,6 @@
         android:orientation="vertical"
         android:paddingTop="8dp">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +35,8 @@
                 tools:src="@mipmap/ic_launcher" />
 
             <LinearLayout
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -48,30 +49,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
                     android:text="@{viewModel.getWin()}"
                     android:textColor="@{viewModel.getResultColor()}"
                     android:textSize="14sp"
                     tools:text="Win" />
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/text_match_skill"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
                     android:text="@{viewModel.getSkill()}"
                     android:textColor="#999999"
                     android:textSize="12sp"
                     tools:text="Very High" />
-
-
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -79,6 +78,8 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/text_match_mode"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
@@ -89,6 +90,8 @@
                     tools:text="Ranked" />
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/text_match_lobby"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
@@ -98,11 +101,12 @@
                     android:textColor="#999999"
                     android:textSize="12sp"
                     tools:text="All Pick" />
-
-
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="end"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -115,17 +119,17 @@
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:text="@{viewModel.getDuration()}"
                     android:textSize="14sp" />
 
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     tools:text="2 days ago"
                     android:id="@+id/text_match_endtime"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
                     android:text="@{viewModel.getEndTime()}"
                     android:textColor="#999999"
                     android:textSize="12sp" />
@@ -142,4 +146,3 @@
     </LinearLayout>
 
 </layout>
-
