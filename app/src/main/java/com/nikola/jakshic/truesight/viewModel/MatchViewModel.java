@@ -15,6 +15,7 @@ public class MatchViewModel extends ViewModel {
     private MutableLiveData<List<Match>> list;
     private MatchRepository repository;
     private MutableLiveData<Boolean> loading;
+    private boolean initialFetch;
 
     @Inject
     public MatchViewModel(MatchRepository repository) {
@@ -22,6 +23,13 @@ public class MatchViewModel extends ViewModel {
         list = new MutableLiveData<>();
         loading = new MutableLiveData<>();
         loading.setValue(false);
+    }
+
+    public void initialFetch(long id) {
+        if (!initialFetch) {
+            repository.fetchMatches(list, loading, id);
+            initialFetch = true;
+        }
     }
 
     public void fetchHeroes(long id) {

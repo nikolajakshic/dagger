@@ -60,7 +60,7 @@ public class MatchFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
-        viewModel.fetchHeroes(player.getId());
+        viewModel.initialFetch(player.getId());
         viewModel.getMatches().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 

@@ -58,7 +58,7 @@ public class HeroFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
-        viewModel.fetchHeroes(player.getId());
+        viewModel.initialFetch(player.getId());
         viewModel.getHeroes().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 

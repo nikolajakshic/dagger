@@ -15,6 +15,7 @@ public class HeroViewModel extends ViewModel {
     private MutableLiveData<List<Hero>> list;
     private HeroRepository repository;
     private MutableLiveData<Boolean> loading;
+    private boolean initialFetch;
 
     @Inject
     public HeroViewModel(HeroRepository repository) {
@@ -22,6 +23,13 @@ public class HeroViewModel extends ViewModel {
         list = new MutableLiveData<>();
         loading = new MutableLiveData<>();
         loading.setValue(false);
+    }
+
+    public void initialFetch(long id) {
+        if (!initialFetch) {
+            repository.fetchHeroes(list, loading, id);
+            initialFetch = true;
+        }
     }
 
     public void fetchHeroes(long id) {
