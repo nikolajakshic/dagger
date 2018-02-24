@@ -31,11 +31,10 @@
             android:layout_marginTop="8dp">
 
             <FrameLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1">
+                android:layout_marginStart="16dp">
 
                 <ImageView
                     android:id="@+id/hero_stats_image"
@@ -46,6 +45,8 @@
             </FrameLayout>
 
             <TextView
+                android:maxLines="1"
+                android:layout_marginStart="16dp"
                 android:id="@+id/hero_stats_games_played"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="0dp"
@@ -54,7 +55,8 @@
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:text="@{viewModel.getGames()}"
-                tools:text="55" />
+                tools:text="55"
+                android:layout_marginLeft="16dp" />
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -63,6 +65,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:maxLines="1"
                     android:id="@+id/hero_Stats_winrate"
                     style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
@@ -89,8 +92,10 @@
 
             </RelativeLayout>
 
-
             <TextView
+                android:maxLines="1"
+                android:layout_marginEnd="16dp"
+                android:gravity="end"
                 android:id="@+id/hero_stats_win_loss"
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 android:layout_width="0dp"
@@ -101,8 +106,8 @@
                 android:text="@{viewModel.getWinLoss()}"
                 android:paddingStart="8dp"
                 android:textSize="14sp"
-
-                tools:text="5005/1000" />
+                tools:text="5005/1000"
+                android:layout_marginRight="16dp" />
         </LinearLayout>
 
         <View
