@@ -14,13 +14,81 @@
     <RelativeLayout
         android:id="@+id/container22"
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="260dp">
 
-        <View
+        <LinearLayout
             android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="125dp"
-            android:background="@color/colorAccent" />
+            android:background="@color/colorAccent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/player_games"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/player_winrate"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginEnd="16dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="bottom|end"
+                android:orientation="vertical"
+                android:layout_marginRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/player_wins"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/player_losses"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
@@ -30,9 +98,9 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
             android:layout_width="80dp"
-            app:circleAvatarUrl="@{viewModel.getImageUrl()}"
             android:layout_height="80dp"
             android:layout_centerInParent="true"
+            app:circleAvatarUrl="@{viewModel.getImageUrl()}"
             app:civ_border_color="#FFFFFF"
             app:civ_border_width="2dp"
             tools:src="@mipmap/ic_launcher" />
@@ -43,16 +111,29 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/imageView"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
+            tools:text="drspalevic"
             android:text="@{viewModel.getPlayerName()}"
             android:textColor="#000000"
             android:textSize="18sp" />
+
+        <TextView
+            tools:text="176405398"
+            android:id="@+id/textPlayerId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textUser"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="2dp"
+            android:text="@{viewModel.getPlayerID()}"
+            android:textColor="#999999"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/buttonToolbar"
             android:layout_width="120dp"
             android:layout_height="30dp"
-            android:layout_below="@+id/textUser"
+            android:layout_below="@+id/textPlayerId"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:background="@drawable/button_toolbar_follow_active"

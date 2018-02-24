@@ -3,6 +3,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="player_games">Games:</string>
+    <string name="player_winrate">Winrate:</string>
+    <string name="player_wins">Wins:</string>
+    <string name="player_losses">Losses:</string>
 
 
 </resources>
