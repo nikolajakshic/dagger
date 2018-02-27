@@ -85,8 +85,9 @@
                     android:background="#b1b1b1" />
 
                 <View
-                    android:id="@+id/percentage_view"
-                    android:layout_width="45dp"
+                    android:id="@+id/view_hero_percentage_winrate"
+                    android:layout_width="85dp"
+                    app:layout_width="@{viewModel.getPercentage()}"
                     android:layout_height="3dp"
                     android:layout_below="@id/hero_Stats_winrate"
                     android:background="@color/colorAccent" />

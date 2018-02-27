@@ -2,6 +2,8 @@ package com.nikola.jakshic.truesight.inspector;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -28,18 +30,34 @@ public class HeroInspector {
     }
 
     public String getWinRate() {
-        float games = hero.getGamesPlayed();
-        if (games == 0) return "0.00%";
-        float win = hero.getGamesWon();
-        float winRate = (win / games) * 100.00f;
         DecimalFormat df = new DecimalFormat("0.00");
-        return df.format(winRate) + "%";
+        return df.format(getPercentage()) + "%";
+    }
+
+    public float getPercentage() {
+        float games = hero.getGamesPlayed();
+        if (games == 0) return 0;
+        float win = hero.getGamesWon();
+        return  (win / games) * 100.00f;
     }
 
     public String getWinLoss() {
         int win = hero.getGamesWon();
         int lose = hero.getGamesPlayed() - win;
         return win + "/" + lose;
+    }
+
+    @BindingAdapter("layout_width")
+    public static void setLayoutWidth(View view, float percentage) {
+        int width = 85;
+        final float scale = view.getContext().getResources().getDisplayMetrics().density;
+
+        width = (int) (width * scale + 0.5f);
+
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = (int) (width * (percentage / 100));
+
+        view.setLayoutParams(params);
     }
 
     @BindingAdapter("heroUrl")
