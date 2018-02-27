@@ -39,6 +39,7 @@
                 <ImageView
                     android:id="@+id/hero_stats_image"
                     android:layout_width="50dp"
+                    android:background="#D3D3D3"
                     android:layout_height="35dp"
                     app:heroUrl="@{viewModel.getImageUrl()}"
                     tools:src="@mipmap/ic_launcher_round" />

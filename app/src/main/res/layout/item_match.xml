@@ -27,6 +27,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:background="#D3D3D3"
                 app:imageUrl="@{viewModel.getImageUrl()}"
                 android:id="@+id/image_match_hero"
                 android:layout_width="50dp"
