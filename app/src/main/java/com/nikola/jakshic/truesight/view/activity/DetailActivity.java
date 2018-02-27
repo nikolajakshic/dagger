@@ -11,18 +11,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
-import com.nikola.jakshic.truesight.view.FollowDialog;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
-import com.nikola.jakshic.truesight.model.Player;
-import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
 import com.nikola.jakshic.truesight.inspector.PlayerInspector;
+import com.nikola.jakshic.truesight.model.Player;
+import com.nikola.jakshic.truesight.view.FollowDialog;
+import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
+import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
 
 import javax.inject.Inject;
 
@@ -47,6 +48,16 @@ public class DetailActivity extends AppCompatActivity {
         DetailViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel.class);
         viewModel.checkPlayer(mPlayer.getId());
 
+        PlayerInspector playerInspector = new PlayerInspector(this, mPlayer);
+        mBinding.toolbarPlayer.setViewModel(playerInspector);
+        mBinding.setViewModel(playerInspector);
+
+        viewModel.fetchPlayerWinLoss(mPlayer.getId());
+        viewModel.getPlayerWinLoss().observe(this, player -> {
+            playerInspector.setPlayerWins(player.getWins());
+            playerInspector.setPlayerLosses(player.getLosses());
+        });
+
         viewModel.getPlayer().observe(this, players -> {
 
             mButtonFollow.setTextColor(
@@ -65,8 +76,6 @@ public class DetailActivity extends AppCompatActivity {
                             : ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_active));
         });
 
-        mBinding.toolbarPlayer.setViewModel(new PlayerInspector(this, mPlayer));
-        mBinding.setViewModel(new PlayerInspector(this, mPlayer));
         mButtonFollow = findViewById(R.id.buttonToolbar);
         Toolbar toolbar = findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);

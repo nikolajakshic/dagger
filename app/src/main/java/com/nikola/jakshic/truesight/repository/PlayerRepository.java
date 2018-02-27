@@ -39,4 +39,18 @@ public class PlayerRepository {
             }
         });
     }
+
+    public void fetchPlayerWinLoss(MutableLiveData<Player> player, long id) {
+        service.getPlayerWinLoss(id).enqueue(new Callback<Player>() {
+            @Override
+            public void onResponse(Call<Player> call, Response<Player> response) {
+                player.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Player> call, Throwable t) {
+
+            }
+        });
+    }
 }

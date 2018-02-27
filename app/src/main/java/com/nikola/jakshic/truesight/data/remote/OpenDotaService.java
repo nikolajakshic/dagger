@@ -18,6 +18,9 @@ public interface OpenDotaService {
     @GET("search")
     Call<List<Player>> searchPlayers(@Query("q") String name);
 
+    @GET("players/{account_id}/wl")
+    Call<Player> getPlayerWinLoss(@Path("account_id") long playerID);
+
     @GET("players/{account_id}/matches")
     Call<List<Match>> getMatches(@Path("account_id") long playerID);
 

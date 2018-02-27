@@ -1,6 +1,7 @@
 package com.nikola.jakshic.truesight.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,6 +15,8 @@ public class Player implements Parcelable {
     @Expose @SerializedName("account_id") private long id;
     @Expose @SerializedName("personaname") private String name;
     @Expose @SerializedName("avatarfull") private String avatarUrl;
+    @Expose @Ignore @SerializedName("win") private long wins;
+    @Expose @Ignore @SerializedName("lose") private long losses;
     @PrimaryKey(autoGenerate = true) private long count;
 
     public Player() {
@@ -41,6 +44,22 @@ public class Player implements Parcelable {
         this.count = count;
     }
 
+    public long getWins() {
+        return wins;
+    }
+
+    public void setWins(long wins) {
+        this.wins = wins;
+    }
+
+    public long getLosses() {
+        return losses;
+    }
+
+    public void setLosses(long losses) {
+        this.losses = losses;
+    }
+
     public long getId() {
         return id;
     }
@@ -60,12 +79,6 @@ public class Player implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    public void setData(long id, String name, String url) {
-        this.id = id;
-        this.name = name;
-        this.avatarUrl = url;
     }
 
     @Override

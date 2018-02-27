@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">True Sight</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="player_games">Games:</string>
-    <string name="player_winrate">Winrate:</string>
-    <string name="player_wins">Wins:</string>
-    <string name="player_losses">Losses:</string>
+    <string name="player_games">Games: %1$d</string>
+    <string name="player_winrate">Winrate: %1$s%%</string>
+    <string name="player_wins">Wins: %1$d</string>
+    <string name="player_losses">Losses: %1$d</string>
 
 
 </resources>
