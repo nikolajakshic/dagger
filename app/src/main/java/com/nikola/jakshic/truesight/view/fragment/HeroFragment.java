@@ -13,12 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.HeroAdapter;
+import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
 
 import javax.inject.Inject;
 
@@ -53,8 +53,10 @@ public class HeroFragment extends Fragment {
 
         RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
         HeroAdapter mAdapter = new HeroAdapter(getActivity());
-        recyclerView.setAdapter(mAdapter);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE

@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,8 +53,9 @@ public class DetailActivity extends AppCompatActivity {
 
         viewModel.fetchPlayerWinLoss(mPlayer.getId());
         viewModel.getPlayerWinLoss().observe(this, player -> {
-            playerInspector.setPlayerWins(player.getWins());
-            playerInspector.setPlayerLosses(player.getLosses());
+            playerInspector.setPlayerWins(player == null ? 0 : player.getWins());
+            playerInspector.setPlayerLosses(player == null ? 0 : player.getLosses());
+
         });
 
         viewModel.getPlayer().observe(this, players -> {
