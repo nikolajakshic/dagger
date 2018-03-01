@@ -6,11 +6,16 @@ import android.arch.lifecycle.ViewModel;
 import com.nikola.jakshic.truesight.model.Hero;
 import com.nikola.jakshic.truesight.repository.HeroRepository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class HeroViewModel extends ViewModel {
+
+    private static final String LOG_TAG = HeroViewModel.class.getSimpleName();
 
     private MutableLiveData<List<Hero>> list;
     private HeroRepository repository;
@@ -34,6 +39,13 @@ public class HeroViewModel extends ViewModel {
 
     public void fetchHeroes(long id) {
         repository.fetchHeroes(list, loading, id);
+    }
+
+    public void sort(Comparator<Hero> comparator) {
+        if (list.getValue() == null) return;
+        List<Hero> sortedList = new ArrayList<>(list.getValue());
+        Collections.sort(sortedList, comparator);
+        list.setValue(sortedList);
     }
 
     public MutableLiveData<List<Hero>> getHeroes() {

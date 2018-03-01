@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class DetailAdapter<T, V extends ViewDataBinding> extends RecyclerView.Adapter<DataBindHolder<V>> {
 
     private Context context;
-    private List<T> list;
+    List<T> list;
 
     public DetailAdapter(Context context) {
         this.context = context;

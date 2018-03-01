@@ -1,12 +1,16 @@
 package com.nikola.jakshic.truesight.view.adapter;
 
 import android.content.Context;
+import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.nikola.jakshic.truesight.HeroDiffCallback;
 import com.nikola.jakshic.truesight.databinding.ItemHeroBinding;
 import com.nikola.jakshic.truesight.model.Hero;
 import com.nikola.jakshic.truesight.inspector.HeroInspector;
+
+import java.util.List;
 
 public class HeroAdapter extends DetailAdapter<Hero, ItemHeroBinding> {
 
@@ -25,5 +29,16 @@ public class HeroAdapter extends DetailAdapter<Hero, ItemHeroBinding> {
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false);
+    }
+
+    @Override
+    public void addData(List<Hero> data) {
+        HeroDiffCallback diffCallback = new HeroDiffCallback(list, data);
+        DiffUtil.DiffResult  diffResult = DiffUtil.calculateDiff(diffCallback);
+
+        list.clear();
+        list.addAll(data);
+
+        diffResult.dispatchUpdatesTo(this);
     }
 }

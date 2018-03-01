@@ -6,5 +6,12 @@
     <string name="player_wins">Wins: %1$d</string>
     <string name="player_losses">Losses: %1$d</string>
 
+    <string-array name="sort_hero_options">
+
+        <item>Total games</item>
+        <item>Win rate</item>
+        <item>Wins</item>
+        <item>Losses</item>
+    </string-array>
 
 </resources>

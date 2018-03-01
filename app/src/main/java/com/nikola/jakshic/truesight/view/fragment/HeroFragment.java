@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.nikola.jakshic.truesight.view.HeroSortDialog;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
@@ -54,14 +55,20 @@ public class HeroFragment extends Fragment {
         RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
         HeroAdapter mAdapter = new HeroAdapter(getActivity());
 
+        View btnSort = root.findViewById(R.id.btn_hero_sort);
+
+        btnSort.setOnClickListener(v -> HeroSortDialog.newInstance(viewModel).show(getFragmentManager(), null));
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(player.getId());
-        viewModel.getHeroes().observe(this, mAdapter::addData);
+        viewModel.getHeroes().observe(this, data -> {
+            mAdapter.addData(data);
+            recyclerView.scrollToPosition(0);
+        });
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
         //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
