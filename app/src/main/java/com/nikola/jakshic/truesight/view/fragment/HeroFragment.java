@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.view.HeroSortDialog;
+import com.nikola.jakshic.truesight.HeroComparator;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
+import com.nikola.jakshic.truesight.view.HeroSortDialog;
 import com.nikola.jakshic.truesight.view.adapter.HeroAdapter;
 import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
 
@@ -26,10 +27,12 @@ import javax.inject.Inject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HeroFragment extends Fragment {
+public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListener {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    private RecyclerView recyclerView;
+    private HeroViewModel viewModel;
 
     public HeroFragment() {
         // Required empty public constructor
@@ -50,14 +53,19 @@ public class HeroFragment extends Fragment {
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
-        HeroViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recview_hero);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
+
+        recyclerView = root.findViewById(R.id.recview_hero);
         HeroAdapter mAdapter = new HeroAdapter(getActivity());
 
         View btnSort = root.findViewById(R.id.btn_hero_sort);
 
-        btnSort.setOnClickListener(v -> HeroSortDialog.newInstance(viewModel).show(getFragmentManager(), null));
+        btnSort.setOnClickListener(v -> {
+            HeroSortDialog dialog = HeroSortDialog.newInstance();
+            dialog.setTargetFragment(this, 300);
+            dialog.show(getFragmentManager(), null);
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
@@ -65,10 +73,7 @@ public class HeroFragment extends Fragment {
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(player.getId());
-        viewModel.getHeroes().observe(this, data -> {
-            mAdapter.addData(data);
-            recyclerView.scrollToPosition(0);
-        });
+        viewModel.getHeroes().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
         //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
@@ -83,5 +88,24 @@ public class HeroFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onSort(int sortOption) {
+        switch (sortOption) {
+            case 0:
+                viewModel.sort(new HeroComparator.ByGames());
+                break;
+            case 1:
+                viewModel.sort(new HeroComparator.ByWinRate());
+                break;
+            case 2:
+                viewModel.sort(new HeroComparator.ByWins());
+                break;
+            case 3:
+                viewModel.sort(new HeroComparator.ByLosses());
+                break;
+        }
+        recyclerView.scrollToPosition(0);
     }
 }
