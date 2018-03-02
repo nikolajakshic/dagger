@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.nikola.jakshic.truesight.data.local.DotaDatabase;
 import com.nikola.jakshic.truesight.data.local.PlayerDao;
+import com.nikola.jakshic.truesight.data.local.SearchHistoryDao;
 import com.nikola.jakshic.truesight.data.remote.OpenDotaService;
 
 import java.util.concurrent.TimeUnit;
@@ -51,6 +52,12 @@ public class AppModule {
     @Singleton
     PlayerDao providePlayerDao(DotaDatabase db) {
         return db.playerDao();
+    }
+
+    @Provides
+    @Singleton
+    SearchHistoryDao provideSearchHistoryDao(DotaDatabase db) {
+        return db.searchHistoryDao();
     }
 
     @Provides

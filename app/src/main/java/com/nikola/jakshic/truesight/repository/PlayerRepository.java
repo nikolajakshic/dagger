@@ -18,6 +18,7 @@ import retrofit2.Response;
 public class PlayerRepository {
 
     private OpenDotaService service;
+    private Call<List<Player>> call;
 
     @Inject
     public PlayerRepository(OpenDotaService service) {
@@ -25,8 +26,14 @@ public class PlayerRepository {
     }
 
     public void fetchPlayers(MutableLiveData<List<Player>> list, MutableLiveData<Boolean> loading, String name) {
+
+        // Cancel previous call
+        if (call != null)
+            call.cancel();
+
+        call = service.searchPlayers(name);
         loading.setValue(true);
-        service.searchPlayers(name).enqueue(new Callback<List<Player>>() {
+        call.enqueue(new Callback<List<Player>>() {
             @Override
             public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
                 list.setValue(response.body());
@@ -35,7 +42,7 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
-                loading.setValue(false);
+                if (!call.isCanceled()) loading.setValue(false);
             }
         });
     }

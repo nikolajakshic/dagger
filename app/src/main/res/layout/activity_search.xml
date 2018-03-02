@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/view_search_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.nikola.jakshic.truesight.view.activity.SearchActivity">
@@ -13,9 +14,16 @@
 
     <ProgressBar
         android:layout_centerInParent="true"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:id="@+id/progress_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="invisible"
+        android:background="@android:color/white"
+        android:id="@+id/recview_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

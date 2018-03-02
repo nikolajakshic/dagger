@@ -3,6 +3,7 @@ package com.nikola.jakshic.truesight.view.activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,18 +11,21 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
 import com.nikola.jakshic.truesight.TrueSightApp;
+import com.nikola.jakshic.truesight.model.SearchHistory;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.PlayerAdapter;
+import com.nikola.jakshic.truesight.view.adapter.SearchHistoryAdapter;
+import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
 
 import javax.inject.Inject;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements SearchHistoryAdapter.OnQueryClickListener {
 
     private static final String STATE_QUERY = "query-state";
     private static final String STATE_FOCUS = "searchview-focus";
@@ -33,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
     private SearchView mSearchView;
     private String mQuery;
     private boolean mFocus = true;
+    private RecyclerView recViewSearchHistory;
+    private ViewGroup rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,25 +47,47 @@ public class SearchActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         setContentView(R.layout.activity_search);
 
-        ProgressBar mProgressBar = findViewById(R.id.progress_search);
-
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel.class);
 
+        if (savedInstanceState != null) {
+            mQuery = savedInstanceState.getString(STATE_QUERY);
+            mFocus = savedInstanceState.getBoolean(STATE_FOCUS);
+        } else {
+            // Show search history when activity starts
+            viewModel.getAllQueries();
+        }
+
+        ProgressBar mProgressBar = findViewById(R.id.progress_search);
+
         PlayerAdapter mAdapter = new PlayerAdapter(this);
+        SearchHistoryAdapter mAdapterHistory = new SearchHistoryAdapter(this, this);
 
         viewModel.getPlayers().observe(this, mAdapter::addData);
-        RecyclerView recyclerView = findViewById(R.id.recview_player);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setHasFixedSize(true);
 
-        recyclerView.setOnTouchListener((v, event) -> {
+        rootView = findViewById(R.id.view_search_root);
+
+        RecyclerView recViewPlayers = findViewById(R.id.recview_player);
+        recViewPlayers.setLayoutManager(new LinearLayoutManager(this));
+        recViewPlayers.setAdapter(mAdapter);
+        recViewPlayers.setHasFixedSize(true);
+
+        recViewSearchHistory = findViewById(R.id.recview_search_history);
+        recViewSearchHistory.setLayoutManager(new LinearLayoutManager(this));
+        recViewSearchHistory.setAdapter(mAdapterHistory);
+        recViewSearchHistory.setHasFixedSize(true);
+
+        recViewPlayers.setOnTouchListener((v, event) -> {
             mSearchView.clearFocus();
             return false;
         });
 
         viewModel.isLoading().observe(this, aBoolean -> {
-            mProgressBar.setVisibility(aBoolean ? View.VISIBLE : View.GONE);
+            mProgressBar.setVisibility(aBoolean ? View.VISIBLE : View.INVISIBLE);
+        });
+
+        viewModel.getSearchHistory().observe(this, searchHistories -> {
+            recViewSearchHistory.setVisibility(mFocus ? View.VISIBLE : View.INVISIBLE);
+            mAdapterHistory.addData(searchHistories);
         });
     }
 
@@ -93,6 +121,12 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        mSearchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            // Show search history when search view has focus
+            TransitionManager.beginDelayedTransition(rootView);
+            recViewSearchHistory.setVisibility(hasFocus ? View.VISIBLE : View.INVISIBLE);
+        });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -102,12 +136,14 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(SearchActivity.this, "Check network connection!", Toast.LENGTH_SHORT).show();
                 }
+                viewModel.saveQuery(new SearchHistory(query));
                 mSearchView.clearFocus();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                viewModel.getQueries(newText);
                 return true;
             }
         });
@@ -123,9 +159,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mQuery = savedInstanceState.getString(STATE_QUERY);
-        mFocus = savedInstanceState.getBoolean(STATE_FOCUS);
+    public void onClick(String query) {
+        mSearchView.setQuery(query, true);
     }
 }
