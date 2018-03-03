@@ -122,6 +122,7 @@ public class SearchActivity extends AppCompatActivity implements SearchHistoryAd
         });
 
         mSearchView.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            mFocus = hasFocus;
             // Show search history when search view has focus
             TransitionManager.beginDelayedTransition(rootView);
             recViewSearchHistory.setVisibility(hasFocus ? View.VISIBLE : View.INVISIBLE);
