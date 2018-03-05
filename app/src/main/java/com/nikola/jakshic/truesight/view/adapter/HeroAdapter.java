@@ -12,7 +12,7 @@ import com.nikola.jakshic.truesight.inspector.HeroInspector;
 
 import java.util.List;
 
-public class HeroAdapter extends DetailAdapter<Hero, ItemHeroBinding> {
+public class HeroAdapter extends DataAdapter<Hero, ItemHeroBinding> {
 
     public HeroAdapter(Context context) {
         super(context);

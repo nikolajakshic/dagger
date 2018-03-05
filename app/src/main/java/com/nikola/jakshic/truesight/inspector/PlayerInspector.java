@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.nikola.jakshic.truesight.BR;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.model.Player;
-import com.nikola.jakshic.truesight.view.activity.DetailActivity;
+import com.nikola.jakshic.truesight.view.activity.PlayerActivity;
 
 import java.text.DecimalFormat;
 
@@ -96,7 +96,7 @@ public class PlayerInspector extends BaseObservable {
     }
 
     public void onClick(View v) {
-        Intent intent = new Intent(context, DetailActivity.class);
+        Intent intent = new Intent(context, PlayerActivity.class);
         intent.putExtra("player-parcelable", player);
         context.startActivity(intent);
     }

@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.nikola.jakshic.truesight.view.fragment.HeroFragment;
 import com.nikola.jakshic.truesight.view.fragment.MatchFragment;
 
-public class DetailPagerAdapter extends FragmentPagerAdapter {
+public class PlayerPagerAdapter extends FragmentPagerAdapter {
 
-    public DetailPagerAdapter(FragmentManager fm) {
+    public PlayerPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 

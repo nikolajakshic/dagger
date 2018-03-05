@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:id="@+id/coordinator_detail"
         android:layout_height="match_parent"
-        tools:context="com.nikola.jakshic.truesight.view.activity.DetailActivity">
+        tools:context="com.nikola.jakshic.truesight.view.activity.PlayerActivity">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBar"

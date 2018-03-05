@@ -8,7 +8,7 @@ import com.nikola.jakshic.truesight.databinding.ItemPlayerBinding;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.inspector.PlayerInspector;
 
-public class PlayerAdapter extends DetailAdapter<Player, ItemPlayerBinding> {
+public class PlayerAdapter extends DataAdapter<Player, ItemPlayerBinding> {
 
     public PlayerAdapter(Context context) {
         super(context);

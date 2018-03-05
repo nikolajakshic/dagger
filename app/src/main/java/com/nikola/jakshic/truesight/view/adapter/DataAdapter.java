@@ -8,12 +8,17 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DetailAdapter<T, V extends ViewDataBinding> extends RecyclerView.Adapter<DataBindHolder<V>> {
+/**
+ * Generic Adapter
+ * @param <T> Model
+ * @param <V> Data Binding
+ */
+public abstract class DataAdapter<T, V extends ViewDataBinding> extends RecyclerView.Adapter<DataBindHolder<V>> {
 
     private Context context;
     List<T> list;
 
-    public DetailAdapter(Context context) {
+    public DataAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
     }

@@ -8,7 +8,7 @@ import com.nikola.jakshic.truesight.databinding.ItemMatchBinding;
 import com.nikola.jakshic.truesight.model.Match;
 import com.nikola.jakshic.truesight.inspector.MatchInspector;
 
-public class MatchAdapter extends DetailAdapter<Match, ItemMatchBinding> {
+public class MatchAdapter extends DataAdapter<Match, ItemMatchBinding> {
 
     public MatchAdapter(Context context) {
         super(context);

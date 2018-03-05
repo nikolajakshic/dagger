@@ -21,21 +21,21 @@ import com.nikola.jakshic.truesight.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.truesight.inspector.PlayerInspector;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.view.FollowDialog;
-import com.nikola.jakshic.truesight.view.adapter.DetailPagerAdapter;
+import com.nikola.jakshic.truesight.view.adapter.PlayerPagerAdapter;
 import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
 
 import javax.inject.Inject;
 
 //TODO REFAKTORIZUJ FRAGMENTE I REPOSITORIJUME MNOGO JE KODA ZAJEDNICKOG
 
-public class DetailActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity {
 
     private Player mPlayer;
     private Button mButtonFollow;
     private ActivityDetailBinding mBinding;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    private static final String LOG_TAG = DetailActivity.class.getSimpleName();
+    private static final String LOG_TAG = PlayerActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,8 @@ public class DetailActivity extends AppCompatActivity {
 
             mButtonFollow.setTextColor(
                     players == null
-                            ? ContextCompat.getColor(DetailActivity.this, android.R.color.white)
-                            : ContextCompat.getColor(DetailActivity.this, R.color.colorAccent));
+                            ? ContextCompat.getColor(PlayerActivity.this, android.R.color.white)
+                            : ContextCompat.getColor(PlayerActivity.this, R.color.colorAccent));
 
             mButtonFollow.setText(
                     players == null
@@ -72,8 +72,8 @@ public class DetailActivity extends AppCompatActivity {
 
             mButtonFollow.setBackground(
                     players == null
-                            ? ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_inactive)
-                            : ContextCompat.getDrawable(DetailActivity.this, R.drawable.button_toolbar_follow_active));
+                            ? ContextCompat.getDrawable(PlayerActivity.this, R.drawable.button_toolbar_follow_inactive)
+                            : ContextCompat.getDrawable(PlayerActivity.this, R.drawable.button_toolbar_follow_active));
         });
 
         mButtonFollow = findViewById(R.id.buttonToolbar);
@@ -94,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingLayout = findViewById(R.id.collapsingLayout);
         TextView textView = findViewById(R.id.user);
         ViewPager viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(new DetailPagerAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new PlayerPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 
         AppBarLayout appBar = findViewById(R.id.appBar);

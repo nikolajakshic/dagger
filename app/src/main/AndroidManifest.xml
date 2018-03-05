@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.DetailActivity"
+            android:name=".view.activity.PlayerActivity"
             android:theme="@style/DetailTheme" />
 
         <activity android:name=".view.activity.HomeActivity">

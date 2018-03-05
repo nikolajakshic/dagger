@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.nikola.jakshic.truesight.databinding.ItemSearchHistoryBinding;
 import com.nikola.jakshic.truesight.model.SearchHistory;
 
-public class SearchHistoryAdapter extends DetailAdapter<SearchHistory, ItemSearchHistoryBinding> {
+public class SearchHistoryAdapter extends DataAdapter<SearchHistory, ItemSearchHistoryBinding> {
 
     private OnQueryClickListener mListener;
 
