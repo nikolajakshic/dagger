@@ -24,6 +24,8 @@ public class Player implements Parcelable {
     @Expose @Ignore @SerializedName("lose") private long losses;
     @PrimaryKey(autoGenerate = true) private long count;
 
+    @Ignore private boolean expanded;
+
     @SerializedName("player_slot") @Ignore @Expose public long playerSlot;
     @SerializedName("assists") @Ignore @Expose public long assists;
     @SerializedName("backpack_0") @Ignore @Expose public long backpack0;
@@ -76,6 +78,14 @@ public class Player implements Parcelable {
         id = in.readLong();
         personaName = in.readString();
         avatarUrl = in.readString();
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 
     public void setId(long id) {

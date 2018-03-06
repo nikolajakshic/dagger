@@ -8,7 +8,7 @@ public class HeroHealingPerMin {
 
     @SerializedName("raw")
     @Expose
-    public long raw;
+    public double raw;
     @SerializedName("pct")
     @Expose
     public double pct;
