@@ -21,7 +21,7 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
 
     @Override
     public MatchDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemMatchDetailCollapseBinding binding =  ItemMatchDetailCollapseBinding
+        ItemMatchDetailCollapseBinding binding = ItemMatchDetailCollapseBinding
                 .inflate(LayoutInflater.from(parent.getContext()),
                         parent,
                         false);
@@ -37,6 +37,18 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         holder.binding.setInspector(new MatchDetailInspector(match, match.getPlayers().get(position), context));
 
         holder.itemView.findViewById(R.id.expand_match_detail).setVisibility(expanded ? View.VISIBLE : View.GONE);
+
+
+        holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
+        holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
+        if (position == 0)
+            holder.binding.teamDivider.setText("The Radiant");
+        else if (position == 5)
+            holder.binding.teamDivider.setText("The Dire");
+
+        holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
+
+        holder.binding.teamDividerBot.setVisibility(position == 5 ? View.VISIBLE : View.GONE);
 
         holder.itemView.setOnClickListener(v -> {
             player.setExpanded(!expanded);

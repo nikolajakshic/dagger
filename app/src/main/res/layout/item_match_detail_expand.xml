@@ -58,16 +58,6 @@
                 android:textSize="11sp" />
 
             <TextView
-                tools:text="Stuns: 12"
-                android:id="@+id/hero_stuns_tv"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:text="@{inspector.getHeroStuns()}"
-                android:textSize="11sp" />
-
-            <TextView
                 tools:text="Last hits: 112"
                 android:id="@+id/lasthits_tv"
                 style="@style/Base.TextAppearance.AppCompat.Body1"

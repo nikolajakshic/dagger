@@ -4,18 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="inspector"
             type="com.nikola.jakshic.truesight.MatchDetailInspector" />
     </data>
 
     <LinearLayout
-        tools:ignore="SmallSp"
         android:layout_width="match_parent"
+        android:paddingTop="8dp"
         android:layout_height="wrap_content"
         android:background="#fafafa"
         android:orientation="vertical"
-        android:paddingBottom="8dp">
+        tools:ignore="SmallSp">
+
+        <View
+            android:id="@+id/team_divider_bot"
+            
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <TextView
+            android:textColor="#fff"
+            android:gravity="start"
+            android:text="Radiant"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:textSize="18sp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:id="@+id/team_divider"
+            android:layout_marginTop="48dp"
+            android:background="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp" />
 
         <View
             android:id="@+id/view_match_detail_divider_top"
@@ -43,18 +67,17 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:background="#d3d3d3"
                         android:id="@+id/hero_image"
                         android:layout_width="60dp"
                         android:layout_height="45dp"
                         android:layout_centerInParent="true"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_hero"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
                         app:imageUrl="@{inspector.getHeroUrl()}"
-                        android:contentDescription="@string/content_description_hero" />
+                        tools:src="@mipmap/ic_launcher" />
 
                     <TextView
-                        tools:text="22"
                         android:id="@+id/hero_level"
                         style="@style/TextAppearance.AppCompat.Body2"
                         android:layout_width="60dp"
@@ -65,7 +88,7 @@
                         android:text="@{inspector.getHeroLevel()}"
                         android:textColor="@android:color/white"
                         android:textSize="11sp"
-                        />
+                        tools:text="22" />
                 </RelativeLayout>
 
 
@@ -78,7 +101,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        tools:text="Hilly Berrington"
                         android:id="@+id/player_name"
                         style="@style/TextAppearance.AppCompat.Body2"
                         android:layout_width="120dp"
@@ -86,7 +108,8 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@{inspector.getPlayerName()}"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        tools:text="Hilly Berrington" />
 
                     <TextView
                         style="@style/TextAppearance.AppCompat.Body1"
@@ -96,13 +119,13 @@
                         android:textSize="11sp" />
 
                     <TextView
-                        tools:text="11/0/3"
                         android:id="@+id/kda"
                         style="@style/TextAppearance.AppCompat.Body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{inspector.getKda()}"
-                        android:textSize="11sp" />
+                        android:textSize="11sp"
+                        tools:text="11/0/3" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -117,38 +140,38 @@
                 <TableRow>
 
                     <ImageView
-                        android:background="#d3d3d3"
                         android:id="@+id/item_0"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
                         app:imageUrl="@{inspector.getItem0()}"
-                        android:contentDescription="@string/content_description_item" />
+                        tools:src="@mipmap/ic_launcher" />
 
                     <ImageView
-                        android:contentDescription="@string/content_description_item"
-                        android:background="#d3d3d3"
                         android:id="@+id/item_1"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginStart="1dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
-                        app:imageUrl="@{inspector.getItem1()}" />
+                        app:imageUrl="@{inspector.getItem1()}"
+                        tools:src="@mipmap/ic_launcher" />
 
                     <ImageView
-                        android:contentDescription="@string/content_description_item"
-                        android:background="#d3d3d3"
                         android:id="@+id/item_2"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginStart="1dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
-                        app:imageUrl="@{inspector.getItem2()}" />
+                        app:imageUrl="@{inspector.getItem2()}"
+                        tools:src="@mipmap/ic_launcher" />
                 </TableRow>
 
                 <TableRow
@@ -156,38 +179,38 @@
                     android:layout_marginTop="1dp">
 
                     <ImageView
-                        android:contentDescription="@string/content_description_item"
-                        android:background="#d3d3d3"
                         android:id="@+id/item_3"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
-                        app:imageUrl="@{inspector.getItem3()}" />
+                        app:imageUrl="@{inspector.getItem3()}"
+                        tools:src="@mipmap/ic_launcher" />
 
                     <ImageView
-                        android:contentDescription="@string/content_description_item"
-                        android:background="#d3d3d3"
                         android:id="@+id/item_4"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginStart="1dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
-                        app:imageUrl="@{inspector.getItem4()}" />
+                        app:imageUrl="@{inspector.getItem4()}"
+                        tools:src="@mipmap/ic_launcher" />
 
                     <ImageView
-                        android:contentDescription="@string/content_description_item"
-                        android:background="#d3d3d3"
                         android:id="@+id/item_5"
                         android:layout_width="30dp"
                         android:layout_height="25dp"
                         android:layout_marginLeft="1dp"
                         android:layout_marginStart="1dp"
+                        android:background="#d3d3d3"
+                        android:contentDescription="@string/content_description_item"
                         android:scaleType="centerCrop"
-                        tools:src="@mipmap/ic_launcher"
-                        app:imageUrl="@{inspector.getItem5()}" />
+                        app:imageUrl="@{inspector.getItem5()}"
+                        tools:src="@mipmap/ic_launcher" />
                 </TableRow>
 
 
@@ -195,8 +218,8 @@
         </LinearLayout>
 
         <include
-            app:inspector="@{inspector}"
-            layout="@layout/item_match_detail_expand" />
+            layout="@layout/item_match_detail_expand"
+            app:inspector="@{inspector}" />
 
     </LinearLayout>
 </layout>
