@@ -36,7 +36,7 @@ public class PlayerInspector extends BaseObservable {
     }
 
     public String getPlayerName() {
-        return player.getName();
+        return player.getPersonaName();
     }
 
     public String getPlayerID() {

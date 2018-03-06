@@ -3,7 +3,7 @@ package com.nikola.jakshic.truesight.viewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.nikola.jakshic.truesight.model.Match;
+import com.nikola.jakshic.truesight.model.match.Match;
 import com.nikola.jakshic.truesight.repository.MatchRepository;
 
 import java.util.List;

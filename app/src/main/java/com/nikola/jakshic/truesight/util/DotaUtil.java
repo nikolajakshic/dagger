@@ -1,7 +1,7 @@
 package com.nikola.jakshic.truesight.util;
 
 import android.content.Context;
-import android.util.SparseArray;
+import android.support.v4.util.LongSparseArray;
 
 import com.nikola.jakshic.truesight.R;
 
@@ -9,8 +9,8 @@ public class DotaUtil {
 
     public static class Image {
 
-        private static final SparseArray<String> hero = new SparseArray<>();
-        private static final SparseArray<String> item = new SparseArray<>();
+        private static final LongSparseArray<String> hero = new LongSparseArray<>();
+        private static final LongSparseArray<String> item = new LongSparseArray<>();
 
         private static void initializeHeroes(Context context) {
 
@@ -32,13 +32,13 @@ public class DotaUtil {
             }
         }
 
-        public static String getHeroUrl(Context context, int id) {
+        public static String getHeroUrl(Context context, long id) {
             if (hero.size() == 0)
                 initializeHeroes(context);
             return hero.get(id);
         }
 
-        public static String getItemUrl(Context context, int id) {
+        public static String getItemUrl(Context context, long id) {
             if (item.size() == 0)
                 initializeItems(context);
             return item.get(id);
@@ -47,7 +47,7 @@ public class DotaUtil {
 
     public static class Match {
 
-        private static final SparseArray<String> mode = new SparseArray<String>() {{
+        private static final LongSparseArray<String> mode = new LongSparseArray<String>() {{
             append(0, "Unknown");
             append(1, "All Pick");
             append(2, "Captains Mode");
@@ -74,7 +74,7 @@ public class DotaUtil {
             append(23, "Turbo");
         }};
 
-        private static final SparseArray<String> lobby = new SparseArray<String>() {{
+        private static final LongSparseArray<String> lobby = new LongSparseArray<String>() {{
             append(0, "Normal");
             append(1, "Practice");
             append(2, "Tournament");
@@ -87,21 +87,21 @@ public class DotaUtil {
             append(9, "Battle Cup");
         }};
 
-        private static final SparseArray<String> skill = new SparseArray<String>() {{
+        private static final LongSparseArray<String> skill = new LongSparseArray<String>() {{
             append(1, "Normal");
             append(2, "High");
             append(3, "Very High");
         }};
 
-        public static String getLobby(int id, String defaultValue) {
+        public static String getLobby(long id, String defaultValue) {
             return lobby.get(id, defaultValue);
         }
 
-        public static String getMode(int id, String defaultValue) {
+        public static String getMode(long id, String defaultValue) {
             return mode.get(id, defaultValue);
         }
 
-        public static String getSkill(int id, String defaultValue) {
+        public static String getSkill(long id, String defaultValue) {
             return skill.get(id, defaultValue);
         }
     }

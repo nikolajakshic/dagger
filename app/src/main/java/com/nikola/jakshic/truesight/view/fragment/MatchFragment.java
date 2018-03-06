@@ -3,6 +3,7 @@ package com.nikola.jakshic.truesight.view.fragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,19 +14,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
+import com.nikola.jakshic.truesight.MatchActivity;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.adapter.MatchAdapter;
+import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
 
 import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MatchFragment extends Fragment {
+public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener{
 
     private SwipeRefreshLayout mRefresh;
     @Inject
@@ -50,7 +52,7 @@ public class MatchFragment extends Fragment {
         MatchViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MatchViewModel.class);
 
         mRefresh = root.findViewById(R.id.swiperefresh_match);
-        MatchAdapter mAdapter = new MatchAdapter(getActivity());
+        MatchAdapter mAdapter = new MatchAdapter(getActivity(), this);
         //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
         Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
@@ -74,5 +76,12 @@ public class MatchFragment extends Fragment {
         });
 
         return root;
+    }
+
+    @Override
+    public void onClick(long id) {
+        Intent intent = new Intent(getContext(), MatchActivity.class);
+        intent.putExtra("match-id", id);
+        startActivity(intent);
     }
 }

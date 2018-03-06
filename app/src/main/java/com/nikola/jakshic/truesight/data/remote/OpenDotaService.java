@@ -1,8 +1,8 @@
 package com.nikola.jakshic.truesight.data.remote;
 
 import com.nikola.jakshic.truesight.model.Hero;
-import com.nikola.jakshic.truesight.model.Match;
 import com.nikola.jakshic.truesight.model.Player;
+import com.nikola.jakshic.truesight.model.match.Match;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.nikola.jakshic.truesight.R;
-import com.nikola.jakshic.truesight.model.Match;
+import com.nikola.jakshic.truesight.model.match.Match;
 import com.nikola.jakshic.truesight.util.DotaUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -27,9 +27,9 @@ public class MatchInspector {
 
     public String getWin() {
         String result;
-        if (match.radiantWon() && match.getPlayerSlot() <= 4)
+        if (match.isRadiantWin() && match.getPlayerSlot() <= 4)
             result = "Won";
-        else if (!match.radiantWon() && match.getPlayerSlot() > 4)
+        else if (!match.isRadiantWin() && match.getPlayerSlot() > 4)
             result = "Won";
         else
             result = "Lost";
@@ -46,7 +46,7 @@ public class MatchInspector {
     }
 
     public String getSkill() {
-        return DotaUtil.Match.getSkill(match.getSkillLevel(), "Unknown");
+        return DotaUtil.Match.getSkill(match.getSkill(), "Unknown");
     }
 
     public String getLobby() {
@@ -121,6 +121,6 @@ public class MatchInspector {
     }
 
     public String getImageUrl() {
-        return DotaUtil.Image.getHeroUrl(context, (int) match.getHeroID());
+        return DotaUtil.Image.getHeroUrl(context, (int) match.getHeroId());
     }
 }

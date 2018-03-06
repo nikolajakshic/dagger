@@ -8,23 +8,73 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.nikola.jakshic.truesight.model.match.Benchmarks;
+import com.nikola.jakshic.truesight.model.match.GoldReasons;
+import com.nikola.jakshic.truesight.model.match.XpReasons;
+
+import java.util.List;
 
 @Entity
 public class Player implements Parcelable {
 
     @Expose @SerializedName("account_id") private long id;
-    @Expose @SerializedName("personaname") private String name;
+    @Expose @SerializedName("personaname") private String personaName;
     @Expose @SerializedName("avatarfull") private String avatarUrl;
     @Expose @Ignore @SerializedName("win") private long wins;
     @Expose @Ignore @SerializedName("lose") private long losses;
     @PrimaryKey(autoGenerate = true) private long count;
+
+    @SerializedName("player_slot") @Ignore @Expose public long playerSlot;
+    @SerializedName("assists") @Ignore @Expose public long assists;
+    @SerializedName("backpack_0") @Ignore @Expose public long backpack0;
+    @SerializedName("backpack_1") @Ignore @Expose public long backpack1;
+    @SerializedName("backpack_2") @Ignore @Expose public long backpack2;
+    @SerializedName("camps_stacked") @Ignore @Expose public long campsStacked;
+    @SerializedName("creeps_stacked") @Ignore @Expose public long creepsStacked;
+    @SerializedName("deaths") @Ignore @Expose public long deaths;
+    @SerializedName("denies") @Ignore @Expose public long denies;
+    @SerializedName("gold_per_min") @Ignore @Expose public long goldPerMin;
+    @SerializedName("gold_reasons") @Ignore @Expose public GoldReasons goldReasons;
+    @SerializedName("gold_t") @Ignore @Expose public List<Long> goldT = null;
+    @SerializedName("dn_t") @Ignore @Expose public List<Long> dnT = null;
+    @SerializedName("hero_damage") @Ignore @Expose public long heroDamage;
+    @SerializedName("hero_healing") @Ignore @Expose public long heroHealing;
+    @SerializedName("hero_id") @Ignore @Expose public long heroId;
+    @SerializedName("item_0") @Ignore @Expose public long item0;
+    @SerializedName("item_1") @Ignore @Expose public long item1;
+    @SerializedName("item_2") @Ignore @Expose public long item2;
+    @SerializedName("item_3") @Ignore @Expose public long item3;
+    @SerializedName("item_4") @Ignore @Expose public long item4;
+    @SerializedName("item_5") @Ignore @Expose public long item5;
+    @SerializedName("kills") @Ignore @Expose public long kills;
+    @SerializedName("last_hits") @Ignore @Expose public long lastHits;
+    @SerializedName("level") @Ignore @Expose public long level;
+    @SerializedName("lh_t") @Ignore @Expose public List<Long> lhT = null;
+    @SerializedName("stuns") @Ignore @Expose public double stuns;
+    @SerializedName("tower_damage") @Ignore @Expose public long towerDamage;
+    @SerializedName("xp_per_min") @Ignore @Expose public long xpPerMin;
+    @SerializedName("xp_reasons") @Ignore @Expose public XpReasons xpReasons;
+    @SerializedName("xp_t") @Ignore @Expose public List<Long> xpT = null;
+    @SerializedName("name") @Ignore @Expose public String name;
+    @SerializedName("radiant_win") @Ignore @Expose public boolean radiantWin;
+    @SerializedName("start_time") @Ignore @Expose public long startTime;
+    @SerializedName("duration") @Ignore @Expose public long duration;
+    @SerializedName("isRadiant") @Ignore @Expose public boolean isRadiant;
+    @SerializedName("total_gold") @Ignore @Expose public long totalGold;
+    @SerializedName("total_xp") @Ignore @Expose public long totalXp;
+    @SerializedName("kills_per_min") @Ignore @Expose public double killsPerMin;
+    @SerializedName("purchase_ward_observer") @Ignore @Expose public long purchaseWardObserver;
+    @SerializedName("purchase_ward_sentry") @Ignore @Expose public long purchaseWardSentry;
+    @SerializedName("purchase_tpscroll") @Ignore @Expose public long purchaseTpscroll;
+    @SerializedName("purchase_gem") @Ignore @Expose public long purchaseGem;
+    @SerializedName("benchmarks") @Ignore @Expose public Benchmarks benchmarks;
 
     public Player() {
     }
 
     protected Player(Parcel in) {
         id = in.readLong();
-        name = in.readString();
+        personaName = in.readString();
         avatarUrl = in.readString();
     }
 
@@ -32,8 +82,8 @@ public class Player implements Parcelable {
         this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPersonaName(String name) {
+        this.personaName = name;
     }
 
     public void setAvatarUrl(String avatarUrl) {
@@ -64,8 +114,8 @@ public class Player implements Parcelable {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getPersonaName() {
+        return personaName;
     }
 
     public String getAvatarUrl() {
@@ -84,7 +134,7 @@ public class Player implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeString(name);
+        dest.writeString(personaName);
         dest.writeString(avatarUrl);
     }
 
