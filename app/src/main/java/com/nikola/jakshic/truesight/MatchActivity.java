@@ -33,7 +33,7 @@ public class MatchActivity extends AppCompatActivity {
         long id = getIntent().getLongExtra("match-id", -1);
 
         ProgressBar progressBar = findViewById(R.id.progress_match_detail);
-        MatchDetailAdapter adapter = new MatchDetailAdapter();
+        MatchDetailAdapter adapter = new MatchDetailAdapter(this);
 
         RecyclerView recyclerView = findViewById(R.id.recview_match_detail);
 

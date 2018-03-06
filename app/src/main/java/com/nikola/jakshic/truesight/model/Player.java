@@ -88,6 +88,182 @@ public class Player implements Parcelable {
         this.expanded = expanded;
     }
 
+    public long getPlayerSlot() {
+        return playerSlot;
+    }
+
+    public long getAssists() {
+        return assists;
+    }
+
+    public long getBackpack0() {
+        return backpack0;
+    }
+
+    public long getBackpack1() {
+        return backpack1;
+    }
+
+    public long getBackpack2() {
+        return backpack2;
+    }
+
+    public long getCampsStacked() {
+        return campsStacked;
+    }
+
+    public long getCreepsStacked() {
+        return creepsStacked;
+    }
+
+    public long getDeaths() {
+        return deaths;
+    }
+
+    public long getDenies() {
+        return denies;
+    }
+
+    public long getGoldPerMin() {
+        return goldPerMin;
+    }
+
+    public GoldReasons getGoldReasons() {
+        return goldReasons;
+    }
+
+    public List<Long> getGoldT() {
+        return goldT;
+    }
+
+    public List<Long> getDnT() {
+        return dnT;
+    }
+
+    public long getHeroDamage() {
+        return heroDamage;
+    }
+
+    public long getHeroHealing() {
+        return heroHealing;
+    }
+
+    public long getHeroId() {
+        return heroId;
+    }
+
+    public long getItem0() {
+        return item0;
+    }
+
+    public long getItem1() {
+        return item1;
+    }
+
+    public long getItem2() {
+        return item2;
+    }
+
+    public long getItem3() {
+        return item3;
+    }
+
+    public long getItem4() {
+        return item4;
+    }
+
+    public long getItem5() {
+        return item5;
+    }
+
+    public long getKills() {
+        return kills;
+    }
+
+    public long getLastHits() {
+        return lastHits;
+    }
+
+    public long getLevel() {
+        return level;
+    }
+
+    public List<Long> getLhT() {
+        return lhT;
+    }
+
+    public double getStuns() {
+        return stuns;
+    }
+
+    public long getTowerDamage() {
+        return towerDamage;
+    }
+
+    public long getXpPerMin() {
+        return xpPerMin;
+    }
+
+    public XpReasons getXpReasons() {
+        return xpReasons;
+    }
+
+    public List<Long> getXpT() {
+        return xpT;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isRadiantWin() {
+        return radiantWin;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public boolean isRadiant() {
+        return isRadiant;
+    }
+
+    public long getTotalGold() {
+        return totalGold;
+    }
+
+    public long getTotalXp() {
+        return totalXp;
+    }
+
+    public double getKillsPerMin() {
+        return killsPerMin;
+    }
+
+    public long getPurchaseWardObserver() {
+        return purchaseWardObserver;
+    }
+
+    public long getPurchaseWardSentry() {
+        return purchaseWardSentry;
+    }
+
+    public long getPurchaseTpscroll() {
+        return purchaseTpscroll;
+    }
+
+    public long getPurchaseGem() {
+        return purchaseGem;
+    }
+
+    public Benchmarks getBenchmarks() {
+        return benchmarks;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

@@ -6,6 +6,24 @@
     <string name="player_wins">Wins: %1$d</string>
     <string name="player_losses">Losses: %1$d</string>
 
+    <string name="match_hero_damage">Hero damage: %1$d</string>
+    <string name="match_tower_damage">Tower damage: %1$d</string>
+    <string name="match_hero_healing">Hero healing: %1$d</string>
+    <string name="match_last_hits">Last hits: %1$d</string>
+    <string name="match_denies">Denies: %1$d</string>
+    <string name="match_observer_purchased">%1$dx</string>
+    <string name="match_sentry_purchased">%1$dx</string>
+    <string name="match_gpm">GPM: %1$d</string>
+    <string name="match_xpm">XPM: %1$d</string>
+    <string name="match_kda">%1$d/%2$d/%3$d</string>
+    <string name="match_player_name">%1$s</string>
+    <string name="match_hero_level">%1$d</string>
+    <string name="match_hero_stuns">Stuns: %1$ss</string>
+
+    <string name="content_description_hero">Hero image</string>
+    <string name="content_description_item">Item image</string>
+
+
     <string-array name="sort_hero_options">
 
         <item>Total games</item>

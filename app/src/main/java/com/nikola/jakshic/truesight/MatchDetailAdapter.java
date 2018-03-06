@@ -1,30 +1,40 @@
 package com.nikola.jakshic.truesight;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nikola.jakshic.truesight.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.model.match.Match;
 
 public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.MatchDetailViewHolder> {
 
     private Match match;
+    private Context context;
+
+    public MatchDetailAdapter(Context context) {
+        this.context = context;
+    }
 
     @Override
     public MatchDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater
-                .from(parent.getContext())
-                .inflate(R.layout.item_match_detail_collapse, parent, false);
+        ItemMatchDetailCollapseBinding binding =  ItemMatchDetailCollapseBinding
+                .inflate(LayoutInflater.from(parent.getContext()),
+                        parent,
+                        false);
 
-        return new MatchDetailViewHolder(view);
+        return new MatchDetailViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(MatchDetailViewHolder holder, int position) {
         Player player = match.getPlayers().get(position);
         boolean expanded = player.isExpanded();
+
+        holder.binding.setInspector(new MatchDetailInspector(match, match.getPlayers().get(position), context));
 
         holder.itemView.findViewById(R.id.expand_match_detail).setVisibility(expanded ? View.VISIBLE : View.GONE);
 
@@ -46,8 +56,11 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
 
     public class MatchDetailViewHolder extends RecyclerView.ViewHolder {
 
-        public MatchDetailViewHolder(View itemView) {
-            super(itemView);
+        private ItemMatchDetailCollapseBinding binding;
+
+        public MatchDetailViewHolder(ItemMatchDetailCollapseBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
