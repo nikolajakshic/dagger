@@ -25,7 +25,6 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
                 .inflate(LayoutInflater.from(parent.getContext()),
                         parent,
                         false);
-
         return new MatchDetailViewHolder(binding);
     }
 
@@ -34,10 +33,11 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         Player player = match.getPlayers().get(position);
         boolean expanded = player.isExpanded();
 
-        holder.binding.setInspector(new MatchDetailInspector(match, match.getPlayers().get(position), context));
+        holder.binding.setInspector(new MatchDetailInspector(match, player, context));
 
-        holder.itemView.findViewById(R.id.expand_match_detail).setVisibility(expanded ? View.VISIBLE : View.GONE);
+        holder.binding.itemMatchDetailExpand.getRoot().setVisibility(expanded ? View.VISIBLE : View.GONE);
 
+        holder.binding.itemMatchDetailInfo.getRoot().setVisibility(position == 0 ? View.VISIBLE : View.GONE);
 
         holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
         holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
@@ -50,7 +50,7 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
 
         holder.binding.teamDividerBot.setVisibility(position == 5 ? View.VISIBLE : View.GONE);
 
-        holder.itemView.setOnClickListener(v -> {
+        holder.binding.itemMatchDetailCollapse.setOnClickListener(v -> {
             player.setExpanded(!expanded);
             notifyItemChanged(position);
         });

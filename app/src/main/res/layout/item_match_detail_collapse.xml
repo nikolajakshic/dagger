@@ -12,34 +12,39 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:paddingTop="8dp"
         android:layout_height="wrap_content"
         android:background="#fafafa"
         android:orientation="vertical"
+        android:paddingBottom="8dp"
         tools:ignore="SmallSp">
+
+        <include
+            android:id="@+id/item_match_detail_info"
+            layout="@layout/item_match_detail_info"
+            app:inspector="@{inspector}"/>
+
 
         <View
             android:id="@+id/team_divider_bot"
-            
-            android:background="@color/colorAccent"
             android:layout_width="match_parent"
-            android:layout_height="2dp"/>
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
 
         <TextView
-            android:textColor="#fff"
-            android:gravity="start"
-            android:text="Radiant"
-            android:textStyle="bold"
-            android:padding="4dp"
-            android:textSize="18sp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
             android:id="@+id/team_divider"
-            android:layout_marginTop="48dp"
-            android:background="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="16dp" />
+            android:layout_marginTop="16dp"
+            android:background="@color/colorAccent"
+            android:gravity="start"
+            android:padding="4dp"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:text="Radiant"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/view_match_detail_divider_top"
@@ -49,6 +54,7 @@
             android:background="#d3d3d3" />
 
         <LinearLayout
+            android:id="@+id/item_match_detail_collapse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:baselineAligned="false"
@@ -101,6 +107,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:textColor="@{inspector.getPlayerColor()}"
                         android:id="@+id/player_name"
                         style="@style/TextAppearance.AppCompat.Body2"
                         android:layout_width="120dp"
@@ -218,6 +225,7 @@
         </LinearLayout>
 
         <include
+            android:id="@+id/item_match_detail_expand"
             layout="@layout/item_match_detail_expand"
             app:inspector="@{inspector}" />
 

@@ -112,12 +112,14 @@ public class MatchInspector {
 
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        RequestOptions options = new RequestOptions().centerCrop();
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(options)
-                .transition(withCrossFade())
-                .into(imageView);
+        if (url != null) {
+            RequestOptions options = new RequestOptions().centerCrop();
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(options)
+                    .transition(withCrossFade())
+                    .into(imageView);
+        }
     }
 
     public String getImageUrl() {

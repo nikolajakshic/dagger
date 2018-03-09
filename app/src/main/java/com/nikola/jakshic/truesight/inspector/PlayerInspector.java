@@ -80,19 +80,23 @@ public class PlayerInspector extends BaseObservable {
 
     @BindingAdapter("avatarUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        RequestOptions option = new RequestOptions().circleCrop();
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(option)
-                .transition(withCrossFade())
-                .into(imageView);
+        if (url != null) {
+            RequestOptions option = new RequestOptions().circleCrop();
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(option)
+                    .transition(withCrossFade())
+                    .into(imageView);
+        }
     }
 
     @BindingAdapter("circleAvatarUrl")
     public static void setImageUrl(CircleImageView imageView, String url) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .into(imageView);
+        if (url != null) {
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .into(imageView);
+        }
     }
 
     public void onClick(View v) {

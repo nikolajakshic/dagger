@@ -11,7 +11,7 @@
 
     <LinearLayout
         tools:ignore="SmallSp"
-        android:id="@+id/expand_match_detail"
+        android:id="@+id/item_match_detail_expand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"

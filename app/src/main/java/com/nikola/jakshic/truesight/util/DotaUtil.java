@@ -7,6 +7,8 @@ import com.nikola.jakshic.truesight.R;
 
 public class DotaUtil {
 
+    private static final String LOG_TAG = DotaUtil.class.getSimpleName();
+
     public static class Image {
 
         private static final LongSparseArray<String> hero = new LongSparseArray<>();

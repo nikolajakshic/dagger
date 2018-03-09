@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#424242</color>
     <color name="colorAccent">#42a5f5</color>
 
-    <color name="match_won">#00760a</color>
-    <color name="match_lost">#d20000</color>
+    <color name="match_won">#4CAF50</color>
+    <color name="match_lost">#F44336</color>
 </resources>

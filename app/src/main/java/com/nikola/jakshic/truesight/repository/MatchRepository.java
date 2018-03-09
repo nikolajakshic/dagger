@@ -39,4 +39,20 @@ public class MatchRepository {
             }
         });
     }
+
+    public void fetchMatchData(MutableLiveData<Match> match, MutableLiveData<Boolean> loading, long matchId) {
+        loading.setValue(true);
+        service.getMatch(matchId).enqueue(new Callback<Match>() {
+            @Override
+            public void onResponse(Call<Match> call, Response<Match> response) {
+                match.setValue(response.body());
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<Match> call, Throwable t) {
+                loading.setValue(false);
+            }
+        });
+    }
 }

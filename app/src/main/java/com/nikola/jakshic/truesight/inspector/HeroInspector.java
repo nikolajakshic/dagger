@@ -38,7 +38,7 @@ public class HeroInspector {
         float games = hero.getGamesPlayed();
         if (games == 0) return 0;
         float win = hero.getGamesWon();
-        return  (win / games) * 100.00f;
+        return (win / games) * 100.00f;
     }
 
     public String getWinLoss() {
@@ -62,12 +62,14 @@ public class HeroInspector {
 
     @BindingAdapter("heroUrl")
     public static void setImageUrl(ImageView imageView, String url) {
-        RequestOptions options = new RequestOptions().centerCrop();
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(options)
-                .transition(withCrossFade())
-                .into(imageView);
+        if (url != null) {
+            RequestOptions options = new RequestOptions().centerCrop();
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(options)
+                    .transition(withCrossFade())
+                    .into(imageView);
+        }
     }
 
     public String getImageUrl() {

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="inspector"
+            type="com.nikola.jakshic.truesight.MatchDetailInspector" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/item_match_detail_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_match_detail_victory"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{inspector.getWinner()}"
+            android:textAllCaps="true"
+            android:textColor="@{inspector.getResultColor()}"
+            android:textSize="24sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Dire Victory"
+            tools:textColor="@color/match_lost" />
+
+        <TextView
+            android:id="@+id/text_match_detail_radiant_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@{inspector.getRadiantScore()}"
+            android:textColor="@color/match_won"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_match_detail_score_divider"
+            app:layout_constraintEnd_toStartOf="@+id/text_match_detail_score_divider"
+            app:layout_constraintTop_toTopOf="@+id/text_match_detail_score_divider"
+            tools:text="31" />
+
+        <TextView
+            android:id="@+id/text_match_detail_dire_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            tools:text="17"
+            android:text="@{inspector.getDireScore()}"
+            android:textColor="@color/match_lost"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_match_detail_score_divider"
+            app:layout_constraintStart_toEndOf="@+id/text_match_detail_score_divider"
+            app:layout_constraintTop_toTopOf="@+id/text_match_detail_score_divider" />
+
+        <TextView
+            android:id="@+id/text_match_detail_score_divider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=":"
+            android:textColor="#000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_match_detail_victory" />
+
+        <TextView
+            android:id="@+id/text_match_detail_lobby_mode"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{inspector.getGameMode()}"
+            android:textSize="16sp"
+            tools:text="Captains Mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_match_detail_score_divider" />
+
+        <TextView
+            android:id="@+id/text_match_detail_duration"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="42:51"
+            android:text="@{inspector.getDuration()}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_match_detail_lobby_mode" />
+
+        <TextView
+            android:id="@+id/text_match_detail_end_time"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="24 minutes ago"
+            android:text="@{inspector.getEndTime()}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_match_detail_duration" />
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
