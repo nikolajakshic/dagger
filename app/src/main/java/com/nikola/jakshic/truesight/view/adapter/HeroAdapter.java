@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import com.nikola.jakshic.truesight.HeroDiffCallback;
 import com.nikola.jakshic.truesight.databinding.ItemHeroBinding;
-import com.nikola.jakshic.truesight.model.Hero;
 import com.nikola.jakshic.truesight.inspector.HeroInspector;
+import com.nikola.jakshic.truesight.model.Hero;
 
 import java.util.List;
 
@@ -34,10 +34,9 @@ public class HeroAdapter extends DataAdapter<Hero, ItemHeroBinding> {
     @Override
     public void addData(List<Hero> data) {
         HeroDiffCallback diffCallback = new HeroDiffCallback(list, data);
-        DiffUtil.DiffResult  diffResult = DiffUtil.calculateDiff(diffCallback);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
 
-        list.clear();
-        list.addAll(data);
+        list = data;
 
         diffResult.dispatchUpdatesTo(this);
     }
