@@ -27,6 +27,8 @@ public class MatchActivity extends AppCompatActivity {
 
         long id = getIntent().getLongExtra("match-id", -1);
 
+        setTitle("Match " + id);
+
         MatchDetailViewModel viewModel = ViewModelProviders.of(this, factory).get(MatchDetailViewModel.class);
 
         ProgressBar progressBar = findViewById(R.id.progress_match_detail);
