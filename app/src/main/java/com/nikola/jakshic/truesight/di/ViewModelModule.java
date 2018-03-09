@@ -4,9 +4,9 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.nikola.jakshic.truesight.MatchDetailViewModel;
+import com.nikola.jakshic.truesight.viewModel.BookmarkViewModel;
 import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
-import com.nikola.jakshic.truesight.viewModel.HomeViewModel;
 import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
 import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
 import com.nikola.jakshic.truesight.viewModel.TrueSightViewModelFactory;
@@ -40,8 +40,8 @@ public interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(HomeViewModel.class)
-    ViewModel bindHomeViewModel(HomeViewModel viewModel);
+    @ViewModelKey(BookmarkViewModel.class)
+    ViewModel bindBookmarkViewModel(BookmarkViewModel viewModel);
 
     @Binds
     @IntoMap

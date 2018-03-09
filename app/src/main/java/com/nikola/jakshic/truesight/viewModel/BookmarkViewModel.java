@@ -10,12 +10,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class HomeViewModel extends ViewModel {
+public class BookmarkViewModel extends ViewModel {
 
     private LiveData<List<Player>> list;
 
     @Inject
-    public HomeViewModel(PlayerDao playerDao) {
+    public BookmarkViewModel(PlayerDao playerDao) {
         list = playerDao.getPlayers();
     }
 
