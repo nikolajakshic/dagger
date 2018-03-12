@@ -5,21 +5,21 @@ import com.google.gson.annotations.SerializedName;
 
 public class Peer {
 
-    @SerializedName("account_id") @Expose private int accountId;
-    @SerializedName("with_win") @Expose private int withWin;
-    @SerializedName("with_games") @Expose private int withGames;
+    @SerializedName("account_id") @Expose private long accountId;
+    @SerializedName("with_win") @Expose private long withWin;
+    @SerializedName("with_games") @Expose private long withGames;
     @SerializedName("personaname") @Expose private String personaname;
     @SerializedName("avatarfull") @Expose private String avatarfull;
 
-    public int getAccountId() {
+    public long getAccountId() {
         return accountId;
     }
 
-    public int getWithWin() {
+    public long getWithWin() {
         return withWin;
     }
 
-    public int getWithGames() {
+    public long getWithGames() {
         return withGames;
     }
 

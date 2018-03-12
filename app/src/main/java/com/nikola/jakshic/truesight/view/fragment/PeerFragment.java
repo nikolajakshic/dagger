@@ -18,7 +18,6 @@ import com.nikola.jakshic.truesight.PeerViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.comparator.PeerComparator;
-import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.PeerSortDialog;
 import com.nikola.jakshic.truesight.view.adapter.PeerAdapter;
@@ -54,7 +53,7 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_peer, container, false);
 
-        Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
+        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
 
         viewModel = ViewModelProviders.of(this, factory).get(PeerViewModel.class);
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_peer);
@@ -75,13 +74,13 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
             dialog.show(getFragmentManager(), null);
         });
 
-        viewModel.initialFetch(player.getId());
+        viewModel.initialFetch(accountId);
         viewModel.getPeers().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
-                viewModel.fetchPeers(player.getId());
+                viewModel.fetchPeers(accountId);
             } else {
                 Toast.makeText(getActivity(), "Check network connection!", Toast.LENGTH_SHORT).show();
                 mRefresh.setRefreshing(false);

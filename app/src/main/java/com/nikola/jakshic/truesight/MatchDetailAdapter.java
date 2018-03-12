@@ -1,6 +1,7 @@
 package com.nikola.jakshic.truesight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.nikola.jakshic.truesight.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.truesight.inspector.MatchDetailInspector;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.model.match.Match;
+import com.nikola.jakshic.truesight.view.activity.PlayerActivity;
 
 public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.MatchDetailViewHolder> {
 
@@ -50,6 +52,14 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
 
         holder.binding.teamDividerBot.setVisibility(position == 5 ? View.VISIBLE : View.GONE);
+
+        holder.binding.itemMatchDetailCollapse.findViewById(R.id.player_name).setOnClickListener(v -> {
+            Intent intent = new Intent(context, PlayerActivity.class);
+            intent.putExtra("player-personaname", player.getPersonaName());
+            intent.putExtra("player-account-id", player.getId());
+            intent.putExtra("player-avatar-full", player.getAvatarUrl());
+            context.startActivity(intent);
+        });
 
         holder.binding.itemMatchDetailCollapse.setOnClickListener(v -> {
             player.setExpanded(!expanded);

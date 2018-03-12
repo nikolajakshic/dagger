@@ -101,7 +101,9 @@ public class PlayerInspector extends BaseObservable {
 
     public void onClick(View v) {
         Intent intent = new Intent(context, PlayerActivity.class);
-        intent.putExtra("player-parcelable", player);
+        intent.putExtra("player-personaname", player.getPersonaName());
+        intent.putExtra("player-account-id", player.getId());
+        intent.putExtra("player-avatar-full", player.getAvatarUrl());
         context.startActivity(intent);
     }
 }

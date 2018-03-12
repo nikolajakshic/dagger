@@ -13,10 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.comparator.HeroComparator;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
-import com.nikola.jakshic.truesight.model.Player;
+import com.nikola.jakshic.truesight.comparator.HeroComparator;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
 import com.nikola.jakshic.truesight.view.HeroSortDialog;
 import com.nikola.jakshic.truesight.view.adapter.HeroAdapter;
@@ -52,7 +51,7 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
         View root = inflater.inflate(R.layout.fragment_hero, container, false);
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
-        Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
+        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
 
@@ -72,7 +71,7 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
-        viewModel.initialFetch(player.getId());
+        viewModel.initialFetch(accountId);
         viewModel.getHeroes().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
@@ -80,7 +79,7 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
-                viewModel.fetchHeroes(player.getId());
+                viewModel.fetchHeroes(accountId);
             } else {
                 Toast.makeText(getActivity(), "Check network connection!", Toast.LENGTH_SHORT).show();
                 mRefresh.setRefreshing(false);

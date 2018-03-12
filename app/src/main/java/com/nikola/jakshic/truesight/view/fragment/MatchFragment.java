@@ -14,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.view.activity.MatchActivity;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
-import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.util.NetworkUtil;
+import com.nikola.jakshic.truesight.view.activity.MatchActivity;
 import com.nikola.jakshic.truesight.view.adapter.MatchAdapter;
 import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
 
@@ -27,7 +26,7 @@ import javax.inject.Inject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener{
+public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener {
 
     private SwipeRefreshLayout mRefresh;
     @Inject
@@ -54,7 +53,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         mRefresh = root.findViewById(R.id.swiperefresh_match);
         MatchAdapter mAdapter = new MatchAdapter(getActivity(), this);
         //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
-        Player player = getActivity().getIntent().getParcelableExtra("player-parcelable");
+        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -62,13 +61,13 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         recyclerView.setHasFixedSize(true);
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
-        viewModel.initialFetch(player.getId());
+        viewModel.initialFetch(accountId);
         viewModel.getMatches().observe(this, mAdapter::addData);
         viewModel.isLoading().observe(this, mRefresh::setRefreshing);
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
-                viewModel.fetchHeroes(player.getId());
+                viewModel.fetchHeroes(accountId);
             } else {
                 Toast.makeText(getActivity(), "Check network connection!", Toast.LENGTH_SHORT).show();
                 mRefresh.setRefreshing(false);

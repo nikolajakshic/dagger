@@ -1,6 +1,7 @@
 package com.nikola.jakshic.truesight.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.util.DiffUtil;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import com.nikola.jakshic.truesight.databinding.ItemPeerBinding;
 import com.nikola.jakshic.truesight.inspector.PeerInspector;
 import com.nikola.jakshic.truesight.model.Peer;
+import com.nikola.jakshic.truesight.view.activity.PlayerActivity;
 
 import java.util.List;
 
@@ -20,6 +22,13 @@ public class PeerAdapter extends DataAdapter<Peer, ItemPeerBinding> {
     @Override
     public void bindViewHolder(Context context, DataBindHolder<ItemPeerBinding> holder, Peer item) {
         holder.binding.setInspector(new PeerInspector(context, item));
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Intent intent = new Intent(context, PlayerActivity.class);
+            intent.putExtra("player-personaname", item.getPersonaname());
+            intent.putExtra("player-account-id", item.getAccountId());
+            intent.putExtra("player-avatar-full", item.getAvatarfull());
+            context.startActivity(intent);
+        });
     }
 
     @Override

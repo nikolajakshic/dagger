@@ -43,7 +43,10 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
-        mPlayer = getIntent().getParcelableExtra("player-parcelable");
+        mPlayer = new Player();
+        mPlayer.setPersonaName(getIntent().getStringExtra("player-personaname"));
+        mPlayer.setId(getIntent().getLongExtra("player-account-id", -1));
+        mPlayer.setAvatarUrl(getIntent().getStringExtra("player-avatar-full"));
         DetailViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(DetailViewModel.class);
         viewModel.checkPlayer(mPlayer.getId());
 
