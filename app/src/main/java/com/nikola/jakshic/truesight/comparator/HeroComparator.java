@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight;
+package com.nikola.jakshic.truesight.comparator;
 
 import com.nikola.jakshic.truesight.model.Hero;
 

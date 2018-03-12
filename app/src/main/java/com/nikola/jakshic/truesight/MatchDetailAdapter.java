@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.nikola.jakshic.truesight.databinding.ItemMatchDetailCollapseBinding;
+import com.nikola.jakshic.truesight.inspector.MatchDetailInspector;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.model.match.Match;
 

@@ -1,6 +1,7 @@
 package com.nikola.jakshic.truesight.data.remote;
 
 import com.nikola.jakshic.truesight.model.Hero;
+import com.nikola.jakshic.truesight.model.Peer;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.model.match.Match;
 
@@ -29,4 +30,7 @@ public interface OpenDotaService {
 
     @GET("players/{account_id}/heroes")
     Call<List<Hero>> getHeroes(@Path("account_id") long playerId);
+
+    @GET("players/{account_id}/peers")
+    Call<List<Peer>> getPeers(@Path("account_id") long playerId);
 }

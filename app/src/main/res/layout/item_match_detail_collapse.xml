@@ -7,7 +7,7 @@
 
         <variable
             name="inspector"
-            type="com.nikola.jakshic.truesight.MatchDetailInspector" />
+            type="com.nikola.jakshic.truesight.inspector.MatchDetailInspector" />
     </data>
 
     <LinearLayout
@@ -103,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical">
 
@@ -110,7 +111,7 @@
                         android:textColor="@{inspector.getPlayerColor()}"
                         android:id="@+id/player_name"
                         style="@style/TextAppearance.AppCompat.Body2"
-                        android:layout_width="120dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"

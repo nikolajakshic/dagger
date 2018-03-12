@@ -3,7 +3,8 @@ package com.nikola.jakshic.truesight.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.nikola.jakshic.truesight.MatchDetailViewModel;
+import com.nikola.jakshic.truesight.PeerViewModel;
+import com.nikola.jakshic.truesight.viewModel.MatchDetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.BookmarkViewModel;
 import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
@@ -47,6 +48,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(MatchDetailViewModel.class)
     ViewModel bindMatchDetailViewModel(MatchDetailViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PeerViewModel.class)
+    ViewModel bindPeerViewModel(PeerViewModel viewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(TrueSightViewModelFactory factory);

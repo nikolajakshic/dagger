@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.nikola.jakshic.truesight.view.fragment.HeroFragment;
 import com.nikola.jakshic.truesight.view.fragment.MatchFragment;
+import com.nikola.jakshic.truesight.view.fragment.PeerFragment;
 
 public class PlayerPagerAdapter extends FragmentPagerAdapter {
 
@@ -15,15 +16,21 @@ public class PlayerPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position == 0)
-            return new MatchFragment();
-        else
-            return new HeroFragment();
+        switch (position) {
+            case 0:
+                return new MatchFragment();
+            case 1:
+                return new HeroFragment();
+            case 2:
+                return new PeerFragment();
+            default:
+                return null;
+        }
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -31,7 +38,9 @@ public class PlayerPagerAdapter extends FragmentPagerAdapter {
 
         if (position == 0)
             return "MATCHES";
-        else
+        else if (position == 1)
             return "HEROES";
+        else
+            return "PEERS";
     }
 }

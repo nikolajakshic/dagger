@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight;
+package com.nikola.jakshic.truesight.inspector;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.model.Player;
 import com.nikola.jakshic.truesight.model.match.Match;
 import com.nikola.jakshic.truesight.util.DotaUtil;

@@ -7,7 +7,7 @@
 
         <variable
             name="inspector"
-            type="com.nikola.jakshic.truesight.MatchDetailInspector" />
+            type="com.nikola.jakshic.truesight.inspector.MatchDetailInspector" />
     </data>
 
     <android.support.constraint.ConstraintLayout

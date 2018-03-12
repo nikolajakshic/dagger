@@ -94,6 +94,7 @@ public class PlayerActivity extends AppCompatActivity {
         CollapsingToolbarLayout collapsingLayout = findViewById(R.id.collapsingLayout);
         TextView textView = findViewById(R.id.user);
         ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new PlayerPagerAdapter(getSupportFragmentManager()));
         tabLayout.setupWithViewPager(viewPager);
 

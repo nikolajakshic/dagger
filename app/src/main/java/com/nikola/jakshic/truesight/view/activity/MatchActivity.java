@@ -1,4 +1,4 @@
-package com.nikola.jakshic.truesight;
+package com.nikola.jakshic.truesight.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -9,6 +9,10 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.nikola.jakshic.truesight.MatchDetailAdapter;
+import com.nikola.jakshic.truesight.R;
+import com.nikola.jakshic.truesight.TrueSightApp;
+import com.nikola.jakshic.truesight.viewModel.MatchDetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.TrueSightViewModelFactory;
 
 import javax.inject.Inject;
