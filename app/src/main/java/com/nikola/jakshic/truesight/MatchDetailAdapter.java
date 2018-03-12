@@ -54,6 +54,8 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         holder.binding.teamDividerBot.setVisibility(position == 5 ? View.VISIBLE : View.GONE);
 
         holder.binding.itemMatchDetailCollapse.findViewById(R.id.player_name).setOnClickListener(v -> {
+            if (player.getId() == 0)
+                return;
             Intent intent = new Intent(context, PlayerActivity.class);
             intent.putExtra("player-personaname", player.getPersonaName());
             intent.putExtra("player-account-id", player.getId());
