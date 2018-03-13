@@ -3,6 +3,7 @@ package com.nikola.jakshic.truesight.repository;
 import android.arch.lifecycle.MutableLiveData;
 
 import com.nikola.jakshic.truesight.data.remote.OpenDotaService;
+import com.nikola.jakshic.truesight.model.Competitive;
 import com.nikola.jakshic.truesight.model.match.Match;
 
 import java.util.List;
@@ -51,6 +52,22 @@ public class MatchRepository {
 
             @Override
             public void onFailure(Call<Match> call, Throwable t) {
+                loading.setValue(false);
+            }
+        });
+    }
+
+    public void fetchCompetitiveMatches(MutableLiveData<List<Competitive>> competitive, MutableLiveData<Boolean> loading) {
+        loading.setValue(true);
+        service.getCompetitiveMatches().enqueue(new Callback<List<Competitive>>() {
+            @Override
+            public void onResponse(Call<List<Competitive>> call, Response<List<Competitive>> response) {
+                competitive.setValue(response.body());
+                loading.setValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<Competitive>> call, Throwable t) {
                 loading.setValue(false);
             }
         });

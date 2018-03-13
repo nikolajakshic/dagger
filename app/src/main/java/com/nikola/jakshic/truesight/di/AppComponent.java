@@ -4,6 +4,7 @@ import com.nikola.jakshic.truesight.view.activity.MatchActivity;
 import com.nikola.jakshic.truesight.view.activity.PlayerActivity;
 import com.nikola.jakshic.truesight.view.activity.SearchActivity;
 import com.nikola.jakshic.truesight.view.fragment.BookmarkFragment;
+import com.nikola.jakshic.truesight.view.fragment.CompetitiveFragment;
 import com.nikola.jakshic.truesight.view.fragment.HeroFragment;
 import com.nikola.jakshic.truesight.view.fragment.MatchFragment;
 import com.nikola.jakshic.truesight.view.fragment.PeerFragment;
@@ -29,4 +30,6 @@ public interface AppComponent {
     void inject(BookmarkFragment fragment);
 
     void inject(PeerFragment fragment);
+
+    void inject(CompetitiveFragment fragment);
 }

@@ -4,14 +4,14 @@
     <item
         android:id="@+id/action_favorites"
         android:enabled="true"
-        android:icon="@drawable/ic_hot"
-        android:title="Pro Matches"
+        android:icon="@drawable/ic_competitive2"
+        android:title="Competitive"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_schedules"
         android:enabled="true"
-        android:icon="@drawable/ic_favorite"
-        android:title="Favorites"
+        android:icon="@drawable/ic_competitive"
+        android:title="Competitive"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_music"

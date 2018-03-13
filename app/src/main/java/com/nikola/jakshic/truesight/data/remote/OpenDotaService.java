@@ -3,6 +3,7 @@ package com.nikola.jakshic.truesight.data.remote;
 import com.nikola.jakshic.truesight.model.Hero;
 import com.nikola.jakshic.truesight.model.Peer;
 import com.nikola.jakshic.truesight.model.Player;
+import com.nikola.jakshic.truesight.model.Competitive;
 import com.nikola.jakshic.truesight.model.match.Match;
 
 import java.util.List;
@@ -21,6 +22,9 @@ public interface OpenDotaService {
 
     @GET("players/{account_id}/wl")
     Call<Player> getPlayerWinLoss(@Path("account_id") long playerId);
+
+    @GET("proMatches")
+    Call<List<Competitive>> getCompetitiveMatches();
 
     @GET("matches/{match_id}/")
     Call<Match> getMatch(@Path("match_id") long matchId);

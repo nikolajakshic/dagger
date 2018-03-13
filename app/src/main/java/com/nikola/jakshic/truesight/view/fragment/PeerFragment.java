@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.truesight.PeerViewModel;
+import com.nikola.jakshic.truesight.viewModel.PeerViewModel;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
 import com.nikola.jakshic.truesight.comparator.PeerComparator;

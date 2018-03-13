@@ -3,11 +3,12 @@ package com.nikola.jakshic.truesight.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import com.nikola.jakshic.truesight.PeerViewModel;
-import com.nikola.jakshic.truesight.viewModel.MatchDetailViewModel;
+import com.nikola.jakshic.truesight.viewModel.PeerViewModel;
 import com.nikola.jakshic.truesight.viewModel.BookmarkViewModel;
+import com.nikola.jakshic.truesight.viewModel.CompetitiveViewModel;
 import com.nikola.jakshic.truesight.viewModel.DetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.HeroViewModel;
+import com.nikola.jakshic.truesight.viewModel.MatchDetailViewModel;
 import com.nikola.jakshic.truesight.viewModel.MatchViewModel;
 import com.nikola.jakshic.truesight.viewModel.SearchViewModel;
 import com.nikola.jakshic.truesight.viewModel.TrueSightViewModelFactory;
@@ -53,6 +54,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(PeerViewModel.class)
     ViewModel bindPeerViewModel(PeerViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CompetitiveViewModel.class)
+    ViewModel bindCompetitiveViewModel(CompetitiveViewModel viewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(TrueSightViewModelFactory factory);

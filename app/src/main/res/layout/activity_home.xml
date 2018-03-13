@@ -6,8 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.nikola.jakshic.truesight.view.activity.HomeActivity">
 
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/btm_navigation_home"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/menu_home_btm" />
+
     <FrameLayout
         android:id="@+id/home_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/btm_navigation_home" />
 </RelativeLayout>
