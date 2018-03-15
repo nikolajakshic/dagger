@@ -31,11 +31,14 @@ public class MatchDetailInspector {
     }
 
     public String getPlayerName() {
-        return context.getString(
-                R.string.match_player_name,
-                TextUtils.isEmpty(player.getPersonaName())
-                        ? "Unknown"
-                        : player.getPersonaName());
+        String name;
+        if (!TextUtils.isEmpty(player.getName()))
+            name = player.getName();
+        else if (!TextUtils.isEmpty(player.getPersonaName()))
+            name = player.getPersonaName();
+        else
+            name = "Unknown";
+        return context.getString(R.string.match_player_name, name);
     }
 
     public String getHeroLevel() {
