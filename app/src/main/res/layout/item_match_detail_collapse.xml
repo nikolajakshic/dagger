@@ -18,23 +18,17 @@
         android:paddingBottom="8dp"
         tools:ignore="SmallSp">
 
-        <include
-            android:id="@+id/item_match_detail_info"
-            layout="@layout/item_match_detail_info"
-            app:inspector="@{inspector}"/>
-
-
         <View
             android:id="@+id/team_divider_bot"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_marginBottom="16dp"
             android:background="@color/colorAccent" />
 
         <TextView
             android:id="@+id/team_divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:background="@color/colorAccent"
             android:gravity="start"
             android:padding="4dp"
@@ -60,82 +54,74 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="16dp">
+
+                <ImageView
+                    android:id="@+id/hero_image"
+                    android:layout_width="60dp"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:background="#d3d3d3"
+                    android:contentDescription="@string/content_description_hero"
+                    app:imageUrl="@{inspector.getHeroUrl()}"
+                    tools:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/hero_level"
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/hero_image"
+                    android:background="#63000000"
+                    android:gravity="end"
+                    android:text="@{inspector.getHeroLevel()}"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    tools:text="22" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/hero_image"
-                        android:layout_width="60dp"
-                        android:layout_height="45dp"
-                        android:layout_centerInParent="true"
-                        android:background="#d3d3d3"
-                        android:contentDescription="@string/content_description_hero"
-                        android:scaleType="centerCrop"
-                        app:imageUrl="@{inspector.getHeroUrl()}"
-                        tools:src="@mipmap/ic_launcher" />
-
-                    <TextView
-                        android:id="@+id/hero_level"
-                        style="@style/TextAppearance.AppCompat.Body2"
-                        android:layout_width="60dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/hero_image"
-                        android:background="#63000000"
-                        android:gravity="end"
-                        android:text="@{inspector.getHeroLevel()}"
-                        android:textColor="@android:color/white"
-                        android:textSize="11sp"
-                        tools:text="22" />
-                </RelativeLayout>
-
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/player_name"
+                    style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:orientation="vertical">
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@{inspector.getPlayerName()}"
+                    android:textColor="@{inspector.getPlayerColor()}"
+                    android:textSize="15sp"
+                    tools:text="Hilly Berrington" />
 
-                    <TextView
-                        android:textColor="@{inspector.getPlayerColor()}"
-                        android:id="@+id/player_name"
-                        style="@style/TextAppearance.AppCompat.Body2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@{inspector.getPlayerName()}"
-                        android:textSize="15sp"
-                        tools:text="Hilly Berrington" />
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="K/D/A"
+                    android:textSize="11sp" />
 
-                    <TextView
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="K/D/A"
-                        android:textSize="11sp" />
-
-                    <TextView
-                        android:id="@+id/kda"
-                        style="@style/TextAppearance.AppCompat.Body1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{inspector.getKda()}"
-                        android:textSize="11sp"
-                        tools:text="11/0/3" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/kda"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{inspector.getKda()}"
+                    android:textSize="11sp"
+                    tools:text="11/0/3" />
             </LinearLayout>
 
 
@@ -154,7 +140,6 @@
                         android:layout_height="25dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem0()}"
                         tools:src="@mipmap/ic_launcher" />
 
@@ -166,7 +151,6 @@
                         android:layout_marginStart="1dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem1()}"
                         tools:src="@mipmap/ic_launcher" />
 
@@ -178,7 +162,6 @@
                         android:layout_marginStart="1dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem2()}"
                         tools:src="@mipmap/ic_launcher" />
                 </TableRow>
@@ -193,7 +176,6 @@
                         android:layout_height="25dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem3()}"
                         tools:src="@mipmap/ic_launcher" />
 
@@ -205,7 +187,6 @@
                         android:layout_marginStart="1dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem4()}"
                         tools:src="@mipmap/ic_launcher" />
 
@@ -217,12 +198,9 @@
                         android:layout_marginStart="1dp"
                         android:background="#d3d3d3"
                         android:contentDescription="@string/content_description_item"
-                        android:scaleType="centerCrop"
                         app:imageUrl="@{inspector.getItem5()}"
                         tools:src="@mipmap/ic_launcher" />
                 </TableRow>
-
-
             </TableLayout>
         </LinearLayout>
 

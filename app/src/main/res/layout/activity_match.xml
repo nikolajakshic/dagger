@@ -7,12 +7,12 @@
     tools:context="com.nikola.jakshic.truesight.view.activity.MatchActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:background="#fafafa"
         android:layout_width="match_parent"
         android:id="@+id/recview_match_detail"
         android:layout_height="match_parent"/>
 
     <ProgressBar
+        android:visibility="gone"
         android:id="@+id/progress_match_detail"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

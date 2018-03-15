@@ -43,7 +43,7 @@ public class MatchActivity extends AppCompatActivity {
         // Removes blink when item is expanding/collapsing
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
+
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         viewPool.setMaxRecycledViews(0, 10);
 

@@ -40,8 +40,6 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
 
         holder.binding.itemMatchDetailExpand.getRoot().setVisibility(expanded ? View.VISIBLE : View.GONE);
 
-        holder.binding.itemMatchDetailInfo.getRoot().setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-
         holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
         holder.binding.teamDivider.setVisibility(position == 0 || position == 5 ? View.VISIBLE : View.GONE);
         if (position == 0)
