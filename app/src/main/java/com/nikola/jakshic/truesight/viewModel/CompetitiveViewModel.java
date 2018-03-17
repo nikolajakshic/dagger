@@ -1,46 +1,49 @@
 package com.nikola.jakshic.truesight.viewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.truesight.Status;
 import com.nikola.jakshic.truesight.model.Competitive;
 import com.nikola.jakshic.truesight.repository.MatchRepository;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class CompetitiveViewModel extends ViewModel {
 
-    private MutableLiveData<List<Competitive>> list;
+    private LiveData<PagedList<Competitive>> list;
     private MatchRepository repository;
-    private MutableLiveData<Boolean> loading;
+    private MutableLiveData<Status> status;
     private boolean initialFetch;
 
     @Inject
     public CompetitiveViewModel(MatchRepository repository) {
         this.repository = repository;
         list = new MutableLiveData<>();
-        loading = new MutableLiveData<>();
-        loading.setValue(false);
+        status = new MutableLiveData<>();
+        status.setValue(Status.INITIAL_LOADING);
+        list = repository.getCompetitiveMatches();
     }
 
     public void initialFetch() {
         if (!initialFetch) {
-            repository.fetchCompetitiveMatches(list, loading);
+            repository.fetchCompetitiveMatches(status);
             initialFetch = true;
         }
     }
 
-    public void fetchCompetitiveMatches( ) {
-        repository.fetchCompetitiveMatches(list, loading);
+    public void refreshData(){
+        status.setValue(Status.LOADING);
+        repository.fetchCompetitiveMatches(status);
     }
 
-    public MutableLiveData<List<Competitive>> getCompetitive() {
+    public LiveData<PagedList<Competitive>> getCompetitiveMatches() {
         return list;
     }
 
-    public MutableLiveData<Boolean> isLoading() {
-        return loading;
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 }

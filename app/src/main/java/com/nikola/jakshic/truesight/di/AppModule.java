@@ -3,6 +3,7 @@ package com.nikola.jakshic.truesight.di;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.nikola.jakshic.truesight.data.local.CompetitiveDao;
 import com.nikola.jakshic.truesight.data.local.DotaDatabase;
 import com.nikola.jakshic.truesight.data.local.PlayerDao;
 import com.nikola.jakshic.truesight.data.local.SearchHistoryDao;
@@ -52,6 +53,12 @@ public class AppModule {
     @Singleton
     PlayerDao providePlayerDao(DotaDatabase db) {
         return db.playerDao();
+    }
+
+    @Provides
+    @Singleton
+    CompetitiveDao provideCompetitiveDao(DotaDatabase db) {
+        return db.competitiveDao();
     }
 
     @Provides

@@ -1,7 +1,13 @@
 package com.nikola.jakshic.truesight.repository;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.paging.DataSource;
+import android.arch.paging.LivePagedListBuilder;
+import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.truesight.Status;
+import com.nikola.jakshic.truesight.data.local.CompetitiveDao;
 import com.nikola.jakshic.truesight.data.remote.OpenDotaService;
 import com.nikola.jakshic.truesight.model.Competitive;
 import com.nikola.jakshic.truesight.model.match.Match;
@@ -19,10 +25,12 @@ import retrofit2.Response;
 public class MatchRepository {
 
     private OpenDotaService service;
+    private CompetitiveDao competitiveDao;
 
     @Inject
-    public MatchRepository(OpenDotaService service) {
+    public MatchRepository(OpenDotaService service, CompetitiveDao competitiveDao) {
         this.service = service;
+        this.competitiveDao = competitiveDao;
     }
 
     public void fetchMatches(MutableLiveData<List<Match>> list, MutableLiveData<Boolean> loading, long id) {
@@ -57,18 +65,32 @@ public class MatchRepository {
         });
     }
 
-    public void fetchCompetitiveMatches(MutableLiveData<List<Competitive>> competitive, MutableLiveData<Boolean> loading) {
-        loading.setValue(true);
+    public LiveData<PagedList<Competitive>> getCompetitiveMatches() {
+        DataSource.Factory<Integer, Competitive> factory = competitiveDao.getMatches();
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(40)
+                .setPrefetchDistance(15)
+                .setInitialLoadSizeHint(80)
+                .build();
+
+        return new LivePagedListBuilder<>(factory, config).build();
+    }
+
+    public void fetchCompetitiveMatches(MutableLiveData<Status> status) {
         service.getCompetitiveMatches().enqueue(new Callback<List<Competitive>>() {
             @Override
             public void onResponse(Call<List<Competitive>> call, Response<List<Competitive>> response) {
-                competitive.setValue(response.body());
-                loading.setValue(false);
+                if (response.isSuccessful() && response.body() != null) {
+                    competitiveDao.insertMatches(response.body());
+                    status.setValue(Status.SUCCESS);
+                } else
+                    status.setValue(Status.ERROR);
             }
 
             @Override
             public void onFailure(Call<List<Competitive>> call, Throwable t) {
-                loading.setValue(false);
+                status.setValue(Status.ERROR);
             }
         });
     }

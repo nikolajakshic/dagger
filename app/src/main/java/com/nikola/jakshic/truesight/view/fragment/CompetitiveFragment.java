@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.nikola.jakshic.truesight.CompetitiveDiffCallback;
 import com.nikola.jakshic.truesight.view.adapter.CompetitiveAdapter;
 import com.nikola.jakshic.truesight.R;
 import com.nikola.jakshic.truesight.TrueSightApp;
@@ -51,22 +52,34 @@ public class CompetitiveFragment extends Fragment {
 
         SwipeRefreshLayout refresh = root.findViewById(R.id.swiperefresh_competitive);
         RecyclerView recyclerView = root.findViewById(R.id.recview_match_pro);
-        CompetitiveAdapter adapter = new CompetitiveAdapter(getContext());
+        CompetitiveAdapter adapter = new CompetitiveAdapter(getContext(), new CompetitiveDiffCallback());
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
 
         viewModel.initialFetch();
-        viewModel.getCompetitive().observe(this, adapter::addData);
-        viewModel.isLoading().observe(this, refresh::setRefreshing);
+        viewModel.getCompetitiveMatches().observe(this, adapter::submitList);
+        viewModel.getStatus().observe(this, status -> {
+            switch (status) {
+                case LOADING:
+                    refresh.setRefreshing(true);
+                    break;
+                case ERROR:
+                    refresh.setRefreshing(false);
+                    break;
+                case SUCCESS:
+                    refresh.setRefreshing(false);
+                    break;
+            }
+        });
 
         refresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
-                viewModel.fetchCompetitiveMatches();
+                viewModel.refreshData();
             } else {
-                Toast.makeText(getActivity(), "Check network connection!", Toast.LENGTH_SHORT).show();
                 refresh.setRefreshing(false);
+                Toast.makeText(getActivity(), "Check network connection!", Toast.LENGTH_SHORT).show();
             }
         });
         return root;
