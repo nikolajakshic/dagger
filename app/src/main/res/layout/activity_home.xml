@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nikola.jakshic.truesight.view.activity.HomeActivity">
+    tools:context="com.nikola.jakshic.dagger.view.activity.HomeActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/btm_navigation_home"

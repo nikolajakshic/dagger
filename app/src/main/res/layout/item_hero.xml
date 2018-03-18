@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="com.nikola.jakshic.truesight.inspector.HeroInspector" />
+            type="com.nikola.jakshic.dagger.inspector.HeroInspector" />
     </data>
 
     <LinearLayout

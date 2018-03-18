@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">True Sight</string>
+    <string name="app_name">Dagger</string>
 
     <string name="player_games">Games: %1$d</string>
     <string name="player_winrate">Winrate: %1$s%%</string>

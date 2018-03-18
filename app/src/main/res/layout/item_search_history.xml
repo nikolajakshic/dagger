@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.nikola.jakshic.truesight.model.SearchHistory" />
+            type="com.nikola.jakshic.dagger.model.SearchHistory" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

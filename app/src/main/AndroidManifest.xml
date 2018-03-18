@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nikola.jakshic.truesight">
+    package="com.nikola.jakshic.dagger">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".TrueSightApp"
+        android:name="com.nikola.jakshic.dagger.DaggerApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,9 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.PlayerActivity"
+            android:name="com.nikola.jakshic.dagger.view.activity.PlayerActivity"
             android:theme="@style/DetailTheme" />
-        <activity android:name=".view.activity.HomeActivity">
+        <activity android:name="com.nikola.jakshic.dagger.view.activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,9 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.SearchActivity"
+            android:name="com.nikola.jakshic.dagger.view.activity.SearchActivity"
             android:theme="@style/SearchTheme" />
-        <activity android:name=".view.activity.MatchActivity"/>
+        <activity android:name="com.nikola.jakshic.dagger.view.activity.MatchActivity" />
     </application>
-
 </manifest>

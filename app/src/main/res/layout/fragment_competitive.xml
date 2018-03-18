@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nikola.jakshic.truesight.view.fragment.CompetitiveFragment">
+    tools:context="com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh_competitive"

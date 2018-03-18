@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.nikola.jakshic.truesight.inspector.PlayerInspector" />
+            type="com.nikola.jakshic.dagger.inspector.PlayerInspector" />
     </data>
     <LinearLayout
         android:onClick="@{viewModel::onClick}"

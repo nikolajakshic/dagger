@@ -7,7 +7,7 @@
 
         <variable
             name="inspector"
-            type="com.nikola.jakshic.truesight.inspector.CompetitiveInspector" />
+            type="com.nikola.jakshic.dagger.inspector.CompetitiveInspector" />
 
     </data>
 

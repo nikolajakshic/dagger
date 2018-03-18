@@ -6,7 +6,7 @@
     <data>
         <variable
             name="inspector"
-            type="com.nikola.jakshic.truesight.inspector.MatchDetailInspector"/>
+            type="com.nikola.jakshic.dagger.inspector.MatchDetailInspector"/>
     </data>
 
     <LinearLayout

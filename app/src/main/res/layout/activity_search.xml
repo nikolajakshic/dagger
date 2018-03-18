@@ -5,7 +5,7 @@
     android:id="@+id/view_search_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nikola.jakshic.truesight.view.activity.SearchActivity">
+    tools:context="com.nikola.jakshic.dagger.view.activity.SearchActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recview_player"
