@@ -44,9 +44,7 @@ public class AppModule {
     @Provides
     @Singleton
     DotaDatabase provideDotaDatabase() {
-        return Room.databaseBuilder(context, DotaDatabase.class, "truesightdota.db")
-                .allowMainThreadQueries()
-                .build();
+        return Room.databaseBuilder(context, DotaDatabase.class, "truesightdota.db").build();
     }
 
     @Provides

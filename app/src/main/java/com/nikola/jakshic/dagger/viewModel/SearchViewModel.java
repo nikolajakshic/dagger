@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.viewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao;
 import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.model.SearchHistory;
@@ -20,10 +21,12 @@ public class SearchViewModel extends ViewModel {
     private PlayerRepository repository;
     private SearchHistoryDao searchHistoryDao;
     private MutableLiveData<Boolean> loading;
+    private AppExecutors executor;
 
     @Inject
-    public SearchViewModel(PlayerRepository repository, SearchHistoryDao searchHistoryDao) {
+    public SearchViewModel(AppExecutors executor, PlayerRepository repository, SearchHistoryDao searchHistoryDao) {
         this.repository = repository;
+        this.executor = executor;
         this.searchHistoryDao = searchHistoryDao;
         playerList = new MutableLiveData<>();
         historyList = new MutableLiveData<>();
@@ -32,7 +35,11 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void getAllQueries() {
-        historyList.setValue(searchHistoryDao.getAllQueries());
+        executor.diskIO().execute(() -> {
+            List<SearchHistory> allQueries = searchHistoryDao.getAllQueries();
+            historyList.postValue(allQueries);
+        });
+
     }
 
     public MutableLiveData<List<SearchHistory>> getSearchHistory() {
@@ -40,11 +47,17 @@ public class SearchViewModel extends ViewModel {
     }
 
     public void getQueries(String query) {
-        historyList.setValue(searchHistoryDao.getQuery(query));
+        executor.diskIO().execute(() -> {
+            List<SearchHistory> list = searchHistoryDao.getQuery(query);
+            historyList.postValue(list);
+        });
+
     }
 
     public void saveQuery(SearchHistory searchHistory) {
-        searchHistoryDao.insertQuery(searchHistory);
+        executor.diskIO().execute(() -> {
+            searchHistoryDao.insertQuery(searchHistory);
+        });
     }
 
     public MutableLiveData<List<Player>> getPlayers() {

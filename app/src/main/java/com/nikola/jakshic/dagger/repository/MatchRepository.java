@@ -6,6 +6,7 @@ import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
@@ -26,10 +27,12 @@ public class MatchRepository {
 
     private OpenDotaService service;
     private CompetitiveDao competitiveDao;
+    private AppExecutors executor;
 
     @Inject
-    public MatchRepository(OpenDotaService service, CompetitiveDao competitiveDao) {
+    public MatchRepository(OpenDotaService service, AppExecutors executor, CompetitiveDao competitiveDao) {
         this.service = service;
+        this.executor = executor;
         this.competitiveDao = competitiveDao;
     }
 
@@ -82,8 +85,11 @@ public class MatchRepository {
             @Override
             public void onResponse(Call<List<Competitive>> call, Response<List<Competitive>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    competitiveDao.insertMatches(response.body());
-                    status.setValue(Status.SUCCESS);
+                    executor.diskIO().execute(() -> {
+                        competitiveDao.insertMatches(response.body());
+                        status.postValue(Status.SUCCESS);
+                    });
+
                 } else
                     status.setValue(Status.ERROR);
             }

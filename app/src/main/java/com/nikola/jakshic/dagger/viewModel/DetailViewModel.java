@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModel;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
+import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.data.local.PlayerDao;
 import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.repository.PlayerRepository;
@@ -19,17 +20,19 @@ public class DetailViewModel extends ViewModel {
     private PlayerDao playerDao;
     private boolean isChecked;
     private PlayerRepository repository;
+    private AppExecutors executor;
 
     @Inject
-    public DetailViewModel(PlayerDao playerDao, PlayerRepository repository) {
+    public DetailViewModel(AppExecutors executor, PlayerDao playerDao, PlayerRepository repository) {
         this.repository = repository;
         this.playerDao = playerDao;
+        this.executor = executor;
         player = new MutableLiveData<>();
     }
 
     public void checkPlayer(long id) {
         if (!isChecked)
-            list = playerDao.getPlayer(id);
+            executor.diskIO().execute(() -> list = playerDao.getPlayer(id));
         isChecked = true;
     }
 
@@ -46,7 +49,8 @@ public class DetailViewModel extends ViewModel {
     }
 
     public void insertPlayer(Player player) {
-        playerDao.insertPlayer(player);
+        executor.diskIO().execute(() -> playerDao.insertPlayer(player));
+
     }
 
     public boolean isFollowed() {
@@ -63,7 +67,7 @@ public class DetailViewModel extends ViewModel {
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            playerDao.deletePlayer(id);
+            executor.diskIO().execute(() -> playerDao.deletePlayer(id));
         }
     }
 }
