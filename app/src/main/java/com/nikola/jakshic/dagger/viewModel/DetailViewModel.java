@@ -32,7 +32,7 @@ public class DetailViewModel extends ViewModel {
 
     public void checkPlayer(long id) {
         if (!isChecked)
-            executor.diskIO().execute(() -> list = playerDao.getPlayer(id));
+            list = playerDao.getPlayer(id);
         isChecked = true;
     }
 

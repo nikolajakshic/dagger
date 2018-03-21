@@ -16,8 +16,8 @@ public class BookmarkViewModel extends ViewModel {
     private LiveData<List<Player>> list;
 
     @Inject
-    public BookmarkViewModel(AppExecutors executor, PlayerDao playerDao) {
-        executor.diskIO().execute(() -> list = playerDao.getPlayers() );
+    public BookmarkViewModel( PlayerDao playerDao) {
+        list = playerDao.getPlayers();
     }
 
     public LiveData<List<Player>> getPlayers() {
