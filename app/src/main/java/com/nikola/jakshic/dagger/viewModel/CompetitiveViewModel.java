@@ -23,7 +23,7 @@ public class CompetitiveViewModel extends ViewModel {
         this.repository = repository;
         list = new MutableLiveData<>();
         status = new MutableLiveData<>();
-        status.setValue(Status.INITIAL_LOADING);
+        status.setValue(Status.LOADING);
         list = repository.getCompetitiveMatches();
     }
 

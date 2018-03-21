@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface CompetitiveDao {
 
-    @Query("SELECT * FROM competitive ORDER BY start_time DESC")
+    @Query("SELECT * FROM competitive ORDER BY start_time+duration DESC")
     DataSource.Factory<Integer, Competitive> getMatches();
 
     @Query("SELECT COUNT(match_id) FROM competitive")

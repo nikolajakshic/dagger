@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.CompetitiveDiffCallback;
+import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.view.adapter.CompetitiveAdapter;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
@@ -65,10 +66,7 @@ public class CompetitiveFragment extends Fragment {
                 case LOADING:
                     refresh.setRefreshing(true);
                     break;
-                case ERROR:
-                    refresh.setRefreshing(false);
-                    break;
-                case SUCCESS:
+                default:
                     refresh.setRefreshing(false);
                     break;
             }

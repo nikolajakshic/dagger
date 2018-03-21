@@ -76,7 +76,6 @@ public class MatchRepository {
                 .setPrefetchDistance(15)
                 .setInitialLoadSizeHint(80)
                 .build();
-
         return new LivePagedListBuilder<>(factory, config).build();
     }
 

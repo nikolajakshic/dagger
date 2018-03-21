@@ -26,12 +26,16 @@ public class CompetitiveInspector {
         else
             return competitive.getLeagueName();
     }
-    public boolean isRadiantWin(){
+
+    public boolean isRadiantWin() {
         return competitive.isRadiantWin();
     }
 
     public String getRadiantName() {
-        return competitive.getRadiantName();
+        String name = competitive.getRadiantName();
+        if (TextUtils.isEmpty(name))
+            name = "Unknown Team";
+        return name;
     }
 
     public String getRadiantScore() {
@@ -39,7 +43,10 @@ public class CompetitiveInspector {
     }
 
     public String getDireName() {
-        return competitive.getDireName();
+        String name = competitive.getDireName();
+        if (TextUtils.isEmpty(name))
+            name = "Unknown Team";
+        return name;
     }
 
     public String getDireScore() {
