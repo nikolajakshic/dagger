@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.comparator.HeroComparator;
+import com.nikola.jakshic.dagger.HeroDiffCallback;
+import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.HeroSortDialog;
 import com.nikola.jakshic.dagger.view.adapter.HeroAdapter;
@@ -32,6 +32,8 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
     ViewModelProvider.Factory viewModelFactory;
     private RecyclerView recyclerView;
     private HeroViewModel viewModel;
+    private HeroAdapter mAdapter;
+    private long accountId;
 
     public HeroFragment() {
         // Required empty public constructor
@@ -51,12 +53,14 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
         View root = inflater.inflate(R.layout.fragment_hero, container, false);
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
-        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
+
+        accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
 
         recyclerView = root.findViewById(R.id.recview_hero);
-        HeroAdapter mAdapter = new HeroAdapter(getActivity());
+
+        mAdapter = new HeroAdapter(getActivity(), new HeroDiffCallback());
 
         View btnSort = root.findViewById(R.id.btn_hero_sort);
 
@@ -70,12 +74,19 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
-        //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(accountId);
-        viewModel.getHeroes().observe(this, mAdapter::addData);
-        viewModel.isLoading().observe(this, mRefresh::setRefreshing);
+        viewModel.getHeroes().observe(this, mAdapter::submitList);
+        viewModel.getStatus().observe(this, status -> {
+            switch (status) {
+                case LOADING:
+                    mRefresh.setRefreshing(true);
+                    break;
+                default:
+                    mRefresh.setRefreshing(false);
+                    break;
+            }
+        });
 
-        //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
@@ -91,20 +102,29 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
 
     @Override
     public void onSort(int sortOption) {
+
+        // Remove previous observers b/c we are attaching new LiveData<PagedList>
+        viewModel.getHeroes().removeObservers(this);
+
         switch (sortOption) {
             case 0:
-                viewModel.sort(new HeroComparator.ByGames());
+                viewModel.sortByGames(accountId);
                 break;
             case 1:
-                viewModel.sort(new HeroComparator.ByWinRate());
+                viewModel.sortByWinrate(accountId);
                 break;
             case 2:
-                viewModel.sort(new HeroComparator.ByWins());
+                viewModel.sortByWins(accountId);
                 break;
             case 3:
-                viewModel.sort(new HeroComparator.ByLosses());
+                viewModel.sortByLosses(accountId);
                 break;
         }
-        recyclerView.scrollToPosition(0);
+
+        // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
+        mAdapter.submitList(null);
+
+        // Attach the observer to the new LiveData<PagedList>
+        viewModel.getHeroes().observe(this, mAdapter::submitList);
     }
 }

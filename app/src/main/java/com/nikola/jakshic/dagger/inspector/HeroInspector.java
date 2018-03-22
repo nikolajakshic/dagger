@@ -73,6 +73,6 @@ public class HeroInspector {
     }
 
     public String getImageUrl() {
-        return DotaUtil.Image.getHeroUrl(context, (int) hero.getID());
+        return DotaUtil.Image.getHeroUrl(context, (int) hero.getHeroId());
     }
 }

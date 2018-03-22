@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.local.DotaDatabase;
+import com.nikola.jakshic.dagger.data.local.HeroDao;
 import com.nikola.jakshic.dagger.data.local.PeerDao;
 import com.nikola.jakshic.dagger.data.local.PlayerDao;
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao;
@@ -81,6 +82,12 @@ public class AppModule {
     @Singleton
     PeerDao providePeerDao(DotaDatabase db) {
         return db.peerDao();
+    }
+
+    @Provides
+    @Singleton
+    HeroDao provideHeroDao(DotaDatabase db) {
+        return db.heroDao();
     }
 
     @Provides

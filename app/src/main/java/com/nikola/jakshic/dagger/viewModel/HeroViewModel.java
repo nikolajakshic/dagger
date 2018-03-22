@@ -1,15 +1,13 @@
 package com.nikola.jakshic.dagger.viewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.model.Hero;
 import com.nikola.jakshic.dagger.repository.HeroRepository;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,42 +15,51 @@ public class HeroViewModel extends ViewModel {
 
     private static final String LOG_TAG = HeroViewModel.class.getSimpleName();
 
-    private MutableLiveData<List<Hero>> list;
+    private LiveData<PagedList<Hero>> list;
     private HeroRepository repository;
-    private MutableLiveData<Boolean> loading;
+    private MutableLiveData<Status> status;
     private boolean initialFetch;
 
     @Inject
     public HeroViewModel(HeroRepository repository) {
         this.repository = repository;
-        list = new MutableLiveData<>();
-        loading = new MutableLiveData<>();
-        loading.setValue(false);
+        status = new MutableLiveData<>();
+        status.setValue(Status.LOADING);
     }
 
     public void initialFetch(long id) {
         if (!initialFetch) {
-            repository.fetchHeroes(list, loading, id);
+            list = repository.fetchByGames(id);
+            repository.fetchHeroes(status, id);
             initialFetch = true;
         }
     }
 
     public void fetchHeroes(long id) {
-        repository.fetchHeroes(list, loading, id);
+        repository.fetchHeroes(status, id);
     }
 
-    public void sort(Comparator<Hero> comparator) {
-        if (list.getValue() == null) return;
-        List<Hero> sortedList = new ArrayList<>(list.getValue());
-        Collections.sort(sortedList, comparator);
-        list.setValue(sortedList);
+    public void sortByGames(long id){
+        list = repository.fetchByGames(id);
     }
 
-    public MutableLiveData<List<Hero>> getHeroes() {
+    public void sortByWinrate(long id){
+        list = repository.fetchByWinrate(id);
+    }
+
+    public void sortByWins(long id){
+        list = repository.fetchByWins(id);
+    }
+
+    public void sortByLosses(long id){
+        list = repository.fetchByLosses(id);
+    }
+
+    public LiveData<PagedList<Hero>> getHeroes() {
         return list;
     }
 
-    public MutableLiveData<Boolean> isLoading() {
-        return loading;
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 }
