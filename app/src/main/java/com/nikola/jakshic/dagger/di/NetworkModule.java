@@ -27,23 +27,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 // TODO move network, database to separate Module
 @Module
-public class AppModule {
+public class NetworkModule {
 
     private Context context;
 
-    public AppModule(Context context) {
+    public NetworkModule(Context context) {
         this.context = context;
     }
 
     @Provides
     @Singleton
-    OpenDotaService provideOpenDotaService(OkHttpClient okHttpClient, Gson gson) {
-        return new Retrofit.Builder()
-                .baseUrl(OpenDotaService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient)
-                .build()
-                .create(OpenDotaService.class);
+    Context provideContext() {
+        return context;
     }
 
     @Provides
@@ -56,38 +51,13 @@ public class AppModule {
 
     @Provides
     @Singleton
-    DotaDatabase provideDotaDatabase() {
-        return Room.databaseBuilder(context, DotaDatabase.class, "truesightdota.db").build();
-    }
-
-    @Provides
-    @Singleton
-    PlayerDao providePlayerDao(DotaDatabase db) {
-        return db.playerDao();
-    }
-
-    @Provides
-    @Singleton
-    CompetitiveDao provideCompetitiveDao(DotaDatabase db) {
-        return db.competitiveDao();
-    }
-
-    @Provides
-    @Singleton
-    SearchHistoryDao provideSearchHistoryDao(DotaDatabase db) {
-        return db.searchHistoryDao();
-    }
-
-    @Provides
-    @Singleton
-    PeerDao providePeerDao(DotaDatabase db) {
-        return db.peerDao();
-    }
-
-    @Provides
-    @Singleton
-    HeroDao provideHeroDao(DotaDatabase db) {
-        return db.heroDao();
+    OpenDotaService provideOpenDotaService(OkHttpClient okHttpClient, Gson gson) {
+        return new Retrofit.Builder()
+                .baseUrl(OpenDotaService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
+                .build()
+                .create(OpenDotaService.class);
     }
 
     @Provides

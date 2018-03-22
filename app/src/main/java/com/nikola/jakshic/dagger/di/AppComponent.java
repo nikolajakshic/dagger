@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 @Singleton
-@Component(modules = {AppModule.class, ViewModelModule.class})
+@Component(modules = {DbModule.class, ViewModelModule.class})
 public interface AppComponent {
 
     void inject(SearchActivity activity);
