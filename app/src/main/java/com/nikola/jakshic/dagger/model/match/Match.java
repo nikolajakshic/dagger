@@ -1,4 +1,3 @@
-
 package com.nikola.jakshic.dagger.model.match;
 
 import com.google.gson.annotations.Expose;
@@ -10,9 +9,9 @@ import java.util.List;
 public class Match {
 
     @SerializedName("match_id") @Expose public long matchId;
-    @SerializedName("hero_id") private long heroId;
-    @SerializedName("player_slot") private long playerSlot;
-    @SerializedName("skill") private long skill;
+    @SerializedName("hero_id") @Expose private long heroId;
+    @SerializedName("player_slot") @Expose private long playerSlot;
+    @SerializedName("skill") private @Expose long skill;
     @SerializedName("dire_score") @Expose public long direScore;
     @SerializedName("duration") @Expose public long duration;
     @SerializedName("game_mode") @Expose public long gameMode;
@@ -27,7 +26,6 @@ public class Match {
     @SerializedName("radiant_team") @Expose public RadiantTeam radiantTeam;
     @SerializedName("dire_team") @Expose public DireTeam direTeam;
     @SerializedName("players") @Expose public List<Player> players = null;
-
 
     public long getMatchId() {
         return matchId;

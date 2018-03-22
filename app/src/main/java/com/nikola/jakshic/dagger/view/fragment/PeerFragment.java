@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.view.fragment;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -15,12 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
+import com.nikola.jakshic.dagger.PeerDiffCallback;
 import com.nikola.jakshic.dagger.R;
-import com.nikola.jakshic.dagger.comparator.PeerComparator;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.PeerSortDialog;
 import com.nikola.jakshic.dagger.view.adapter.PeerAdapter;
+import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
 import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory;
 
 import javax.inject.Inject;
@@ -28,14 +27,15 @@ import javax.inject.Inject;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListener{
+public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListener {
 
     private static final String LOG_TAG = PeerFragment.class.getSimpleName();
 
     @Inject
     TrueSightViewModelFactory factory;
-    private RecyclerView recyclerView;
+    private PeerAdapter mAdapter;
     private PeerViewModel viewModel;
+    private long accountId;
 
     public PeerFragment() {
         // Required empty public constructor
@@ -53,14 +53,14 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_peer, container, false);
 
-        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
+        accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
 
         viewModel = ViewModelProviders.of(this, factory).get(PeerViewModel.class);
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_peer);
 
-        PeerAdapter mAdapter = new PeerAdapter(getContext());
+        mAdapter = new PeerAdapter(getContext(), new PeerDiffCallback());
 
-        recyclerView = root.findViewById(R.id.recview_peer);
+        RecyclerView recyclerView = root.findViewById(R.id.recview_peer);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(mAdapter);
@@ -75,8 +75,17 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
         });
 
         viewModel.initialFetch(accountId);
-        viewModel.getPeers().observe(this, mAdapter::addData);
-        viewModel.isLoading().observe(this, mRefresh::setRefreshing);
+        viewModel.getPeers().observe(this, mAdapter::submitList);
+        viewModel.getStatus().observe(this, status -> {
+            switch (status) {
+                case LOADING:
+                    mRefresh.setRefreshing(true);
+                    break;
+                default:
+                    mRefresh.setRefreshing(false);
+                    break;
+            }
+        });
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {
@@ -92,14 +101,24 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
 
     @Override
     public void onSort(int sortOption) {
+
+        // Remove previous observers b/c we are attaching new LiveData<PagedList>
+        viewModel.getPeers().removeObservers(this);
+
         switch (sortOption) {
             case 0:
-                viewModel.sort(new PeerComparator.ByGames());
+                viewModel.sortByGames(accountId);
                 break;
             case 1:
-                viewModel.sort(new PeerComparator.ByWinRate());
+                viewModel.sortByWinrate(accountId);
                 break;
         }
-        recyclerView.scrollToPosition(0);
+
+        // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
+        mAdapter.submitList(null);
+
+        // Attach the observer to the new LiveData<PagedList>
+        viewModel.getPeers().observe(this, mAdapter::submitList);
+
     }
 }

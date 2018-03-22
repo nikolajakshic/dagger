@@ -3,8 +3,11 @@ package com.nikola.jakshic.dagger.di;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.local.DotaDatabase;
+import com.nikola.jakshic.dagger.data.local.PeerDao;
 import com.nikola.jakshic.dagger.data.local.PlayerDao;
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
@@ -21,6 +24,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+// TODO move network, database to separate Module
 @Module
 public class AppModule {
 
@@ -32,13 +36,21 @@ public class AppModule {
 
     @Provides
     @Singleton
-    OpenDotaService provideOpenDotaService(OkHttpClient okHttpClient) {
+    OpenDotaService provideOpenDotaService(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(OpenDotaService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build()
                 .create(OpenDotaService.class);
+    }
+
+    @Provides
+    @Singleton
+    Gson provideGson() {
+        return new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
     }
 
     @Provides
@@ -63,6 +75,12 @@ public class AppModule {
     @Singleton
     SearchHistoryDao provideSearchHistoryDao(DotaDatabase db) {
         return db.searchHistoryDao();
+    }
+
+    @Provides
+    @Singleton
+    PeerDao providePeerDao(DotaDatabase db) {
+        return db.peerDao();
     }
 
     @Provides

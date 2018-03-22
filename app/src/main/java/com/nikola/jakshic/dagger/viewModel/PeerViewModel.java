@@ -1,56 +1,60 @@
 package com.nikola.jakshic.dagger.viewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.model.Peer;
 import com.nikola.jakshic.dagger.repository.PeerRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import javax.inject.Inject;
 
-public class PeerViewModel extends ViewModel{
+public class PeerViewModel extends ViewModel {
 
-    private MutableLiveData<List<Peer>> list;
+    private LiveData<PagedList<Peer>> list;
     private PeerRepository repository;
-    private MutableLiveData<Boolean> loading;
+    private MutableLiveData<Status> status;
     private boolean initialFetch;
 
     @Inject
     public PeerViewModel(PeerRepository repository) {
         this.repository = repository;
-        list = new MutableLiveData<>();
-        loading = new MutableLiveData<>();
-        loading.setValue(false);
+        status = new MutableLiveData<>();
+        status.setValue(Status.LOADING);
     }
 
     public void initialFetch(long id) {
         if (!initialFetch) {
-            repository.fetchPeers(list, loading, id);
+            list = repository.fetchByGames(id);
+            repository.fetchPeers(status, id);
             initialFetch = true;
         }
     }
 
-    public void sort(Comparator<Peer> comparator) {
-        if (list.getValue() == null) return;
-        List<Peer> sortedList = new ArrayList<>(list.getValue());
-        Collections.sort(sortedList, comparator);
-        list.setValue(sortedList);
+    // Get list from DB sorted by games
+    public void sortByGames(long id) {
+        list = repository.fetchByGames(id);
     }
 
+    // Get list from DB sorted by win rate
+    public void sortByWinrate(long id) {
+       list = repository.fetchByWinrate(id);
+    }
+
+    // Fetch peers from network and store them into DB
     public void fetchPeers(long id) {
-        repository.fetchPeers(list, loading, id);
+        repository.fetchPeers(status, id);
     }
 
-    public MutableLiveData<List<Peer>> getPeers() {
+    // Expose peer data from DB
+    public LiveData<PagedList<Peer>> getPeers() {
         return list;
     }
 
-    public MutableLiveData<Boolean> isLoading() {
-        return loading;
+    // Expose network status
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 }

@@ -14,7 +14,7 @@ import com.nikola.jakshic.dagger.model.match.XpReasons;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = "players")
 public class Player implements Parcelable {
 
     @Expose @SerializedName("account_id") private long id;
