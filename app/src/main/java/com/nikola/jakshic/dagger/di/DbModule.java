@@ -6,6 +6,7 @@ import android.content.Context;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.local.DotaDatabase;
 import com.nikola.jakshic.dagger.data.local.HeroDao;
+import com.nikola.jakshic.dagger.data.local.MatchDao;
 import com.nikola.jakshic.dagger.data.local.PeerDao;
 import com.nikola.jakshic.dagger.data.local.PlayerDao;
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao;
@@ -46,6 +47,12 @@ public class DbModule {
     @Singleton
     HeroDao provideHeroDao(DotaDatabase db) {
         return db.heroDao();
+    }
+
+    @Provides
+    @Singleton
+    MatchDao provideMatchDao(DotaDatabase db) {
+        return db.matchDao();
     }
 
     @Provides

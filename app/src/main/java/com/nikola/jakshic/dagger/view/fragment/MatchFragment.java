@@ -9,12 +9,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.DaggerApp;
+import com.nikola.jakshic.dagger.MatchDiffCallback;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.activity.MatchActivity;
@@ -28,6 +30,7 @@ import javax.inject.Inject;
  */
 public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener {
 
+    private static final String LOG_TAG = MatchFragment.class.getSimpleName();
     private SwipeRefreshLayout mRefresh;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -51,7 +54,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         MatchViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(MatchViewModel.class);
 
         mRefresh = root.findViewById(R.id.swiperefresh_match);
-        MatchAdapter mAdapter = new MatchAdapter(getActivity(), this);
+        MatchAdapter mAdapter = new MatchAdapter(getActivity(), this, new MatchDiffCallback());
         //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
         long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
@@ -62,8 +65,20 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
 
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(accountId);
-        viewModel.getMatches().observe(this, mAdapter::addData);
-        viewModel.isLoading().observe(this, mRefresh::setRefreshing);
+        viewModel.getMatches().observe(this, list -> {
+            Log.d(LOG_TAG, "onChanged");
+            mAdapter.submitList(list);
+        });
+        viewModel.getStatus().observe(this, status -> {
+            switch (status) {
+                case LOADING:
+                    mRefresh.setRefreshing(true);
+                    break;
+                default:
+                    mRefresh.setRefreshing(false);
+                    break;
+            }
+        });
 
         mRefresh.setOnRefreshListener(() -> {
             if (NetworkUtil.isActive(getActivity())) {

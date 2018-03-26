@@ -1,46 +1,47 @@
 package com.nikola.jakshic.dagger.viewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.arch.paging.PagedList;
 
+import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.model.match.Match;
 import com.nikola.jakshic.dagger.repository.MatchRepository;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
 public class MatchViewModel extends ViewModel {
 
-    private MutableLiveData<List<Match>> list;
+    private LiveData<PagedList<Match>> list;
     private MatchRepository repository;
-    private MutableLiveData<Boolean> loading;
+    private MutableLiveData<Status> status;
     private boolean initialFetch;
 
     @Inject
     public MatchViewModel(MatchRepository repository) {
         this.repository = repository;
-        list = new MutableLiveData<>();
-        loading = new MutableLiveData<>();
-        loading.setValue(false);
+        status = new MutableLiveData<>();
+        status.setValue(Status.LOADING);
     }
 
     public void initialFetch(long id) {
         if (!initialFetch) {
-            repository.fetchMatches(list, loading, id);
+            list = repository.getMatches(status,id);
+            repository.refreshMatches(status, id);
             initialFetch = true;
         }
     }
 
     public void fetchHeroes(long id) {
-        repository.fetchMatches(list, loading, id);
+        repository.refreshMatches(status, id);
     }
 
-    public MutableLiveData<List<Match>> getMatches() {
+    public LiveData<PagedList<Match>> getMatches() {
         return list;
     }
 
-    public MutableLiveData<Boolean> isLoading() {
-        return loading;
+    public MutableLiveData<Status> getStatus() {
+        return status;
     }
 }

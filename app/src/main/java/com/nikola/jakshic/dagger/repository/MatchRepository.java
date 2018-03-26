@@ -5,15 +5,20 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.util.Log;
 
 import com.nikola.jakshic.dagger.AppExecutors;
+import com.nikola.jakshic.dagger.MatchBoundaryCallback;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
+import com.nikola.jakshic.dagger.data.local.DotaDatabase;
+import com.nikola.jakshic.dagger.data.local.MatchDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.model.Competitive;
 import com.nikola.jakshic.dagger.model.match.Match;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -25,30 +30,85 @@ import retrofit2.Response;
 @Singleton
 public class MatchRepository {
 
+    private static final String LOG_TAG = MatchRepository.class.getSimpleName();
+
     private OpenDotaService service;
     private CompetitiveDao competitiveDao;
+    private DotaDatabase db;
+    private MatchDao matchDao;
     private AppExecutors executor;
+    private PagedList.Config config;
 
     @Inject
-    public MatchRepository(OpenDotaService service, AppExecutors executor, CompetitiveDao competitiveDao) {
+    public MatchRepository(OpenDotaService service,
+                           AppExecutors executor,
+                           DotaDatabase db,
+                           CompetitiveDao competitiveDao,
+                           MatchDao matchDao) {
         this.service = service;
+        this.db = db;
         this.executor = executor;
         this.competitiveDao = competitiveDao;
+        this.matchDao = matchDao;
+        // TODO THIS SHOULD BE PROVIDED BY DAGGER
+        config = new PagedList.Config.Builder()
+                .setPrefetchDistance(15)
+                .setInitialLoadSizeHint(80)
+                .setPageSize(40)
+                .setEnablePlaceholders(false).build();
     }
 
-    public void fetchMatches(MutableLiveData<List<Match>> list, MutableLiveData<Boolean> loading, long id) {
-        loading.setValue(true);
-        service.getMatches(id).enqueue(new Callback<List<Match>>() {
-            @Override
-            public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
-                list.setValue(response.body());
-                loading.setValue(false);
-            }
+    public LiveData<PagedList<Match>> getMatches(MutableLiveData<Status> status,long accountId) {
+        DataSource.Factory<Integer, Match> factory = matchDao.getMatches(accountId);
+        return new LivePagedListBuilder<>(factory, config)
+                .setBoundaryCallback(new MatchBoundaryCallback(
+                        service,
+                        matchDao,
+                        executor,
+                        status,
+                        accountId)).build();
+    }
 
-            @Override
-            public void onFailure(Call<List<Match>> call, Throwable t) {
-                loading.setValue(false);
-            }
+    /*
+     * Refreshing data by deleting matches from the database
+     * and fetching the same amount from the network
+     */
+    public void refreshMatches(MutableLiveData<Status> status, long id) {
+
+        executor.diskIO().execute(() -> {
+            long matches = matchDao.getMatchCount(id);
+
+            // If there are no matches to refresh, MatchBoundaryCallback.OnZeroItemsLoaded is called to
+            // fetch data from the network, so we can exit from this method
+            if (matches == 0) return;
+
+            status.postValue(Status.LOADING);
+            service.getMatches(id, matches, 0).enqueue(new Callback<List<Match>>() {
+                @Override
+                public void onResponse(Call<List<Match>> call, Response<List<Match>> response) {
+
+                    if (response.body() != null && response.isSuccessful()) {
+
+                        executor.diskIO().execute(() -> {
+                            for (Match match : response.body())
+                                match.setAccountId(id);
+
+                            db.runInTransaction(() -> {
+                                matchDao.deleteMatches(id);
+                                matchDao.insertMatches(response.body());
+                            });
+
+                            status.postValue(Status.SUCCESS);
+                        });
+                    }
+                    status.setValue(Status.ERROR);
+                }
+
+                @Override
+                public void onFailure(Call<List<Match>> call, Throwable t) {
+                    status.setValue(Status.ERROR);
+                }
+            });
         });
     }
 

@@ -30,7 +30,10 @@ public interface OpenDotaService {
     Call<Match> getMatch(@Path("match_id") long matchId);
 
     @GET("players/{account_id}/matches")
-    Call<List<Match>> getMatches(@Path("account_id") long playerId);
+    Call<List<Match>> getMatches(
+            @Path("account_id") long playerId,
+            @Query("limit") long limit,
+            @Query("offset") long offset);
 
     @GET("players/{account_id}/heroes")
     Call<List<Hero>> getHeroes(@Path("account_id") long playerId);

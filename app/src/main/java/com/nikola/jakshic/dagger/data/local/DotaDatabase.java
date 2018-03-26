@@ -8,12 +8,14 @@ import com.nikola.jakshic.dagger.model.Hero;
 import com.nikola.jakshic.dagger.model.Peer;
 import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.model.SearchHistory;
+import com.nikola.jakshic.dagger.model.match.Match;
 
 @Database(
         entities = {
                 Player.class,
                 SearchHistory.class,
                 Competitive.class,
+                Match.class,
                 Peer.class,
                 Hero.class},
         version = 1,
@@ -30,4 +32,6 @@ public abstract class DotaDatabase extends RoomDatabase {
     public abstract PeerDao peerDao();
 
     public abstract HeroDao heroDao();
+
+    public abstract MatchDao matchDao();
 }
