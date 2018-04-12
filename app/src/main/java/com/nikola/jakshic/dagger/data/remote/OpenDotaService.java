@@ -5,9 +5,11 @@ import com.nikola.jakshic.dagger.model.Peer;
 import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.model.Competitive;
 import com.nikola.jakshic.dagger.model.match.Match;
+import com.nikola.jakshic.dagger.model.*;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -16,6 +18,9 @@ import retrofit2.http.Query;
 public interface OpenDotaService {
 
     String BASE_URL = "https://api.opendota.com/api/";
+
+    @GET("players/{account_id}")
+    Observable<_Profile> getPlayerProfile(@Path("account_id") long id);
 
     @GET("search")
     Call<List<Player>> searchPlayers(@Query("q") String name);

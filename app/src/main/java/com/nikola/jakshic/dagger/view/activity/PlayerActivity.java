@@ -11,12 +11,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
+import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.dagger.inspector.PlayerInspector;
 import com.nikola.jakshic.dagger.model.Player;
@@ -26,6 +29,12 @@ import com.nikola.jakshic.dagger.viewModel.DetailViewModel;
 
 import javax.inject.Inject;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 //TODO REFAKTORIZUJ FRAGMENTE I REPOSITORIJUME MNOGO JE KODA ZAJEDNICKOG
 
 public class PlayerActivity extends AppCompatActivity {
@@ -34,8 +43,12 @@ public class PlayerActivity extends AppCompatActivity {
     private Button mButtonFollow;
     private ActivityDetailBinding mBinding;
     @Inject
+    OpenDotaService service;
+    @Inject
     ViewModelProvider.Factory viewModelFactory;
     private static final String LOG_TAG = PlayerActivity.class.getSimpleName();
+
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +66,24 @@ public class PlayerActivity extends AppCompatActivity {
         PlayerInspector playerInspector = new PlayerInspector(this, mPlayer);
         mBinding.toolbarPlayer.setViewModel(playerInspector);
         mBinding.setViewModel(playerInspector);
+
+        Disposable disposable = service.getPlayerProfile(mPlayer.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(t -> {
+                            if (TextUtils.isEmpty(mPlayer.getAvatarUrl())) {
+                                Glide.with(this)
+                                        .load(t.getProfile().getAvatarUrl())
+                                        .into(mBinding.toolbarPlayer.imageView);
+
+                                mPlayer.setAvatarUrl(t.getProfile().getAvatarUrl());
+                            }
+                        },
+                        error -> {
+                        }
+                );
+
+        compositeDisposable.add(disposable);
 
         viewModel.fetchPlayerWinLoss(mPlayer.getId());
         viewModel.getPlayerWinLoss().observe(this, player -> {
@@ -121,5 +152,11 @@ public class PlayerActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.clear();
     }
 }
