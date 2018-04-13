@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_favorites"
-        android:enabled="true"
-        android:icon="@drawable/ic_competitive2"
-        android:title="Competitive"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/action_competitive"
         android:enabled="true"
         android:icon="@drawable/ic_competitive"
         android:title="Competitive"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/action_leaderboard"
+        android:enabled="true"
+        android:icon="@drawable/ic_leaderboard"
+        android:title="Leaderboard"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_bookmark"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark"
         android:title="Bookmark"

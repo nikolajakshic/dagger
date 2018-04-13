@@ -24,7 +24,7 @@
 
     </style>
 
-    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+     <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@drawable/drawable_detail_cursor</item>
     </style>
 

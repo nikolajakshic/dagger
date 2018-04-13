@@ -44,15 +44,15 @@
                 <TextView
                     android:text="@{viewModel.getPlayerName()}"
                     android:id="@+id/text_player_name"
-                    style="@style/TextAppearance.AppCompat.Body2"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Hilly Berrington" />
 
                 <TextView
+                    android:textSize="12sp"
                     android:text="@{viewModel.getPlayerID()}"
                     android:id="@+id/text_playe_id"
-                    style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="14880000" />

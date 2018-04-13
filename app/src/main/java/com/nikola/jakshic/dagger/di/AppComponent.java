@@ -6,8 +6,10 @@ import com.nikola.jakshic.dagger.view.activity.SearchActivity;
 import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
 import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.HeroFragment;
+import com.nikola.jakshic.dagger.view.fragment.LeaderboardFragment;
 import com.nikola.jakshic.dagger.view.fragment.MatchFragment;
 import com.nikola.jakshic.dagger.view.fragment.PeerFragment;
+import com.nikola.jakshic.dagger.view.fragment.RegionFragment;
 
 import javax.inject.Singleton;
 
@@ -32,4 +34,6 @@ public interface AppComponent {
     void inject(PeerFragment fragment);
 
     void inject(CompetitiveFragment fragment);
+
+    void inject(RegionFragment fragment);
 }

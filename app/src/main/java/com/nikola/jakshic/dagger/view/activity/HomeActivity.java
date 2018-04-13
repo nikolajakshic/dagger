@@ -11,8 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nikola.jakshic.dagger.R;
+import com.nikola.jakshic.dagger.repository.Region;
 import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
 import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
+import com.nikola.jakshic.dagger.view.fragment.LeaderboardFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -27,14 +29,21 @@ public class HomeActivity extends AppCompatActivity {
 
         Fragment competitive;
         Fragment bookmark;
+        Fragment leaderboard;
 
         if (savedInstanceState == null) {
             competitive = new CompetitiveFragment();
             bookmark = new BookmarkFragment();
+            leaderboard = new LeaderboardFragment();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.home_fragment_container, bookmark, "bookmark-tag")
                     .hide(bookmark)
+                    .commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
+                    .hide(leaderboard)
                     .commit();
             getSupportFragmentManager()
                     .beginTransaction()
@@ -43,13 +52,14 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             competitive = getSupportFragmentManager().findFragmentByTag("competitive-tag");
             bookmark = getSupportFragmentManager().findFragmentByTag("bookmark-tag");
+            leaderboard = getSupportFragmentManager().findFragmentByTag("leaderboard-tag");
         }
         Log.d(LOG_TAG, "BTMFRAG: comp: " + competitive);
         Log.d(LOG_TAG, "BTMFRAG: book: " + bookmark);
 
         btmNavView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
-                case R.id.action_favorites:
+                case R.id.action_competitive:
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -58,14 +68,41 @@ public class HomeActivity extends AppCompatActivity {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .hide(leaderboard)
+                            .commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .hide(bookmark)
                             .commit();
                     return true;
-                case R.id.action_music:
+                case R.id.action_leaderboard:
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .hide(competitive)
+                            .commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .show(leaderboard)
+                            .commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .hide(bookmark)
+                            .commit();
+                    return true;
+                case R.id.action_bookmark:
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .hide(competitive)
+                            .commit();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .hide(leaderboard)
                             .commit();
                     getSupportFragmentManager()
                             .beginTransaction()

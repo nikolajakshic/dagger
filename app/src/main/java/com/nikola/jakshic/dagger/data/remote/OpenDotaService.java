@@ -45,4 +45,7 @@ public interface OpenDotaService {
 
     @GET("players/{account_id}/peers")
     Call<List<Peer>> getPeers(@Path("account_id") long playerId);
+
+    @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
+    Observable<_Leaderboard> getLeaderboard(@Query("division") String region);
 }

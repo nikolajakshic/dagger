@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.nikola.jakshic.dagger.viewModel.RegionViewModel;
 import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
 import com.nikola.jakshic.dagger.viewModel.BookmarkViewModel;
 import com.nikola.jakshic.dagger.viewModel.CompetitiveViewModel;
@@ -59,6 +60,11 @@ public interface ViewModelModule {
     @IntoMap
     @ViewModelKey(CompetitiveViewModel.class)
     ViewModel bindCompetitiveViewModel(CompetitiveViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(RegionViewModel.class)
+    ViewModel bindRegionViewModel(RegionViewModel viewModel);
 
     @Binds
     ViewModelProvider.Factory bindViewModelFactory(TrueSightViewModelFactory factory);
