@@ -52,5 +52,9 @@ public class BookmarkFragment extends Fragment {
 
         return root;
     }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden()) getActivity().setTitle("Bookmark");
+    }
 }

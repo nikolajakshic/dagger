@@ -82,4 +82,10 @@ public class CompetitiveFragment extends Fragment {
         });
         return root;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isHidden()) getActivity().setTitle("Competitive");
+    }
 }

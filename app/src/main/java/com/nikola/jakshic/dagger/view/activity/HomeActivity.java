@@ -75,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .hide(bookmark)
                             .commit();
+                    setTitle("Competitive");
                     return true;
                 case R.id.action_leaderboard:
                     getSupportFragmentManager()
@@ -92,6 +93,7 @@ public class HomeActivity extends AppCompatActivity {
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .hide(bookmark)
                             .commit();
+                    setTitle("Leaderboard");
                     return true;
                 case R.id.action_bookmark:
                     getSupportFragmentManager()
@@ -109,6 +111,7 @@ public class HomeActivity extends AppCompatActivity {
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .show(bookmark)
                             .commit();
+                    setTitle("Bookmark");
                     return true;
             }
             return false;

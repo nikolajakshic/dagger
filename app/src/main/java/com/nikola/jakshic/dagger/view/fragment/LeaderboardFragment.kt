@@ -25,4 +25,9 @@ class LeaderboardFragment : Fragment() {
         pagerLeaderboard.offscreenPageLimit = 3
         tabLeaderboard.setupWithViewPager(pagerLeaderboard)
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (!isHidden) activity?.title = "Leaderboard"
+    }
 }
