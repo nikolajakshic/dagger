@@ -34,8 +34,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     //Networking
@@ -46,6 +46,7 @@ dependencies {
     //RxJava 2
     implementation 'io.reactivex.rxjava2:rxjava:2.1.12'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
     //ImageLoading
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.android.support:support-v4:27.1.1'

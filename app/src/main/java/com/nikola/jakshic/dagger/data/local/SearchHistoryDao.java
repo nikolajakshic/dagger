@@ -20,4 +20,7 @@ public interface SearchHistoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertQuery(SearchHistory query);
+
+    @Query("DELETE FROM searchhistory")
+    void deleteHistory();
 }

@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.di;
 import com.nikola.jakshic.dagger.view.activity.MatchActivity;
 import com.nikola.jakshic.dagger.view.activity.PlayerActivity;
 import com.nikola.jakshic.dagger.view.activity.SearchActivity;
+import com.nikola.jakshic.dagger.view.activity.SettingsActivity;
 import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
 import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.HeroFragment;
@@ -36,4 +37,6 @@ public interface AppComponent {
     void inject(CompetitiveFragment fragment);
 
     void inject(RegionFragment fragment);
+
+    void inject(SettingsActivity activity);
 }

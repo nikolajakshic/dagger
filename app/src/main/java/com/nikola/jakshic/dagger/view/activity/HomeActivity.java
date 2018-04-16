@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nikola.jakshic.dagger.R;
-import com.nikola.jakshic.dagger.repository.Region;
 import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
 import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.LeaderboardFragment;
@@ -132,6 +131,9 @@ public class HomeActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_home_search:
                 startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            case R.id.menu_home_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
