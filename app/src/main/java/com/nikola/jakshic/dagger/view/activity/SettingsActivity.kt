@@ -37,7 +37,7 @@ class SettingsActivity : AppCompatActivity() {
                             searchHistoryDao.deleteHistory()
                             runOnUiThread { toast("Search history cleared") }
                         },
-                        { error -> Log.d("SettingsActivity", "onError : ${error.message}") })
+                        { error ->  })
 
         compositeDisposable.add(disposable)
     }

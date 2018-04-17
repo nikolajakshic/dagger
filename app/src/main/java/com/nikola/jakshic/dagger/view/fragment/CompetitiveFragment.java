@@ -15,13 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.CompetitiveDiffCallback;
-import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.view.adapter.CompetitiveAdapter;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.viewModel.CompetitiveViewModel;
-import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory;
+import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 
@@ -31,7 +30,7 @@ import javax.inject.Inject;
 public class CompetitiveFragment extends Fragment {
 
     @Inject
-    TrueSightViewModelFactory factory;
+    DaggerViewModelFactory factory;
 
     public CompetitiveFragment() {
         // Required empty public constructor

@@ -29,7 +29,6 @@ public class SearchActivity extends AppCompatActivity implements SearchHistoryAd
 
     private static final String STATE_QUERY = "query-state";
     private static final String STATE_FOCUS = "searchview-focus";
-    private static final String LOG_TAG = SearchActivity.class.getSimpleName();
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;

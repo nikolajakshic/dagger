@@ -17,8 +17,6 @@ import retrofit2.Response;
 
 public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
 
-    private static final String LOG_TAG = MatchBoundaryCallback.class.getSimpleName();
-
     private OpenDotaService service;
     private MatchDao matchDao;
     private AppExecutors executor;
@@ -39,7 +37,6 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
 
     @Override
     public void onZeroItemsLoaded() {
-        Log.d(LOG_TAG, "onZeroItemsLoaded: start");
 
         status.setValue(Status.LOADING);
         service.getMatches(accountId, 80, 0).enqueue(new Callback<List<Match>>() {
@@ -51,7 +48,6 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
                             match.setAccountId(accountId);
 
                         matchDao.insertMatches(response.body());
-                        Log.d(LOG_TAG, "onZeroItemsLoaded: end");
                         status.postValue(Status.SUCCESS);
                     });
                 else
@@ -71,12 +67,9 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
      */
     @Override
     public void onItemAtEndLoaded(@NonNull Match itemAtEnd) {
-        Log.d(LOG_TAG, "onItemAtEndLoaded");
 
         executor.diskIO().execute(() -> {
             long offset = matchDao.getMatchCount(accountId);
-
-            Log.d(LOG_TAG, "onItemAtEndLoaded offset: " + offset);
 
             status.postValue(Status.LOADING);
             service.getMatches(accountId, 40, offset).enqueue(new Callback<List<Match>>() {

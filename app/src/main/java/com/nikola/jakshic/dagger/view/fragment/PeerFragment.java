@@ -20,7 +20,7 @@ import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.PeerSortDialog;
 import com.nikola.jakshic.dagger.view.adapter.PeerAdapter;
 import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
-import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory;
+import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 
@@ -29,10 +29,8 @@ import javax.inject.Inject;
  */
 public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListener {
 
-    private static final String LOG_TAG = PeerFragment.class.getSimpleName();
-
     @Inject
-    TrueSightViewModelFactory factory;
+    DaggerViewModelFactory factory;
     private PeerAdapter mAdapter;
     private PeerViewModel viewModel;
     private long accountId;

@@ -11,12 +11,12 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 @Singleton
-public class TrueSightViewModelFactory implements ViewModelProvider.Factory {
+public class DaggerViewModelFactory implements ViewModelProvider.Factory {
 
     private Map<Class<? extends ViewModel>, Provider<ViewModel>> creators;
 
     @Inject
-    public TrueSightViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
+    public DaggerViewModelFactory(Map<Class<? extends ViewModel>, Provider<ViewModel>> creators) {
         this.creators = creators;
     }
 

@@ -30,7 +30,6 @@ import javax.inject.Inject;
  */
 public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener {
 
-    private static final String LOG_TAG = MatchFragment.class.getSimpleName();
     private SwipeRefreshLayout mRefresh;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -66,7 +65,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(accountId);
         viewModel.getMatches().observe(this, list -> {
-            Log.d(LOG_TAG, "onChanged");
+
             mAdapter.submitList(list);
         });
         viewModel.getStatus().observe(this, status -> {

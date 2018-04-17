@@ -13,8 +13,6 @@ import javax.inject.Inject;
 
 public class HeroViewModel extends ViewModel {
 
-    private static final String LOG_TAG = HeroViewModel.class.getSimpleName();
-
     private LiveData<PagedList<Hero>> list;
     private HeroRepository repository;
     private MutableLiveData<Status> status;

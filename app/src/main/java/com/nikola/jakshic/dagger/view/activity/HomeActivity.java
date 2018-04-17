@@ -17,8 +17,6 @@ import com.nikola.jakshic.dagger.view.fragment.LeaderboardFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static final String LOG_TAG = HomeActivity.class.getSimpleName();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +51,6 @@ public class HomeActivity extends AppCompatActivity {
             bookmark = getSupportFragmentManager().findFragmentByTag("bookmark-tag");
             leaderboard = getSupportFragmentManager().findFragmentByTag("leaderboard-tag");
         }
-        Log.d(LOG_TAG, "BTMFRAG: comp: " + competitive);
-        Log.d(LOG_TAG, "BTMFRAG: book: " + bookmark);
 
         btmNavView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

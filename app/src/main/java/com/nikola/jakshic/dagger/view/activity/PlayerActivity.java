@@ -46,7 +46,6 @@ public class PlayerActivity extends AppCompatActivity {
     OpenDotaService service;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    private static final String LOG_TAG = PlayerActivity.class.getSimpleName();
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 

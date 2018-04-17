@@ -30,8 +30,6 @@ import retrofit2.Response;
 @Singleton
 public class MatchRepository {
 
-    private static final String LOG_TAG = MatchRepository.class.getSimpleName();
-
     private OpenDotaService service;
     private CompetitiveDao competitiveDao;
     private DotaDatabase db;

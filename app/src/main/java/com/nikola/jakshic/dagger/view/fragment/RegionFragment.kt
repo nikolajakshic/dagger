@@ -18,14 +18,14 @@ import com.nikola.jakshic.dagger.repository.Region
 import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.view.adapter.LeaderboardAdapter
 import com.nikola.jakshic.dagger.viewModel.RegionViewModel
-import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory
+import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
 class RegionFragment : Fragment() {
 
     @Inject
-    lateinit var factory: TrueSightViewModelFactory
+    lateinit var factory: DaggerViewModelFactory
 
     companion object {
         @JvmStatic

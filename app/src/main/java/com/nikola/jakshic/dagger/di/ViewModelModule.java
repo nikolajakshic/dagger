@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.viewModel.HeroViewModel;
 import com.nikola.jakshic.dagger.viewModel.MatchDetailViewModel;
 import com.nikola.jakshic.dagger.viewModel.MatchViewModel;
 import com.nikola.jakshic.dagger.viewModel.SearchViewModel;
-import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory;
+import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import dagger.Binds;
 import dagger.Module;
@@ -67,5 +67,5 @@ public interface ViewModelModule {
     ViewModel bindRegionViewModel(RegionViewModel viewModel);
 
     @Binds
-    ViewModelProvider.Factory bindViewModelFactory(TrueSightViewModelFactory factory);
+    ViewModelProvider.Factory bindViewModelFactory(DaggerViewModelFactory factory);
 }

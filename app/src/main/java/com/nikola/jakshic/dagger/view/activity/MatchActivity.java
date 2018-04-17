@@ -13,14 +13,14 @@ import com.nikola.jakshic.dagger.DaggerApp;
 import com.nikola.jakshic.dagger.MatchDetailAdapter;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.viewModel.MatchDetailViewModel;
-import com.nikola.jakshic.dagger.viewModel.TrueSightViewModelFactory;
+import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 
 public class MatchActivity extends AppCompatActivity {
 
     @Inject
-    TrueSightViewModelFactory factory;
+    DaggerViewModelFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
