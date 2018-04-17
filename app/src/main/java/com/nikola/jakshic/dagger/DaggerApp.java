@@ -19,7 +19,9 @@ public class DaggerApp extends Application {
         appComponent = DaggerAppComponent.builder()
                 .networkModule(new NetworkModule(this))
                 .build();
-        Fabric.with(this, new Crashlytics());
+
+        if (!BuildConfig.DEBUG)
+            Fabric.with(this, new Crashlytics());
     }
 
     public AppComponent getAppComponent() {
