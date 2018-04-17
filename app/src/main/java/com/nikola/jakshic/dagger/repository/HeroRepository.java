@@ -6,6 +6,7 @@ import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 
+import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.HeroDao;
@@ -84,6 +85,7 @@ public class HeroRepository {
             @Override
             public void onFailure(Call<List<Hero>> call, Throwable t) {
                 status.setValue(Status.ERROR);
+                Crashlytics.logException(t);
             }
         });
     }

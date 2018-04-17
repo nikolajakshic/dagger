@@ -5,6 +5,7 @@ import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
+import com.crashlytics.android.Crashlytics
 import com.jakewharton.rxbinding2.view.RxView
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
@@ -37,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
                             searchHistoryDao.deleteHistory()
                             runOnUiThread { toast("Search history cleared") }
                         },
-                        { error ->  })
+                        { error ->  Crashlytics.logException(error)})
 
         compositeDisposable.add(disposable)
     }

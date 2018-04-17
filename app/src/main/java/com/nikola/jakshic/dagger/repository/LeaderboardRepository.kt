@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.MutableLiveData
+import com.crashlytics.android.Crashlytics
 import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.data.local.LeaderboardDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
@@ -30,8 +31,9 @@ class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
                     dao.deleteLeaderboards(region)
                     dao.insertLeaderboard(list)
                     status.postValue(Status.SUCCESS)
-                }, { _ ->
+                }, { error ->
                     status.postValue(Status.ERROR)
+                    Crashlytics.logException(error)
                 })
     }
 }

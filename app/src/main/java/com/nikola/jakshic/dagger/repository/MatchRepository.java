@@ -7,6 +7,7 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.MatchBoundaryCallback;
 import com.nikola.jakshic.dagger.Status;
@@ -105,6 +106,7 @@ public class MatchRepository {
                 @Override
                 public void onFailure(Call<List<Match>> call, Throwable t) {
                     status.setValue(Status.ERROR);
+                    Crashlytics.logException(t);
                 }
             });
         });

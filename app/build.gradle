@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+apply plugin: 'io.fabric'
+
 apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android'
@@ -29,6 +31,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -62,6 +68,10 @@ dependencies {
     kapt 'android.arch.persistence.room:compiler:1.0.0'
     //Paging
     implementation 'android.arch.paging:runtime:1.0.0-alpha6'
+    //Crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+        transitive = true;
+    }
     //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

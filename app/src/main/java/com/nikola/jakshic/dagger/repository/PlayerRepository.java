@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.repository;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.model.Player;
 
@@ -43,6 +44,7 @@ public class PlayerRepository {
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
                 if (!call.isCanceled()) loading.setValue(false);
+                Crashlytics.logException(t);
             }
         });
     }
@@ -56,7 +58,7 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-
+                Crashlytics.logException(t);
             }
         });
     }

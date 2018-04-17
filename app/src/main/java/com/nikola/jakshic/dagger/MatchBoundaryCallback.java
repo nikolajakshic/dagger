@@ -5,6 +5,7 @@ import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.data.local.MatchDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.model.match.Match;
@@ -57,6 +58,7 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
             @Override
             public void onFailure(Call<List<Match>> call, Throwable t) {
                 status.setValue(Status.ERROR);
+                Crashlytics.logException(t);
             }
         });
     }
@@ -90,6 +92,7 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
                 @Override
                 public void onFailure(Call<List<Match>> call, Throwable t) {
                     status.setValue(Status.ERROR);
+                    Crashlytics.logException(t);
                 }
             });
         });

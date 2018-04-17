@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
@@ -79,6 +80,7 @@ public class PlayerActivity extends AppCompatActivity {
                             }
                         },
                         error -> {
+                            Crashlytics.logException(error);
                         }
                 );
 
