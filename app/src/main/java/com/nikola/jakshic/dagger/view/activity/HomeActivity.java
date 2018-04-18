@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -32,19 +31,13 @@ public class HomeActivity extends AppCompatActivity {
             competitive = new CompetitiveFragment();
             bookmark = new BookmarkFragment();
             leaderboard = new LeaderboardFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.home_fragment_container, competitive, "competitive-tag")
+                    .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
                     .add(R.id.home_fragment_container, bookmark, "bookmark-tag")
                     .hide(bookmark)
-                    .commit();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
                     .hide(leaderboard)
-                    .commit();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.home_fragment_container, competitive, "competitive-tag")
                     .commit();
         } else {
             competitive = getSupportFragmentManager().findFragmentByTag("competitive-tag");
@@ -55,64 +48,26 @@ public class HomeActivity extends AppCompatActivity {
         btmNavView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_competitive:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .show(competitive)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(leaderboard)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(bookmark)
-                            .commit();
+                    showFragment(competitive, true);
+                    showFragment(leaderboard, false);
+                    showFragment(bookmark, false);
                     setTitle("Competitive");
                     return true;
                 case R.id.action_leaderboard:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(competitive)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .show(leaderboard)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(bookmark)
-                            .commit();
+                    showFragment(competitive, false);
+                    showFragment(leaderboard, true);
+                    showFragment(bookmark, false);
                     setTitle("Leaderboard");
                     return true;
                 case R.id.action_bookmark:
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(competitive)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .hide(leaderboard)
-                            .commit();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .show(bookmark)
-                            .commit();
+                    showFragment(competitive, false);
+                    showFragment(leaderboard, false);
+                    showFragment(bookmark, true);
                     setTitle("Bookmark");
                     return true;
             }
             return false;
         });
-
-
     }
 
     @Override
@@ -136,5 +91,14 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
+    private void showFragment(Fragment fragment, boolean show) {
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        if (show)
+            transaction.show(fragment);
+        else
+            transaction.hide(fragment);
+        transaction.commit();
+    }
 }
