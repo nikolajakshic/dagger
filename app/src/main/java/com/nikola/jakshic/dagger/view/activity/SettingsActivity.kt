@@ -38,7 +38,7 @@ class SettingsActivity : AppCompatActivity() {
                             searchHistoryDao.deleteHistory()
                             runOnUiThread { toast("Search history cleared") }
                         },
-                        { error ->  Crashlytics.logException(error)})
+                        { error -> })
 
         compositeDisposable.add(disposable)
     }

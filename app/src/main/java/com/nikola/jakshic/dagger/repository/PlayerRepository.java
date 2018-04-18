@@ -44,7 +44,6 @@ public class PlayerRepository {
             @Override
             public void onFailure(Call<List<Player>> call, Throwable t) {
                 if (!call.isCanceled()) loading.setValue(false);
-                Crashlytics.logException(t);
             }
         });
     }
@@ -58,7 +57,6 @@ public class PlayerRepository {
 
             @Override
             public void onFailure(Call<Player> call, Throwable t) {
-                Crashlytics.logException(t);
             }
         });
     }

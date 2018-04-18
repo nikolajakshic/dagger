@@ -86,7 +86,6 @@ public class PeerRepository {
             @Override
             public void onFailure(Call<List<Peer>> call, Throwable t) {
                 status.setValue(Status.ERROR);
-                Crashlytics.logException(t);
             }
         });
     }

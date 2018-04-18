@@ -33,7 +33,6 @@ class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
                     status.postValue(Status.SUCCESS)
                 }, { error ->
                     status.postValue(Status.ERROR)
-                    Crashlytics.logException(error)
                 })
     }
 }

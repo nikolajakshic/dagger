@@ -85,7 +85,6 @@ public class HeroRepository {
             @Override
             public void onFailure(Call<List<Hero>> call, Throwable t) {
                 status.setValue(Status.ERROR);
-                Crashlytics.logException(t);
             }
         });
     }

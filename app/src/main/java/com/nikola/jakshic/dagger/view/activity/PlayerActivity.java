@@ -80,7 +80,6 @@ public class PlayerActivity extends AppCompatActivity {
                             }
                         },
                         error -> {
-                            Crashlytics.logException(error);
                         }
                 );
 

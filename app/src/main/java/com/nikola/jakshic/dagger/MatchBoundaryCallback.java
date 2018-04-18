@@ -58,7 +58,6 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
             @Override
             public void onFailure(Call<List<Match>> call, Throwable t) {
                 status.setValue(Status.ERROR);
-                Crashlytics.logException(t);
             }
         });
     }
@@ -92,7 +91,6 @@ public class MatchBoundaryCallback extends PagedList.BoundaryCallback<Match> {
                 @Override
                 public void onFailure(Call<List<Match>> call, Throwable t) {
                     status.setValue(Status.ERROR);
-                    Crashlytics.logException(t);
                 }
             });
         });

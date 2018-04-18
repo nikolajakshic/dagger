@@ -106,7 +106,6 @@ public class MatchRepository {
                 @Override
                 public void onFailure(Call<List<Match>> call, Throwable t) {
                     status.setValue(Status.ERROR);
-                    Crashlytics.logException(t);
                 }
             });
         });
