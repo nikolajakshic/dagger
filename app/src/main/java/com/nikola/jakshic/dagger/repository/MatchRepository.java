@@ -49,7 +49,7 @@ public class MatchRepository {
         this.executor = executor;
         this.competitiveDao = competitiveDao;
         this.matchDao = matchDao;
-        // TODO THIS SHOULD BE PROVIDED BY DAGGER
+        // TODO should be provided by dagger
         config = new PagedList.Config.Builder()
                 .setPrefetchDistance(15)
                 .setInitialLoadSizeHint(80)
@@ -127,6 +127,7 @@ public class MatchRepository {
         });
     }
 
+    // Get matches from the database with paging
     public LiveData<PagedList<Competitive>> getCompetitiveMatches() {
         DataSource.Factory<Integer, Competitive> factory = competitiveDao.getMatches();
         PagedList.Config config = new PagedList.Config.Builder()

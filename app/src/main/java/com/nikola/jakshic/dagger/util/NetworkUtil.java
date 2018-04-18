@@ -10,7 +10,10 @@ public final class NetworkUtil {
     }
 
     public static boolean isActive(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) context
+                .getApplicationContext() // needed for not leaking activity's context (Detected by LeakCanary)
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnected();

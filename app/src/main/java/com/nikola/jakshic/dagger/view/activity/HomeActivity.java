@@ -14,19 +14,25 @@ import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
 import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.LeaderboardFragment;
 
+/**
+ * Navigating between fragments in BottomNavigationView
+ *
+ * Shows or hides them, depending on selected item
+ */
 public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        setTitle("Title");
+
         BottomNavigationView btmNavView = findViewById(R.id.btm_navigation_home);
 
         Fragment competitive;
         Fragment bookmark;
         Fragment leaderboard;
 
+        // Create fragments or find them if they already exist
         if (savedInstanceState == null) {
             competitive = new CompetitiveFragment();
             bookmark = new BookmarkFragment();
@@ -45,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
             leaderboard = getSupportFragmentManager().findFragmentByTag("leaderboard-tag");
         }
 
+        // Shows/hides fragments and sets the proper title
         btmNavView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_competitive:
@@ -91,6 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    // Helper method for showing/hiding fragments
     private void showFragment(Fragment fragment, boolean show) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction()

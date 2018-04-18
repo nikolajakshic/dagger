@@ -37,7 +37,7 @@ public class HeroRepository {
         this.service = service;
         this.executor = executor;
         this.heroDao = heroDao;
-        // TODO THIS SHOULD BE PROVIDED BY DAGGER
+        // TODO this should be provided by dagger
         config = new PagedList.Config.Builder()
                 .setPrefetchDistance(15)
                 .setInitialLoadSizeHint(80)
@@ -45,26 +45,40 @@ public class HeroRepository {
                 .setEnablePlaceholders(false).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Hero>> fetchByGames(long id) {
         DataSource.Factory<Integer, Hero> factory = heroDao.getHeroesByGames(id);
         return new LivePagedListBuilder<>(factory, config).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Hero>> fetchByWinrate(long id) {
         DataSource.Factory<Integer, Hero> factory = heroDao.getHeroesByWinrate(id);
         return new LivePagedListBuilder<>(factory, config).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Hero>> fetchByWins(long id) {
         DataSource.Factory<Integer, Hero> factory = heroDao.getHeroesByWins(id);
         return new LivePagedListBuilder<>(factory, config).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Hero>> fetchByLosses(long id) {
         DataSource.Factory<Integer, Hero> factory = heroDao.getHeroesByLosses(id);
         return new LivePagedListBuilder<>(factory, config).build();
     }
 
+    /**
+     * Fetches data from the network and inserts it into database
+     *
+     * @param status observed by the UI, so it can show proper progress bar
+     * @param id player id
+     */
     public void fetchHeroes(MutableLiveData<Status> status, long id) {
         status.setValue(Status.LOADING);
         service.getHeroes(id).enqueue(new Callback<List<Hero>>() {
@@ -73,6 +87,9 @@ public class HeroRepository {
                 if (response.body() != null && response.isSuccessful()) {
                     executor.diskIO().execute(() -> {
                         for (Hero item : response.body())
+
+                            // Json response doesn't contain player id
+                            // so we need to set it manually
                             item.setAccountId(id);
 
                         heroDao.insertHeroes(response.body());

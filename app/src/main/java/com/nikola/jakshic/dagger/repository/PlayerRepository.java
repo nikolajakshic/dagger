@@ -28,7 +28,8 @@ public class PlayerRepository {
 
     public void fetchPlayers(MutableLiveData<List<Player>> list, MutableLiveData<Boolean> loading, String name) {
 
-        // Cancel previous call
+        // Users can hit the search button multiple times
+        // So we need to cancel previous calls
         if (call != null)
             call.cancel();
 

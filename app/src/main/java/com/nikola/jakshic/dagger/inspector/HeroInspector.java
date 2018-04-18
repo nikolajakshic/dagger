@@ -15,6 +15,12 @@ import java.text.DecimalFormat;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
+/**
+ * Inspector objects are used in XML files for Data Binding
+ * If any changes needs to be done with Value Objects (models)
+ * e.g. date is in milliseconds and needs to be converted to String
+ * that is done in Inspector classes.
+ */
 public class HeroInspector {
 
     private Context context;
@@ -47,6 +53,11 @@ public class HeroInspector {
         return win + "/" + lose;
     }
 
+    public String getImageUrl() {
+        return DotaUtil.Image.getHeroUrl(context, (int) hero.getHeroId());
+    }
+
+    // TODO should not be in this file
     @BindingAdapter("layout_width")
     public static void setLayoutWidth(View view, float percentage) {
         int width = 85;
@@ -60,6 +71,7 @@ public class HeroInspector {
         view.setLayoutParams(params);
     }
 
+    // TODO should not be in this file
     @BindingAdapter("heroUrl")
     public static void setImageUrl(ImageView imageView, String url) {
         if (url != null) {
@@ -70,9 +82,5 @@ public class HeroInspector {
                     .transition(withCrossFade())
                     .into(imageView);
         }
-    }
-
-    public String getImageUrl() {
-        return DotaUtil.Image.getHeroUrl(context, (int) hero.getHeroId());
     }
 }

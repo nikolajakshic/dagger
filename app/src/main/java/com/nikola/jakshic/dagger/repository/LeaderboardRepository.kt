@@ -15,6 +15,9 @@ import javax.inject.Singleton
 class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
                                                 private val service: OpenDotaService) {
 
+    /**
+     * Fetches the data from the network, and takes the first 100 players
+     */
     fun fetchData(region: String?, status: MutableLiveData<Status>): Disposable {
         status.value = Status.LOADING
         return service.getLeaderboard(region)
@@ -22,14 +25,14 @@ class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
                 .flatMap { Observable.fromIterable(it.leaderboard) }
                 .take(100)
                 .map {
-                    it.region = region!!
-                    it
-                }
+                    it.region = region!! // json response doesn't contain info about region
+                    it             // we need to set it manually, so we can query the database
+                }                        // by regions
                 .toList()
                 .observeOn(Schedulers.io())
                 .subscribe({ list ->
-                    dao.deleteLeaderboards(region)
-                    dao.insertLeaderboard(list)
+                    dao.deleteLeaderboards(region)  // delete the old data
+                    dao.insertLeaderboard(list)     // insert the new one
                     status.postValue(Status.SUCCESS)
                 }, { error ->
                     status.postValue(Status.ERROR)

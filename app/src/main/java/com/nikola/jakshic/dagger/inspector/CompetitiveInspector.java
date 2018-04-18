@@ -10,6 +10,12 @@ import com.nikola.jakshic.dagger.model.Competitive;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Inspector objects are used in XML files for Data Binding
+ * If any changes needs to be done with Value Objects (models)
+ * e.g. date is in milliseconds and needs to be converted to String
+ * that is done in Inspector classes.
+ */
 public class CompetitiveInspector {
 
     private Context context;
@@ -80,6 +86,7 @@ public class CompetitiveInspector {
             return context.getResources().getQuantityString(R.plurals.minute, (int) minute, minute);
     }
 
+    // TODO should not be in this file
     @BindingAdapter("setTrophy")
     public static void setTextDrawable(TextView view, boolean radiantWin) {
         if (radiantWin)

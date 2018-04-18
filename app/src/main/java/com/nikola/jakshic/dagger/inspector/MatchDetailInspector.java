@@ -18,6 +18,12 @@ import java.util.concurrent.TimeUnit;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
+/**
+ * Inspector objects are used in XML files for Data Binding
+ * If any changes needs to be done with Value Objects (models)
+ * e.g. date is in milliseconds and needs to be converted to String
+ * that is done in Inspector classes.
+ */
 public class MatchDetailInspector {
 
     private Match match;
@@ -209,6 +215,15 @@ public class MatchDetailInspector {
         return getItemUrl(player.getBackpack2());
     }
 
+    public String getHeroUrl() {
+        return DotaUtil.Image.getHeroUrl(context, player.getHeroId());
+    }
+
+    public String getItemUrl(long itemId) {
+        return DotaUtil.Image.getItemUrl(context, itemId);
+    }
+
+    // TODO should not be in this file
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String url) {
         if (url != null) {
@@ -219,13 +234,5 @@ public class MatchDetailInspector {
                     .transition(withCrossFade())
                     .into(imageView);
         }
-    }
-
-    public String getHeroUrl() {
-        return DotaUtil.Image.getHeroUrl(context, player.getHeroId());
-    }
-
-    public String getItemUrl(long itemId) {
-        return DotaUtil.Image.getItemUrl(context, itemId);
     }
 }

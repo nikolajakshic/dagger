@@ -36,7 +36,7 @@ public class PeerRepository {
         this.service = service;
         this.executor = executor;
         this.peerDao = peerDao;
-        // TODO THIS SHOULD BE PROVIDED BY DAGGER
+        // TODO should be provided by dagger
         config = new PagedList.Config.Builder()
                 .setPrefetchDistance(15)
                 .setInitialLoadSizeHint(80)
@@ -44,11 +44,15 @@ public class PeerRepository {
                 .setEnablePlaceholders(false).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Peer>> fetchByGames(long id) {
         DataSource.Factory<Integer, Peer> factory = peerDao.getByGames(id);
         return new LivePagedListBuilder<>(factory, config).build();
     }
 
+    // PagedList is not mutable, so we can not sort the items, but
+    // instead we need to request new sorted data from the database
     public LiveData<PagedList<Peer>> fetchByWinrate(long id) {
         DataSource.Factory<Integer, Peer> factory = peerDao.getByWinrate(id);
         return new LivePagedListBuilder<>(factory, config).build();

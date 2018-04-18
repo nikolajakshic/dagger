@@ -36,8 +36,6 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-//TODO REFAKTORIZUJ FRAGMENTE I REPOSITORIJUME MNOGO JE KODA ZAJEDNICKOG
-
 public class PlayerActivity extends AppCompatActivity {
 
     private Player mPlayer;
@@ -67,6 +65,8 @@ public class PlayerActivity extends AppCompatActivity {
         mBinding.toolbarPlayer.setViewModel(playerInspector);
         mBinding.setViewModel(playerInspector);
 
+        // TODO only temporary, player avatar should not be downloaded directly
+        // should be inserted into database instead
         Disposable disposable = service.getPlayerProfile(mPlayer.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -92,6 +92,8 @@ public class PlayerActivity extends AppCompatActivity {
 
         });
 
+        // check whether this player is in bookmark and change the appearance
+        // of the button
         viewModel.getPlayer().observe(this, players -> {
 
             mButtonFollow.setTextColor(
@@ -116,6 +118,8 @@ public class PlayerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // TODO Dialog holds static reference
+        // MEDIUM PRIORITY
         mButtonFollow.setOnClickListener(v -> {
             if (viewModel.isFollowed()) {
                 FollowDialog.newInstance(viewModel.new OnClickListener(mPlayer.getId())).show(getSupportFragmentManager(), "follow-dialog");
@@ -147,6 +151,8 @@ public class PlayerActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                // TODO use navigate to up activity
+                // LOW priority
                 onBackPressed();
                 return true;
             default:

@@ -47,6 +47,11 @@ public class MatchActivity extends AppCompatActivity {
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         viewPool.setMaxRecycledViews(0, 10);
 
+        // TODO this is the temporary solution for low performing layout
+        // R.layout.item_match_detail_collapse
+        // R.layout.item_match_detail_expand
+        // Create viewHolders in advance to avoid frame skipping on scroll
+        // TODO HIGH PRIORITY
         for (int i = 0; i < 10; i++)
             viewPool.putRecycledView(adapter.createViewHolder(recyclerView, 0));
 

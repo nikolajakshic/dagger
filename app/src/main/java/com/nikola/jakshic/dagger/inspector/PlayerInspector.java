@@ -21,6 +21,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
+/**
+ * Inspector objects are used in XML files for Data Binding
+ * If any changes needs to be done with Value Objects (models)
+ * e.g. date is in milliseconds and needs to be converted to String
+ * that is done in Inspector classes.
+ */
 public class PlayerInspector extends BaseObservable {
 
     private Context context;
@@ -78,6 +84,7 @@ public class PlayerInspector extends BaseObservable {
         notifyPropertyChanged(BR._all);
     }
 
+    // TODO should not be in this file
     @BindingAdapter("avatarUrl")
     public static void setImageUrl(ImageView imageView, String url) {
         if (url != null) {
@@ -90,6 +97,7 @@ public class PlayerInspector extends BaseObservable {
         }
     }
 
+    // TODO should not be in this file
     @BindingAdapter("circleAvatarUrl")
     public static void setImageUrl(CircleImageView imageView, String url) {
         if (url != null) {
@@ -99,6 +107,7 @@ public class PlayerInspector extends BaseObservable {
         }
     }
 
+    // TODO should not be in this file
     public void onClick(View v) {
         Intent intent = new Intent(context, PlayerActivity.class);
         intent.putExtra("player-personaname", player.getPersonaName());

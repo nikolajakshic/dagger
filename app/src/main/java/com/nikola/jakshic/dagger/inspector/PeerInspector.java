@@ -12,6 +12,12 @@ import java.text.DecimalFormat;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
+/**
+ * Inspector objects are used in XML files for Data Binding
+ * If any changes needs to be done with Value Objects (models)
+ * e.g. date is in milliseconds and needs to be converted to String
+ * that is done in Inspector classes.
+ */
 public class PeerInspector {
 
     private Context context;
@@ -46,6 +52,7 @@ public class PeerInspector {
         return peer.getAvatarfull();
     }
 
+    // TODO should not be in this file
     @BindingAdapter("avatarUrl")
     public static void setImageUrl(ImageView imageView, String url) {
         if (url != null) {
