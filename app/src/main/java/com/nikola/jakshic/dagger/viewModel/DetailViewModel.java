@@ -57,6 +57,7 @@ public class DetailViewModel extends ViewModel {
         return list.getValue() != null;
     }
 
+    // temporary solution
     public class OnClickListener implements AlertDialog.OnClickListener {
 
         private long id;

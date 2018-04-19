@@ -8,7 +8,7 @@ import android.support.v7.app.AlertDialog;
 
 public class FollowDialog extends DialogFragment {
 
-    private static AlertDialog.OnClickListener mListener;
+    private static AlertDialog.OnClickListener mListener; // temporary solution
 
     public FollowDialog() {
     }

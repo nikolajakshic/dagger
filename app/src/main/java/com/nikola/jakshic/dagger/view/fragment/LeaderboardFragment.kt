@@ -28,6 +28,8 @@ class LeaderboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // This fragment is an item from BottomNavigationView
+        // Set the proper title when this fragment is not hidden
         if (!isHidden) activity?.title = "Leaderboard"
     }
 }

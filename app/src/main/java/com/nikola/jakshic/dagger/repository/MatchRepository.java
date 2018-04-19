@@ -5,11 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.AppExecutors;
-import com.nikola.jakshic.dagger.MatchBoundaryCallback;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.local.DotaDatabase;
@@ -19,7 +16,6 @@ import com.nikola.jakshic.dagger.model.Competitive;
 import com.nikola.jakshic.dagger.model.match.Match;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

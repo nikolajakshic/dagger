@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nikola.jakshic.dagger.CompetitiveDiffCallback;
+import com.nikola.jakshic.dagger.diffcallback.CompetitiveDiffCallback;
 import com.nikola.jakshic.dagger.view.adapter.CompetitiveAdapter;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
@@ -24,9 +24,6 @@ import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CompetitiveFragment extends Fragment {
 
     @Inject
@@ -45,7 +42,7 @@ public class CompetitiveFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View root = inflater.inflate(R.layout.fragment_competitive, container, false);
 
         CompetitiveViewModel viewModel = ViewModelProviders.of(this, factory).get(CompetitiveViewModel.class);
@@ -85,6 +82,8 @@ public class CompetitiveFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        // This fragment is an item from BottomNavigationView
+        // Set the proper title when this fragment is not hidden
         if (!isHidden()) getActivity().setTitle("Competitive");
     }
 }

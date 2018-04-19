@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.PeerDiffCallback;
+import com.nikola.jakshic.dagger.diffcallback.PeerDiffCallback;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.PeerSortDialog;

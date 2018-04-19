@@ -28,7 +28,7 @@ class RegionFragment : Fragment() {
     lateinit var factory: DaggerViewModelFactory
 
     companion object {
-        @JvmStatic
+        @JvmStatic // necessary because we are calling this method from java
         fun newInstance(region: Region): RegionFragment {
             val fragment = RegionFragment()
             val args = Bundle()

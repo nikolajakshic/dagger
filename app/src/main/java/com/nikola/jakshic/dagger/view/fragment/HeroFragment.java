@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.HeroDiffCallback;
+import com.nikola.jakshic.dagger.diffcallback.HeroDiffCallback;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.HeroSortDialog;
@@ -44,8 +44,6 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
         ((DaggerApp) getActivity().getApplication()).getAppComponent().inject(this);
         super.onAttach(context);
     }
-
-    //TODO REORGANIZUJ DA SE NE POZIVA SVE U ONCREATE, VIEWMODEL TREBA DA SE NALAZI U ACTIVITYATTACHED
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -38,6 +38,7 @@ public class CompetitiveAdapter extends PagedListAdapter<Competitive, Competitiv
     public void onBindViewHolder(@NonNull CompetitiveViewHolder holder, int position) {
         Competitive item = getItem(position);
         holder.binding.setInspector(new CompetitiveInspector(context, item));
+        // TODO move into viewHolder
         holder.binding.getRoot().setOnClickListener(v -> {
             Intent intent = new Intent(context, MatchActivity.class);
             intent.putExtra("match-id", item.getMatchId());

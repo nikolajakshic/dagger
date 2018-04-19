@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger;
+package com.nikola.jakshic.dagger.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.dagger.inspector.MatchDetailInspector;
 import com.nikola.jakshic.dagger.model.Player;
@@ -31,6 +32,7 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         return new MatchDetailViewHolder(binding);
     }
 
+    // TODO refactor
     @Override
     public void onBindViewHolder(MatchDetailViewHolder holder, int position) {
         Player player = match.getPlayers().get(position);

@@ -37,6 +37,7 @@ public class PeerAdapter extends PagedListAdapter<Peer, PeerAdapter.PeerViewHold
     public void onBindViewHolder(@NonNull PeerViewHolder holder, int position) {
         Peer item = getItem(position);
         holder.binding.setInspector(new PeerInspector(context, item));
+        // TODO move into viewHolder
         holder.binding.getRoot().setOnClickListener(v -> {
             Intent intent = new Intent(context, PlayerActivity.class);
             intent.putExtra("player-personaname", item.getPersonaname());

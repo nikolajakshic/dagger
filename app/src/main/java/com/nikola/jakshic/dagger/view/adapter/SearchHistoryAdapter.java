@@ -19,6 +19,7 @@ public class SearchHistoryAdapter extends DataAdapter<SearchHistory, ItemSearchH
     @Override
     public void bindViewHolder(Context context, DataBindHolder<ItemSearchHistoryBinding> holder, SearchHistory item) {
         holder.binding.setViewModel(item);
+        // TODO move into viewHolder
         holder.binding.getRoot().setOnClickListener(v -> mListener.onClick(item.getQuery()));
     }
 

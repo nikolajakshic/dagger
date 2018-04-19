@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger;
+package com.nikola.jakshic.dagger.diffcallback;
 
 import android.support.v7.util.DiffUtil;
 

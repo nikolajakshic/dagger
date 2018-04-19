@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.MatchDetailAdapter;
+import com.nikola.jakshic.dagger.view.adapter.MatchDetailAdapter;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.viewModel.MatchDetailViewModel;
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;

@@ -76,6 +76,7 @@ public class SearchActivity extends AppCompatActivity implements SearchHistoryAd
         recViewSearchHistory.setHasFixedSize(true);
 
         recViewPlayers.setOnTouchListener((v, event) -> {
+            // User is interacting with the list, clear focus from the searchView
             mSearchView.clearFocus();
             return false;
         });
@@ -97,6 +98,7 @@ public class SearchActivity extends AppCompatActivity implements SearchHistoryAd
         MenuItem searchItem = menu.findItem(R.id.menu_search_search);
         searchItem.expandActionView();
         mSearchView = (SearchView) searchItem.getActionView();
+        // Fix for landscape mode, editText is not set to match_parent
         mSearchView.setMaxWidth(Integer.MAX_VALUE);
         mSearchView.setQuery(mQuery, false);
         mSearchView.setQueryHint("Search Players");
@@ -142,6 +144,7 @@ public class SearchActivity extends AppCompatActivity implements SearchHistoryAd
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // As user is typing, show suggestions from the database
                 viewModel.getQueries(newText);
                 return true;
             }

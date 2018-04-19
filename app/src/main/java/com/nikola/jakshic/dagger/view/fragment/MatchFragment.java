@@ -9,14 +9,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.MatchDiffCallback;
+import com.nikola.jakshic.dagger.diffcallback.MatchDiffCallback;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.activity.MatchActivity;
@@ -25,9 +24,6 @@ import com.nikola.jakshic.dagger.viewModel.MatchViewModel;
 
 import javax.inject.Inject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClickListener {
 
     private SwipeRefreshLayout mRefresh;
@@ -44,7 +40,6 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         super.onAttach(context);
     }
 
-    //TODO REORGANIZUJ DA SE NE POZIVA SVE U ONCREATE, VIEWMODEL TREBA DA SE NALAZI U ACTIVITYATTACHED
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +49,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
 
         mRefresh = root.findViewById(R.id.swiperefresh_match);
         MatchAdapter mAdapter = new MatchAdapter(getActivity(), this, new MatchDiffCallback());
-        //TODO PREKO INTENTA POSALJI SAMO ID A NE CEO PLAEYR OBJECT
+
         long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -62,7 +57,6 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         recyclerView.setAdapter(mAdapter);
         recyclerView.setHasFixedSize(true);
 
-        //TODO METODA SE POZIVA SVAKI PUT KADA SE VRSI ROTIRANJE UREDJAJA, PREBACITI U DRUGI LIFECYCLE
         viewModel.initialFetch(accountId);
         viewModel.getMatches().observe(this, list -> {
 
