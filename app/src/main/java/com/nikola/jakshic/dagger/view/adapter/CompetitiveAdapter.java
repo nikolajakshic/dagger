@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.view.adapter;
 
-
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.content.Intent;

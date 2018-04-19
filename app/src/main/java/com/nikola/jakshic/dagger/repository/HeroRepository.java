@@ -6,16 +6,13 @@ import android.arch.paging.DataSource;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 
-import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.HeroDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.model.Hero;
-import com.nikola.jakshic.dagger.model.Peer;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

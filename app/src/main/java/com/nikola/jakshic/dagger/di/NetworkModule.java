@@ -1,16 +1,9 @@
 package com.nikola.jakshic.dagger.di;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
-import com.nikola.jakshic.dagger.data.local.DotaDatabase;
-import com.nikola.jakshic.dagger.data.local.HeroDao;
-import com.nikola.jakshic.dagger.data.local.PeerDao;
-import com.nikola.jakshic.dagger.data.local.PlayerDao;
-import com.nikola.jakshic.dagger.data.local.SearchHistoryDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 
 import java.util.concurrent.TimeUnit;

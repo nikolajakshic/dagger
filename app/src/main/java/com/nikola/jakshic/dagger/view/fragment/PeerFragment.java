@@ -24,9 +24,6 @@ import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListener {
 
     @Inject

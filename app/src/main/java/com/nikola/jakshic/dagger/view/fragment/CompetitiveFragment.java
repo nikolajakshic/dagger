@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.view.fragment;
 
-
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;

@@ -3,9 +3,7 @@ package com.nikola.jakshic.dagger.repository;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.Status;
 import com.nikola.jakshic.dagger.data.local.MatchDao;

@@ -3,7 +3,6 @@ package com.nikola.jakshic.dagger.view.activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
+import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.model.SearchHistory;
 import com.nikola.jakshic.dagger.util.NetworkUtil;
 import com.nikola.jakshic.dagger.view.adapter.PlayerAdapter;

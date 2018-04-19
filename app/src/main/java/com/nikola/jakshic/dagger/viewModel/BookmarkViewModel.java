@@ -3,7 +3,6 @@ package com.nikola.jakshic.dagger.viewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.nikola.jakshic.dagger.AppExecutors;
 import com.nikola.jakshic.dagger.data.local.PlayerDao;
 import com.nikola.jakshic.dagger.model.Player;
 

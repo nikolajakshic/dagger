@@ -17,9 +17,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.crashlytics.android.Crashlytics;
-import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.DaggerApp;
+import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.databinding.ActivityDetailBinding;
 import com.nikola.jakshic.dagger.inspector.PlayerInspector;
@@ -30,7 +29,6 @@ import com.nikola.jakshic.dagger.viewModel.DetailViewModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
