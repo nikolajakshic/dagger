@@ -7,7 +7,7 @@
     tools:context="com.nikola.jakshic.dagger.view.activity.HomeActivity">
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/btm_navigation_home"
+        android:id="@+id/btmNavigation"
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,5 +18,5 @@
         android:id="@+id/home_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btm_navigation_home" />
+        android:layout_above="@id/btmNavigation" />
 </RelativeLayout>
