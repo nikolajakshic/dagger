@@ -1,134 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="inspector"
-            type="com.nikola.jakshic.dagger.inspector.CompetitiveInspector" />
-
-    </data>
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:orientation="vertical"
-        android:paddingBottom="8dp">
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvRadiantName"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            tools:drawableLeft="@drawable/ic_trophy"
+            tools:drawableStart="@drawable/ic_trophy"
+            tools:text="CDEC Gaming" />
 
-            <TextView
-                android:id="@+id/text_match_pro_radiant_name"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:drawablePadding="8dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="@{inspector.getRadiantName()}"
-                app:setTrophy="@{inspector.isRadiantWin()}"
-                tools:drawableLeft="@drawable/ic_trophy"
-                tools:drawableStart="@drawable/ic_trophy"
-                tools:text="CDEC Gaming" />
-
-            <TextView
-                android:id="@+id/text_match_pro_radiant_score"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="@{inspector.getRadiantScore()}"
-                tools:text="37" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvRadiantScore"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/text_match_pro_dire_name"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_weight="1"
-                android:drawablePadding="8dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="@{inspector.getDireName()}"
-                app:setTrophy="@{!inspector.isRadiantWin()}"
-                tools:drawableLeft="@drawable/ic_trophy_invisible"
-                tools:drawableStart="@drawable/ic_trophy_invisible"
-                tools:text="Vici Gaming Potential" />
-
-            <TextView
-                android:id="@+id/text_match_pro_dire_score"
-                style="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="@{inspector.getDireScore()}"
-                tools:text="24" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginEnd="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:layout_marginRight="16dp">
-
-            <TextView
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_marginEnd="16dp"
-                android:id="@+id/text_match_pro_league_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@{inspector.getLeagueName()}"
-                android:textSize="12sp"
-                tools:text="PGL BUCHAREST MAJOR 2018"
-                android:layout_marginRight="16dp" />
-
-
-            <TextView
-                android:id="@+id/text_match_pro_end_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{inspector.getEndTime()}"
-                android:textSize="12sp"
-                tools:text="2 hours ago" />
-        </LinearLayout>
-
-
-
-
+            android:gravity="end"
+            tools:text="37" />
     </LinearLayout>
-</layout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvDireName"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            tools:drawableLeft="@drawable/ic_trophy_invisible"
+            tools:drawableStart="@drawable/ic_trophy_invisible"
+            tools:text="Vici Gaming Potential" />
+
+        <TextView
+            android:id="@+id/tvDireScore"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            tools:text="24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvLeagueName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="PGL BUCHAREST MAJOR 2018" />
+
+        <TextView
+            android:id="@+id/tvTimePassed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            tools:text="2 hours ago" />
+    </LinearLayout>
+</LinearLayout>

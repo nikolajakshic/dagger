@@ -7,7 +7,7 @@
     </plurals>
 
     <plurals name="hour">
-        <item quantity="one">a hour ago</item>
+        <item quantity="one">an hour ago</item>
         <item quantity="other">%1$d hours ago</item>
     </plurals>
 

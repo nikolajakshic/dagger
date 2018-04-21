@@ -3,6 +3,9 @@ package com.nikola.jakshic.dagger
 import android.app.Activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 
 fun Activity.toast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
@@ -21,4 +24,8 @@ fun Fragment.hide(transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
             ?.hide(this)
             ?.setTransition(transition)
             ?.commit()
+}
+
+fun ViewGroup.inflate(resource: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(this.context).inflate(resource, this, attachToRoot)
 }
