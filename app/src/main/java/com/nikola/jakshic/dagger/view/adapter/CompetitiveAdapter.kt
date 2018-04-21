@@ -13,10 +13,10 @@ import com.nikola.jakshic.dagger.model.Competitive
 import kotlinx.android.synthetic.main.item_competitive.view.*
 import java.util.concurrent.TimeUnit
 
-class CompetitiveAdapter(val context: Context,
-                          callback: DiffUtil.ItemCallback<Competitive>/*,
-                          val listener: (matchId: Long?) -> Unit*/)
-    : PagedListAdapter<Competitive, CompetitiveAdapter.CompetitiveViewHolder>(callback) {
+class CompetitiveAdapter(
+        val context: Context?,
+        val listener: (matchId: Long?) -> Unit
+) : PagedListAdapter<Competitive, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {
         return CompetitiveViewHolder(parent.inflate(R.layout.item_competitive))
@@ -29,9 +29,9 @@ class CompetitiveAdapter(val context: Context,
     inner class CompetitiveViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            /*   itemView.setOnClickListener {
-                   listener(getItem(adapterPosition)!!.matchId)
-               }*/
+            itemView.setOnClickListener {
+                listener(getItem(adapterPosition)!!.matchId)
+            }
         }
 
         fun bind(item: Competitive) {
@@ -54,7 +54,7 @@ class CompetitiveAdapter(val context: Context,
             }
         }
 
-        private fun getTimePassed(item: Competitive): String {
+        private fun getTimePassed(item: Competitive): String? {
             val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
             val timePassed = System.currentTimeMillis() - endTime
 
@@ -65,11 +65,23 @@ class CompetitiveAdapter(val context: Context,
             val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
 
             return when {
-                years > 0 -> context.resources.getQuantityString(R.plurals.year, years.toInt(), years)
-                months > 0 -> context.resources.getQuantityString(R.plurals.month, months.toInt(), months)
-                days > 0 -> context.resources.getQuantityString(R.plurals.day, days.toInt(), days)
-                hours > 0 -> context.resources.getQuantityString(R.plurals.hour, hours.toInt(), hours)
-                else -> context.resources.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
+                years > 0 -> context?.resources?.getQuantityString(R.plurals.year, years.toInt(), years)
+                months > 0 -> context?.resources?.getQuantityString(R.plurals.month, months.toInt(), months)
+                days > 0 -> context?.resources?.getQuantityString(R.plurals.day, days.toInt(), days)
+                hours > 0 -> context?.resources?.getQuantityString(R.plurals.hour, hours.toInt(), hours)
+                else -> context?.resources?.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
+            }
+        }
+    }
+
+    companion object {
+        val COMPETITIVE_COMPARATOR = object : DiffUtil.ItemCallback<Competitive>() {
+            override fun areItemsTheSame(oldItem: Competitive?, newItem: Competitive?): Boolean {
+                return oldItem?.matchId == newItem?.matchId
+            }
+
+            override fun areContentsTheSame(oldItem: Competitive?, newItem: Competitive?): Boolean {
+                return oldItem == newItem
             }
         }
     }

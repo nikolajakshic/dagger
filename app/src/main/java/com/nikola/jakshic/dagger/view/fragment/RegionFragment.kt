@@ -39,8 +39,8 @@ class RegionFragment : Fragment() {
     }
 
     override fun onAttach(context: Context?) {
-        super.onAttach(context)
         (activity?.application as? DaggerApp)?.appComponent?.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

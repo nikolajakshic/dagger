@@ -12,6 +12,10 @@ fun Activity.toast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, msg, duration).show()
 }
 
+fun Fragment.toast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(activity, msg, duration).show()
+}
+
 fun Fragment.show(transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
     fragmentManager?.beginTransaction()
             ?.show(this)
