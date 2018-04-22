@@ -5,7 +5,7 @@ import com.nikola.jakshic.dagger.view.activity.PlayerActivity;
 import com.nikola.jakshic.dagger.view.activity.SearchActivity;
 import com.nikola.jakshic.dagger.view.activity.SettingsActivity;
 import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment;
-import com.nikola.jakshic.dagger.view.fragment.CompetitiveFragment;
+import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.HeroFragment;
 import com.nikola.jakshic.dagger.view.fragment.MatchFragment;
 import com.nikola.jakshic.dagger.view.fragment.PeerFragment;

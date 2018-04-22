@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.fragment
+package com.nikola.jakshic.dagger.ui.competitive
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -14,8 +14,6 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.view.activity.MatchActivity
-import com.nikola.jakshic.dagger.view.adapter.CompetitiveAdapter
-import com.nikola.jakshic.dagger.viewModel.CompetitiveViewModel
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject

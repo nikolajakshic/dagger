@@ -17,7 +17,7 @@
             android:name=".view.activity.PlayerActivity"
             android:theme="@style/DetailTheme" />
         <activity
-            android:name=".view.activity.HomeActivity"
+            android:name=".ui.HomeActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +32,10 @@
         <activity
             android:name=".view.activity.SettingsActivity"
             android:label="Settings"
-            android:parentActivityName=".view.activity.HomeActivity">
+            android:parentActivityName=".ui.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activity.HomeActivity" />
+                android:value=".ui.HomeActivity" />
         </activity>
 
         <meta-data

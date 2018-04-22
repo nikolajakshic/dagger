@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.adapter
+package com.nikola.jakshic.dagger.ui.competitive
 
 import android.arch.paging.PagedListAdapter
 import android.content.Context
