@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
 import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.data.local.LeaderboardDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
@@ -18,14 +17,14 @@ class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
     /**
      * Fetches the data from the network, and takes the first 100 players
      */
-    fun fetchData(region: String?, status: MutableLiveData<Status>): Disposable {
+    fun fetchData(region: String, status: MutableLiveData<Status>): Disposable {
         status.value = Status.LOADING
         return service.getLeaderboard(region)
                 .subscribeOn(Schedulers.io())
                 .flatMap { Observable.fromIterable(it.leaderboard) }
                 .take(100)
                 .map {
-                    it.region = region!! // json response doesn't contain info about region
+                    it.region = region // json response doesn't contain info about region
                     it             // we need to set it manually, so we can query the database
                 }                        // by regions
                 .toList()

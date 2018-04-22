@@ -10,16 +10,17 @@ import com.nikola.jakshic.dagger.repository.LeaderboardRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class RegionViewModel @Inject constructor(private val repository: LeaderboardRepository,
-                                          private val dao: LeaderboardDao) : ViewModel() {
+class RegionViewModel @Inject constructor(
+        private val repository: LeaderboardRepository,
+        private val dao: LeaderboardDao) : ViewModel() {
 
-    lateinit var list: LiveData<MutableList<Leaderboard>>
+    lateinit var list: LiveData<List<Leaderboard>>
         private set
     private var initialFetch = false
     private val compositeDisposable = CompositeDisposable()
     val status = MutableLiveData<Status>()
 
-    fun initialFetch(region: String?) {
+    fun initialFetch(region: String) {
         if (!initialFetch) {
             initialFetch = true
             list = dao.getLeaderboard(region)
@@ -27,7 +28,7 @@ class RegionViewModel @Inject constructor(private val repository: LeaderboardRep
         }
     }
 
-    fun fetchLeaderboard(region: String?) {
+    fun fetchLeaderboard(region: String) {
         compositeDisposable.add(repository.fetchData(region, status))
     }
 

@@ -55,7 +55,7 @@ class RegionFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(this, factory)[RegionViewModel::class.java]
 
-        viewModel.initialFetch(region)
+        viewModel.initialFetch(region!!)
 
         val adapter = LeaderboardAdapter()
         recview_region.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

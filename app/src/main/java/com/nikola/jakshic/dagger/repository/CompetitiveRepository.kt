@@ -19,7 +19,7 @@ class CompetitiveRepository @Inject constructor(
         private val service: OpenDotaService) {
 
     fun getCompetitiveFromDb(): LiveData<PagedList<Competitive>> {
-        val factory = dao.matches
+        val factory = dao.getMatches()
         val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(80)
                 .setPageSize(40)

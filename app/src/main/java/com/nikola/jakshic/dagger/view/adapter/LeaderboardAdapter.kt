@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.item_leaderboard.view.*
 
 class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH>() {
 
-    private var list: MutableList<Leaderboard>? = null
+    private var list: List<Leaderboard>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaderboardVH {
         val view = LayoutInflater.from(parent.context)
@@ -20,7 +20,7 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(data: MutableList<Leaderboard>?){
+    fun addData(data: List<Leaderboard>?){
         list = data
         notifyDataSetChanged()
     }
