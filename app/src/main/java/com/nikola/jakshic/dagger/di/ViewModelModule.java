@@ -3,10 +3,10 @@ package com.nikola.jakshic.dagger.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
+import com.nikola.jakshic.dagger.viewModel.CompetitiveViewModel;
 import com.nikola.jakshic.dagger.viewModel.RegionViewModel;
 import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
 import com.nikola.jakshic.dagger.viewModel.BookmarkViewModel;
-import com.nikola.jakshic.dagger.viewModel.CompetitiveViewModel;
 import com.nikola.jakshic.dagger.viewModel.DetailViewModel;
 import com.nikola.jakshic.dagger.viewModel.HeroViewModel;
 import com.nikola.jakshic.dagger.viewModel.MatchDetailViewModel;

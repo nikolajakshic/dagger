@@ -29,7 +29,7 @@ public interface OpenDotaService {
     Call<Player> getPlayerWinLoss(@Path("account_id") long playerId);
 
     @GET("proMatches")
-    Call<List<Competitive>> getCompetitiveMatches();
+    Observable<List<Competitive>> getCompetitiveMatches();
 
     @GET("matches/{match_id}/")
     Call<Match> getMatch(@Path("match_id") long matchId);

@@ -12,7 +12,6 @@ import com.nikola.jakshic.dagger.data.local.CompetitiveDao;
 import com.nikola.jakshic.dagger.data.local.DotaDatabase;
 import com.nikola.jakshic.dagger.data.local.MatchDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
-import com.nikola.jakshic.dagger.model.Competitive;
 import com.nikola.jakshic.dagger.model.match.Match;
 
 import java.util.List;
@@ -119,39 +118,6 @@ public class MatchRepository {
             @Override
             public void onFailure(Call<Match> call, Throwable t) {
                 loading.setValue(false);
-            }
-        });
-    }
-
-    // Get matches from the database with paging
-    public LiveData<PagedList<Competitive>> getCompetitiveMatches() {
-        DataSource.Factory<Integer, Competitive> factory = competitiveDao.getMatches();
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPageSize(40)
-                .setPrefetchDistance(15)
-                .setInitialLoadSizeHint(80)
-                .build();
-        return new LivePagedListBuilder<>(factory, config).build();
-    }
-
-    public void fetchCompetitiveMatches(MutableLiveData<Status> status) {
-        service.getCompetitiveMatches().enqueue(new Callback<List<Competitive>>() {
-            @Override
-            public void onResponse(Call<List<Competitive>> call, Response<List<Competitive>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    executor.diskIO().execute(() -> {
-                        competitiveDao.insertMatches(response.body());
-                        status.postValue(Status.SUCCESS);
-                    });
-
-                } else
-                    status.setValue(Status.ERROR);
-            }
-
-            @Override
-            public void onFailure(Call<List<Competitive>> call, Throwable t) {
-                status.setValue(Status.ERROR);
             }
         });
     }

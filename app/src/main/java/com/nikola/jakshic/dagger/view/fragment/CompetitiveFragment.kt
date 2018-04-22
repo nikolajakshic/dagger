@@ -50,7 +50,7 @@ class CompetitiveFragment : Fragment() {
         recView.setHasFixedSize(true)
 
         viewModel.initialFetch()
-        viewModel.competitiveMatches.observe(this, Observer(adapter::submitList))
+        viewModel.list.observe(this, Observer(adapter::submitList))
         viewModel.status.observe(this, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
