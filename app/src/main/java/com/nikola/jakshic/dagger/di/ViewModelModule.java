@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveViewModel;
-import com.nikola.jakshic.dagger.viewModel.RegionViewModel;
+import com.nikola.jakshic.dagger.ui.leaderboard.RegionViewModel;
 import com.nikola.jakshic.dagger.viewModel.PeerViewModel;
 import com.nikola.jakshic.dagger.viewModel.BookmarkViewModel;
 import com.nikola.jakshic.dagger.viewModel.DetailViewModel;

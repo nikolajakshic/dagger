@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.fragment
+package com.nikola.jakshic.dagger.ui.leaderboard
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.view.adapter.RegionPagerAdapter
+import com.nikola.jakshic.dagger.ui.leaderboard.RegionPagerAdapter
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
 
 class LeaderboardFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.adapter
+package com.nikola.jakshic.dagger.ui.leaderboard
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.fragment
+package com.nikola.jakshic.dagger.ui.leaderboard
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -13,9 +13,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.repository.Region
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.adapter.LeaderboardAdapter
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
-import com.nikola.jakshic.dagger.viewModel.RegionViewModel
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 

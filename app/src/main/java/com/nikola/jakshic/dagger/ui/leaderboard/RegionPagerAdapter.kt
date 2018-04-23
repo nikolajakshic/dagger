@@ -1,10 +1,9 @@
-package com.nikola.jakshic.dagger.view.adapter
+package com.nikola.jakshic.dagger.ui.leaderboard
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.nikola.jakshic.dagger.repository.Region
-import com.nikola.jakshic.dagger.view.fragment.RegionFragment
 
 class RegionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

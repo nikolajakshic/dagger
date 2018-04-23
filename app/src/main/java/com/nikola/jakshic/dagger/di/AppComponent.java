@@ -9,7 +9,7 @@ import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment;
 import com.nikola.jakshic.dagger.view.fragment.HeroFragment;
 import com.nikola.jakshic.dagger.view.fragment.MatchFragment;
 import com.nikola.jakshic.dagger.view.fragment.PeerFragment;
-import com.nikola.jakshic.dagger.view.fragment.RegionFragment;
+import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment;
 
 import javax.inject.Singleton;
 
