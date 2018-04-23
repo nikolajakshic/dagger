@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.view.adapter.RegionPagerAdapter
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
 
@@ -13,7 +14,7 @@ class LeaderboardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false)
+        return container?.inflate(R.layout.fragment_leaderboard)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -21,9 +22,9 @@ class LeaderboardFragment : Fragment() {
 
         val adapter = RegionPagerAdapter(childFragmentManager)
 
-        pagerLeaderboard.adapter = adapter
-        pagerLeaderboard.offscreenPageLimit = 3
-        tabLeaderboard.setupWithViewPager(pagerLeaderboard)
+        viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 3
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     override fun onResume() {

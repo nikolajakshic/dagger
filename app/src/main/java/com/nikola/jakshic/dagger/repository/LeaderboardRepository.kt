@@ -11,8 +11,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LeaderboardRepository @Inject constructor(private val dao: LeaderboardDao,
-                                                private val service: OpenDotaService) {
+class LeaderboardRepository @Inject constructor(
+        private val dao: LeaderboardDao,
+        private val service: OpenDotaService) {
 
     /**
      * Fetches the data from the network, and takes the first 100 players
