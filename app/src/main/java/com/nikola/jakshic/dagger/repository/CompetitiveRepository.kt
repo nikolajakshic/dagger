@@ -32,7 +32,7 @@ class CompetitiveRepository @Inject constructor(
     fun fetchCompetitive(status: MutableLiveData<Status>): Disposable {
         status.value = Status.LOADING
 
-        return service.competitiveMatches
+        return service.getCompetitiveMatches()
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe({
