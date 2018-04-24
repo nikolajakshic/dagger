@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.nikola.jakshic.dagger.ui.bookmark.BookmarkViewModel
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveViewModel
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionViewModel
 import com.nikola.jakshic.dagger.ui.search.SearchViewModel

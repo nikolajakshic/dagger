@@ -2,8 +2,10 @@ package com.nikola.jakshic.dagger.ui.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -15,7 +17,8 @@ import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.model.SearchHistory
 import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.adapter.PlayerAdapter
+import com.nikola.jakshic.dagger.view.activity.PlayerActivity
+import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
@@ -46,12 +49,20 @@ class SearchActivity : AppCompatActivity() {
             viewModel.getAllQueries()
         }
 
-        val playerAdapter = PlayerAdapter(this)
+        val playerAdapter = PlayerAdapter {
+            val intent = Intent(this, PlayerActivity::class.java)
+            intent.putExtra("player-personaname", it.personaName)
+            intent.putExtra("player-account-id", it.id)
+            intent.putExtra("player-avatar-full", it.avatarUrl)
+            startActivity(intent)
+        }
+
         val historyAdapter = HistoryAdapter {
             searchView.setQuery(it, true)
         }
 
         recViewPlayers.layoutManager = LinearLayoutManager(this)
+        recViewPlayers.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recViewPlayers.adapter = playerAdapter
         recViewPlayers.setHasFixedSize(true)
 

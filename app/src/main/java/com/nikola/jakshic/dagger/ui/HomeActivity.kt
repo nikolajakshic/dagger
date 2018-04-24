@@ -10,7 +10,7 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.hide
 import com.nikola.jakshic.dagger.show
 import com.nikola.jakshic.dagger.ui.search.SearchActivity
-import com.nikola.jakshic.dagger.view.fragment.BookmarkFragment
+import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.ui.leaderboard.LeaderboardFragment
 import kotlinx.android.synthetic.main.activity_home.*
