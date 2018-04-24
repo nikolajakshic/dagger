@@ -18,7 +18,7 @@ interface OpenDotaService {
     fun getPlayerProfile(@Path("account_id") id: Long): Observable<_Profile>
 
     @GET("search")
-    fun searchPlayers(@Query("q") name: String): Call<List<Player>>
+    fun searchPlayers(@Query("q") name: String): Observable<List<Player>>
 
     @GET("players/{account_id}/wl")
     fun getPlayerWinLoss(@Path("account_id") playerId: Long): Call<Player>

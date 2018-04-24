@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.model.SearchHistory
 import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.util.NetworkUtil
@@ -60,13 +61,16 @@ class SearchActivity : AppCompatActivity() {
         recViewHistory.adapter = historyAdapter
         recViewHistory.setHasFixedSize(true)
 
-        viewModel.players.observe(this, Observer(playerAdapter::addData))
-        viewModel.searchHistory.observe(this, Observer {
+        viewModel.playerList.observe(this, Observer(playerAdapter::addData))
+        viewModel.historyList.observe(this, Observer {
             recViewHistory.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
             historyAdapter.addData(it)
         })
-        viewModel.isLoading.observe(this, Observer {
-            progressBar.visibility = if (it == true) View.VISIBLE else View.INVISIBLE
+        viewModel.status.observe(this, Observer {
+            when (it) {
+                Status.LOADING -> progressBar.visibility = View.VISIBLE
+                else -> progressBar.visibility = View.GONE
+            }
         })
     }
 
@@ -104,7 +108,7 @@ class SearchActivity : AppCompatActivity() {
                 viewModel.clearList()
 
                 if (NetworkUtil.isActive(this@SearchActivity))
-                    viewModel.fetchPlayers(query)
+                    viewModel.fetchPlayers(query!!)
                 else
                     toast("Check network connection!")
 
@@ -115,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.getQueries(newText)
+                viewModel.getQueries(newText!!)
                 return true
             }
         })
