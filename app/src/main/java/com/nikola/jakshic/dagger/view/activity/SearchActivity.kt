@@ -14,8 +14,8 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.model.SearchHistory
 import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.util.NetworkUtil
+import com.nikola.jakshic.dagger.view.adapter.HistoryAdapter
 import com.nikola.jakshic.dagger.view.adapter.PlayerAdapter
-import com.nikola.jakshic.dagger.view.adapter.SearchHistoryAdapter
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.viewModel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
@@ -48,7 +48,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val playerAdapter = PlayerAdapter(this)
-        val historyAdapter = SearchHistoryAdapter(this) {
+        val historyAdapter = HistoryAdapter {
             searchView.setQuery(it, true)
         }
 
