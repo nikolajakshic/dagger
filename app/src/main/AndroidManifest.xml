@@ -26,11 +26,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.SearchActivity"
+            android:name=".ui.search.SearchActivity"
             android:theme="@style/SearchTheme" />
         <activity android:name=".view.activity.MatchActivity" />
         <activity
-            android:name=".view.activity.SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".ui.HomeActivity">
             <meta-data

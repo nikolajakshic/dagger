@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.activity
+package com.nikola.jakshic.dagger.ui.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -15,10 +15,8 @@ import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.model.SearchHistory
 import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.adapter.HistoryAdapter
 import com.nikola.jakshic.dagger.view.adapter.PlayerAdapter
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
-import com.nikola.jakshic.dagger.viewModel.SearchViewModel
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 

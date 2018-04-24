@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.activity
+package com.nikola.jakshic.dagger.ui
 
 import android.os.Bundle
 import android.support.v4.app.NavUtils
@@ -16,8 +16,7 @@ import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var searchHistoryDao: SearchHistoryDao
+    @Inject lateinit var searchHistoryDao: SearchHistoryDao
     private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
