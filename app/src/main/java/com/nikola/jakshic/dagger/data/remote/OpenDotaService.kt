@@ -14,20 +14,14 @@ interface OpenDotaService {
         const val BASE_URL = "https://api.opendota.com/api/"
     }
 
-    @GET("players/{account_id}")
-    fun getPlayerProfile(@Path("account_id") id: Long): Observable<_Profile>
-
     @GET("search")
     fun searchPlayers(@Query("q") name: String): Observable<List<Player>>
 
+    @GET("players/{account_id}")
+    fun getPlayerProfile(@Path("account_id") id: Long): Observable<_Player>
+
     @GET("players/{account_id}/wl")
-    fun getPlayerWinLoss(@Path("account_id") playerId: Long): Call<Player>
-
-    @GET("proMatches")
-    fun getCompetitiveMatches(): Observable<List<Competitive>>
-
-    @GET("matches/{match_id}/")
-    fun getMatch(@Path("match_id") matchId: Long): Call<Match>
+    fun getPlayerWinLoss(@Path("account_id") playerId: Long): Observable<Player>
 
     @GET("players/{account_id}/matches")
     fun getMatches(
@@ -40,6 +34,12 @@ interface OpenDotaService {
 
     @GET("players/{account_id}/peers")
     fun getPeers(@Path("account_id") playerId: Long): Call<List<Peer>>
+
+    @GET("matches/{match_id}/")
+    fun getMatch(@Path("match_id") matchId: Long): Call<Match>
+
+    @GET("proMatches")
+    fun getCompetitiveMatches(): Observable<List<Competitive>>
 
     @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
     fun getLeaderboard(@Query("division") region: String): Observable<_Leaderboard>

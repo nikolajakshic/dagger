@@ -12,7 +12,8 @@ import com.nikola.jakshic.dagger.model.match.Match
         SearchHistory::class,
         Match::class,
         Hero::class,
-        Peer::class
+        Peer::class,
+        Bookmark::class
 ), version = 1, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
 
@@ -29,4 +30,6 @@ abstract class DotaDatabase : RoomDatabase() {
     abstract fun heroDao(): HeroDao
 
     abstract fun peerDao(): PeerDao
+
+    abstract fun bookmarkDao(): BookmarkDao
 }

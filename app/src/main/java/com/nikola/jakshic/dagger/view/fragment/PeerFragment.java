@@ -48,7 +48,7 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_peer, container, false);
 
-        accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
+        accountId = getActivity().getIntent().getLongExtra("account_id", -1);
 
         viewModel = ViewModelProviders.of(this, factory).get(PeerViewModel.class);
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_peer);

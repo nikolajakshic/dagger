@@ -31,11 +31,6 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DetailViewModel::class)
-    fun bindDetailViewModel(viewModel: DetailViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(BookmarkViewModel::class)
     fun bindBookmarkViewModel(viewModel: BookmarkViewModel): ViewModel
 
@@ -58,6 +53,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(RegionViewModel::class)
     fun bindRegionViewModel(viewModel: RegionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ProfileViewModel::class)
+    fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
 
     @Binds
     fun bindViewModelFactory(factory: DaggerViewModelFactory): ViewModelProvider.Factory

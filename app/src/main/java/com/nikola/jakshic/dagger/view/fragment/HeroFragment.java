@@ -52,7 +52,7 @@ public class HeroFragment extends Fragment implements HeroSortDialog.OnSortListe
 
         SwipeRefreshLayout mRefresh = root.findViewById(R.id.swiperefresh_hero);
 
-        accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
+        accountId = getActivity().getIntent().getLongExtra("account_id", -1);
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HeroViewModel.class);
 

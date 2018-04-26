@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.nikola.jakshic.dagger.R;
-import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.model.match.Match;
+import com.nikola.jakshic.dagger.model.match.PlayerStats;
 import com.nikola.jakshic.dagger.util.DotaUtil;
 
 import java.text.DecimalFormat;
@@ -27,10 +27,10 @@ import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOption
 public class MatchDetailInspector {
 
     private Match match;
-    private Player player;
+    private PlayerStats player;
     private Context context;
 
-    public MatchDetailInspector(Match match, Player player, Context context) {
+    public MatchDetailInspector(Match match, PlayerStats player, Context context) {
         this.match = match;
         this.player = player;
         this.context = context;

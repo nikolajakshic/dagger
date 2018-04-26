@@ -50,7 +50,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnMatchClick
         mRefresh = root.findViewById(R.id.swiperefresh_match);
         MatchAdapter mAdapter = new MatchAdapter(getActivity(), this, new MatchDiffCallback());
 
-        long accountId = getActivity().getIntent().getLongExtra("player-account-id", -1);
+        long accountId = getActivity().getIntent().getLongExtra("account_id", -1);
         RecyclerView recyclerView = root.findViewById(R.id.recview_match);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);

@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.view.activity.PlayerActivity
+import com.nikola.jakshic.dagger.view.activity.ProfileActivity
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 import javax.inject.Inject
@@ -37,10 +37,8 @@ class BookmarkFragment : Fragment() {
         val viewModel = ViewModelProviders.of(this, factory)[BookmarkViewModel::class.java]
 
         val adapter = PlayerAdapter {
-            val intent = Intent(context, PlayerActivity::class.java)
-            intent.putExtra("player-personaname", it.personaName)
-            intent.putExtra("player-account-id", it.id)
-            intent.putExtra("player-avatar-full", it.avatarUrl)
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("account_id", it.id)
             startActivity(intent)
         }
 

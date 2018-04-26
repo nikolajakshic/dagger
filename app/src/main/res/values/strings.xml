@@ -2,7 +2,7 @@
     <string name="app_name">Dagger</string>
 
     <string name="player_games">Games: %1$d</string>
-    <string name="player_winrate">Winrate: %1$s%%</string>
+    <string name="player_winrate">Winrate: %1$.2f%%</string>
     <string name="player_wins">Wins: %1$d</string>
     <string name="player_losses">Losses: %1$d</string>
 

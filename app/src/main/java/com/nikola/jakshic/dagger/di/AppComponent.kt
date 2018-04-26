@@ -1,12 +1,12 @@
 package com.nikola.jakshic.dagger.di
 
-import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
-import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment
-import com.nikola.jakshic.dagger.view.activity.MatchActivity
-import com.nikola.jakshic.dagger.view.activity.PlayerActivity
-import com.nikola.jakshic.dagger.ui.search.SearchActivity
 import com.nikola.jakshic.dagger.ui.SettingsActivity
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
+import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
+import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment
+import com.nikola.jakshic.dagger.ui.search.SearchActivity
+import com.nikola.jakshic.dagger.view.activity.MatchActivity
+import com.nikola.jakshic.dagger.view.activity.ProfileActivity
 import com.nikola.jakshic.dagger.view.fragment.HeroFragment
 import com.nikola.jakshic.dagger.view.fragment.MatchFragment
 import com.nikola.jakshic.dagger.view.fragment.PeerFragment
@@ -23,8 +23,6 @@ interface AppComponent {
 
     fun inject(fragment: HeroFragment)
 
-    fun inject(activity: PlayerActivity)
-
     fun inject(activity: MatchActivity)
 
     fun inject(fragment: BookmarkFragment)
@@ -36,4 +34,6 @@ interface AppComponent {
     fun inject(fragment: RegionFragment)
 
     fun inject(activity: SettingsActivity)
+
+    fun inject(activity: ProfileActivity)
 }

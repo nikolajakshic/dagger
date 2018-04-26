@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.ui.bookmark
 
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -39,7 +40,7 @@ class PlayerAdapter(val listener: (Player) -> Unit) : RecyclerView.Adapter<Playe
 
         fun bind(item: Player) {
             with(itemView) {
-                tvPlayerName.text = item.personaName
+                tvPlayerName.text = if (TextUtils.isEmpty(item.name)) item.personaName else item.name
                 tvPlayerId.text = item.id.toString()
                 Glide.with(this)
                         .load(item.avatarUrl)

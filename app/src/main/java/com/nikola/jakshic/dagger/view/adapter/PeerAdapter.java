@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.nikola.jakshic.dagger.databinding.ItemPeerBinding;
 import com.nikola.jakshic.dagger.inspector.PeerInspector;
 import com.nikola.jakshic.dagger.model.Peer;
-import com.nikola.jakshic.dagger.view.activity.PlayerActivity;
+import com.nikola.jakshic.dagger.view.activity.ProfileActivity;
 
 public class PeerAdapter extends PagedListAdapter<Peer, PeerAdapter.PeerViewHolder> {
 
@@ -39,10 +39,8 @@ public class PeerAdapter extends PagedListAdapter<Peer, PeerAdapter.PeerViewHold
         holder.binding.setInspector(new PeerInspector(context, item));
         // TODO move into viewHolder
         holder.binding.getRoot().setOnClickListener(v -> {
-            Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra("player-personaname", item.getPersonaname());
-            intent.putExtra("player-account-id", item.getPeerId());
-            intent.putExtra("player-avatar-full", item.getAvatarfull());
+            Intent intent = new Intent(context, ProfileActivity.class);
+            intent.putExtra("account_id", item.getPeerId());
             context.startActivity(intent);
         });
     }

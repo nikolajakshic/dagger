@@ -29,7 +29,6 @@ class LeaderboardRepository @Inject constructor(
                     it             // we need to set it manually, so we can query the database
                 }                        // by regions
                 .toList()
-                .observeOn(Schedulers.io())
                 .subscribe({ list ->
                     dao.deleteLeaderboards(region)  // delete the old data
                     dao.insertLeaderboard(list)     // insert the new one

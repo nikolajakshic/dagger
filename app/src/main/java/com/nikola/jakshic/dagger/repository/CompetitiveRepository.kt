@@ -34,7 +34,6 @@ class CompetitiveRepository @Inject constructor(
 
         return service.getCompetitiveMatches()
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
                 .subscribe({
                     dao.insertMatches(it)
                     status.postValue(Status.SUCCESS)

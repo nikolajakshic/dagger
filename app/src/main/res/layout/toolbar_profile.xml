@@ -34,6 +34,7 @@
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:text="Games:"
         android:id="@+id/tvPlayerGames"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +49,7 @@
         tools:text="Games: 3679" />
 
     <TextView
+        android:text="Winrate:"
         android:id="@+id/tvPlayerWinRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,6 +64,7 @@
         tools:text="Winrate: 52.24%" />
 
     <TextView
+        android:text="Losses:"
         android:id="@+id/tvPlayerLosses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,9 +76,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Losses: 1757" />
+        tools:text="Losses: 1757"/>
 
     <TextView
+        android:text="Wins"
         android:id="@+id/tvPlayerWins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +91,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvPlayerLosses"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Wins: 1922" />
+        tools:text="Wins: 1922"/>
 
     <TextView
         android:id="@+id/tvPlayerName"
@@ -99,10 +103,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgPlayerAvatar"
-        tools:text="drspalevic" />
+        tools:text="drspalevic"/>
 
     <TextView
-        android:id="@+id/textPlayerId"
+        android:id="@+id/tvPlayerId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -112,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
-        tools:text="176405398" />
+        tools:text="176405398"/>
 
     <Button
         android:id="@+id/btnFollow"
@@ -126,6 +130,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPlayerId" />
+        app:layout_constraintTop_toBottomOf="@id/tvPlayerId" />
 
 </android.support.constraint.ConstraintLayout>

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.dagger.inspector.MatchDetailInspector;
-import com.nikola.jakshic.dagger.model.Player;
 import com.nikola.jakshic.dagger.model.match.Match;
-import com.nikola.jakshic.dagger.view.activity.PlayerActivity;
+import com.nikola.jakshic.dagger.model.match.PlayerStats;
+import com.nikola.jakshic.dagger.view.activity.ProfileActivity;
 
 public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.MatchDetailViewHolder> {
 
@@ -35,8 +35,8 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
     // TODO refactor
     @Override
     public void onBindViewHolder(MatchDetailViewHolder holder, int position) {
-        Player player = match.getPlayers().get(position);
-        boolean expanded = player.isExpanded();
+        PlayerStats player = match.getPlayers().get(position);
+        boolean expanded = player.getExpanded();
 
         holder.binding.setInspector(new MatchDetailInspector(match, player, context));
 
@@ -65,10 +65,8 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         holder.binding.itemMatchDetailCollapse.findViewById(R.id.player_name).setOnClickListener(v -> {
             if (player.getId() == 0)
                 return;
-            Intent intent = new Intent(context, PlayerActivity.class);
-            intent.putExtra("player-personaname", player.getPersonaName());
-            intent.putExtra("player-account-id", player.getId());
-            intent.putExtra("player-avatar-full", player.getAvatarUrl());
+            Intent intent = new Intent(context, ProfileActivity.class);
+            intent.putExtra("account_id", player.getId());
             context.startActivity(intent);
         });
 

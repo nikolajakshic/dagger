@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.activity.PlayerActivity"
-            android:theme="@style/DetailTheme" />
-        <activity
             android:name=".ui.HomeActivity"
             android:launchMode="singleTop">
             <intent-filter>
@@ -40,8 +37,10 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="0788d77e2f99959df7d7f7aa9fd9bcd8acfcc2c5"
-            />
+            android:value="0788d77e2f99959df7d7f7aa9fd9bcd8acfcc2c5" />
+
+        <activity android:name=".view.activity.ProfileActivity"
+            android:theme="@style/ProfileTheme"/>
     </application>
 
 </manifest>

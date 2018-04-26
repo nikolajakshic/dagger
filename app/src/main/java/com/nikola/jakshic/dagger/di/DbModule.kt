@@ -40,6 +40,10 @@ class DbModule {
 
     @Provides
     @Singleton
+    fun provideBookmark(db: DotaDatabase) = db.bookmarkDao()
+
+    @Provides
+    @Singleton
     fun provideDotaDatabase(context: Context): DotaDatabase {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db").build()
     }

@@ -8,11 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="DetailTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="ProfileTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#FFFFFF</item>
         <item name="colorPrimaryDark">#FF2196F3</item>
-        <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -21,7 +19,6 @@
         <item name="colorPrimaryDark">#FF2196F3</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
-
     </style>
 
      <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">

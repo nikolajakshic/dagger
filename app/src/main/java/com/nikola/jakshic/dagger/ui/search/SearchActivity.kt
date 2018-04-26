@@ -16,9 +16,9 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.model.SearchHistory
 import com.nikola.jakshic.dagger.toast
-import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.activity.PlayerActivity
 import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter
+import com.nikola.jakshic.dagger.util.NetworkUtil
+import com.nikola.jakshic.dagger.view.activity.ProfileActivity
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
@@ -50,10 +50,8 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val playerAdapter = PlayerAdapter {
-            val intent = Intent(this, PlayerActivity::class.java)
-            intent.putExtra("player-personaname", it.personaName)
-            intent.putExtra("player-account-id", it.id)
-            intent.putExtra("player-avatar-full", it.avatarUrl)
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("account_id", it.id)
             startActivity(intent)
         }
 
@@ -121,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
                 else
                     toast("Check network connection!")
 
-                viewModel.saveQuery(SearchHistory(query))
+                viewModel.saveQuery(SearchHistory(query!!))
                 searchView.clearFocus()
 
                 return true

@@ -6,7 +6,6 @@ import android.arch.persistence.room.Ignore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.nikola.jakshic.dagger.model.Player;
 
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class Match {
     @Ignore @SerializedName("league") @Expose public League league;
     @Ignore @SerializedName("radiant_team") @Expose public RadiantTeam radiantTeam;
     @Ignore @SerializedName("dire_team") @Expose public DireTeam direTeam;
-    @Ignore @SerializedName("players") @Expose public List<Player> players = null;
+    @Ignore @SerializedName("players") @Expose public List<PlayerStats> players = null;
 
     public long getMatchId() {
         return matchId;
@@ -145,7 +144,7 @@ public class Match {
         return direTeam;
     }
 
-    public List<Player> getPlayers() {
+    public List<PlayerStats> getPlayers() {
         return players;
     }
 

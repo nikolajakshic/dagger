@@ -9,15 +9,15 @@ import com.nikola.jakshic.dagger.model.SearchHistory
 @Dao
 interface SearchHistoryDao {
 
-    @Query("SELECT * FROM searchhistory ORDER BY id DESC")
+    @Query("SELECT * FROM search_history ORDER BY id DESC")
     fun getAllQueries(): List<SearchHistory>
 
-    @Query("SELECT * FROM searchhistory WHERE searchhistory.`query` LIKE :query || '%' ORDER BY id DESC")
+    @Query("SELECT * FROM search_history WHERE search_history.`query` LIKE :query || '%' ORDER BY id DESC")
     fun getQuery(query: String): List<SearchHistory>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertQuery(query: SearchHistory)
 
-    @Query("DELETE FROM searchhistory")
+    @Query("DELETE FROM search_history")
     fun deleteHistory()
 }
