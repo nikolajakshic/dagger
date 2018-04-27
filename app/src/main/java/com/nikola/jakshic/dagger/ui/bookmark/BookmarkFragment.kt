@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.view.activity.ProfileActivity
+import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 import javax.inject.Inject

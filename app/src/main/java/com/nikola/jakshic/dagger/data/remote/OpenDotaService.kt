@@ -33,7 +33,7 @@ interface OpenDotaService {
     fun getHeroes(@Path("account_id") playerId: Long): Call<List<Hero>>
 
     @GET("players/{account_id}/peers")
-    fun getPeers(@Path("account_id") playerId: Long): Call<List<Peer>>
+    fun getPeers(@Path("account_id") playerId: Long): Observable<List<Peer>>
 
     @GET("matches/{match_id}/")
     fun getMatch(@Path("match_id") matchId: Long): Call<Match>

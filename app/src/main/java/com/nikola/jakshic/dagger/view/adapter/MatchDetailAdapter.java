@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.dagger.inspector.MatchDetailInspector;
 import com.nikola.jakshic.dagger.model.match.Match;
 import com.nikola.jakshic.dagger.model.match.PlayerStats;
-import com.nikola.jakshic.dagger.view.activity.ProfileActivity;
+import com.nikola.jakshic.dagger.ui.profile.ProfileActivity;
 
 public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.MatchDetailViewHolder> {
 

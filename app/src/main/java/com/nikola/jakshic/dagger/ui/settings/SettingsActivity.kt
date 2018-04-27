@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui
+package com.nikola.jakshic.dagger.ui.settings
 
 import android.os.Bundle
 import android.support.v4.app.NavUtils

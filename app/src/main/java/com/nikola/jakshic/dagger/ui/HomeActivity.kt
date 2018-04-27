@@ -13,6 +13,7 @@ import com.nikola.jakshic.dagger.ui.search.SearchActivity
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.ui.leaderboard.LeaderboardFragment
+import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {

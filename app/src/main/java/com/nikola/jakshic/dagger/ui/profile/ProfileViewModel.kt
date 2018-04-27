@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.viewModel
+package com.nikola.jakshic.dagger.ui.profile
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel

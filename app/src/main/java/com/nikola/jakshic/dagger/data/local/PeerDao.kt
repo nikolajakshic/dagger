@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.data.local
 
-import android.arch.paging.DataSource
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -11,11 +11,11 @@ import com.nikola.jakshic.dagger.model.Peer
 interface PeerDao {
 
     @Query("SELECT * FROM peers WHERE peers.account_id = :id ORDER BY games DESC")
-    fun getByGames(id: Long): DataSource.Factory<Int, Peer>
+    fun getByGames(id: Long):  LiveData<List<Peer>>
 
     // Multiplying by 1.0 to convert from Integer to Float
     @Query("SELECT * FROM peers WHERE peers.account_id = :id ORDER BY ((peers.wins*1.0/peers.games)*100) DESC")
-    fun getByWinrate(id: Long): DataSource.Factory<Int, Peer>
+    fun getByWinrate(id: Long): LiveData<List<Peer>>
 
     @JvmSuppressWildcards
     @Insert(onConflict = OnConflictStrategy.REPLACE)

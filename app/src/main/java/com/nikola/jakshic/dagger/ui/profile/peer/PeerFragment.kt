@@ -1,8 +1,9 @@
-package com.nikola.jakshic.dagger.view.fragment
+package com.nikola.jakshic.dagger.ui.profile.peer
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -11,20 +12,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.diffcallback.PeerDiffCallback
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.PeerSortDialog
-import com.nikola.jakshic.dagger.view.adapter.PeerAdapter
+import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
-import com.nikola.jakshic.dagger.viewModel.PeerViewModel
 import kotlinx.android.synthetic.main.fragment_peer.*
 import javax.inject.Inject
 
-class PeerFragment : Fragment(), PeerSortDialog.OnSortListener{
+class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
-    private var id : Long = -1
-    private lateinit var viewModel : PeerViewModel
+    private var id: Long = -1
+    private lateinit var viewModel: PeerViewModel
     private lateinit var adapter: PeerAdapter
 
     override fun onAttach(context: Context?) {
@@ -39,22 +37,26 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        id = activity?.intent?.getLongExtra("account_id",-1)?: -1
+        id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
 
         viewModel = ViewModelProviders.of(this, factory)[PeerViewModel::class.java]
 
         viewModel.initialFetch(id)
 
-        adapter = PeerAdapter(context, PeerDiffCallback())
+        adapter = PeerAdapter {
+            val intent = Intent(context, ProfileActivity::class.java)
+            intent.putExtra("account_id", it)
+            startActivity(intent)
+        }
 
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.peers.observe(this, Observer(adapter::submitList))
+        viewModel.list.observe(this, Observer(adapter::addData))
         viewModel.status.observe(this, Observer {
-            when(it){
+            when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
@@ -69,24 +71,24 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener{
         swipeRefresh.setOnRefreshListener {
             if (NetworkUtil.isActive(context))
                 viewModel.fetchPeers(id)
-            else{
+            else {
                 toast("Check network connection!")
                 swipeRefresh.isRefreshing = false
             }
         }
     }
 
-    override fun onSort(sortOption: Int) {
+    override fun onSort(sort: Int) {
         // Remove previous observers b/c we are attaching new LiveData<PagedList>
-        viewModel.peers.removeObservers(this)
+        viewModel.list.removeObservers(this)
 
-        when(sortOption){
+        when (sort) {
             0 -> viewModel.sortByGames(id)
-            else -> viewModel.sortByWinrate(id)
+            else -> viewModel.sortByWinRate(id)
         }
         // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
-        adapter.submitList(null)
+        adapter.addData(null)
         // Attach the observer to the new LiveData<PagedList>
-        viewModel.peers.observe(this, Observer(adapter::submitList))
+        viewModel.list.observe(this, Observer(adapter::addData))
     }
 }

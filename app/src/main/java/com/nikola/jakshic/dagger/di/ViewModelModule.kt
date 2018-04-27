@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProvider
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkViewModel
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveViewModel
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionViewModel
+import com.nikola.jakshic.dagger.ui.profile.ProfileViewModel
+import com.nikola.jakshic.dagger.ui.profile.peer.PeerViewModel
 import com.nikola.jakshic.dagger.ui.search.SearchViewModel
 import com.nikola.jakshic.dagger.viewModel.*
 import dagger.Binds

@@ -27,7 +27,7 @@
             android:theme="@style/SearchTheme" />
         <activity android:name=".view.activity.MatchActivity" />
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".ui.HomeActivity">
             <meta-data
@@ -39,7 +39,7 @@
             android:name="io.fabric.ApiKey"
             android:value="0788d77e2f99959df7d7f7aa9fd9bcd8acfcc2c5" />
 
-        <activity android:name=".view.activity.ProfileActivity"
+        <activity android:name=".ui.profile.ProfileActivity"
             android:theme="@style/ProfileTheme"/>
     </application>
 
