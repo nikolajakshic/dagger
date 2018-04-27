@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.fragment;
+/*package com.nikola.jakshic.dagger.view.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -116,4 +116,4 @@ public class PeerFragment extends Fragment implements PeerSortDialog.OnSortListe
         viewModel.getPeers().observe(this, mAdapter::submitList);
 
     }
-}
+}*/
