@@ -9,7 +9,7 @@ import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.view.adapter.PlayerPagerAdapter
+import com.nikola.jakshic.dagger.view.adapter.ProfilePagerAdapter
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.viewModel.ProfileViewModel
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -73,7 +73,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         viewPager.offscreenPageLimit = 2
-        viewPager.adapter = PlayerPagerAdapter(supportFragmentManager)
+        viewPager.adapter = ProfilePagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 }
