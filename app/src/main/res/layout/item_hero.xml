@@ -1,125 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.nikola.jakshic.dagger.inspector.HeroInspector" />
-    </data>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:orientation="vertical">
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp">
 
-        <View
-            android:visibility="gone"
-            android:id="@+id/item_divider_hero_stats_top"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D3D3D3" />
+        <ImageView
+            android:id="@+id/imgHero"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:background="#D3D3D3"
+            tools:src="@mipmap/ic_launcher_round" />
+    </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvGamesPlayed"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:textSize="14sp"
+        tools:text="55" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tvHeroWinRate"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp">
-
-                <ImageView
-                    android:id="@+id/hero_stats_image"
-                    android:layout_width="50dp"
-                    android:background="#D3D3D3"
-                    android:layout_height="35dp"
-                    app:heroUrl="@{viewModel.getImageUrl()}"
-                    tools:src="@mipmap/ic_launcher_round" />
-            </FrameLayout>
-
-            <TextView
-                android:maxLines="1"
-                android:layout_marginStart="16dp"
-                android:id="@+id/hero_stats_games_played"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:text="@{viewModel.getGames()}"
-                tools:text="55"
-                android:layout_marginLeft="16dp" />
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1">
-
-                <TextView
-                    android:maxLines="1"
-                    android:id="@+id/hero_Stats_winrate"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp"
-                    android:text="@{viewModel.getWinRate()}"
-                    tools:text="68,77%" />
-
-                <View
-                    android:id="@+id/percentage_static_view"
-                    android:layout_width="85dp"
-                    android:layout_height="3dp"
-                    android:layout_below="@id/hero_Stats_winrate"
-                    android:background="#b1b1b1" />
-
-                <View
-                    android:id="@+id/view_hero_percentage_winrate"
-                    android:layout_width="85dp"
-                    app:layout_width="@{viewModel.getPercentage()}"
-                    android:layout_height="3dp"
-                    android:layout_below="@id/hero_Stats_winrate"
-                    android:background="@color/colorAccent" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:maxLines="1"
-                android:layout_marginEnd="16dp"
-                android:gravity="end"
-                android:id="@+id/hero_stats_win_loss"
-                style="@style/Base.TextAppearance.AppCompat.Body1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:paddingLeft="8dp"
-                android:text="@{viewModel.getWinLoss()}"
-                android:paddingStart="8dp"
-                android:textSize="14sp"
-                tools:text="5005/1000"
-                android:layout_marginRight="16dp" />
-        </LinearLayout>
+            android:layout_centerVertical="true"
+            android:layout_marginTop="8dp"
+            android:maxLines="1"
+            android:textSize="14sp"
+            tools:text="68,77%" />
 
         <View
-            android:id="@+id/item_divider_hero_stats_bot"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="#D3D3D3" />
+            android:id="@+id/percentage_static_view"
+            android:layout_width="85dp"
+            android:layout_height="3dp"
+            android:layout_below="@id/tvHeroWinRate"
+            android:background="#b1b1b1" />
 
+        <View
+            android:id="@+id/viewHeroWinRateBar"
+            android:layout_width="85dp"
+            android:layout_height="3dp"
+            android:layout_below="@id/tvHeroWinRate"
+            android:background="@color/colorAccent" />
 
-    </LinearLayout>
-</layout>
+    </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tvHeroWinLose"
+        style="@style/Base.TextAppearance.AppCompat.Body1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:maxLines="1"
+        android:paddingLeft="8dp"
+        android:paddingStart="8dp"
+        android:textSize="14sp"
+        tools:text="5005/1000" />
+</LinearLayout>

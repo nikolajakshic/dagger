@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/btn_hero_sort"
+        android:id="@+id/btnSort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
@@ -55,18 +55,18 @@
     <View
         android:background="#d3d3d3"
         android:layout_width="match_parent"
-        android:layout_below="@id/btn_hero_sort"
+        android:layout_below="@id/btnSort"
         android:id="@+id/view_hero_sort_divider"
         android:layout_height="1dp"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swiperefresh_hero"
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/view_hero_sort_divider">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recview_hero"
+            android:id="@+id/recView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>

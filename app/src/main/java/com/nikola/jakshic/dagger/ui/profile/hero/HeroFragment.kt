@@ -1,9 +1,8 @@
-package com.nikola.jakshic.dagger.ui.profile.peer
+package com.nikola.jakshic.dagger.ui.profile.hero
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
@@ -13,17 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
-import kotlinx.android.synthetic.main.fragment_peer.*
+import kotlinx.android.synthetic.main.fragment_hero.*
 import javax.inject.Inject
 
-class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
+class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
     private var id: Long = -1
-    private lateinit var viewModel: PeerViewModel
-    private lateinit var adapter: PeerAdapter
+    private lateinit var viewModel: HeroViewModel
+    private lateinit var adapter: HeroAdapter
 
     override fun onAttach(context: Context?) {
         (activity?.application as DaggerApp).appComponent.inject(this)
@@ -31,23 +29,19 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return container?.inflate(R.layout.fragment_peer)
+        return container?.inflate(R.layout.fragment_hero)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
+        viewModel = ViewModelProviders.of(this, factory)[HeroViewModel::class.java]
 
-        viewModel = ViewModelProviders.of(this, factory)[PeerViewModel::class.java]
+        id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
 
         viewModel.initialFetch(id)
 
-        adapter = PeerAdapter {
-            val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("account_id", it)
-            startActivity(intent)
-        }
+        adapter = HeroAdapter()
 
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -62,15 +56,13 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
             }
         })
 
-        val sortDialog = PeerSortDialog.newInstance()
-        sortDialog.setTargetFragment(this, 300)
-        btnSort.setOnClickListener {
-            sortDialog.show(fragmentManager, null)
-        }
+        val sortDialog = HeroSortDialog.newInstance()
+        sortDialog.setTargetFragment(this, 301)
+        btnSort.setOnClickListener { sortDialog.show(fragmentManager, null) }
 
         swipeRefresh.setOnRefreshListener {
             if (NetworkUtil.isActive(context))
-                viewModel.fetchPeers(id)
+                viewModel.fetchHeroes(id)
             else {
                 toast("Check network connection!")
                 swipeRefresh.isRefreshing = false
@@ -84,7 +76,9 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
 
         when (sort) {
             0 -> viewModel.sortByGames(id)
-            else -> viewModel.sortByWinRate(id)
+            1 -> viewModel.sortByWinRate(id)
+            2 -> viewModel.sortByWins(id)
+            3 -> viewModel.sortByLosses(id)
         }
         // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
         adapter.addData(null)

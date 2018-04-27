@@ -8,6 +8,9 @@
 
     <string name="peer_winrate">%1$.2f%%</string>
 
+    <string name="hero_winrate">%1$.2f%%</string>
+    <string name="hero_win_loss">%1$d/%2$d</string>
+
     <string name="match_hero_damage">Hero damage: %1$d</string>
     <string name="match_tower_damage">Tower damage: %1$d</string>
     <string name="match_hero_healing">Hero healing: %1$d</string>
