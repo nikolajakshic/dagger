@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.profile.hero
+package com.nikola.jakshic.dagger.ui.profile.heroes
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData

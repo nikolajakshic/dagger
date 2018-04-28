@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.activity;
+package com.nikola.jakshic.dagger.ui.match;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -10,10 +10,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.nikola.jakshic.dagger.DaggerApp;
-import com.nikola.jakshic.dagger.view.adapter.MatchDetailAdapter;
 import com.nikola.jakshic.dagger.R;
-import com.nikola.jakshic.dagger.viewModel.MatchDetailViewModel;
-import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory;
+import com.nikola.jakshic.dagger.DaggerViewModelFactory;
 
 import javax.inject.Inject;
 

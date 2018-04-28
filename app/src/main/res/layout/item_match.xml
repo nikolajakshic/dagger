@@ -1,149 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingRight="16dp"
+    android:paddingEnd="16dp"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="com.nikola.jakshic.dagger.inspector.MatchInspector" />
-    </data>
+    <ImageView
+        android:id="@+id/imgHero"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_vertical"
+        android:background="#D3D3D3"
+        tools:src="@mipmap/ic_launcher" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvMatchResult"
+            style="@style/Base.TextAppearance.AppCompat.Body2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            tools:text="Win" />
 
-            <ImageView
-                android:background="#D3D3D3"
-                app:imageUrl="@{viewModel.getImageUrl()}"
-                android:id="@+id/image_match_hero"
-                android:layout_width="50dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center_vertical"
-                tools:src="@mipmap/ic_launcher" />
-
-            <LinearLayout
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/text_match_result"
-                    style="@style/Base.TextAppearance.AppCompat.Body2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{viewModel.getWin()}"
-                    android:textColor="@{viewModel.getResultColor()}"
-                    android:textSize="14sp"
-                    tools:text="Win" />
-
-                <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/text_match_skill"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{viewModel.getSkill()}"
-                    android:textColor="#999999"
-                    android:textSize="12sp"
-                    tools:text="Very High" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/text_match_mode"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{viewModel.getMode()}"
-                    android:textSize="14sp"
-                    tools:text="Ranked" />
-
-                <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:id="@+id/text_match_lobby"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="@{viewModel.getLobby()}"
-                    android:textColor="#999999"
-                    android:textSize="12sp"
-                    tools:text="All Pick" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:gravity="end"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    tools:text="42:11"
-                    android:id="@+id/text_match_duration"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.getDuration()}"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    tools:text="2 days ago"
-                    android:id="@+id/text_match_endtime"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.getEndTime()}"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:background="#D3D3D3" />
-
+        <TextView
+            android:id="@+id/tvMatchSkill"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            tools:text="Very High" />
     </LinearLayout>
 
-</layout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMatchMode"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="14sp"
+            tools:text="Ranked" />
+
+        <TextView
+            android:id="@+id/tvMatchLobby"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            tools:text="All Pick" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMatchDuration"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            tools:text="42:11" />
+
+        <TextView
+            android:id="@+id/tvMatchTimePassed"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            tools:text="2 days ago" />
+    </LinearLayout>
+
+</LinearLayout>

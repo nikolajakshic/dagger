@@ -13,8 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.view.activity.MatchActivity
-import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.match.MatchActivity
+import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.viewModel;
+package com.nikola.jakshic.dagger.ui.match;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;

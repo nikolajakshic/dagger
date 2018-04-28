@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.model.Region
 import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 

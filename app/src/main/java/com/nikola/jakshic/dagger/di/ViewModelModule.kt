@@ -2,14 +2,16 @@ package com.nikola.jakshic.dagger.di
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkViewModel
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveViewModel
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionViewModel
+import com.nikola.jakshic.dagger.ui.match.MatchDetailViewModel
 import com.nikola.jakshic.dagger.ui.profile.ProfileViewModel
-import com.nikola.jakshic.dagger.ui.profile.hero.HeroViewModel
-import com.nikola.jakshic.dagger.ui.profile.peer.PeerViewModel
+import com.nikola.jakshic.dagger.ui.profile.heroes.HeroViewModel
+import com.nikola.jakshic.dagger.ui.profile.matches.MatchViewModel
+import com.nikola.jakshic.dagger.ui.profile.peers.PeerViewModel
 import com.nikola.jakshic.dagger.ui.search.SearchViewModel
-import com.nikola.jakshic.dagger.viewModel.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

@@ -26,6 +26,8 @@
     <string name="match_hero_stuns">Stuns: %1$ss</string>
     <string name="match_radiant_victory">Radiant Victory</string>
     <string name="match_dire_victory">Dire Victory</string>
+    <string name="match_duration">%1$1d:%2$02d:%3$02d</string>
+    <string name="match_duration_zero_hours">%1$02d:%2$02d</string>
 
     <string name="content_description_hero">Hero image</string>
     <string name="content_description_item">Item image</string>

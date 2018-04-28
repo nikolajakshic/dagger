@@ -2,9 +2,9 @@ package com.nikola.jakshic.dagger.ui.profile
 
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.nikola.jakshic.dagger.ui.profile.hero.HeroFragment
-import com.nikola.jakshic.dagger.view.fragment.MatchFragment
-import com.nikola.jakshic.dagger.ui.profile.peer.PeerFragment
+import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
+import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
+import com.nikola.jakshic.dagger.ui.profile.peers.PeerFragment
 
 class ProfilePagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.profile.peer
+package com.nikola.jakshic.dagger.ui.profile.peers
 
 import android.app.Dialog
 import android.os.Bundle

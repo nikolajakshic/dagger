@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.viewModel;
+package com.nikola.jakshic.dagger;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

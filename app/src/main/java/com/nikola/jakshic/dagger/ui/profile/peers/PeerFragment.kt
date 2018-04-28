@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.profile.peer
+package com.nikola.jakshic.dagger.ui.profile.peers
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
-import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_peer.*
 import javax.inject.Inject
 

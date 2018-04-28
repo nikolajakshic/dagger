@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.search.SearchActivity"
             android:theme="@style/SearchTheme" />
-        <activity android:name=".view.activity.MatchActivity" />
+        <activity android:name=".ui.match.MatchActivity" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="Settings"

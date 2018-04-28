@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter
 import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
-import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 

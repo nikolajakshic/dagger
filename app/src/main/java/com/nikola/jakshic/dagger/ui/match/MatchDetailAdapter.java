@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.view.adapter;
+package com.nikola.jakshic.dagger.ui.match;
 
 import android.content.Context;
 import android.content.Intent;
