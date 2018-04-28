@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.data.remote
 
 import com.nikola.jakshic.dagger.model.*
 import com.nikola.jakshic.dagger.model.match.Match
+import com.nikola.jakshic.dagger.model.match.MatchStats
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.GET
@@ -36,7 +37,7 @@ interface OpenDotaService {
     fun getPeers(@Path("account_id") playerId: Long): Observable<List<Peer>>
 
     @GET("matches/{match_id}/")
-    fun getMatch(@Path("match_id") matchId: Long): Call<Match>
+    fun getMatch(@Path("match_id") matchId: Long): Call<MatchStats>
 
     @GET("proMatches")
     fun getCompetitiveMatches(): Observable<List<Competitive>>

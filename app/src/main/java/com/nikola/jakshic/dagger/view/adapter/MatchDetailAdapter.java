@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import com.nikola.jakshic.dagger.R;
 import com.nikola.jakshic.dagger.databinding.ItemMatchDetailCollapseBinding;
 import com.nikola.jakshic.dagger.inspector.MatchDetailInspector;
-import com.nikola.jakshic.dagger.model.match.Match;
+import com.nikola.jakshic.dagger.model.match.MatchStats;
 import com.nikola.jakshic.dagger.model.match.PlayerStats;
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity;
 
 public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.MatchDetailViewHolder> {
 
-    private Match match;
+    private MatchStats match;
     private Context context;
 
     public MatchDetailAdapter(Context context) {
@@ -76,7 +76,7 @@ public class MatchDetailAdapter extends RecyclerView.Adapter<MatchDetailAdapter.
         });
     }
 
-    public void addData(Match match) {
+    public void addData(MatchStats match) {
         this.match = match;
         notifyDataSetChanged();
     }

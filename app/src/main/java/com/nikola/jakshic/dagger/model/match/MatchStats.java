@@ -1,24 +1,31 @@
-/*package com.nikola.jakshic.dagger.model.match;
-
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
+package com.nikola.jakshic.dagger.model.match;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "matches", primaryKeys = {"match_id", "account_id"})
-public class Match {
+import java.util.List;
 
-    @ColumnInfo(name = "account_id") private long accountId;
-    @ColumnInfo(name = "match_id")@SerializedName("match_id") @Expose public long matchId;
-    @ColumnInfo(name = "hero_id") @SerializedName("hero_id") @Expose private long heroId;
-    @ColumnInfo(name = "player_slot") @SerializedName("player_slot") @Expose private long playerSlot;
-    @ColumnInfo(name = "skill") @SerializedName("skill") private @Expose long skill;
-    @ColumnInfo(name = "duration")@SerializedName("duration") @Expose public long duration;
-    @ColumnInfo(name = "mode") @SerializedName("game_mode") @Expose public long gameMode;
-    @ColumnInfo(name = "lobby") @SerializedName("lobby_type") @Expose public long lobbyType;
-    @ColumnInfo(name = "radiant_win") @SerializedName("radiant_win") @Expose public boolean radiantWin;
-    @ColumnInfo(name = "start_time") @SerializedName("start_time") @Expose public long startTime;
+public class MatchStats {
+
+    @SerializedName("match_id") @Expose public long matchId;
+    @SerializedName("hero_id") @Expose private long heroId;
+    @SerializedName("player_slot") @Expose private long playerSlot;
+    @SerializedName("skill") private @Expose long skill;
+
+    @SerializedName("dire_score") @Expose public long direScore;
+    @SerializedName("duration") @Expose public long duration;
+    @SerializedName("game_mode") @Expose public long gameMode;
+    @SerializedName("lobby_type") @Expose public long lobbyType;
+    @SerializedName("picks_bans") @Expose public List<PicksBan> picksBans = null;
+    @SerializedName("radiant_gold_adv") @Expose public List<Long> radiantGoldAdv = null;
+    @SerializedName("radiant_score") @Expose public long radiantScore;
+    @SerializedName("radiant_win") @Expose public boolean radiantWin;
+    @SerializedName("radiant_xp_adv") @Expose public List<Long> radiantXpAdv = null;
+    @SerializedName("start_time") @Expose public long startTime;
+    @SerializedName("league") @Expose public League league;
+    @SerializedName("radiant_team") @Expose public RadiantTeam radiantTeam;
+    @SerializedName("dire_team") @Expose public DireTeam direTeam;
+   @SerializedName("players") @Expose public List<PlayerStats> players = null;
 
     public long getMatchId() {
         return matchId;
@@ -36,6 +43,10 @@ public class Match {
         return skill;
     }
 
+    public long getDireScore() {
+        return direScore;
+    }
+
     public long getDuration() {
         return duration;
     }
@@ -50,14 +61,6 @@ public class Match {
 
     public void setRadiantWin(boolean radiantWin) {
         this.radiantWin = radiantWin;
-    }
-
-    public long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(long accountId) {
-        this.accountId = accountId;
     }
 
     public void setMatchId(long matchId) {
@@ -92,12 +95,44 @@ public class Match {
         this.startTime = startTime;
     }
 
+    public List<PicksBan> getPicksBans() {
+        return picksBans;
+    }
+
+    public List<Long> getRadiantGoldAdv() {
+        return radiantGoldAdv;
+    }
+
+    public long getRadiantScore() {
+        return radiantScore;
+    }
+
     public boolean isRadiantWin() {
         return radiantWin;
     }
 
+    public List<Long> getRadiantXpAdv() {
+        return radiantXpAdv;
+    }
+
     public long getStartTime() {
         return startTime;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public RadiantTeam getRadiantTeam() {
+        return radiantTeam;
+    }
+
+    public DireTeam getDireTeam() {
+        return direTeam;
+    }
+
+    public List<PlayerStats> getPlayers() {
+        return players;
     }
 
     @Override
@@ -105,9 +140,8 @@ public class Match {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Match match = (Match) o;
+        MatchStats match = (MatchStats) o;
 
-        if (accountId != match.accountId) return false;
         if (matchId != match.matchId) return false;
         if (heroId != match.heroId) return false;
         if (playerSlot != match.playerSlot) return false;
@@ -121,8 +155,7 @@ public class Match {
 
     @Override
     public int hashCode() {
-        int result = (int) (accountId ^ (accountId >>> 32));
-        result = 31 * result + (int) (matchId ^ (matchId >>> 32));
+        int result = (int) (matchId ^ (matchId >>> 32));
         result = 31 * result + (int) (heroId ^ (heroId >>> 32));
         result = 31 * result + (int) (playerSlot ^ (playerSlot >>> 32));
         result = 31 * result + (int) (skill ^ (skill >>> 32));
@@ -133,4 +166,4 @@ public class Match {
         result = 31 * result + (int) (startTime ^ (startTime >>> 32));
         return result;
     }
-}*/
+}

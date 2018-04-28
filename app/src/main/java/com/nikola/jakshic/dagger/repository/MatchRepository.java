@@ -13,6 +13,7 @@ import com.nikola.jakshic.dagger.data.local.DotaDatabase;
 import com.nikola.jakshic.dagger.data.local.MatchDao;
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService;
 import com.nikola.jakshic.dagger.model.match.Match;
+import com.nikola.jakshic.dagger.model.match.MatchStats;
 
 import java.util.List;
 
@@ -106,17 +107,17 @@ public class MatchRepository {
         });
     }
 
-    public void fetchMatchData(MutableLiveData<Match> match, MutableLiveData<Boolean> loading, long matchId) {
+    public void fetchMatchData(MutableLiveData<MatchStats> match, MutableLiveData<Boolean> loading, long matchId) {
         loading.setValue(true);
-        service.getMatch(matchId).enqueue(new Callback<Match>() {
+        service.getMatch(matchId).enqueue(new Callback<MatchStats>() {
             @Override
-            public void onResponse(Call<Match> call, Response<Match> response) {
+            public void onResponse(Call<MatchStats> call, Response<MatchStats> response) {
                 match.setValue(response.body());
                 loading.setValue(false);
             }
 
             @Override
-            public void onFailure(Call<Match> call, Throwable t) {
+            public void onFailure(Call<MatchStats> call, Throwable t) {
                 loading.setValue(false);
             }
         });

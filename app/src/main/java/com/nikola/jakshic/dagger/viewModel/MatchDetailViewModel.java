@@ -3,14 +3,14 @@ package com.nikola.jakshic.dagger.viewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import com.nikola.jakshic.dagger.model.match.Match;
+import com.nikola.jakshic.dagger.model.match.MatchStats;
 import com.nikola.jakshic.dagger.repository.MatchRepository;
 
 import javax.inject.Inject;
 
 public class MatchDetailViewModel extends ViewModel {
 
-    private MutableLiveData<Match> match;
+    private MutableLiveData<MatchStats> match;
     private MatchRepository repository;
     private MutableLiveData<Boolean> loading;
     private boolean initialFetch;
@@ -34,7 +34,7 @@ public class MatchDetailViewModel extends ViewModel {
         repository.fetchMatchData(match, loading, matchId);
     }
 
-    public MutableLiveData<Match> getMatchData() {
+    public MutableLiveData<MatchStats> getMatchData() {
         return match;
     }
 
