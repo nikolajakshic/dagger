@@ -23,7 +23,6 @@ interface HeroDao {
     @Query("SELECT * FROM heroes WHERE heroes.account_id = :id ORDER BY (heroes.games-heroes.wins) DESC")
     fun getHeroesByLosses(id: Long): LiveData<List<Hero>>
 
-    @JvmSuppressWildcards
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertHeroes(list: List<Hero>)
 }

@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.repository.Region
+import com.nikola.jakshic.dagger.model.Region
 import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.viewModel.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_region.*
@@ -22,7 +22,6 @@ class RegionFragment : Fragment() {
     @Inject lateinit var factory: DaggerViewModelFactory
 
     companion object {
-        @JvmStatic // necessary because we are calling this method from java
         fun newInstance(region: Region): RegionFragment {
             val fragment = RegionFragment()
             val args = Bundle()

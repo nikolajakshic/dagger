@@ -38,10 +38,3 @@ class LeaderboardRepository @Inject constructor(
                 })
     }
 }
-
-enum class Region {
-    AMERICAS,
-    CHINA,
-    EUROPE,
-    SE_ASIA
-}

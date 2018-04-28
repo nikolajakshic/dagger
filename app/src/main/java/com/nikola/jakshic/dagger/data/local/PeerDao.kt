@@ -17,7 +17,6 @@ interface PeerDao {
     @Query("SELECT * FROM peers WHERE peers.account_id = :id ORDER BY ((peers.wins*1.0/peers.games)*100) DESC")
     fun getByWinrate(id: Long): LiveData<List<Peer>>
 
-    @JvmSuppressWildcards
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertPeers(peers: List<Peer>)
 }

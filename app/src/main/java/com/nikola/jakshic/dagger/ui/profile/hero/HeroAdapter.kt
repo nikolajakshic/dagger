@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.item_hero.view.*
 class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
 
     private val options = RequestOptions().centerCrop()
+    private var list: List<Hero>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
         return HeroVH(parent.inflate(R.layout.item_hero))
@@ -30,8 +31,6 @@ class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
     }
 
     override fun getItemCount() = list?.size ?: 0
-
-    private var list: List<Hero>? = null
 
     inner class HeroVH(view: View) : RecyclerView.ViewHolder(view) {
 
