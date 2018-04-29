@@ -30,8 +30,10 @@ class LeaderboardRepository @Inject constructor(
                 }                        // by regions
                 .toList()
                 .subscribe({ list ->
-                    dao.deleteLeaderboards(region)  // delete the old data
-                    dao.insertLeaderboard(list)     // insert the new one
+                    if (list.size != 0) {
+                        dao.deleteLeaderboards(region)  // delete the old data
+                        dao.insertLeaderboard(list)
+                    }   // insert the new one
                     status.postValue(Status.SUCCESS)
                 }, { error ->
                     status.postValue(Status.ERROR)

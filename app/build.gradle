@@ -65,6 +65,7 @@ dependencies {
     implementation 'android.arch.lifecycle:common-java8:1.1.0'
     //Room
     implementation 'android.arch.persistence.room:runtime:1.0.0'
+    implementation "android.arch.persistence.room:rxjava2:1.0.0"
     kapt 'android.arch.persistence.room:compiler:1.0.0'
     //Paging
     implementation 'android.arch.paging:runtime:1.0.0-alpha6'

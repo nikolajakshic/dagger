@@ -7,6 +7,7 @@ import android.arch.paging.PagedList
 import com.nikola.jakshic.dagger.Status
 import com.nikola.jakshic.dagger.model.match.Match
 import com.nikola.jakshic.dagger.repository.MatchRepository
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class MatchViewModel @Inject constructor(private val repository: MatchRepository) : ViewModel() {
@@ -15,16 +16,21 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
         private set
     val status = MutableLiveData<Status>()
     private var initialFetch = false
+    private val disposables = CompositeDisposable()
 
     fun initialFetch(id: Long){
         if(!initialFetch){
             initialFetch = true
-            list = repository.getMatches(status, id)
-            repository.refreshMatches(status, id)
+            list = repository.getMatchesFromDb(id,status, disposables)
+            fetchMatches(id)
         }
     }
 
     fun fetchMatches(id: Long){
-        repository.refreshMatches(status, id)
+        disposables.add(repository.refreshMatches(status, id))
+    }
+
+    override fun onCleared() {
+        disposables.clear()
     }
 }
