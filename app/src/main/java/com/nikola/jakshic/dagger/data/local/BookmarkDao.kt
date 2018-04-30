@@ -8,7 +8,8 @@ import com.nikola.jakshic.dagger.model.Player
 @Dao
 interface BookmarkDao {
 
-    @Query("SELECT * FROM bookmark INNER JOIN players WHERE bookmark.account_id = players.account_id")
+    @Query("SELECT * FROM bookmark INNER JOIN players " +
+            "WHERE bookmark.account_id = players.account_id ORDER BY bookmark.count DESC")
     fun getPlayers(): LiveData<List<Player>>
 
     @Query("SELECT * FROM bookmark INNER JOIN players WHERE bookmark.account_id = :id")

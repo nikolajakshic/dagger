@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="260dp">
+    android:layout_height="300dp">
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="130dp" />
+        app:layout_constraintGuide_begin="150dp" />
 
     <View
         android:id="@+id/topBackground"
@@ -25,22 +25,22 @@
         android:id="@+id/imgPlayerAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="88dp"
         app:civ_border_color="#FFFFFF"
         app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
-        android:text="Games:"
         android:id="@+id/tvPlayerGames"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:text="Games:"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -49,13 +49,13 @@
         tools:text="Games: 3679" />
 
     <TextView
-        android:text="Winrate:"
         android:id="@+id/tvPlayerWinRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
+        android:text="Winrate:"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
@@ -64,34 +64,34 @@
         tools:text="Winrate: 52.24%" />
 
     <TextView
-        android:text="Losses:"
         android:id="@+id/tvPlayerLosses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:text="Losses:"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Losses: 1757"/>
+        tools:text="Losses: 1757" />
 
     <TextView
-        android:text="Wins"
         android:id="@+id/tvPlayerWins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:text="Wins"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvPlayerLosses"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Wins: 1922"/>
+        tools:text="Wins: 1922" />
 
     <TextView
         android:id="@+id/tvPlayerName"
@@ -103,7 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgPlayerAvatar"
-        tools:text="drspalevic"/>
+        tools:text="drspalevic" />
 
     <TextView
         android:id="@+id/tvPlayerId"
@@ -116,7 +116,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPlayerName"
-        tools:text="176405398"/>
+        tools:text="176405398" />
 
     <Button
         android:id="@+id/btnFollow"
@@ -127,9 +127,40 @@
         android:text="Follow"
         android:textColor="@color/colorAccent"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPlayerId" />
+
+    <ImageView
+        android:id="@+id/imgRankMedal"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ic_rank_6" />
+
+    <ImageView
+        android:id="@+id/imgRankStars"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
+        app:layout_constraintTop_toTopOf="@id/imgRankMedal"
+        tools:srcCompat="@drawable/ic_rank_star_5" />
+
+    <TextView
+        android:id="@+id/tvLeaderboardRank"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
+        app:layout_constraintStart_toStartOf="@id/imgRankMedal"
+        app:layout_constraintTop_toTopOf="@id/imgRankMedal"
+        tools:text="354" />
 
 </android.support.constraint.ConstraintLayout>

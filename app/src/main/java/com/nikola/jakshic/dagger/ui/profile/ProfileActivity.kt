@@ -2,6 +2,8 @@ package com.nikola.jakshic.dagger.ui.profile
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -34,10 +36,17 @@ class ProfileActivity : AppCompatActivity() {
         viewModel.profile.observe(this, Observer {
             if (it != null) {
                 Glide.with(this).load(it.avatarUrl).into(imgPlayerAvatar)
-                val name = if (TextUtils.isEmpty(it.name)) it.personaName else it.name
 
+                val rankMedalDrawable = getRankMedalDrawable(this, it.rankTier, it.leaderboardRank)
+                val rankStarsDrawable = getRankStarsDrawable(this, it.rankTier, it.leaderboardRank)
+                imgRankMedal.setImageDrawable(rankMedalDrawable)
+                imgRankStars.setImageDrawable(rankStarsDrawable)
+
+                val name = if (TextUtils.isEmpty(it.name)) it.personaName else it.name
                 collapsingToolbar.title = name
                 tvPlayerName.text = name
+
+                tvLeaderboardRank.text = if (it.leaderboardRank != 0L) it.leaderboardRank.toString() else null
                 tvPlayerId.text = it.id.toString()
                 tvPlayerGames.text = resources.getString(R.string.player_games, it.wins + it.losses)
                 tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins)
@@ -73,5 +82,48 @@ class ProfileActivity : AppCompatActivity() {
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = ProfilePagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
+    }
+
+    // TODO Once DotaUtil is converted to Kotlin, we can move this method there
+    private fun getRankMedalDrawable(context: Context, rankTier: Long, leaderBoardRank: Long): Drawable? {
+        val resource = context.resources
+        val packageName = context.packageName
+        var drawableName = "ic_rank_"
+
+        drawableName = when {
+            rankTier == 0L -> drawableName + "0"
+            leaderBoardRank in 1..10 -> drawableName + "7c"
+            leaderBoardRank in 11..100 -> drawableName + "7b"
+            leaderBoardRank in 101..1000 -> drawableName + "7a"
+            else -> drawableName + rankTier / 10
+        }
+        val resourceId = resource.getIdentifier(drawableName, "drawable", packageName)
+
+        return try {
+            ContextCompat.getDrawable(context, resourceId)
+        } catch (e: Exception) {
+            null // resources not found
+        }
+    }
+
+    // TODO Once DotaUtil is converted to Kotlin, we can move this method there
+    private fun getRankStarsDrawable(context: Context, rankTier: Long, leaderBoardRank: Long): Drawable? {
+        val resource = context.resources
+        val packageName = context.packageName
+        var drawableName = "ic_rank_star_"
+
+        drawableName = when {
+        // Resources.getIdentifier throws Exception if name param is null,
+        // so we need to return empty String
+            leaderBoardRank in 1..1000 -> "" // top 1000 players have special medals without stars
+            else -> drawableName + rankTier % 10
+        }
+        val resourceId = resource.getIdentifier(drawableName, "drawable", packageName)
+
+        return try {
+            ContextCompat.getDrawable(context, resourceId)
+        } catch (e: Exception) {
+            null // resources not found
+        }
     }
 }
