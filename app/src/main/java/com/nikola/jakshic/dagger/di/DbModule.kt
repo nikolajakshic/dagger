@@ -45,6 +45,8 @@ class DbModule {
     @Provides
     @Singleton
     fun provideDotaDatabase(context: Context): DotaDatabase {
-        return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db").build()
+        return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }
