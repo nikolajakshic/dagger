@@ -45,7 +45,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchPlayers(name: String) {
-        disposables.add(repository.fetchPlayers(playerList, status, name))
+        disposables.add(repository.fetchPlayers(disposables, playerList, status, name))
     }
 
     fun clearList() {

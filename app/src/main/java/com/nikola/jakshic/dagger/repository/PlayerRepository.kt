@@ -7,6 +7,7 @@ import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.model.Player
 import com.nikola.jakshic.dagger.model._Player
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -18,8 +19,6 @@ class PlayerRepository @Inject constructor(
         private val service: OpenDotaService,
         private val dao: PlayerDao) {
 
-    private var disposable: Disposable? = null
-
     fun getProfile(id: Long): Disposable {
         val profile = service.getPlayerProfile(id)
         val winsLosses = service.getPlayerWinLoss(id)
@@ -30,21 +29,25 @@ class PlayerRepository @Inject constructor(
             t1.player.wins = t2.wins
             t1.player.losses = t2.losses
             t1
-        }).subscribeOn(Schedulers.io())
-                .subscribe({ dao.insertPlayer(it.player) }, { error -> })
+        })
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        { dao.insertPlayer(it.player) },
+                        { error -> })
     }
 
     fun fetchPlayers(
+            disposables: CompositeDisposable,
             list: MutableLiveData<List<Player>>,
             status: MutableLiveData<Status>,
             name: String): Disposable {
 
         // Users can hit the search button multiple times
         // So we need to cancel previous call
-        if (disposable != null) disposable?.dispose()
+        disposables.clear()
 
         status.value = Status.LOADING
-        disposable = service.searchPlayers(name)
+        return service.searchPlayers(name)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     list.postValue(it)
@@ -52,6 +55,5 @@ class PlayerRepository @Inject constructor(
                 }, {
                     status.postValue(Status.ERROR)
                 })
-        return disposable!!
     }
 }
