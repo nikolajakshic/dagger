@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.ui.match
 import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.model.match.MatchStats
 import com.nikola.jakshic.dagger.model.match.PlayerStats
+import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.activity_match_stats.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
@@ -90,6 +92,14 @@ class MatchStatsActivity : AppCompatActivity() {
             Glide.with(this).load(DotaUtil.getItem(context, item.backpack0)).transition(withCrossFade()).into(imgBackpack0)
             Glide.with(this).load(DotaUtil.getItem(context, item.backpack1)).transition(withCrossFade()).into(imgBackpack1)
             Glide.with(this).load(DotaUtil.getItem(context, item.backpack2)).transition(withCrossFade()).into(imgBackpack2)
+
+            // Having personaName = null means the player has not exposed his data to public,
+            // so we don't need to set onClickListener
+            if (!TextUtils.isEmpty(item.personaName)) tvPlayerName.setOnClickListener {
+                val intent = Intent(this@MatchStatsActivity, ProfileActivity::class.java)
+                intent.putExtra("account_id", item.id)
+                startActivity(intent)
+            }
         }
     }
 
