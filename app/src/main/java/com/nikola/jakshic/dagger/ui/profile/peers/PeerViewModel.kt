@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.ui.Status
-import com.nikola.jakshic.dagger.model.Peer
+import com.nikola.jakshic.dagger.vo.Peer
 import com.nikola.jakshic.dagger.repository.PeerRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

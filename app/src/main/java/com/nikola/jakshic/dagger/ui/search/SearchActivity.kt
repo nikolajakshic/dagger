@@ -12,7 +12,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.model.SearchHistory
+import com.nikola.jakshic.dagger.vo.SearchHistory
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter

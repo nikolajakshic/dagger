@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.ui.match
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.nikola.jakshic.dagger.model.match.MatchStats
+import com.nikola.jakshic.dagger.vo.MatchStats
 import com.nikola.jakshic.dagger.repository.MatchRepository
 import javax.inject.Inject
 

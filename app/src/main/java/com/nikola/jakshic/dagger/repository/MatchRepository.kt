@@ -7,8 +7,8 @@ import android.arch.paging.PagedList
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import com.nikola.jakshic.dagger.model.match.Match
-import com.nikola.jakshic.dagger.model.match.MatchStats
+import com.nikola.jakshic.dagger.vo.Match
+import com.nikola.jakshic.dagger.vo.MatchStats
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.model.Competitive
+import com.nikola.jakshic.dagger.vo.Competitive
 import kotlinx.android.synthetic.main.item_competitive.view.*
 import java.util.concurrent.TimeUnit
 

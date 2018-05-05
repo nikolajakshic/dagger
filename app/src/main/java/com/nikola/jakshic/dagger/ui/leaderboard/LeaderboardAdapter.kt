@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.model.Leaderboard
+import com.nikola.jakshic.dagger.vo.Leaderboard
 import kotlinx.android.synthetic.main.item_leaderboard.view.*
 
 class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH>() {

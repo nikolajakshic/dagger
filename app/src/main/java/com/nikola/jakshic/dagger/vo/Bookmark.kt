@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.model
+package com.nikola.jakshic.dagger.vo
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity

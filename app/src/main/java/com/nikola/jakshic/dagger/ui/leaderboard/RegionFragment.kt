@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.model.Region
+import com.nikola.jakshic.dagger.vo.Region
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
 import kotlinx.android.synthetic.main.fragment_region.*

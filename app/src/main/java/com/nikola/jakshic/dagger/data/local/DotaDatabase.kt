@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.data.local
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import com.nikola.jakshic.dagger.model.*
-import com.nikola.jakshic.dagger.model.match.Match
+import com.nikola.jakshic.dagger.vo.*
+import com.nikola.jakshic.dagger.vo.Match
 
 @Database(entities = arrayOf(
         Competitive::class,

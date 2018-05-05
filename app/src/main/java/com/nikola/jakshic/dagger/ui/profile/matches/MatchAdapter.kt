@@ -6,14 +6,13 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.view.View.MeasureSpec.getMode
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.model.match.Match
+import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_match.view.*
 import java.util.concurrent.TimeUnit

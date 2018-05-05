@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.LeaderboardDao
-import com.nikola.jakshic.dagger.model.Leaderboard
+import com.nikola.jakshic.dagger.vo.Leaderboard
 import com.nikola.jakshic.dagger.repository.LeaderboardRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

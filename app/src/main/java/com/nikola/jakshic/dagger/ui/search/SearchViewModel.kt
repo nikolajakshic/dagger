@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
-import com.nikola.jakshic.dagger.model.Player
-import com.nikola.jakshic.dagger.model.SearchHistory
+import com.nikola.jakshic.dagger.vo.Player
+import com.nikola.jakshic.dagger.vo.SearchHistory
 import com.nikola.jakshic.dagger.repository.PlayerRepository
 import io.reactivex.Completable
 import io.reactivex.Single

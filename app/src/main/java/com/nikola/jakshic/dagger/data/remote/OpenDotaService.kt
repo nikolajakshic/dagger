@@ -1,8 +1,8 @@
 package com.nikola.jakshic.dagger.data.remote
 
-import com.nikola.jakshic.dagger.model.*
-import com.nikola.jakshic.dagger.model.match.Match
-import com.nikola.jakshic.dagger.model.match.MatchStats
+import com.nikola.jakshic.dagger.vo.*
+import com.nikola.jakshic.dagger.vo.Match
+import com.nikola.jakshic.dagger.vo.MatchStats
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.GET

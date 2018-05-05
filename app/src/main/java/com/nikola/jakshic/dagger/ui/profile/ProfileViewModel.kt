@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.data.local.BookmarkDao
 import com.nikola.jakshic.dagger.data.local.PlayerDao
-import com.nikola.jakshic.dagger.model.Bookmark
-import com.nikola.jakshic.dagger.model.Player
+import com.nikola.jakshic.dagger.vo.Bookmark
+import com.nikola.jakshic.dagger.vo.Player
 import com.nikola.jakshic.dagger.repository.PlayerRepository
 import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable

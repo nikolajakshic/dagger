@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.data.local
 
 import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
-import com.nikola.jakshic.dagger.model.Bookmark
-import com.nikola.jakshic.dagger.model.Player
+import com.nikola.jakshic.dagger.vo.Bookmark
+import com.nikola.jakshic.dagger.vo.Player
 
 @Dao
 interface BookmarkDao {

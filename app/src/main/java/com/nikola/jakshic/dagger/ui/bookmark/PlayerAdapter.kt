@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.model.Player
+import com.nikola.jakshic.dagger.vo.Player
 import kotlinx.android.synthetic.main.item_player.view.*
 
 class PlayerAdapter(val listener: (Player) -> Unit) : RecyclerView.Adapter<PlayerAdapter.PlayerVH>() {

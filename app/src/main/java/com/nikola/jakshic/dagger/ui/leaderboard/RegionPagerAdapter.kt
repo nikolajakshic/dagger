@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.ui.leaderboard
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.nikola.jakshic.dagger.model.Region
+import com.nikola.jakshic.dagger.vo.Region
 
 class RegionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

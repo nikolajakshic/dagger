@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.model.match
+package com.nikola.jakshic.dagger.vo
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

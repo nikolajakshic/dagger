@@ -14,8 +14,8 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withC
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.model.match.MatchStats
-import com.nikola.jakshic.dagger.model.match.PlayerStats
+import com.nikola.jakshic.dagger.vo.MatchStats
+import com.nikola.jakshic.dagger.vo.PlayerStats
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.activity_match_stats.*

@@ -7,7 +7,7 @@ import android.arch.paging.PagedList
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import com.nikola.jakshic.dagger.model.Competitive
+import com.nikola.jakshic.dagger.vo.Competitive
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject

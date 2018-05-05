@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.model.SearchHistory
+import com.nikola.jakshic.dagger.vo.SearchHistory
 import kotlinx.android.synthetic.main.item_search_history.view.*
 
 class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<HistoryAdapter.HistoryVH>() {

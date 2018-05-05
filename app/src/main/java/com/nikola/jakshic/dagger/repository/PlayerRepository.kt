@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.PlayerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import com.nikola.jakshic.dagger.model.Player
-import com.nikola.jakshic.dagger.model._Player
+import com.nikola.jakshic.dagger.vo.Player
+import com.nikola.jakshic.dagger.vo._Player
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
