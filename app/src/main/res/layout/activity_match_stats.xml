@@ -30,17 +30,25 @@
                 android:id="@+id/player0"
                 layout="@layout/item_match_stats" />
 
+            <include layout="@layout/item_divider" />
+
             <include
                 android:id="@+id/player1"
                 layout="@layout/item_match_stats" />
+
+            <include layout="@layout/item_divider" />
 
             <include
                 android:id="@+id/player2"
                 layout="@layout/item_match_stats" />
 
+            <include layout="@layout/item_divider" />
+
             <include
                 android:id="@+id/player3"
                 layout="@layout/item_match_stats" />
+
+            <include layout="@layout/item_divider" />
 
             <include
                 android:id="@+id/player4"
@@ -59,17 +67,25 @@
                 android:id="@+id/player5"
                 layout="@layout/item_match_stats" />
 
+            <include layout="@layout/item_divider" />
+
             <include
                 android:id="@+id/player6"
                 layout="@layout/item_match_stats" />
+
+            <include layout="@layout/item_divider" />
 
             <include
                 android:id="@+id/player7"
                 layout="@layout/item_match_stats" />
 
+            <include layout="@layout/item_divider" />
+
             <include
                 android:id="@+id/player8"
                 layout="@layout/item_match_stats" />
+
+            <include layout="@layout/item_divider" />
 
             <include
                 android:id="@+id/player9"

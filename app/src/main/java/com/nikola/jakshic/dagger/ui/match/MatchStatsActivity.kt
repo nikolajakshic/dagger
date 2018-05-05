@@ -23,8 +23,7 @@ import javax.inject.Inject
 
 class MatchStatsActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: DaggerViewModelFactory
+    @Inject lateinit var factory: DaggerViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DaggerApp).appComponent.inject(this)
@@ -52,11 +51,11 @@ class MatchStatsActivity : AppCompatActivity() {
         bindMatchStats(matchStats)
 
         for (i in 0 until container.childCount) {
-            if (i == 0 || i == 6) continue
+            // Player stats data can be bound only on MatchStatsLayout,
+            // so we need to ignore other layouts
+            val view = container.getChildAt(i) as? MatchStatsLayout ?: continue
 
-            val view = container.getChildAt(i)
             val playerStats = matchStats.players!![playerPosition]
-
             bindPlayerStats(view, playerStats)
 
             playerPosition++
@@ -65,7 +64,6 @@ class MatchStatsActivity : AppCompatActivity() {
 
     private fun bindPlayerStats(view: View, item: PlayerStats) {
         with(view) {
-
             Glide.with(this).load(DotaUtil.getHero(context, item.heroId)).transition(withCrossFade()).into(imgHero)
             tvPlayerName.text = getPlayerName(item)
             val playerColor = ContextCompat.getColor(context, if (item.playerSlot <= 4) R.color.color_green else R.color.color_red)
@@ -103,7 +101,6 @@ class MatchStatsActivity : AppCompatActivity() {
 
         val radiantName = if (TextUtils.isEmpty(item.radiantTeam?.name)) "The Radiant" else item.radiantTeam?.name
         val direName = if (TextUtils.isEmpty(item.direTeam?.name)) "The Dire" else item.direTeam?.name
-
         tvRadiantName.text = radiantName
         tvDireName.text = direName
     }
