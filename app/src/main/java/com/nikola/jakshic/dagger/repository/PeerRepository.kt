@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import io.reactivex.Observable

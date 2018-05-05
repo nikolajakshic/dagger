@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.item_hero.view.*
 
 class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
 
-    private val options = RequestOptions().centerCrop()
     private var list: List<Hero>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
@@ -37,8 +36,7 @@ class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
         fun bind(item: Hero) {
             with(itemView) {
                 Glide.with(this)
-                        .load(DotaUtil.Image.getHeroUrl(context, item.heroId))
-                        .apply(options)
+                        .load(DotaUtil.getHero(context, item.heroId))
                         .transition(withCrossFade())
                         .into(imgHero)
                 tvGamesPlayed.text = item.gamesPlayed.toString()

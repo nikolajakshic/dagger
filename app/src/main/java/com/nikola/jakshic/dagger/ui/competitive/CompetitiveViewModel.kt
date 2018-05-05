@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.ui.competitive
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.repository.CompetitiveRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

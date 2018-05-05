@@ -12,8 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.model.Region
-import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
@@ -65,7 +65,7 @@ class RegionFragment : Fragment() {
             }
         })
         swipeRefresh.setOnRefreshListener {
-            if (NetworkUtil.isActive(activity))
+            if (hasNetworkConnection())
                 viewModel.fetchLeaderboard(region)
             else {
                 toast("Check network connection!")

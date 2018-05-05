@@ -11,15 +11,12 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.model.SearchHistory
-import com.nikola.jakshic.dagger.toast
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter
-import com.nikola.jakshic.dagger.util.NetworkUtil
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
@@ -114,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.clearList()
 
-                if (NetworkUtil.isActive(this@SearchActivity))
+                if (hasNetworkConnection())
                     viewModel.fetchPlayers(query!!)
                 else
                     toast("Check network connection!")

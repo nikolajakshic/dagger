@@ -12,9 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.util.NetworkUtil
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_peer.*
 import javax.inject.Inject
 
@@ -69,7 +69,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         }
 
         swipeRefresh.setOnRefreshListener {
-            if (NetworkUtil.isActive(context))
+            if (hasNetworkConnection())
                 viewModel.fetchPeers(id)
             else {
                 toast("Check network connection!")

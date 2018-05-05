@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.arch.paging.PagedList
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.model.match.Match
 import com.nikola.jakshic.dagger.repository.MatchRepository
 import io.reactivex.disposables.CompositeDisposable

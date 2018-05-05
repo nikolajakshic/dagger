@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.View.MeasureSpec.getMode
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
@@ -39,19 +40,18 @@ class MatchAdapter(
         fun bind(item: Match) {
             with(itemView) {
                 Glide.with(this)
-                        .load(DotaUtil.Image.getHeroUrl(context, item.heroId))
-                        .apply(options)
+                        .load(DotaUtil.getHero(context, item.heroId))
                         .transition(withCrossFade())
                         .into(imgHero)
                 tvMatchResult.text = if (isWin(item)) "Won" else "Lost"
                 val resultColor = if (isWin(item))
-                    ContextCompat.getColor(context, R.color.match_won)
+                    ContextCompat.getColor(context, R.color.color_green)
                 else
-                    ContextCompat.getColor(context, R.color.match_lost)
+                    ContextCompat.getColor(context, R.color.color_red)
                 tvMatchResult.setTextColor(resultColor)
-                tvMatchSkill.text = DotaUtil.Match.getSkill(item.skill, "Unknown")
-                tvMatchMode.text = DotaUtil.Match.getMode(item.gameMode, "Unknown")
-                tvMatchLobby.text = DotaUtil.Match.getLobby(item.lobbyType, "Unknown")
+                tvMatchSkill.text = DotaUtil.skill[item.skill.toInt(), "Unknown"]
+                tvMatchMode.text = DotaUtil.mode[item.gameMode.toInt(), "Unknown"]
+                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType.toInt(), "Unknown"]
                 tvMatchDuration.text = getDuration(context, item)
                 tvMatchTimePassed.text = getTimePassed(context, item)
             }

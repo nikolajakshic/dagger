@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:paddingLeft="16dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvHeroDamage"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="11sp"
+            tools:text="Hero damage: 12000" />
+
+        <TextView
+            android:id="@+id/tvTowerDamage"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="Tower damage: 299" />
+
+        <TextView
+            android:id="@+id/tvHeroHealing"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="Hero healing: 12" />
+
+        <TextView
+            android:id="@+id/tvLastHits"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="Last hits: 112" />
+
+        <TextView
+            android:id="@+id/tvDenies"
+            style="@style/Base.TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="Denies: 29" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/imgBackpack0"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/imgBackpack1"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/imgBackpack2"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:background="#d3d3d3"
+                tools:src="@mipmap/ic_launcher" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp">
+
+            <TextView
+                android:id="@+id/tvObserver"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textSize="11sp"
+                tools:text="13x" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_observer" />
+
+            <TextView
+                android:id="@+id/tvSentry"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:textSize="11sp"
+                tools:text="4x" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_sentry" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvGpm"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="GPM: 499" />
+
+        <TextView
+            android:id="@+id/tvXpm"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:textSize="11sp"
+            tools:text="XPM: 388" />
+
+    </LinearLayout>
+</LinearLayout>

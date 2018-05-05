@@ -12,9 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.ui.match.MatchActivity
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.ui.match.MatchStatsActivity
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 
@@ -38,8 +38,8 @@ class CompetitiveFragment : Fragment() {
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
         val adapter = CompetitiveAdapter(context) {
-            val intent = Intent(activity, MatchActivity::class.java)
-            intent.putExtra("match-id", it)
+            val intent = Intent(activity, MatchStatsActivity::class.java)
+            intent.putExtra("match_id", it)
             startActivity(intent)
         }
         recView.layoutManager = LinearLayoutManager(context)
@@ -56,7 +56,7 @@ class CompetitiveFragment : Fragment() {
             }
         })
         swipeRefresh.setOnRefreshListener {
-            if (NetworkUtil.isActive(activity))
+            if (hasNetworkConnection())
                 viewModel.refreshData()
             else {
                 toast("Check network connection!")

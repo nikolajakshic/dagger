@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvRadiantName"
+                style="@style/MatchStatsTeamName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:drawableEnd="@drawable/ic_trophy"
+                tools:drawableRight="@drawable/ic_trophy"
+                tools:text="The Radiant" />
+
+            <include
+                android:id="@+id/player0"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player1"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player2"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player3"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player4"
+                layout="@layout/item_match_stats" />
+
+            <TextView
+                android:id="@+id/tvDireName"
+                style="@style/MatchStatsTeamName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:drawableEnd="@drawable/ic_trophy"
+                tools:drawableRight="@drawable/ic_trophy"
+                tools:text="The Dire" />
+
+            <include
+                android:id="@+id/player5"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player6"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player7"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player8"
+                layout="@layout/item_match_stats" />
+
+            <include
+                android:id="@+id/player9"
+                layout="@layout/item_match_stats" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

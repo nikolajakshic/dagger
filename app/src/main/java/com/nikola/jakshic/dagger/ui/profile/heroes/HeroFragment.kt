@@ -11,8 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
 import kotlinx.android.synthetic.main.fragment_hero.*
 import javax.inject.Inject
 
@@ -61,7 +61,7 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
         btnSort.setOnClickListener { sortDialog.show(fragmentManager, null) }
 
         swipeRefresh.setOnRefreshListener {
-            if (NetworkUtil.isActive(context))
+            if (hasNetworkConnection())
                 viewModel.fetchHeroes(id)
             else {
                 toast("Check network connection!")

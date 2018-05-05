@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.PagedList
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.model.match.Match

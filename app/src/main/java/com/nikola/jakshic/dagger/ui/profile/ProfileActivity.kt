@@ -11,7 +11,7 @@ import android.text.TextUtils
 import com.bumptech.glide.Glide
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.toolbar_profile.*
 import javax.inject.Inject

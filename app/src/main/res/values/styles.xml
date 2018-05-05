@@ -21,7 +21,7 @@
         <item name="autoCompleteTextViewStyle">@style/cursorColor</item>
     </style>
 
-     <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
+    <style name="cursorColor" parent="Widget.AppCompat.AutoCompleteTextView">
         <item name="android:textCursorDrawable">@drawable/drawable_detail_cursor</item>
     </style>
 
@@ -29,6 +29,17 @@
     <style name="TransparentTitle">
         <item name="android:textSize">0sp</item>
         <item name="android:textColor">#00000000</item>
+    </style>
+
+    <style name="MatchStatsTeamName">
+       <item name="android:background">#42a5f5</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

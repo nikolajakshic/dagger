@@ -16,6 +16,7 @@
     android:paddingLeft="16dp">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/imgHero"
         android:layout_width="50dp"
         android:layout_height="35dp"

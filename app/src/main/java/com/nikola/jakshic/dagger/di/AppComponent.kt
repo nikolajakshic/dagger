@@ -1,15 +1,15 @@
 package com.nikola.jakshic.dagger.di
 
-import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment
-import com.nikola.jakshic.dagger.ui.search.SearchActivity
-import com.nikola.jakshic.dagger.ui.match.MatchActivity
+import com.nikola.jakshic.dagger.ui.match.MatchStatsActivity
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
 import com.nikola.jakshic.dagger.ui.profile.peers.PeerFragment
+import com.nikola.jakshic.dagger.ui.search.SearchActivity
+import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import dagger.Component
 import javax.inject.Singleton
 
@@ -23,7 +23,7 @@ interface AppComponent {
 
     fun inject(fragment: HeroFragment)
 
-    fun inject(activity: MatchActivity)
+    fun inject(activity: MatchStatsActivity)
 
     fun inject(fragment: BookmarkFragment)
 

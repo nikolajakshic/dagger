@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.ui.leaderboard
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.LeaderboardDao
 import com.nikola.jakshic.dagger.model.Leaderboard
 import com.nikola.jakshic.dagger.repository.LeaderboardRepository

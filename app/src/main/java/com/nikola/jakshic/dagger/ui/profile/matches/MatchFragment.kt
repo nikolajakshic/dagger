@@ -12,9 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.util.NetworkUtil
-import com.nikola.jakshic.dagger.ui.match.MatchActivity
-import com.nikola.jakshic.dagger.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.ui.match.MatchStatsActivity
 import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
 
@@ -41,8 +41,8 @@ class MatchFragment : Fragment() {
         viewModel.initialFetch(id)
 
         val adapter = MatchAdapter {
-            val intent = Intent(context, MatchActivity::class.java)
-            intent.putExtra("match-id", it)
+            val intent = Intent(context, MatchStatsActivity::class.java)
+            intent.putExtra("match_id", it)
             startActivity(intent)
         }
 
@@ -59,7 +59,7 @@ class MatchFragment : Fragment() {
             }
         })
         swipeRefresh.setOnRefreshListener {
-            if (NetworkUtil.isActive(context))
+            if (hasNetworkConnection())
                 viewModel.fetchMatches(id)
             else {
                 toast("Check network connection!")

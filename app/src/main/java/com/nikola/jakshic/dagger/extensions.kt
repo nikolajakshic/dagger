@@ -1,6 +1,8 @@
 package com.nikola.jakshic.dagger
 
 import android.app.Activity
+import android.content.Context
+import android.net.ConnectivityManager
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
@@ -32,4 +34,20 @@ fun Fragment.hide(transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
 
 fun ViewGroup.inflate(resource: Int, attachToRoot: Boolean = false): View {
     return LayoutInflater.from(this.context).inflate(resource, this, attachToRoot)
+}
+
+fun Activity.hasNetworkConnection(): Boolean {
+    val connectivityManager: ConnectivityManager? = (applicationContext
+            .getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+
+    val activeNetwork = connectivityManager?.activeNetworkInfo
+    return (activeNetwork?.isConnected == true)
+}
+
+fun Fragment.hasNetworkConnection(): Boolean {
+    val connectivityManager: ConnectivityManager? = (context?.applicationContext
+            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+
+    val activeNetwork = connectivityManager?.activeNetworkInfo
+    return (activeNetwork?.isConnected == true)
 }

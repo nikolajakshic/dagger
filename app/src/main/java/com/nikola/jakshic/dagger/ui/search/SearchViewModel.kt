@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.ui.search
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.nikola.jakshic.dagger.Status
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
 import com.nikola.jakshic.dagger.model.Player
 import com.nikola.jakshic.dagger.model.SearchHistory
