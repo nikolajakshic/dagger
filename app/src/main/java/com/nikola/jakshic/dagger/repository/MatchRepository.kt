@@ -4,18 +4,15 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.MatchStats
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -69,17 +66,19 @@ class MatchRepository @Inject constructor(
                 })
     }
 
-    fun fetchMatchData(match: MutableLiveData<MatchStats>, loading: MutableLiveData<Boolean>, matchId: Long) {
+    fun fetchMatchStats(
+            match: MutableLiveData<MatchStats>,
+            loading: MutableLiveData<Boolean>,
+            matchId: Long): Disposable {
         loading.value = true
-        service.getMatch(matchId).enqueue(object : Callback<MatchStats> {
-            override fun onResponse(call: Call<MatchStats>, response: Response<MatchStats>) {
-                match.value = response.body()
-                loading.value = false
-            }
 
-            override fun onFailure(call: Call<MatchStats>, t: Throwable) {
-                loading.value = false
-            }
-        })
+        return service.getMatch(matchId)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    match.postValue(it)
+                    loading.postValue(false)
+                }, {
+                    loading.postValue(false)
+                })
     }
 }
