@@ -24,7 +24,7 @@ class PlayerRepository @Inject constructor(
         val winsLosses = service.getPlayerWinLoss(id)
 
         return Observable.zip(profile, winsLosses, BiFunction { t1: _Player, t2: Player ->
-            t1.player.rankTier = t1.rankTier
+            t1.player!!.rankTier = t1.rankTier
             t1.player.leaderboardRank = t1.leaderboardRank
             t1.player.wins = t2.wins
             t1.player.losses = t2.losses
@@ -32,7 +32,7 @@ class PlayerRepository @Inject constructor(
         })
                 .subscribeOn(Schedulers.io())
                 .subscribe(
-                        { dao.insertPlayer(it.player) },
+                        { dao.insertPlayer(it.player!!) },
                         { error -> })
     }
 

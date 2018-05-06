@@ -7,9 +7,9 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 class _Player(
-        @SerializedName("profile") @Expose val player: Player,
-        @SerializedName("rank_tier") @Expose val rankTier: Long,
-        @SerializedName("leaderboard_rank") @Expose val leaderboardRank: Long)
+        @SerializedName("profile") @Expose val player: Player?,
+        @SerializedName("rank_tier") @Expose val rankTier: Int,
+        @SerializedName("leaderboard_rank") @Expose val leaderboardRank: Int)
 
 @Entity(tableName = "players")
 data class Player(
@@ -17,7 +17,7 @@ data class Player(
         @ColumnInfo(name = "name") @SerializedName("name") @Expose var name: String?,
         @ColumnInfo(name = "persona_name") @SerializedName("personaname") @Expose var personaName: String?,
         @ColumnInfo(name = "avatar_url") @SerializedName("avatarfull") @Expose var avatarUrl: String?,
-        @ColumnInfo(name = "rank_tier") @SerializedName("rank_tier") @Expose var rankTier: Long,
-        @ColumnInfo(name = "leaderboard_rank")@SerializedName("leaderboard_rank") @Expose var leaderboardRank: Long,
-        @ColumnInfo(name = "wins") @SerializedName("win") @Expose var wins: Long,
-        @ColumnInfo(name = "losses") @SerializedName("lose") @Expose var losses: Long)
+        @ColumnInfo(name = "rank_tier") @SerializedName("rank_tier") @Expose var rankTier: Int,
+        @ColumnInfo(name = "leaderboard_rank")@SerializedName("leaderboard_rank") @Expose var leaderboardRank: Int,
+        @ColumnInfo(name = "wins") @SerializedName("win") @Expose var wins: Int,
+        @ColumnInfo(name = "losses") @SerializedName("lose") @Expose var losses: Int)

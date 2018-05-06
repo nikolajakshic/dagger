@@ -15,9 +15,8 @@ interface MatchDao{
     fun getMatches(id: Long): DataSource.Factory<Int, Match>
 
     @Query("SELECT COUNT(matches.account_id) FROM matches WHERE matches.account_id = :id")
-    fun getMatchCount(id: Long): Single<Long>
+    fun getMatchCount(id: Long): Single<Int>
 
-    @JvmSuppressWildcards
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMatches(list : List<Match>)
 

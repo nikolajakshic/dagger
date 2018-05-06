@@ -64,17 +64,17 @@ object DotaUtil {
         }
     }
 
-    fun getItem(context: Context, id: Long): Int {
+    fun getItem(context: Context, id: Int): Int {
         val resource = context.resources
         val packageName = context.packageName
 
-        return when (id.toInt()) {
+        return when (id) {
             in recipes -> resource.getIdentifier(recipe, "drawable", packageName)
             else -> resource.getIdentifier(item + id, "drawable", packageName)
         }
     }
 
-    fun getHero(context: Context, id: Long): Int {
+    fun getHero(context: Context, id: Int): Int {
         val resource = context.resources
         val packageName = context.packageName
 

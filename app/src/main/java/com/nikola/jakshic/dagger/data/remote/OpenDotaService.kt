@@ -24,8 +24,8 @@ interface OpenDotaService {
     @GET("players/{account_id}/matches")
     fun getMatches(
             @Path("account_id") playerId: Long,
-            @Query("limit") limit: Long,
-            @Query("offset") offset: Long): Observable<List<Match>>
+            @Query("limit") limit: Int,
+            @Query("offset") offset: Int): Observable<List<Match>>
 
     @GET("players/{account_id}/heroes")
     fun getHeroes(@Path("account_id") playerId: Long): Observable<List<Hero>>

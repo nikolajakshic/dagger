@@ -9,18 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
-import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.util.DotaUtil
+import com.nikola.jakshic.dagger.vo.Match
 import kotlinx.android.synthetic.main.item_match.view.*
 import java.util.concurrent.TimeUnit
 
 class MatchAdapter(
         val listener: (Long) -> Unit) : PagedListAdapter<Match, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
-
-    private val options = RequestOptions().centerCrop()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
         return MatchVH(parent.inflate(R.layout.item_match))
@@ -48,9 +45,9 @@ class MatchAdapter(
                 else
                     ContextCompat.getColor(context, R.color.color_red)
                 tvMatchResult.setTextColor(resultColor)
-                tvMatchSkill.text = DotaUtil.skill[item.skill.toInt(), "Unknown"]
-                tvMatchMode.text = DotaUtil.mode[item.gameMode.toInt(), "Unknown"]
-                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType.toInt(), "Unknown"]
+                tvMatchSkill.text = DotaUtil.skill[item.skill, "Unknown"]
+                tvMatchMode.text = DotaUtil.mode[item.gameMode, "Unknown"]
+                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType, "Unknown"]
                 tvMatchDuration.text = getDuration(context, item)
                 tvMatchTimePassed.text = getTimePassed(context, item)
             }
@@ -66,7 +63,7 @@ class MatchAdapter(
             val hours = item.duration / (60 * 60)
             val minutes = (item.duration / 60) % 60
             val seconds = item.duration % 60
-            if (hours != 0L) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
+            if (hours != 0) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
             return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
         }
 

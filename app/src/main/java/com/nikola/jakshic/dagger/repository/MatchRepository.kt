@@ -43,7 +43,7 @@ class MatchRepository @Inject constructor(
                 .subscribeOn(Schedulers.io())
                 .toObservable()
                 .flatMap { limit ->
-                    if (limit != 0L) {
+                    if (limit != 0) {
                         status.postValue(Status.LOADING)
                         service.getMatches(id, limit, 0)
                     } else {

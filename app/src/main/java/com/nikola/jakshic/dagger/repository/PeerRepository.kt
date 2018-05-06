@@ -21,7 +21,7 @@ class PeerRepository @Inject constructor(
         return service.getPeers(id)
                 .subscribeOn(Schedulers.io())
                 .flatMap { Observable.fromIterable(it) }
-                .filter { it.withGames != 0L } // filter opponents from peer list
+                .filter { it.withGames != 0 } // filter opponents from peer list
                 .map {
                     it.accountId = id
                     it

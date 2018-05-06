@@ -46,7 +46,7 @@ class ProfileActivity : AppCompatActivity() {
                 collapsingToolbar.title = name
                 tvPlayerName.text = name
 
-                tvLeaderboardRank.text = if (it.leaderboardRank != 0L) it.leaderboardRank.toString() else null
+                tvLeaderboardRank.text = if (it.leaderboardRank != 0) it.leaderboardRank.toString() else null
                 tvPlayerId.text = it.id.toString()
                 tvPlayerGames.text = resources.getString(R.string.player_games, it.wins + it.losses)
                 tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins)
@@ -85,13 +85,13 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     // TODO Once DotaUtil is converted to Kotlin, we can move this method there
-    private fun getRankMedalDrawable(context: Context, rankTier: Long, leaderBoardRank: Long): Drawable? {
+    private fun getRankMedalDrawable(context: Context, rankTier: Int, leaderBoardRank: Int): Drawable? {
         val resource = context.resources
         val packageName = context.packageName
         var drawableName = "ic_rank_"
 
         drawableName = when {
-            rankTier == 0L -> drawableName + "0"
+            rankTier == 0 -> drawableName + "0"
             leaderBoardRank in 1..10 -> drawableName + "7c"
             leaderBoardRank in 11..100 -> drawableName + "7b"
             leaderBoardRank in 101..1000 -> drawableName + "7a"
@@ -107,7 +107,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     // TODO Once DotaUtil is converted to Kotlin, we can move this method there
-    private fun getRankStarsDrawable(context: Context, rankTier: Long, leaderBoardRank: Long): Drawable? {
+    private fun getRankStarsDrawable(context: Context, rankTier: Int, leaderBoardRank: Int): Drawable? {
         val resource = context.resources
         val packageName = context.packageName
         var drawableName = "ic_rank_star_"
