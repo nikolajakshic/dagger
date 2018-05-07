@@ -8,6 +8,8 @@ object DotaUtil {
     private const val item = "ic_item_"
     private const val recipe = "ic_item_recipe"
     private const val hero = "ic_hero_"
+    private const val medal = "ic_rank_"
+    private const val stars = "ic_rank_star_"
 
     val mode = SparseArray<String>()
     val lobby = SparseArray<String>()
@@ -79,5 +81,34 @@ object DotaUtil {
         val packageName = context.packageName
 
         return resource.getIdentifier(hero + id, "drawable", packageName)
+    }
+
+    fun getMedal(context: Context, rankTier: Int, leaderBoardRank: Int): Int {
+        val resource = context.resources
+        val packageName = context.packageName
+
+        val medalName = when {
+            rankTier == 0 -> medal + "0"
+            leaderBoardRank in 1..10 -> medal + "7c"
+            leaderBoardRank in 11..100 -> medal + "7b"
+            leaderBoardRank in 101..1000 -> medal + "7a"
+            else -> medal + rankTier / 10
+        }
+
+        return resource.getIdentifier(medalName, "drawable", packageName)
+    }
+
+    fun getStars(context: Context, rankTier: Int, leaderBoardRank: Int): Int {
+        val resource = context.resources
+        val packageName = context.packageName
+
+        val starName = when {
+        // Resources.getIdentifier throws Exception if name param is null,
+        // so we need to return empty String
+            leaderBoardRank in 1..1000 -> "" // top 1000 players have special medals without stars
+            else -> stars + rankTier % 10
+        }
+
+        return resource.getIdentifier(starName, "drawable", packageName)
     }
 }
