@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "player_stats",
-        primaryKeys = ["match_id", "account_id"],
+        primaryKeys = ["match_id", "account_id", "player_slot"],
         foreignKeys = [(ForeignKey(
                 entity = MatchStats::class,
                 parentColumns = ["match_id"],
