@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkViewModel
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveViewModel
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionViewModel
-import com.nikola.jakshic.dagger.ui.match.MatchDetailViewModel
+import com.nikola.jakshic.dagger.ui.matchStats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.ui.profile.ProfileViewModel
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroViewModel
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchViewModel
@@ -41,8 +41,8 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MatchDetailViewModel::class)
-    fun bindMatchDetailViewModel(viewModel: MatchDetailViewModel): ViewModel
+    @ViewModelKey(MatchStatsViewModel::class)
+    fun bindMatchDetailViewModel(viewModel: MatchStatsViewModel): ViewModel
 
     @Binds
     @IntoMap

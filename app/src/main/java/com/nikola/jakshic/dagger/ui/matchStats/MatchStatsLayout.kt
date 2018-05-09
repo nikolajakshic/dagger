@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.match
+package com.nikola.jakshic.dagger.ui.matchStats
 
 import android.content.Context
 import android.os.Parcel

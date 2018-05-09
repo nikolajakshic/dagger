@@ -40,7 +40,15 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun provideBookmark(db: DotaDatabase) = db.bookmarkDao()
+    fun provideBookmarkDao(db: DotaDatabase) = db.bookmarkDao()
+
+    @Provides
+    @Singleton
+    fun provideMatchStatsDao(db: DotaDatabase) = db.matchStatsDao()
+
+    @Provides
+    @Singleton
+    fun providePlayerStatsDao(db: DotaDatabase) = db.playerStatsDao()
 
     @Provides
     @Singleton

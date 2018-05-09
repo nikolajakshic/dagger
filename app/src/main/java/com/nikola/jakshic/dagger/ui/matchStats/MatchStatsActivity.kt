@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.match
+package com.nikola.jakshic.dagger.ui.matchStats
 
 import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
@@ -12,12 +12,13 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.vo.MatchStats
-import com.nikola.jakshic.dagger.vo.PlayerStats
+import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.util.DotaUtil
+import com.nikola.jakshic.dagger.vo.MatchStats
+import com.nikola.jakshic.dagger.vo.PlayerStats
+import com.nikola.jakshic.dagger.vo.Stats
 import kotlinx.android.synthetic.main.activity_match_stats.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
@@ -36,28 +37,32 @@ class MatchStatsActivity : AppCompatActivity() {
 
         val id = intent.getLongExtra("match_id", -1)
         title = "Match $id"
-        val viewModel = ViewModelProviders.of(this, factory)[MatchDetailViewModel::class.java]
+        val viewModel = ViewModelProviders.of(this, factory)[MatchStatsViewModel::class.java]
 
         viewModel.initialFetch(id)
 
         viewModel.match.observe(this, Observer {
-            if (it?.players?.size == 10) {
+
+            if (it?.playerStats?.size == 10) {
                 bind(it)
             }
         })
     }
 
-    private fun bind(matchStats: MatchStats) {
+    private fun bind(stats: Stats) {
         var playerPosition = 0
 
-        bindMatchStats(matchStats)
+        bindMatchStats(stats.matchStats!!)
+        // Sort by player slot, so that first 5 players are from the Radiant Team,
+        // and the rest of them are from Dire
+        val sortedPlayerStats = stats.playerStats!!.sortedBy { it.playerSlot }
 
         for (i in 0 until container.childCount) {
             // Player stats data can be bound only on MatchStatsLayout,
             // so we need to ignore other layouts
             val view = container.getChildAt(i) as? MatchStatsLayout ?: continue
 
-            val playerStats = matchStats.players!![playerPosition]
+            val playerStats = sortedPlayerStats[playerPosition]
             bindPlayerStats(view, playerStats)
 
             playerPosition++
