@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.R.id.btmNavigation
 import com.nikola.jakshic.dagger.hide
 import com.nikola.jakshic.dagger.show
 import com.nikola.jakshic.dagger.ui.search.SearchActivity
@@ -70,6 +71,14 @@ class HomeActivity : AppCompatActivity() {
                 else -> return@setOnNavigationItemSelectedListener false
             }
         }
+
+        btmNavigation.setOnNavigationItemReselectedListener {
+            when (it.itemId) {
+                R.id.action_competitive -> (competitive as CompetitiveFragment).onItemReselected()
+                R.id.action_leaderboard -> (leaderboard as LeaderboardFragment).onItemReselected()
+                R.id.action_bookmark -> (bookmark as BookmarkFragment).onItemReselected()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -89,5 +98,10 @@ class HomeActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    interface OnNavigationItemReselectedListener {
+
+        fun onItemReselected()
     }
 }

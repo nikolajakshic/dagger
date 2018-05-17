@@ -13,13 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.R.id.recView
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.HomeActivity
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 import javax.inject.Inject
 
-class BookmarkFragment : Fragment() {
+class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -55,5 +57,9 @@ class BookmarkFragment : Fragment() {
         // This fragment is an item from BottomNavigationView
         // Set the proper title when this fragment is not hidden
         if (!isHidden) activity?.title = "Bookmark"
+    }
+
+    override fun onItemReselected() {
+        recView.smoothScrollToPosition(0)
     }
 }

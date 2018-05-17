@@ -11,13 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
+import com.nikola.jakshic.dagger.R.id.recView
+import com.nikola.jakshic.dagger.R.id.swipeRefresh
 import com.nikola.jakshic.dagger.vo.Region
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.HomeActivity
 import com.nikola.jakshic.dagger.ui.Status
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
-class RegionFragment : Fragment() {
+class RegionFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -72,5 +75,9 @@ class RegionFragment : Fragment() {
                 swipeRefresh.isRefreshing = false
             }
         }
+    }
+
+    override fun onItemReselected() {
+        recView.smoothScrollToPosition(0)
     }
 }
