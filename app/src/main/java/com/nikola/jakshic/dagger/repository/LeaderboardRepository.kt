@@ -45,17 +45,19 @@ class LeaderboardRepository @Inject constructor(
                     it            // about the region, so we need to set this manually
                 }
                 .toList()
-                .flatMapCompletable { Completable.fromAction {
-                    if (it.size != 0) {
-                        // We don't have players ids, we only have their names,
-                        // if the player has changed his name in the meantime,
-                        // that would result into 2 rows in the database for a single player.
-                        // So we need to remove all players from the database and then insert
-                        // the fresh ones.
-                        dao.deleteLeaderboards(region)
-                        dao.insertLeaderboard(it)
+                .flatMapCompletable {
+                    Completable.fromAction {
+                        if (it.size != 0) {
+                            // We don't have players ids, we only have their names,
+                            // if the player has changed his name in the meantime,
+                            // that would result into 2 rows in the database for a single player.
+                            // So we need to remove all players from the database and then insert
+                            // the fresh ones.
+                            dao.deleteLeaderboards(region)
+                            dao.insertLeaderboard(it)
+                        }
                     }
-                } }
+                }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onSuccess() }, { onError() })
     }

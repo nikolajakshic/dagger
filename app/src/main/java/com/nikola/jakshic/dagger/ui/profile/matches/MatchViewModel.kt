@@ -17,17 +17,21 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
     val status = MutableLiveData<Status>()
     private var initialFetch = false
     private val disposables = CompositeDisposable()
+    private val onLoading: () -> Unit = { status.value = Status.LOADING }
+    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { status.value = Status.ERROR }
 
-    fun initialFetch(id: Long){
-        if(!initialFetch){
+    fun initialFetch(id: Long) {
+        if (!initialFetch) {
             initialFetch = true
-            list = repository.getMatchesFromDb(id,status, disposables)
+            list = repository.getMatchesLiveData(id, disposables, onLoading, onSuccess, onError)
             fetchMatches(id)
         }
     }
 
-    fun fetchMatches(id: Long){
-        disposables.add(repository.refreshMatches(status, id))
+    fun fetchMatches(id: Long) {
+        status.value = Status.LOADING
+        disposables.add(repository.fetchMatches(id, onSuccess, onError))
     }
 
     override fun onCleared() {

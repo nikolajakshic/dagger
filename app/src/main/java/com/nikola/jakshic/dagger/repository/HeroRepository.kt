@@ -41,7 +41,7 @@ class HeroRepository @Inject constructor(
     fun getHeroesLiveDataByLosses(id: Long) = dao.getHeroesByLosses(id)
 
     /**
-     * Fetches the matches from the network and inserts them into database.
+     * Fetches the heroes from the network and inserts them into database.
      *
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getHeroesLiveDataByGames], [getHeroesLiveDataByWins],

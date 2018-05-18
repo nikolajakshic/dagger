@@ -6,54 +6,35 @@ import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class MatchBoundaryCallback(
         private val service: OpenDotaService,
         private val dao: MatchDao,
-        private val status: MutableLiveData<Status>,
         private val disposables: CompositeDisposable,
-        private val id: Long
-) : PagedList.BoundaryCallback<Match>(){
-
-    override fun onZeroItemsLoaded() {
-        status.value = Status.LOADING
-        disposables.add(service.getMatches(id, 20, 0)
-                .subscribeOn(Schedulers.io())
-                .flatMap { Observable.fromIterable(it) }
-                .map {
-                    it.accountId = id
-                    it
-                }
-                .toList()
-                .subscribe({
-                    dao.insertMatches(it)
-                    status.postValue(Status.SUCCESS)
-                },{
-                    status.postValue(Status.ERROR)
-                }))
-    }
+        private val id: Long,
+        private val onLoading: () -> Unit,
+        private val onSuccess: () -> Unit,
+        private val onError: () -> Unit) : PagedList.BoundaryCallback<Match>() {
 
     override fun onItemAtEndLoaded(itemAtEnd: Match) {
-        status.value = Status.LOADING
+        onLoading()
         disposables.add(dao.getMatchCount(id)
                 .subscribeOn(Schedulers.io())
                 .toObservable()
-                .flatMap {
-                    service.getMatches(id, 20, it) }
+                .flatMap { service.getMatches(id, 20, it) }
                 .flatMap { Observable.fromIterable(it) }
                 .map {
-                    it.accountId = id
-                    it
+                    it.accountId = id   // response from the network doesn't contain any information
+                    it           // about who played this matches, so we need to set this manually
                 }
                 .toList()
-                .subscribe({
-                    dao.insertMatches(it)
-                    status.postValue(Status.SUCCESS)
-                },{
-                    status.postValue(Status.ERROR)
-                }))
+                .flatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ onSuccess() }, { onError() }))
     }
 }
