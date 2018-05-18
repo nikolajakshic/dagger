@@ -9,13 +9,16 @@ import com.nikola.jakshic.dagger.repository.HeroRepository
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class HeroViewModel @Inject constructor(private val repository: HeroRepository) : ViewModel() {
+class HeroViewModel @Inject constructor(
+        private val repository: HeroRepository) : ViewModel() {
 
     lateinit var list: LiveData<List<Hero>>
         private set
     val status = MutableLiveData<Status>()
     private val disposables = CompositeDisposable()
     private var initialFetch = false
+    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { status.value = Status.ERROR }
 
     fun initialFetch(id: Long){
         if (!initialFetch){
@@ -26,23 +29,24 @@ class HeroViewModel @Inject constructor(private val repository: HeroRepository) 
     }
 
     fun fetchHeroes(id: Long) {
-        disposables.add(repository.fetchHeroes(status, id))
+        status.value = Status.LOADING
+        disposables.add(repository.fetchHeroes(id, onSuccess, onError))
     }
 
     fun sortByGames(id: Long) {
-        list = repository.sortByGames(id)
+        list = repository.getHeroesLiveDataByGames(id)
     }
 
     fun sortByWinRate(id: Long) {
-        list = repository.sortByWinRate(id)
+        list = repository.getHeroesLiveDataByWinrate(id)
     }
 
     fun sortByWins(id: Long) {
-        list = repository.sortByWins(id)
+        list = repository.getHeroesLiveDataByWins(id)
     }
 
     fun sortByLosses(id: Long) {
-        list = repository.sortByLosses(id)
+        list = repository.getHeroesLiveDataByLosses(id)
     }
 
     override fun onCleared() {
