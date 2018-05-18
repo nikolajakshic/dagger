@@ -16,25 +16,28 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
     val status = MutableLiveData<Status>()
     private var initialFatch = false
     private val disposables = CompositeDisposable()
+    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { status.value = Status.ERROR }
 
     fun initialFetch(id: Long) {
         if (!initialFatch) {
             initialFatch = true
             fetchPeers(id)
-            list = repository.sortByGames(id)
+            list = repository.getPeersLiveDataByGames(id)
         }
     }
 
     fun fetchPeers(id: Long) {
-        disposables.add(repository.fetchPeers(status, id))
+        status.value = Status.LOADING
+        disposables.add(repository.fetchPeers(id, onSuccess, onError))
     }
 
     fun sortByGames(id: Long) {
-        list = repository.sortByGames(id)
+        list = repository.getPeersLiveDataByGames(id)
     }
 
     fun sortByWinRate(id: Long) {
-        list = repository.sortByWinRate(id)
+        list = repository.getPeersLiveDataByWinrate(id)
     }
 
     override fun onCleared() {
