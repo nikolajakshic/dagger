@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import com.nikola.jakshic.dagger.data.local.DotaDatabase
@@ -10,6 +9,7 @@ import com.nikola.jakshic.dagger.data.local.MatchStatsDao
 import com.nikola.jakshic.dagger.data.local.PlayerStatsDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
+import com.nikola.jakshic.dagger.vo.Stats
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -93,21 +93,32 @@ class MatchRepository @Inject constructor(
                 .subscribe({ onSuccess() }, { onError() })
     }
 
-    fun fetchMatchStats(
-            loading: MutableLiveData<Boolean>,
-            matchId: Long): Disposable {
-        loading.value = true
+    /**
+     * Constructs the [LiveData] which emits every time
+     * the requested data in the database has changed
+     */
+    fun getMatchStatsLiveData(id: Long): LiveData<Stats> {
+        return matchStatsDao.getMatchStats(id)
+    }
 
+    /**
+     * Fetches the match-stats from the network and inserts it into database.
+     *
+     * Whenever the database is updated, the observers of [LiveData]
+     * returned by [getMatchStatsLiveData] are notified.
+     */
+    fun fetchMatchStats(matchId: Long): Disposable {
         return service.getMatch(matchId)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    db.runInTransaction {
-                        matchStatsDao.insert(it)
-                        playerStatsDao.insert(it?.players ?: Collections.emptyList())
+                .flatMapCompletable {
+                    Completable.fromAction {
+                        db.runInTransaction {
+                            matchStatsDao.insert(it)
+                            playerStatsDao.insert(it.players ?: Collections.emptyList())
+                        }
                     }
-                    loading.postValue(false)
-                }, {
-                    loading.postValue(false)
-                })
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({}, {})
     }
 }
