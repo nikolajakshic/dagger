@@ -35,7 +35,7 @@ class LeaderboardRepository @Inject constructor(
      * @param onSuccess called on main thread
      * @param onError called on main thread
      */
-    fun fetchData(region: String, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
+    fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
         return service.getLeaderboard(region)
                 .subscribeOn(Schedulers.io())
                 .flatMap { Observable.fromIterable(it.leaderboard) }

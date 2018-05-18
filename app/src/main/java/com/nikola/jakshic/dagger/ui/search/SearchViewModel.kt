@@ -22,6 +22,11 @@ class SearchViewModel @Inject constructor(
     val historyList = MutableLiveData<List<SearchHistory>>()
     val status = MutableLiveData<Status>()
     private val disposables = CompositeDisposable()
+    private val onSuccess: (List<Player>) -> Unit = {
+        status.value = Status.SUCCESS
+        playerList.value = it
+    }
+    private val onError: () -> Unit = { status.value = Status.ERROR }
 
     fun getAllQueries() {
         disposables.add(Single
@@ -45,7 +50,12 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchPlayers(name: String) {
-        disposables.add(repository.fetchPlayers(disposables, playerList, status, name))
+        status.value = Status.LOADING
+        // Users can hit the search button multiple times
+        // So we need to cancel previous call
+        disposables.clear()
+
+        disposables.add(repository.fetchPlayers(name, onSuccess, onError))
     }
 
     fun clearList() {

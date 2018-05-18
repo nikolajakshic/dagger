@@ -1,13 +1,11 @@
 package com.nikola.jakshic.dagger.repository
 
-import android.arch.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.PlayerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Player
 import com.nikola.jakshic.dagger.vo._Player
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -23,13 +21,14 @@ class PlayerRepository @Inject constructor(
         val profile = service.getPlayerProfile(id)
         val winsLosses = service.getPlayerWinLoss(id)
 
-        return Observable.zip(profile, winsLosses, BiFunction { t1: _Player, t2: Player ->
-            t1.player!!.rankTier = t1.rankTier
-            t1.player.leaderboardRank = t1.leaderboardRank
-            t1.player.wins = t2.wins
-            t1.player.losses = t2.losses
-            t1
-        })
+        return Observable.zip(profile, winsLosses,
+                BiFunction { t1: _Player, t2: Player ->
+                    t1.player!!.rankTier = t1.rankTier
+                    t1.player.leaderboardRank = t1.leaderboardRank
+                    t1.player.wins = t2.wins
+                    t1.player.losses = t2.losses
+                    t1
+                })
                 .subscribeOn(Schedulers.io())
                 .subscribe(
                         { dao.insertPlayer(it.player!!) },
@@ -37,23 +36,12 @@ class PlayerRepository @Inject constructor(
     }
 
     fun fetchPlayers(
-            disposables: CompositeDisposable,
-            list: MutableLiveData<List<Player>>,
-            status: MutableLiveData<Status>,
-            name: String): Disposable {
-
-        // Users can hit the search button multiple times
-        // So we need to cancel previous call
-        disposables.clear()
-
-        status.value = Status.LOADING
+            name: String,
+            onSuccess: (List<Player>) -> Unit,
+            onError: () -> Unit): Disposable {
         return service.searchPlayers(name)
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    list.postValue(it)
-                    status.postValue(Status.SUCCESS)
-                }, {
-                    status.postValue(Status.ERROR)
-                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ onSuccess(it) }, { onError() })
     }
 }

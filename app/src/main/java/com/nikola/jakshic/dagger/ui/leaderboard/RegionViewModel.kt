@@ -30,7 +30,7 @@ class RegionViewModel @Inject constructor(
 
     fun fetchLeaderboard(region: String) {
         status.value = Status.LOADING
-        compositeDisposable.add(repository.fetchData(region, onSuccess, onError))
+        compositeDisposable.add(repository.fetchLeaderboard(region, onSuccess, onError))
     }
 
     override fun onCleared() {
