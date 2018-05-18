@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Competitive
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -18,7 +18,11 @@ class CompetitiveRepository @Inject constructor(
         private val dao: CompetitiveDao,
         private val service: OpenDotaService) {
 
-    fun getCompetitiveFromDb(): LiveData<PagedList<Competitive>> {
+    /**
+     * Constructs the [LiveData] which emits every time
+     * the requested data in the database has changed
+     */
+    fun getCompetitiveLiveData(): LiveData<PagedList<Competitive>> {
         val factory = dao.getMatches()
         val config = PagedList.Config.Builder()
                 .setInitialLoadSizeHint(80)
@@ -29,16 +33,20 @@ class CompetitiveRepository @Inject constructor(
         return LivePagedListBuilder(factory, config).build()
     }
 
-    fun fetchCompetitive(status: MutableLiveData<Status>): Disposable {
-        status.value = Status.LOADING
-
+    /**
+     * Fetches the matches from the network and inserts them into database.
+     *
+     * Whenever the database is updated, the observers of [LiveData]
+     * returned by [getCompetitiveLiveData] are notified.
+     *
+     * @param onSuccess called on main thread
+     * @param onError called on main thread
+     */
+    fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit): Disposable {
         return service.getCompetitiveMatches()
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                    dao.insertMatches(it)
-                    status.postValue(Status.SUCCESS)
-                }, { _ ->
-                    status.postValue(Status.ERROR)
-                })
+                .concatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ onSuccess() }, { onError() })
     }
 }

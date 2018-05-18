@@ -8,13 +8,14 @@ import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class CompetitiveViewModel @Inject constructor(
-        private val repo: CompetitiveRepository
-) : ViewModel() {
+        private val repo: CompetitiveRepository) : ViewModel() {
 
-    private var initialFetch = false
-    val list = repo.getCompetitiveFromDb()
+    val list = repo.getCompetitiveLiveData()
     val status = MutableLiveData<Status>()
+    private var initialFetch = false
     private val disposables = CompositeDisposable()
+    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { status.value = Status.ERROR }
 
     fun initialFetch() {
         if (!initialFetch) {
@@ -24,7 +25,8 @@ class CompetitiveViewModel @Inject constructor(
     }
 
     fun refreshData() {
-        disposables.add(repo.fetchCompetitive(status))
+        status.value = Status.LOADING
+        disposables.add(repo.fetchCompetitive(onSuccess, onError))
     }
 
     override fun onCleared() {
