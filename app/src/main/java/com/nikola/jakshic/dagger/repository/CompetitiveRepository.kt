@@ -45,7 +45,7 @@ class CompetitiveRepository @Inject constructor(
     fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit): Disposable {
         return service.getCompetitiveMatches()
                 .subscribeOn(Schedulers.io())
-                .concatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
+                .flatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ onSuccess() }, { onError() })
     }
