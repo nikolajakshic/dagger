@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
@@ -34,7 +35,8 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.profile.observe(this, Observer {
             if (it != null) {
-                Glide.with(this).load(it.avatarUrl).into(imgPlayerAvatar)
+                val options = RequestOptions().circleCrop()
+                Glide.with(this).load(it.avatarUrl).apply(options).into(imgPlayerAvatar)
 
                 val medal = DotaUtil.getMedal(this, it.rankTier, it.leaderboardRank)
                 val stars = DotaUtil.getStars(this, it.rankTier, it.leaderboardRank)

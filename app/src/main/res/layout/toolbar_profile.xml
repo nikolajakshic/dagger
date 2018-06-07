@@ -20,17 +20,24 @@
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <ImageView
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:src="@drawable/imageview_circle"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/imgPlayerAvatar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintBottom_toBottomOf="@id/guideline"
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
@@ -152,12 +159,12 @@
 
     <TextView
         android:id="@+id/tvLeaderboardRank"
-        android:textSize="10sp"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="58dp"
         android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
         app:layout_constraintStart_toStartOf="@id/imgRankMedal"
         app:layout_constraintTop_toTopOf="@id/imgRankMedal"
