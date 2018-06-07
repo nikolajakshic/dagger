@@ -30,7 +30,7 @@ object DotaUtil {
             append(5, "All Random")
             append(6, "Intro")
             append(7, "Diretide")
-            append(8, "Rev Captains Mode")
+            append(8, "Reverse Captains Mode")
             append(9, "Greeviling")
             append(10, "Tutorial")
             append(11, "Mid Only")
@@ -46,6 +46,7 @@ object DotaUtil {
             append(21, "1v1 Mid")
             append(22, "All Draft")
             append(23, "Turbo")
+            append(24, "Mutation")
         }
         with(lobby) {
             append(0, "Normal")
