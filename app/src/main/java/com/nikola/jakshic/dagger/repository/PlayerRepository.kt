@@ -4,6 +4,7 @@ import com.nikola.jakshic.dagger.data.local.PlayerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Player
 import com.nikola.jakshic.dagger.vo._Player
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -17,7 +18,7 @@ class PlayerRepository @Inject constructor(
         private val service: OpenDotaService,
         private val dao: PlayerDao) {
 
-    fun getProfile(id: Long): Disposable {
+    fun getProfile(id: Long, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
         val profile = service.getPlayerProfile(id)
         val winsLosses = service.getPlayerWinLoss(id)
 
@@ -30,9 +31,9 @@ class PlayerRepository @Inject constructor(
                     t1
                 })
                 .subscribeOn(Schedulers.io())
-                .subscribe(
-                        { dao.insertPlayer(it.player!!) },
-                        { error -> })
+                .flatMapCompletable { Completable.fromAction { dao.insertPlayer(it.player!!) } }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ onSuccess() }, { onError() })
     }
 
     fun fetchPlayers(

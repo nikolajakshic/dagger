@@ -2,15 +2,20 @@ package com.nikola.jakshic.dagger.ui.profile
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.view.MotionEvent
+import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.toolbar_profile.*
@@ -30,6 +35,9 @@ class ProfileActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val id = intent.getLongExtra("account_id", -1)
+
+        // Change the color of the progress bar
+        progressBar.indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
 
         viewModel.getProfile(id)
 
@@ -71,6 +79,32 @@ class ProfileActivity : AppCompatActivity() {
                 }
             }
         })
+
+        viewModel.status.observe(this, Observer {
+            when (it) {
+                Status.LOADING -> {
+                    btnRefresh.isEnabled = false
+                    btnRefresh.visibility = View.GONE
+                    progressBar.visibility = View.VISIBLE
+                }
+                else -> {
+                    btnRefresh.visibility = View.VISIBLE
+                    progressBar.visibility = View.GONE
+                    btnRefresh.isEnabled = true
+                }
+            }
+        })
+
+        btnRefresh.setOnClickListener { viewModel.fetchProfile(id) }
+
+        // Toolbar is drawn over the medal and refresh button, so we need to register clicks
+        // on the toolbar and then pass them to the proper views.
+        toolbar.setOnTouchListener { v, event ->
+            if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
+            val refreshX = toolbar.width - btnRefresh.width
+            if (event.x >= refreshX && btnRefresh.isEnabled) btnRefresh.callOnClick()
+            false
+        }
 
         btnFollow.setOnClickListener {
             if (viewModel.bookmark.value == null)
