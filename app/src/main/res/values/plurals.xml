@@ -26,4 +26,29 @@
         <item quantity="other">%1$d years ago</item>
     </plurals>
 
+    <plurals name="minute_with_prefix">
+        <item quantity="one">Ended: a minute ago</item>
+        <item quantity="other">Ended: %1$d minutes ago</item>
+    </plurals>
+
+    <plurals name="hour_with_prefix">
+        <item quantity="one">Ended: an hour ago</item>
+        <item quantity="other">Ended: %1$d hours ago</item>
+    </plurals>
+
+    <plurals name="day_with_prefix">
+        <item quantity="one">Ended: a day ago</item>
+        <item quantity="other">Ended: %1d days ago</item>
+    </plurals>
+
+    <plurals name="month_with_prefix">
+        <item quantity="one">Ended: a month ago</item>
+        <item quantity="other">Ended: %1$d months ago</item>
+    </plurals>
+
+    <plurals name="year_with_prefix">
+        <item quantity="one">Ended: a year ago</item>
+        <item quantity="other">Ended: %1$d years ago</item>
+    </plurals>
+
 </resources>

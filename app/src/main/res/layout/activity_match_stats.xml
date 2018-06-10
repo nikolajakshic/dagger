@@ -17,81 +17,98 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvRadiantName"
-                style="@style/MatchStatsTeamName"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:drawableEnd="@drawable/ic_trophy"
-                tools:drawableRight="@drawable/ic_trophy"
-                tools:text="The Radiant" />
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-            <include
-                android:id="@+id/player0"
-                layout="@layout/item_match_stats" />
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_minimap" />
 
-            <include layout="@layout/item_divider" />
+                <include layout="@layout/item_match_stats_match_info" />
 
-            <include
-                android:id="@+id/player1"
-                layout="@layout/item_match_stats" />
+            </LinearLayout>
 
-            <include layout="@layout/item_divider" />
+        <TextView
+            android:id="@+id/tvRadiantName"
+            style="@style/MatchStatsTeamName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:drawableEnd="@drawable/ic_trophy"
+            tools:drawableRight="@drawable/ic_trophy"
+            tools:text="The Radiant" />
 
-            <include
-                android:id="@+id/player2"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player0"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player3"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player1"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player4"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player2"
+            layout="@layout/item_match_stats" />
 
-            <TextView
-                android:id="@+id/tvDireName"
-                style="@style/MatchStatsTeamName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:drawableEnd="@drawable/ic_trophy"
-                tools:drawableRight="@drawable/ic_trophy"
-                tools:text="The Dire" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player5"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player3"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player6"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player4"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <TextView
+            android:id="@+id/tvDireName"
+            style="@style/MatchStatsTeamName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:drawableEnd="@drawable/ic_trophy"
+            tools:drawableRight="@drawable/ic_trophy"
+            tools:text="The Dire" />
 
-            <include
-                android:id="@+id/player7"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player5"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player8"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player6"
+            layout="@layout/item_match_stats" />
 
-            <include layout="@layout/item_divider" />
+        <include layout="@layout/item_divider" />
 
-            <include
-                android:id="@+id/player9"
-                layout="@layout/item_match_stats" />
+        <include
+            android:id="@+id/player7"
+            layout="@layout/item_match_stats" />
 
-        </LinearLayout>
-    </ScrollView>
+        <include layout="@layout/item_divider" />
 
-</RelativeLayout>
+        <include
+            android:id="@+id/player8"
+            layout="@layout/item_match_stats" />
+
+        <include layout="@layout/item_divider" />
+
+        <include
+            android:id="@+id/player9"
+            layout="@layout/item_match_stats" />
+
+
+    </LinearLayout>
+</ScrollView>
+
+    </RelativeLayout>

@@ -22,11 +22,14 @@ import com.nikola.jakshic.dagger.vo.Stats
 import kotlinx.android.synthetic.main.activity_match_stats.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
+import kotlinx.android.synthetic.main.item_match_stats_match_info.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MatchStatsActivity : AppCompatActivity() {
 
-    @Inject lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var factory: DaggerViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DaggerApp).appComponent.inject(this)
@@ -118,11 +121,45 @@ class MatchStatsActivity : AppCompatActivity() {
         val direName = if (TextUtils.isEmpty(item.direTeam?.name)) "The Dire" else item.direTeam?.name
         tvRadiantName.text = radiantName
         tvDireName.text = direName
+
+        tvRadiantScore.text = item.radiantScore.toString()
+        tvDireScore.text = item.direScore.toString()
+        tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode, "Unknown"])
+        tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill, "Unknown"])
+        tvMatchDuration.text = getDuration(item)
+        tvMatchTimePassed.text = getTimePassed(item)
     }
 
     private fun getPlayerName(item: PlayerStats) = when {
         !TextUtils.isEmpty(item.name) -> item.name
         !TextUtils.isEmpty(item.personaName) -> item.personaName
         else -> "Unknown"
+    }
+
+    private fun getDuration(item: MatchStats): String {
+        val hours = item.duration / (60 * 60)
+        val minutes = (item.duration / 60) % 60
+        val seconds = item.duration % 60
+        if (hours != 0) return resources.getString(R.string.match_duration_with_prefix, hours, minutes, seconds)
+        return resources.getString(R.string.match_duration_zero_hours_with_prefix, minutes, seconds)
+    }
+
+    private fun getTimePassed(item: MatchStats): String {
+        val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
+        val timePassed = System.currentTimeMillis() - endTime
+
+        val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
+        val months = TimeUnit.MILLISECONDS.toDays(timePassed) / 30
+        val days = TimeUnit.MILLISECONDS.toDays(timePassed)
+        val hours = TimeUnit.MILLISECONDS.toHours(timePassed)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
+
+        return when {
+            years > 0 -> resources.getQuantityString(R.plurals.year_with_prefix, years.toInt(), years)
+            months > 0 -> resources.getQuantityString(R.plurals.month_with_prefix, months.toInt(), months)
+            days > 0 -> resources.getQuantityString(R.plurals.day_with_prefix, days.toInt(), days)
+            hours > 0 -> resources.getQuantityString(R.plurals.hour_with_prefix, hours.toInt(), hours)
+            else -> resources.getQuantityString(R.plurals.minute_with_prefix, minutes.toInt(), minutes)
+        }
     }
 }
