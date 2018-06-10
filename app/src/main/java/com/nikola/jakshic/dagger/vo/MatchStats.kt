@@ -14,6 +14,10 @@ class MatchStats {
     @ColumnInfo(name = "game_mode") @SerializedName("game_mode") @Expose var mode: Int = 0
     @ColumnInfo(name = "duration") @SerializedName("duration") @Expose var duration: Int = 0
     @ColumnInfo(name = "start_time") @SerializedName("start_time") @Expose var startTime: Long = 0
+    @ColumnInfo(name = "radiant_barracks") @SerializedName("barracks_status_radiant") @Expose var radiantBarracks: Int = 0
+    @ColumnInfo(name = "dire_barracks") @SerializedName("barracks_status_dire") @Expose var direBarracks: Int = 0
+    @ColumnInfo(name = "radiant_towers") @SerializedName("tower_status_radiant") @Expose var radiantTowers: Int = 0
+    @ColumnInfo(name = "dire_towers") @SerializedName("tower_status_dire") @Expose var direTowers: Int = 0
     @Embedded(prefix = "radiant_") @SerializedName("radiant_team") @Expose var radiantTeam: Team? = null
     @Embedded(prefix = "dire_") @SerializedName("dire_team") @Expose var direTeam: Team? = null
     @Ignore @SerializedName("players") @Expose var players: List<PlayerStats>? = null

@@ -23,13 +23,13 @@ import kotlinx.android.synthetic.main.activity_match_stats.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
 import kotlinx.android.synthetic.main.item_match_stats_match_info.*
+import kotlinx.android.synthetic.main.item_match_stats_minimap.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MatchStatsActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: DaggerViewModelFactory
+    @Inject lateinit var factory: DaggerViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DaggerApp).appComponent.inject(this)
@@ -56,6 +56,7 @@ class MatchStatsActivity : AppCompatActivity() {
         var playerPosition = 0
 
         bindMatchStats(stats.matchStats!!)
+        bindMinimap(stats.matchStats!!)
         // Sort by player slot, so that first 5 players are from the Radiant Team,
         // and the rest of them are from Dire
         val sortedPlayerStats = stats.playerStats!!.sortedBy { it.playerSlot }
@@ -128,6 +129,54 @@ class MatchStatsActivity : AppCompatActivity() {
         tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill, "Unknown"])
         tvMatchDuration.text = getDuration(item)
         tvMatchTimePassed.text = getTimePassed(item)
+    }
+
+    private fun bindMinimap(item: MatchStats) {
+        // https://wiki.teamfortress.com/wiki/WebAPI/GetMatchDetails
+        val radiantTowers = Integer.toBinaryString(item.radiantTowers).padStart(11, '0')
+        val direTowers = Integer.toBinaryString(item.direTowers).padStart(11, '0')
+        val radiantBarracks = Integer.toBinaryString(item.radiantBarracks).padStart(6, '0')
+        val direBarracks = Integer.toBinaryString(item.direBarracks).padStart(6, '0')
+
+        if (item.isRadiantWin) imgDireThrone.alpha = 0.4F else imgRadiantThrone.alpha = 0.4F
+
+        if (radiantTowers[10] == '0') imgRadiantTopTier1Tower.alpha = 0.4F
+        if (radiantTowers[9] == '0') imgRadiantTopTier2Tower.alpha = 0.4F
+        if (radiantTowers[8] == '0') imgRadiantTopTier3Tower.alpha = 0.4F
+        if (radiantTowers[1] == '0') imgRadiantTopTier4Tower.alpha = 0.4F
+        if (radiantTowers[7] == '0') imgRadiantMidTier1Tower.alpha = 0.4F
+        if (radiantTowers[6] == '0') imgRadiantMidTier2Tower.alpha = 0.4F
+        if (radiantTowers[5] == '0') imgRadiantMidTier3Tower.alpha = 0.4F
+        if (radiantTowers[4] == '0') imgRadiantBotTier1Tower.alpha = 0.4F
+        if (radiantTowers[3] == '0') imgRadiantBotTier2Tower.alpha = 0.4F
+        if (radiantTowers[2] == '0') imgRadiantBotTier3Tower.alpha = 0.4F
+        if (radiantTowers[0] == '0') imgRadiantBotTier4Tower.alpha = 0.4F
+
+        if (radiantBarracks[4] == '0') imgRadiantTopRangedRax.alpha = 0.4F
+        if (radiantBarracks[5] == '0') imgRadiantTopMeleeRax.alpha = 0.4F
+        if (radiantBarracks[2] == '0') imgRadiantMidRangedRax.alpha = 0.4F
+        if (radiantBarracks[3] == '0') imgRadiantMidMeleeRax.alpha = 0.4F
+        if (radiantBarracks[0] == '0') imgRadiantBotRangedRax.alpha = 0.4F
+        if (radiantBarracks[1] == '0') imgRadiantBotMeleeRax.alpha = 0.4F
+
+        if (direTowers[10] == '0') imgDireTopTier1Tower.alpha = 0.4F
+        if (direTowers[9] == '0') imgDireTopTier2Tower.alpha = 0.4F
+        if (direTowers[8] == '0') imgDireTopTier3Tower.alpha = 0.4F
+        if (direTowers[1] == '0') imgDireTopTier4Tower.alpha = 0.4F
+        if (direTowers[7] == '0') imgDireMidTier1Tower.alpha = 0.4F
+        if (direTowers[6] == '0') imgDireMidTier2Tower.alpha = 0.4F
+        if (direTowers[5] == '0') imgDireMidTier3Tower.alpha = 0.4F
+        if (direTowers[4] == '0') imgDireBotTier1Tower.alpha = 0.4F
+        if (direTowers[3] == '0') imgDireBotTier2Tower.alpha = 0.4F
+        if (direTowers[2] == '0') imgDireBotTier3Tower.alpha = 0.4F
+        if (direTowers[0] == '0') imgDireBotTier4Tower.alpha = 0.4F
+
+        if (direBarracks[4] == '0') imgDireTopRangedRax.alpha = 0.4F
+        if (direBarracks[5] == '0') imgDireTopMeleeRax.alpha = 0.4F
+        if (direBarracks[2] == '0') imgDireMidRangedRax.alpha = 0.4F
+        if (direBarracks[3] == '0') imgDireMidMeleeRax.alpha = 0.4F
+        if (direBarracks[0] == '0') imgDireBotRangedRax.alpha = 0.4F
+        if (direBarracks[1] == '0') imgDireBotMeleeRax.alpha = 0.4F
     }
 
     private fun getPlayerName(item: PlayerStats) = when {
