@@ -56,9 +56,12 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
             }
         })
 
-        val sortDialog = HeroSortDialog.newInstance()
+        val sortDialog = HeroSortDialog()
         sortDialog.setTargetFragment(this, 301)
-        btnSort.setOnClickListener { sortDialog.show(fragmentManager, null) }
+
+        btnSort.setOnClickListener {
+            if (!sortDialog.isAdded) sortDialog.show(fragmentManager, null)
+        }
 
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())

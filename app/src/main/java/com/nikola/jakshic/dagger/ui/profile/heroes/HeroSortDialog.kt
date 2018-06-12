@@ -12,10 +12,6 @@ class HeroSortDialog : DialogFragment() {
         fun onSort(sort: Int)
     }
 
-    companion object {
-        fun newInstance() = HeroSortDialog()
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(context!!)
                 .setTitle("Sort by")
