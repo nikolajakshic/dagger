@@ -62,10 +62,11 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
             }
         })
 
-        val sortDialog = PeerSortDialog.newInstance()
+        val sortDialog = PeerSortDialog()
         sortDialog.setTargetFragment(this, 300)
+
         btnSort.setOnClickListener {
-            sortDialog.show(fragmentManager, null)
+            if (!sortDialog.isAdded) sortDialog.show(fragmentManager, null)
         }
 
         swipeRefresh.setOnRefreshListener {
