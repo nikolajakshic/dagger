@@ -41,5 +41,5 @@ interface OpenDotaService {
     fun getCompetitiveMatches(): Deferred<List<Competitive>>
 
     @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
-    fun getLeaderboard(@Query("division") region: String): Observable<_Leaderboard>
+    fun getLeaderboard(@Query("division") region: String): Deferred<_Leaderboard>
 }

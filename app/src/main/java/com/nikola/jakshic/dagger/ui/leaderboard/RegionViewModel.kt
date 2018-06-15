@@ -6,7 +6,8 @@ import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.LeaderboardRepository
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Leaderboard
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.cancelChildren
 import javax.inject.Inject
 
 class RegionViewModel @Inject constructor(
@@ -16,7 +17,7 @@ class RegionViewModel @Inject constructor(
         private set
     val status = MutableLiveData<Status>()
     private var initialFetch = false
-    private val compositeDisposable = CompositeDisposable()
+    private val jobs = Job()
     private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
     private val onError: () -> Unit = { status.value = Status.ERROR }
 
@@ -30,11 +31,10 @@ class RegionViewModel @Inject constructor(
 
     fun fetchLeaderboard(region: String) {
         status.value = Status.LOADING
-        compositeDisposable.add(repository.fetchLeaderboard(region, onSuccess, onError))
+        repository.fetchLeaderboard(jobs, region, onSuccess, onError)
     }
 
     override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+        jobs.cancelChildren()
     }
 }
