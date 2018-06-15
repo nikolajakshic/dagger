@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.repository
 
 import android.arch.lifecycle.LiveData
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -37,18 +37,22 @@ class PeerRepository @Inject constructor(
      * @param onSuccess called on main thread
      * @param onError called on main thread
      */
-    fun fetchPeers(id: Long, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
-        return service.getPeers(id)
-                .subscribeOn(Schedulers.io())
-                .flatMap { Observable.fromIterable(it) }
-                .filter { it.withGames != 0 } // filter opponents from the peer list
-                .map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it            // about whose this peers are, so we need to set this manually
+    fun fetchPeers(job: Job, id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
+        launch(UI, parent = job) {
+            try {
+                val peers = service.getPeers(id).await()
+                withContext(IO) {
+                    val list = peers.filter { it.withGames != 0 }   // filter opponents from the peer list
+                    list.map {
+                        it.accountId = id   // response from the network doesn't contain any information
+                        it            // about whose this peers are, so we need to set this manually
+                    }
+                    dao.insertPeers(list)
                 }
-                .toList()
-                .flatMapCompletable { Completable.fromAction { dao.insertPeers(it) } }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, { onError() })
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 }

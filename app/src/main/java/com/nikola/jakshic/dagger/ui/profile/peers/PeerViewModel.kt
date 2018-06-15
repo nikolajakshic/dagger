@@ -3,10 +3,11 @@ package com.nikola.jakshic.dagger.ui.profile.peers
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.nikola.jakshic.dagger.repository.PeerRepository
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Peer
-import com.nikola.jakshic.dagger.repository.PeerRepository
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.cancelChildren
 import javax.inject.Inject
 
 class PeerViewModel @Inject constructor(private val repository: PeerRepository) : ViewModel() {
@@ -15,7 +16,7 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
         private set
     val status = MutableLiveData<Status>()
     private var initialFatch = false
-    private val disposables = CompositeDisposable()
+    private val jobs = Job()
     private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
     private val onError: () -> Unit = { status.value = Status.ERROR }
 
@@ -29,7 +30,7 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
 
     fun fetchPeers(id: Long) {
         status.value = Status.LOADING
-        disposables.add(repository.fetchPeers(id, onSuccess, onError))
+        repository.fetchPeers(jobs, id, onSuccess, onError)
     }
 
     fun sortByGames(id: Long) {
@@ -41,6 +42,6 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
     }
 
     override fun onCleared() {
-        disposables.clear()
+        jobs.cancelChildren()
     }
 }
