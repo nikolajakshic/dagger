@@ -3,13 +3,14 @@ package com.nikola.jakshic.dagger.repository
 import android.arch.lifecycle.LiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Competitive
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,11 +43,15 @@ class CompetitiveRepository @Inject constructor(
      * @param onSuccess called on main thread
      * @param onError called on main thread
      */
-    fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit): Disposable {
-        return service.getCompetitiveMatches()
-                .subscribeOn(Schedulers.io())
-                .flatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, { onError() })
+    fun fetchCompetitive(job: Job, onSuccess: () -> Unit, onError: () -> Unit) {
+        launch(UI, parent = job) {
+            try {
+                val matches = service.getCompetitiveMatches().await()
+                withContext(IO) { dao.insertMatches(matches) }
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 }

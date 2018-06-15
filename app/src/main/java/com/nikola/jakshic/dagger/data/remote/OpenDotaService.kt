@@ -38,7 +38,7 @@ interface OpenDotaService {
     fun getMatch(@Path("match_id") matchId: Long): Observable<MatchStats>
 
     @GET("proMatches")
-    fun getCompetitiveMatches(): Observable<List<Competitive>>
+    fun getCompetitiveMatches(): Deferred<List<Competitive>>
 
     @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
     fun getLeaderboard(@Query("division") region: String): Observable<_Leaderboard>
