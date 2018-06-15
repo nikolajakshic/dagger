@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.di
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import dagger.Module
 import dagger.Provides
@@ -35,6 +36,7 @@ class NetworkModule(private val context: Context) {
     fun provideOpenDotaService(okHttpClient: OkHttpClient, gson: Gson): OpenDotaService {
         return Retrofit.Builder()
                 .baseUrl(OpenDotaService.BASE_URL)
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)

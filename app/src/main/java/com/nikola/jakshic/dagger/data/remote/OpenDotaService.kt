@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.data.remote
 
 import com.nikola.jakshic.dagger.vo.*
 import io.reactivex.Observable
+import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,7 +14,7 @@ interface OpenDotaService {
     }
 
     @GET("search")
-    fun searchPlayers(@Query("q") name: String): Observable<List<Player>>
+    fun searchPlayers(@Query("q") name: String): Deferred<List<Player>>
 
     @GET("players/{account_id}")
     fun getPlayerProfile(@Path("account_id") id: Long): Observable<_Player>

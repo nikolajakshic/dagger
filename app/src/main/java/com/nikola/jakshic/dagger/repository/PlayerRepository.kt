@@ -10,6 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,13 +39,14 @@ class PlayerRepository @Inject constructor(
                 .subscribe({ onSuccess() }, { onError() })
     }
 
-    fun fetchPlayers(
-            name: String,
-            onSuccess: (List<Player>) -> Unit,
-            onError: () -> Unit): Disposable {
-        return service.searchPlayers(name)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess(it) }, { onError() })
+    fun fetchPlayers(job: Job, name: String, onSuccess: (List<Player>) -> Unit, onError: () -> Unit) {
+        launch(UI, parent = job) {
+            try {
+                val list = service.searchPlayers(name).await()
+                onSuccess(list)
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 }

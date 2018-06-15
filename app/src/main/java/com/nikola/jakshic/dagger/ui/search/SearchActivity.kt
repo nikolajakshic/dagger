@@ -11,12 +11,15 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.vo.SearchHistory
+import com.nikola.jakshic.dagger.DaggerApp
+import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.hasNetworkConnection
+import com.nikola.jakshic.dagger.toast
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.ui.bookmark.PlayerAdapter
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
+import com.nikola.jakshic.dagger.vo.SearchHistory
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 

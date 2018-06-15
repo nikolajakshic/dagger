@@ -2,15 +2,17 @@ package com.nikola.jakshic.dagger.ui.search
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
+import com.nikola.jakshic.dagger.repository.PlayerRepository
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Player
 import com.nikola.jakshic.dagger.vo.SearchHistory
-import com.nikola.jakshic.dagger.repository.PlayerRepository
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.cancelChildren
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
@@ -21,7 +23,7 @@ class SearchViewModel @Inject constructor(
     val playerList = MutableLiveData<List<Player>>()
     val historyList = MutableLiveData<List<SearchHistory>>()
     val status = MutableLiveData<Status>()
-    private val disposables = CompositeDisposable()
+    private val jobs = Job()
     private val onSuccess: (List<Player>) -> Unit = {
         status.value = Status.SUCCESS
         playerList.value = it
@@ -29,33 +31,31 @@ class SearchViewModel @Inject constructor(
     private val onError: () -> Unit = { status.value = Status.ERROR }
 
     fun getAllQueries() {
-        disposables.add(Single
-                .fromCallable(dao::getAllQueries)
-                .subscribeOn(Schedulers.io())
-                .subscribe(historyList::postValue))
+        launch(UI) {
+            val list = withContext(IO) { dao.getAllQueries() }
+            historyList.value = list
+        }
     }
 
     fun getQueries(query: String) {
-        disposables.add(Single
-                .fromCallable { dao.getQuery(query) }
-                .subscribeOn(Schedulers.io())
-                .subscribe(historyList::postValue))
+        launch(UI) {
+            val list = withContext(IO) { dao.getQuery(query) }
+            historyList.value = list
+        }
     }
 
     fun saveQuery(item: SearchHistory) {
-        disposables.add(Completable
-                .fromAction { dao.insertQuery(item) }
-                .subscribeOn(Schedulers.io())
-                .subscribe())
+        launch(UI) {
+            withContext(IO) { dao.insertQuery(item) }
+        }
     }
 
     fun fetchPlayers(name: String) {
         status.value = Status.LOADING
         // Users can hit the search button multiple times
         // So we need to cancel previous call
-        disposables.clear()
-
-        disposables.add(repository.fetchPlayers(name, onSuccess, onError))
+        jobs.cancelChildren()
+        repository.fetchPlayers(jobs, name, onSuccess, onError)
     }
 
     fun clearList() {
@@ -63,6 +63,6 @@ class SearchViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        disposables.clear()
+        jobs.cancelChildren()
     }
 }
