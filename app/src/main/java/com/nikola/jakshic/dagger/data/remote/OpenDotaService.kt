@@ -35,7 +35,7 @@ interface OpenDotaService {
     fun getPeers(@Path("account_id") playerId: Long): Deferred<List<Peer>>
 
     @GET("matches/{match_id}/")
-    fun getMatch(@Path("match_id") matchId: Long): Observable<MatchStats>
+    fun getMatch(@Path("match_id") matchId: Long): Deferred<MatchStats>
 
     @GET("proMatches")
     fun getCompetitiveMatches(): Deferred<List<Competitive>>

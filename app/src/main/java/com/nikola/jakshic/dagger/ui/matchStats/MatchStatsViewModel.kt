@@ -4,7 +4,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.MatchRepository
 import com.nikola.jakshic.dagger.vo.Stats
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.cancelChildren
 import javax.inject.Inject
 
 class MatchStatsViewModel @Inject constructor(
@@ -12,7 +13,7 @@ class MatchStatsViewModel @Inject constructor(
 
     lateinit var match: LiveData<Stats>
         private set
-    private val disposables = CompositeDisposable()
+    private val jobs = Job()
     private var initialFetch = false
 
     fun initialFetch(id: Long) {
@@ -24,10 +25,10 @@ class MatchStatsViewModel @Inject constructor(
     }
 
     fun fetchMatchStats(id: Long) {
-        disposables.add(repository.fetchMatchStats(id))
+        repository.fetchMatchStats(jobs, id)
     }
 
     override fun onCleared() {
-        disposables.clear()
+        jobs.cancelChildren()
     }
 }

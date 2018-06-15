@@ -11,10 +11,6 @@ import com.nikola.jakshic.dagger.data.local.PlayerStatsDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.Stats
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
@@ -70,12 +66,12 @@ class MatchRepository @Inject constructor(
                 withContext(IO) {
                     val count = matchDao.getMatchCount(id)
                     val list = if (count != 0)
-                        // There are already some matches in the database
-                        // we want to refresh all of them
+                    // There are already some matches in the database
+                    // we want to refresh all of them
                         service.getMatches(id, count, 0).await()
                     else
-                        // There are no matches in the database,
-                        // we want to fetch only 20 from the network
+                    // There are no matches in the database,
+                    // we want to fetch only 20 from the network
                         service.getMatches(id, 20, 0).await()
                     list.map {
                         it.accountId = id   // response from the network doesn't contain any information
@@ -107,18 +103,19 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getMatchStatsLiveData] are notified.
      */
-    fun fetchMatchStats(matchId: Long): Disposable {
-        return service.getMatch(matchId)
-                .subscribeOn(Schedulers.io())
-                .flatMapCompletable {
-                    Completable.fromAction {
-                        db.runInTransaction {
-                            matchStatsDao.insert(it)
-                            playerStatsDao.insert(it.players ?: Collections.emptyList())
-                        }
+    fun fetchMatchStats(job: Job, matchId: Long) {
+        launch(UI, parent = job) {
+            try {
+                withContext(IO) {
+                    val match = service.getMatch(matchId).await()
+                    db.runInTransaction {
+                        matchStatsDao.insert(match)
+                        playerStatsDao.insert(match.players ?: Collections.emptyList())
                     }
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({}, {})
+            } catch (e: Exception) {
+
+            }
+        }
     }
 }
