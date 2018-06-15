@@ -6,7 +6,6 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.nikola.jakshic.dagger.vo.Match
-import io.reactivex.Single
 
 @Dao
 interface MatchDao{
@@ -15,7 +14,7 @@ interface MatchDao{
     fun getMatches(id: Long): DataSource.Factory<Int, Match>
 
     @Query("SELECT COUNT(matches.account_id) FROM matches WHERE matches.account_id = :id")
-    fun getMatchCount(id: Long): Single<Int>
+    fun getMatchCount(id: Long): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMatches(list : List<Match>)

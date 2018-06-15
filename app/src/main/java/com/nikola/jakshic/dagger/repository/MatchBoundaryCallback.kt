@@ -1,21 +1,19 @@
 package com.nikola.jakshic.dagger.repository
 
-import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.PagedList
-import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 
 class MatchBoundaryCallback(
+        private val job: Job,
         private val service: OpenDotaService,
         private val dao: MatchDao,
-        private val disposables: CompositeDisposable,
         private val id: Long,
         private val onLoading: () -> Unit,
         private val onSuccess: () -> Unit,
@@ -23,18 +21,21 @@ class MatchBoundaryCallback(
 
     override fun onItemAtEndLoaded(itemAtEnd: Match) {
         onLoading()
-        disposables.add(dao.getMatchCount(id)
-                .subscribeOn(Schedulers.io())
-                .toObservable()
-                .flatMap { service.getMatches(id, 20, it) }
-                .flatMap { Observable.fromIterable(it) }
-                .map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it           // about who played this matches, so we need to set this manually
+        launch(UI, parent = job) {
+            try {
+                withContext(IO) {
+                    val count = dao.getMatchCount(id)
+                    val list = service.getMatches(id, 20, count).await()
+                    list.map {
+                        it.accountId = id   // response from the network doesn't contain any information
+                        it           // about who played this matches, so we need to set this manually
+                    }
+                    dao.insertMatches(list)
                 }
-                .toList()
-                .flatMapCompletable { Completable.fromAction { dao.insertMatches(it) } }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, { onError() }))
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.nikola.jakshic.dagger.repository
 import android.arch.lifecycle.LiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.DotaDatabase
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.local.MatchStatsDao
@@ -11,11 +12,13 @@ import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.Stats
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,8 +36,8 @@ class MatchRepository @Inject constructor(
      * the requested data in the database has changed
      */
     fun getMatchesLiveData(
+            job: Job,
             id: Long,
-            disposables: CompositeDisposable,
             onLoading: () -> Unit,
             onSuccess: () -> Unit,
             onError: () -> Unit): LiveData<PagedList<Match>> {
@@ -48,7 +51,7 @@ class MatchRepository @Inject constructor(
                 .build()
         return LivePagedListBuilder(factory, config)
                 .setBoundaryCallback(
-                        MatchBoundaryCallback(service, matchDao, disposables, id, onLoading, onSuccess, onError))
+                        MatchBoundaryCallback(job, service, matchDao, id, onLoading, onSuccess, onError))
                 .build()
     }
 
@@ -61,36 +64,33 @@ class MatchRepository @Inject constructor(
      * @param onSuccess called on main thread
      * @param onError called on main thread
      */
-    fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
-        return matchDao.getMatchCount(id)
-                .subscribeOn(Schedulers.io())
-                .toObservable()
-                .flatMap { limit ->
-                    if (limit != 0)
-                    // There are already some matches in the database
-                    // we want to refresh all of them
-                        service.getMatches(id, limit, 0)
+    fun fetchMatches(job: Job, id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
+        launch(UI, parent = job) {
+            try {
+                withContext(IO) {
+                    val count = matchDao.getMatchCount(id)
+                    val list = if (count != 0)
+                        // There are already some matches in the database
+                        // we want to refresh all of them
+                        service.getMatches(id, count, 0).await()
                     else
-                    // There are no matches in the database,
-                    // we want to fetch only 20 from the network
-                        service.getMatches(id, 20, 0)
-                }
-                .flatMap { Observable.fromIterable(it) }
-                .map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it           // about who played this matches, so we need to set this manually
-                }
-                .toList()
-                .flatMapCompletable {
-                    Completable.fromAction {
-                        if (it.size != 0) {
-                            matchDao.deleteMatches(id)
-                            matchDao.insertMatches(it)
-                        }
+                        // There are no matches in the database,
+                        // we want to fetch only 20 from the network
+                        service.getMatches(id, 20, 0).await()
+                    list.map {
+                        it.accountId = id   // response from the network doesn't contain any information
+                        it           // about who played this matches, so we need to set this manually
+                    }
+                    if (list.isNotEmpty()) {
+                        matchDao.deleteMatches(id)
+                        matchDao.insertMatches(list)
                     }
                 }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, { onError() })
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 
     /**
