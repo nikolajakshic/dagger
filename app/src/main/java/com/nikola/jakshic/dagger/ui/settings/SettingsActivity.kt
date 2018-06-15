@@ -4,20 +4,20 @@ import android.os.Bundle
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import com.jakewharton.rxbinding2.view.RxView
 import com.nikola.jakshic.dagger.DaggerApp
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
 import com.nikola.jakshic.dagger.toast
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.settings_item_history.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
 
     @Inject lateinit var searchHistoryDao: SearchHistoryDao
-    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DaggerApp).appComponent.inject(this)
@@ -27,24 +27,12 @@ class SettingsActivity : AppCompatActivity() {
         // Enable up navigation
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Delete search history
-        val disposable = RxView.clicks(settingsHistoryClear)
-                .observeOn(Schedulers.io())
-                .subscribe(
-                        {
-                            searchHistoryDao.deleteHistory()
-                            runOnUiThread { toast("Search history cleared") }
-                        },
-                        { error -> })
-
-        compositeDisposable.add(disposable)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        // Clear all the subscriptions
-        compositeDisposable.clear()
+        settingsHistoryClear.setOnClickListener {
+            launch(UI) {
+                withContext(IO) { searchHistoryDao.deleteHistory() }
+                toast("Search history cleared")
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
