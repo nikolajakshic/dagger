@@ -3,10 +3,11 @@ package com.nikola.jakshic.dagger.ui.profile.heroes
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.nikola.jakshic.dagger.repository.HeroRepository
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Hero
-import com.nikola.jakshic.dagger.repository.HeroRepository
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.experimental.Job
+import kotlinx.coroutines.experimental.cancelChildren
 import javax.inject.Inject
 
 class HeroViewModel @Inject constructor(
@@ -15,14 +16,14 @@ class HeroViewModel @Inject constructor(
     lateinit var list: LiveData<List<Hero>>
         private set
     val status = MutableLiveData<Status>()
-    private val disposables = CompositeDisposable()
+    private val jobs = Job()
     private var initialFetch = false
     private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
     private val onError: () -> Unit = { status.value = Status.ERROR }
 
-    fun initialFetch(id: Long){
-        if (!initialFetch){
-            initialFetch= true
+    fun initialFetch(id: Long) {
+        if (!initialFetch) {
+            initialFetch = true
             fetchHeroes(id)
             sortByGames(id)
         }
@@ -30,7 +31,7 @@ class HeroViewModel @Inject constructor(
 
     fun fetchHeroes(id: Long) {
         status.value = Status.LOADING
-        disposables.add(repository.fetchHeroes(id, onSuccess, onError))
+        repository.fetchHeroes(jobs, id, onSuccess, onError)
     }
 
     fun sortByGames(id: Long) {
@@ -50,6 +51,6 @@ class HeroViewModel @Inject constructor(
     }
 
     override fun onCleared() {
-        disposables.clear()
+        jobs.cancelChildren()
     }
 }

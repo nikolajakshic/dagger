@@ -29,7 +29,7 @@ interface OpenDotaService {
             @Query("offset") offset: Int): Observable<List<Match>>
 
     @GET("players/{account_id}/heroes")
-    fun getHeroes(@Path("account_id") playerId: Long): Observable<List<Hero>>
+    fun getHeroes(@Path("account_id") playerId: Long): Deferred<List<Hero>>
 
     @GET("players/{account_id}/peers")
     fun getPeers(@Path("account_id") playerId: Long): Observable<List<Peer>>
