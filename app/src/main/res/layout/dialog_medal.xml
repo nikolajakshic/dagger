@@ -8,214 +8,219 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <android.support.constraint.ConstraintLayout
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgHerald"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_rank_1" />
-
-        <TextView
-            android:id="@+id/tvHerald"
-            style="@style/TextAppearance.AppCompat.Body1"
+        <android.support.constraint.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Herald"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgHerald"
-            app:layout_constraintStart_toStartOf="@id/imgHerald"
-            app:layout_constraintTop_toBottomOf="@id/imgHerald" />
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imgGuardian"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            app:layout_constraintStart_toEndOf="@id/imgHerald"
-            app:layout_constraintTop_toTopOf="@id/imgHerald"
-            app:srcCompat="@drawable/ic_rank_2" />
+            <ImageView
+                android:id="@+id/imgHerald"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_rank_1" />
 
-        <TextView
-            android:id="@+id/tvGuardian"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guardian"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgGuardian"
-            app:layout_constraintStart_toStartOf="@id/imgGuardian"
-            app:layout_constraintTop_toBottomOf="@id/imgGuardian" />
+            <TextView
+                android:id="@+id/tvHerald"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Herald"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgHerald"
+                app:layout_constraintStart_toStartOf="@id/imgHerald"
+                app:layout_constraintTop_toBottomOf="@id/imgHerald" />
 
-        <ImageView
-            android:id="@+id/imgCrusader"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            app:layout_constraintStart_toEndOf="@id/imgGuardian"
-            app:layout_constraintTop_toTopOf="@id/imgGuardian"
-            app:srcCompat="@drawable/ic_rank_3" />
+            <ImageView
+                android:id="@+id/imgGuardian"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/imgHerald"
+                app:layout_constraintTop_toTopOf="@id/imgHerald"
+                app:srcCompat="@drawable/ic_rank_2" />
 
-        <TextView
-            android:id="@+id/tvCrusader"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Crusader"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgCrusader"
-            app:layout_constraintStart_toStartOf="@id/imgCrusader"
-            app:layout_constraintTop_toBottomOf="@id/imgCrusader" />
+            <TextView
+                android:id="@+id/tvGuardian"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardian"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgGuardian"
+                app:layout_constraintStart_toStartOf="@id/imgGuardian"
+                app:layout_constraintTop_toBottomOf="@id/imgGuardian" />
 
-        <ImageView
-            android:id="@+id/imgArchon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            app:layout_constraintStart_toEndOf="@id/imgCrusader"
-            app:layout_constraintTop_toTopOf="@id/imgCrusader"
-            app:srcCompat="@drawable/ic_rank_4" />
+            <ImageView
+                android:id="@+id/imgCrusader"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/imgGuardian"
+                app:layout_constraintTop_toTopOf="@id/imgGuardian"
+                app:srcCompat="@drawable/ic_rank_3" />
 
-        <TextView
-            android:id="@+id/tvArchon"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Archon"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgArchon"
-            app:layout_constraintStart_toStartOf="@id/imgArchon"
-            app:layout_constraintTop_toBottomOf="@id/imgArchon" />
+            <TextView
+                android:id="@+id/tvCrusader"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crusader"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgCrusader"
+                app:layout_constraintStart_toStartOf="@id/imgCrusader"
+                app:layout_constraintTop_toBottomOf="@id/imgCrusader" />
 
-        <ImageView
-            android:id="@+id/imgLegend"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/imgGuardian"
-            app:layout_constraintStart_toStartOf="@id/imgHerald"
-            app:layout_constraintTop_toBottomOf="@id/tvHerald"
-            app:srcCompat="@drawable/ic_rank_5" />
+            <ImageView
+                android:id="@+id/imgArchon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/imgCrusader"
+                app:layout_constraintTop_toTopOf="@id/imgCrusader"
+                app:srcCompat="@drawable/ic_rank_4" />
 
-        <TextView
-            android:id="@+id/tvLegend"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Legend"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgLegend"
-            app:layout_constraintStart_toStartOf="@id/imgLegend"
-            app:layout_constraintTop_toBottomOf="@id/imgLegend" />
+            <TextView
+                android:id="@+id/tvArchon"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Archon"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgArchon"
+                app:layout_constraintStart_toStartOf="@id/imgArchon"
+                app:layout_constraintTop_toBottomOf="@id/imgArchon" />
 
-        <ImageView
-            android:id="@+id/imgAncient"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toEndOf="@id/imgCrusader"
-            app:layout_constraintStart_toStartOf="@id/imgGuardian"
-            app:layout_constraintTop_toTopOf="@id/imgLegend"
-            app:srcCompat="@drawable/ic_rank_6" />
+            <ImageView
+                android:id="@+id/imgLegend"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/imgGuardian"
+                app:layout_constraintStart_toStartOf="@id/imgHerald"
+                app:layout_constraintTop_toBottomOf="@id/tvHerald"
+                app:srcCompat="@drawable/ic_rank_5" />
 
-        <TextView
-            android:id="@+id/tvAncient"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ancient"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgAncient"
-            app:layout_constraintStart_toStartOf="@id/imgAncient"
-            app:layout_constraintTop_toBottomOf="@id/imgAncient" />
+            <TextView
+                android:id="@+id/tvLegend"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Legend"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgLegend"
+                app:layout_constraintStart_toStartOf="@id/imgLegend"
+                app:layout_constraintTop_toBottomOf="@id/imgLegend" />
 
-        <ImageView
-            android:id="@+id/imgDivine"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toEndOf="@id/imgArchon"
-            app:layout_constraintStart_toStartOf="@id/imgCrusader"
-            app:layout_constraintTop_toTopOf="@id/imgLegend"
-            app:srcCompat="@drawable/ic_rank_7" />
+            <ImageView
+                android:id="@+id/imgAncient"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:layout_constraintEnd_toEndOf="@id/imgCrusader"
+                app:layout_constraintStart_toStartOf="@id/imgGuardian"
+                app:layout_constraintTop_toTopOf="@id/imgLegend"
+                app:srcCompat="@drawable/ic_rank_6" />
 
-        <TextView
-            android:id="@+id/tvDivine"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Divine"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgDivine"
-            app:layout_constraintStart_toStartOf="@id/imgDivine"
-            app:layout_constraintTop_toBottomOf="@id/imgDivine" />
+            <TextView
+                android:id="@+id/tvAncient"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ancient"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgAncient"
+                app:layout_constraintStart_toStartOf="@id/imgAncient"
+                app:layout_constraintTop_toBottomOf="@id/imgAncient" />
 
-        <ImageView
-            android:id="@+id/imgImmortal"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/imgAncient"
-            app:layout_constraintStart_toStartOf="@id/imgLegend"
-            app:layout_constraintTop_toBottomOf="@id/tvLegend"
-            app:srcCompat="@drawable/ic_rank_8" />
+            <ImageView
+                android:id="@+id/imgDivine"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:layout_constraintEnd_toEndOf="@id/imgArchon"
+                app:layout_constraintStart_toStartOf="@id/imgCrusader"
+                app:layout_constraintTop_toTopOf="@id/imgLegend"
+                app:srcCompat="@drawable/ic_rank_7" />
 
-        <TextView
-            android:id="@+id/tvImmortal"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Immortal"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgImmortal"
-            app:layout_constraintStart_toStartOf="@id/imgImmortal"
-            app:layout_constraintTop_toBottomOf="@id/imgImmortal" />
+            <TextView
+                android:id="@+id/tvDivine"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Divine"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgDivine"
+                app:layout_constraintStart_toStartOf="@id/imgDivine"
+                app:layout_constraintTop_toBottomOf="@id/imgDivine" />
 
-        <ImageView
-            android:id="@+id/imgImmortalTop100"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            app:layout_constraintEnd_toEndOf="@id/imgDivine"
-            app:layout_constraintStart_toStartOf="@id/imgAncient"
-            app:layout_constraintTop_toTopOf="@id/imgImmortal"
-            app:srcCompat="@drawable/ic_rank_7a" />
+            <ImageView
+                android:id="@+id/imgImmortal"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/imgAncient"
+                app:layout_constraintStart_toStartOf="@id/imgLegend"
+                app:layout_constraintTop_toBottomOf="@id/tvLegend"
+                app:srcCompat="@drawable/ic_rank_8" />
 
-        <TextView
-            android:id="@+id/tvImmortalTop100"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top 100"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
-            app:layout_constraintStart_toStartOf="@id/imgImmortalTop100"
-            app:layout_constraintTop_toBottomOf="@id/imgImmortalTop100" />
+            <TextView
+                android:id="@+id/tvImmortal"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Immortal"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgImmortal"
+                app:layout_constraintStart_toStartOf="@id/imgImmortal"
+                app:layout_constraintTop_toBottomOf="@id/imgImmortal" />
 
-        <ImageView
-            android:id="@+id/imgImmortalTop10"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
-            app:layout_constraintStart_toStartOf="@id/tvImmortal"
-            app:layout_constraintTop_toBottomOf="@id/tvImmortal"
-            app:srcCompat="@drawable/ic_rank_7b" />
+            <ImageView
+                android:id="@+id/imgImmortalTop100"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:layout_constraintEnd_toEndOf="@id/imgDivine"
+                app:layout_constraintStart_toStartOf="@id/imgAncient"
+                app:layout_constraintTop_toTopOf="@id/imgImmortal"
+                app:srcCompat="@drawable/ic_rank_7a" />
 
-        <TextView
-            android:id="@+id/tvImmortalTop10"
-            style="@style/TextAppearance.AppCompat.Body1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top 10"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop10"
-            app:layout_constraintStart_toStartOf="@id/imgImmortalTop10"
-            app:layout_constraintTop_toBottomOf="@id/imgImmortalTop10" />
+            <TextView
+                android:id="@+id/tvImmortalTop100"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top 100"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
+                app:layout_constraintStart_toStartOf="@id/imgImmortalTop100"
+                app:layout_constraintTop_toBottomOf="@id/imgImmortalTop100" />
 
-    </android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/imgImmortalTop10"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
+                app:layout_constraintStart_toStartOf="@id/tvImmortal"
+                app:layout_constraintTop_toBottomOf="@id/tvImmortal"
+                app:srcCompat="@drawable/ic_rank_7b" />
+
+            <TextView
+                android:id="@+id/tvImmortalTop10"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top 10"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@id/imgImmortalTop10"
+                app:layout_constraintStart_toStartOf="@id/imgImmortalTop10"
+                app:layout_constraintTop_toBottomOf="@id/imgImmortalTop10" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </LinearLayout>
