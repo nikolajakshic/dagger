@@ -140,19 +140,19 @@
 
     <ImageView
         android:id="@+id/imgRankMedal"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_rank_6" />
+        tools:srcCompat="@drawable/ic_rank_8" />
 
     <ImageView
         android:id="@+id/imgRankStars"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
         app:layout_constraintTop_toTopOf="@id/imgRankMedal"
         tools:srcCompat="@drawable/ic_rank_star_5" />
@@ -161,14 +161,14 @@
         android:id="@+id/tvLeaderboardRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
         android:textColor="#FFFFFF"
         android:textSize="10sp"
+        android:layout_marginBottom="5dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
         app:layout_constraintStart_toStartOf="@id/imgRankMedal"
-        app:layout_constraintTop_toTopOf="@id/imgRankMedal"
-        tools:text="354" />
+        app:layout_constraintBottom_toBottomOf="@id/imgRankMedal"
+        tools:text="1389" />
 
     <ImageView
         android:padding="16dp"
