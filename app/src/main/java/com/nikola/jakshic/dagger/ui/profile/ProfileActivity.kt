@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -97,12 +98,21 @@ class ProfileActivity : AppCompatActivity() {
 
         btnRefresh.setOnClickListener { viewModel.fetchProfile(id) }
 
+        val medalDialog = MedalDialog()
+        imgRankMedal.setOnClickListener { if (!medalDialog.isAdded) medalDialog.show(supportFragmentManager, null) }
+
         // Toolbar is drawn over the medal and refresh button, so we need to register clicks
         // on the toolbar and then pass them to the proper views.
         toolbar.setOnTouchListener { v, event ->
             if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
             val refreshX = toolbar.width - btnRefresh.width
+
+            val medalMarginLeft = (imgRankMedal.layoutParams as ConstraintLayout.LayoutParams).leftMargin
+            val medalMarginTop = (imgRankMedal.layoutParams as ConstraintLayout.LayoutParams).topMargin
+            val medalWidth = imgRankMedal.width
+
             if (event.x >= refreshX && btnRefresh.isEnabled) btnRefresh.callOnClick()
+            if (event.y >= medalMarginTop && event.x >= medalMarginLeft && event.x <= (medalWidth + medalMarginLeft)) imgRankMedal.callOnClick()
             false
         }
 
