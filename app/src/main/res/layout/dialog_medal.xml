@@ -95,10 +95,10 @@
             app:layout_constraintTop_toBottomOf="@id/imgArchon" />
 
         <ImageView
-            android:layout_marginTop="16dp"
             android:id="@+id/imgLegend"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="@id/imgGuardian"
             app:layout_constraintStart_toStartOf="@id/imgHerald"
             app:layout_constraintTop_toBottomOf="@id/tvHerald"
@@ -154,5 +154,68 @@
             app:layout_constraintEnd_toEndOf="@id/imgDivine"
             app:layout_constraintStart_toStartOf="@id/imgDivine"
             app:layout_constraintTop_toBottomOf="@id/imgDivine" />
+
+        <ImageView
+            android:id="@+id/imgImmortal"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/imgAncient"
+            app:layout_constraintStart_toStartOf="@id/imgLegend"
+            app:layout_constraintTop_toBottomOf="@id/tvLegend"
+            app:srcCompat="@drawable/ic_rank_8" />
+
+        <TextView
+            android:id="@+id/tvImmortal"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Immortal"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/imgImmortal"
+            app:layout_constraintStart_toStartOf="@id/imgImmortal"
+            app:layout_constraintTop_toBottomOf="@id/imgImmortal" />
+
+        <ImageView
+            android:id="@+id/imgImmortalTop100"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:layout_constraintEnd_toEndOf="@id/imgDivine"
+            app:layout_constraintStart_toStartOf="@id/imgAncient"
+            app:layout_constraintTop_toTopOf="@id/imgImmortal"
+            app:srcCompat="@drawable/ic_rank_7a" />
+
+        <TextView
+            android:id="@+id/tvImmortalTop100"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top 100"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
+            app:layout_constraintStart_toStartOf="@id/imgImmortalTop100"
+            app:layout_constraintTop_toBottomOf="@id/imgImmortalTop100" />
+
+        <ImageView
+            android:id="@+id/imgImmortalTop10"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
+            app:layout_constraintStart_toStartOf="@id/tvImmortal"
+            app:layout_constraintTop_toBottomOf="@id/tvImmortal"
+            app:srcCompat="@drawable/ic_rank_7b" />
+
+        <TextView
+            android:id="@+id/tvImmortalTop10"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top 10"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/imgImmortalTop10"
+            app:layout_constraintStart_toStartOf="@id/imgImmortalTop10"
+            app:layout_constraintTop_toBottomOf="@id/imgImmortalTop10" />
+
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>
