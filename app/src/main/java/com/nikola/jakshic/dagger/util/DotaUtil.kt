@@ -90,9 +90,8 @@ object DotaUtil {
 
         val medalName = when {
             rankTier == 0 -> medal + "0"
-            leaderBoardRank in 1..10 -> medal + "7c"
-            leaderBoardRank in 11..100 -> medal + "7b"
-            leaderBoardRank in 101..1000 -> medal + "7a"
+            leaderBoardRank in 1..10 -> medal + "7b"
+            leaderBoardRank in 11..100 -> medal + "7a"
             else -> medal + rankTier / 10
         }
 
@@ -104,9 +103,9 @@ object DotaUtil {
         val packageName = context.packageName
 
         val starName = when {
-        // Resources.getIdentifier throws Exception if name param is null,
-        // so we need to return empty String
-            leaderBoardRank in 1..1000 -> "" // top 1000 players have special medals without stars
+            // Resources.getIdentifier throws Exception if name param is null,
+            // so we need to return empty String
+            leaderBoardRank != 0 -> "" // players placed on the leaderboard have special medals without stars
             else -> stars + rankTier % 10
         }
 
