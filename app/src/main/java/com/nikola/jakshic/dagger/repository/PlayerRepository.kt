@@ -1,18 +1,13 @@
 package com.nikola.jakshic.dagger.repository
 
+import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.PlayerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Player
-import com.nikola.jakshic.dagger.vo._Player
-import io.reactivex.Completable
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.experimental.Job
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,22 +16,28 @@ class PlayerRepository @Inject constructor(
         private val service: OpenDotaService,
         private val dao: PlayerDao) {
 
-    fun getProfile(id: Long, onSuccess: () -> Unit, onError: () -> Unit): Disposable {
-        val profile = service.getPlayerProfile(id)
-        val winsLosses = service.getPlayerWinLoss(id)
+    fun getProfile(job: Job, id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
+        launch(UI, parent = job) {
+            try {
+                withContext(IO) {
+                    val profileDef = service.getPlayerProfile(id)
+                    val winsLossesDef = service.getPlayerWinLoss(id)
 
-        return Observable.zip(profile, winsLosses,
-                BiFunction { t1: _Player, t2: Player ->
-                    t1.player!!.rankTier = t1.rankTier
-                    t1.player.leaderboardRank = t1.leaderboardRank
-                    t1.player.wins = t2.wins
-                    t1.player.losses = t2.losses
-                    t1
-                })
-                .subscribeOn(Schedulers.io())
-                .flatMapCompletable { Completable.fromAction { dao.insertPlayer(it.player!!) } }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ onSuccess() }, { onError() })
+                    val profile = profileDef.await()
+                    val winsLosses = winsLossesDef.await()
+
+                    profile.player!!.rankTier = profile.rankTier
+                    profile.player.leaderboardRank = profile.leaderboardRank
+                    profile.player.wins = winsLosses.wins
+                    profile.player.losses = winsLosses.losses
+
+                    dao.insertPlayer(profile.player)
+                }
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
+        }
     }
 
     fun fetchPlayers(job: Job, name: String, onSuccess: (List<Player>) -> Unit, onError: () -> Unit) {

@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.data.remote
 
 import com.nikola.jakshic.dagger.vo.*
-import io.reactivex.Observable
 import kotlinx.coroutines.experimental.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,10 +16,10 @@ interface OpenDotaService {
     fun searchPlayers(@Query("q") name: String): Deferred<List<Player>>
 
     @GET("players/{account_id}")
-    fun getPlayerProfile(@Path("account_id") id: Long): Observable<_Player>
+    fun getPlayerProfile(@Path("account_id") id: Long): Deferred<_Player>
 
     @GET("players/{account_id}/wl")
-    fun getPlayerWinLoss(@Path("account_id") playerId: Long): Observable<Player>
+    fun getPlayerWinLoss(@Path("account_id") playerId: Long): Deferred<Player>
 
     @GET("players/{account_id}/matches")
     fun getMatches(
