@@ -16,7 +16,7 @@ import com.nikola.jakshic.dagger.vo.Match
         Bookmark::class,
         MatchStats::class,
         PlayerStats::class
-), version = 5, exportSchema = false)
+), version = 6, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
 
     abstract fun competitiveDao(): CompetitiveDao
