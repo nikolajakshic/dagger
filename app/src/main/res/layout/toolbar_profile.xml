@@ -102,12 +102,17 @@
 
     <TextView
         android:id="@+id/tvPlayerName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginStart="56dp"
         android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
         android:textColor="#000000"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgPlayerAvatar"
         tools:text="drspalevic" />
@@ -161,20 +166,20 @@
         android:id="@+id/tvLeaderboardRank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:textColor="#FFFFFF"
         android:textSize="10sp"
-        android:layout_marginBottom="5dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/imgRankMedal"
         app:layout_constraintEnd_toEndOf="@id/imgRankMedal"
         app:layout_constraintStart_toStartOf="@id/imgRankMedal"
-        app:layout_constraintBottom_toBottomOf="@id/imgRankMedal"
         tools:text="1389" />
 
     <ImageView
-        android:padding="16dp"
         android:id="@+id/btnRefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:src="@drawable/ic_refresh"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
