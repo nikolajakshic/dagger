@@ -3,11 +3,12 @@ package com.nikola.jakshic.dagger.vo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
-class _Leaderboard(@Expose val leaderboard: List<Leaderboard>?)
+class _Leaderboard(@SerializedName("leaderboard") @Expose val leaderboard: List<Leaderboard>?)
 
 @Entity(tableName = "leaderboards")
-data class Leaderboard(@PrimaryKey(autoGenerate = true) var id: Int, @Expose var name: String?, var region: String?)
+data class Leaderboard(@PrimaryKey(autoGenerate = true) var id: Int, @SerializedName("name") @Expose var name: String?, var region: String?)
 
 enum class Region {
     AMERICAS,
