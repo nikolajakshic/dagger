@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.ui.settings
 
 import android.os.Bundle
-import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.nikola.jakshic.dagger.DaggerApp
@@ -37,9 +36,8 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-        // Navigate up to parent activity
             android.R.id.home -> {
-                NavUtils.navigateUpFromSameTask(this)
+                finish()
                 return true
             }
         }
