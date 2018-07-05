@@ -19,6 +19,13 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 - Competitive matches
 - Search history
 
+## Libraries
+- [Android Architecture Components](https://developer.android.com/arch)
+- [Retrofit](https://github.com/square/retrofit) for REST api communication
+- [Coroutines](https://kotlinlang.org/docs/reference/coroutines.html) for writing asynchronous code
+- [Glide](https://github.com/bumptech/glide) for image loading
+- [Dagger 2](https://github.com/google/dagger) for dependency injection
+
 ## Note
 The app is in development, there are plans to add more useful features.
 
