@@ -4,6 +4,8 @@ import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -138,45 +140,50 @@ class MatchStatsActivity : AppCompatActivity() {
         val radiantBarracks = Integer.toBinaryString(item.radiantBarracks).padStart(6, '0')
         val direBarracks = Integer.toBinaryString(item.direBarracks).padStart(6, '0')
 
-        if (item.isRadiantWin) imgDireThrone.alpha = 0.4F else imgRadiantThrone.alpha = 0.4F
+        // Gray-scale filter for destroyed buildings
+        val matrix = ColorMatrix().apply { setSaturation(0F) }
+        val filter = ColorMatrixColorFilter(matrix)
+        val alpha = 128
 
-        if (radiantTowers[10] == '0') imgRadiantTopTier1Tower.alpha = 0.4F
-        if (radiantTowers[9] == '0') imgRadiantTopTier2Tower.alpha = 0.4F
-        if (radiantTowers[8] == '0') imgRadiantTopTier3Tower.alpha = 0.4F
-        if (radiantTowers[1] == '0') imgRadiantTopTier4Tower.alpha = 0.4F
-        if (radiantTowers[7] == '0') imgRadiantMidTier1Tower.alpha = 0.4F
-        if (radiantTowers[6] == '0') imgRadiantMidTier2Tower.alpha = 0.4F
-        if (radiantTowers[5] == '0') imgRadiantMidTier3Tower.alpha = 0.4F
-        if (radiantTowers[4] == '0') imgRadiantBotTier1Tower.alpha = 0.4F
-        if (radiantTowers[3] == '0') imgRadiantBotTier2Tower.alpha = 0.4F
-        if (radiantTowers[2] == '0') imgRadiantBotTier3Tower.alpha = 0.4F
-        if (radiantTowers[0] == '0') imgRadiantBotTier4Tower.alpha = 0.4F
+        if (item.isRadiantWin) with(imgDireThrone) { colorFilter = filter; imageAlpha = alpha } else with(imgRadiantThrone) { colorFilter = filter; imageAlpha = alpha }
 
-        if (radiantBarracks[4] == '0') imgRadiantTopRangedRax.alpha = 0.4F
-        if (radiantBarracks[5] == '0') imgRadiantTopMeleeRax.alpha = 0.4F
-        if (radiantBarracks[2] == '0') imgRadiantMidRangedRax.alpha = 0.4F
-        if (radiantBarracks[3] == '0') imgRadiantMidMeleeRax.alpha = 0.4F
-        if (radiantBarracks[0] == '0') imgRadiantBotRangedRax.alpha = 0.4F
-        if (radiantBarracks[1] == '0') imgRadiantBotMeleeRax.alpha = 0.4F
+        if (radiantTowers[10] == '0') with(imgRadiantTopTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[9] == '0') with(imgRadiantTopTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[8] == '0') with(imgRadiantTopTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[1] == '0') with(imgRadiantTopTier4Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[7] == '0') with(imgRadiantMidTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[6] == '0') with(imgRadiantMidTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[5] == '0') with(imgRadiantMidTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[4] == '0') with(imgRadiantBotTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[3] == '0') with(imgRadiantBotTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[2] == '0') with(imgRadiantBotTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[0] == '0') with(imgRadiantBotTier4Tower) { colorFilter = filter; imageAlpha = alpha }
 
-        if (direTowers[10] == '0') imgDireTopTier1Tower.alpha = 0.4F
-        if (direTowers[9] == '0') imgDireTopTier2Tower.alpha = 0.4F
-        if (direTowers[8] == '0') imgDireTopTier3Tower.alpha = 0.4F
-        if (direTowers[1] == '0') imgDireTopTier4Tower.alpha = 0.4F
-        if (direTowers[7] == '0') imgDireMidTier1Tower.alpha = 0.4F
-        if (direTowers[6] == '0') imgDireMidTier2Tower.alpha = 0.4F
-        if (direTowers[5] == '0') imgDireMidTier3Tower.alpha = 0.4F
-        if (direTowers[4] == '0') imgDireBotTier1Tower.alpha = 0.4F
-        if (direTowers[3] == '0') imgDireBotTier2Tower.alpha = 0.4F
-        if (direTowers[2] == '0') imgDireBotTier3Tower.alpha = 0.4F
-        if (direTowers[0] == '0') imgDireBotTier4Tower.alpha = 0.4F
+        if (radiantBarracks[4] == '0') with(imgRadiantTopRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[5] == '0') with(imgRadiantTopMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[2] == '0') with(imgRadiantMidRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[3] == '0') with(imgRadiantMidMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[0] == '0') with(imgRadiantBotRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[1] == '0') with(imgRadiantBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
 
-        if (direBarracks[4] == '0') imgDireTopRangedRax.alpha = 0.4F
-        if (direBarracks[5] == '0') imgDireTopMeleeRax.alpha = 0.4F
-        if (direBarracks[2] == '0') imgDireMidRangedRax.alpha = 0.4F
-        if (direBarracks[3] == '0') imgDireMidMeleeRax.alpha = 0.4F
-        if (direBarracks[0] == '0') imgDireBotRangedRax.alpha = 0.4F
-        if (direBarracks[1] == '0') imgDireBotMeleeRax.alpha = 0.4F
+        if (direTowers[10] == '0') with(imgDireTopTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[9] == '0') with(imgDireTopTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[8] == '0') with(imgDireTopTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[1] == '0') with(imgDireTopTier4Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[7] == '0') with(imgDireMidTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[6] == '0') with(imgDireMidTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[5] == '0') with(imgDireMidTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[4] == '0') with(imgDireBotTier1Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[3] == '0') with(imgDireBotTier2Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[2] == '0') with(imgDireBotTier3Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[0] == '0') with(imgDireBotTier4Tower) { colorFilter = filter; imageAlpha = alpha }
+
+        if (direBarracks[4] == '0') with(imgDireTopRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[5] == '0') with(imgDireTopMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[2] == '0') with(imgDireMidRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[3] == '0') with(imgDireMidMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[0] == '0') with(imgDireBotRangedRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[1] == '0') with(imgDireBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
     }
 
     private fun getPlayerName(item: PlayerStats) = when {
