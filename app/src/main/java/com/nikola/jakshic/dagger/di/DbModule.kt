@@ -11,43 +11,33 @@ import javax.inject.Singleton
 class DbModule {
 
     @Provides
-    @Singleton
     fun providePlayerDao(db: DotaDatabase) = db.playerDao()
 
     @Provides
-    @Singleton
     fun provideCompetitiveDao(db: DotaDatabase) = db.competitiveDao()
 
     @Provides
-    @Singleton
     fun provideSearchHistoryDao(db: DotaDatabase) = db.searchHistoryDao()
 
     @Provides
-    @Singleton
     fun providePeerDao(db: DotaDatabase) = db.peerDao()
 
     @Provides
-    @Singleton
     fun provideHeroDao(db: DotaDatabase) = db.heroDao()
 
     @Provides
-    @Singleton
     fun provideMatchDao(db: DotaDatabase) = db.matchDao()
 
     @Provides
-    @Singleton
     fun provideLeaderboardDao(db: DotaDatabase) = db.leaderboardDao()
 
     @Provides
-    @Singleton
     fun provideBookmarkDao(db: DotaDatabase) = db.bookmarkDao()
 
     @Provides
-    @Singleton
     fun provideMatchStatsDao(db: DotaDatabase) = db.matchStatsDao()
 
     @Provides
-    @Singleton
     fun providePlayerStatsDao(db: DotaDatabase) = db.playerStatsDao()
 
     @Provides
