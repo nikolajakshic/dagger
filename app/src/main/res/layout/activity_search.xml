@@ -21,7 +21,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:visibility="invisible"
-        android:background="@android:color/white"
+        android:background="@color/color_background_default"
         android:id="@+id/recViewHistory"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

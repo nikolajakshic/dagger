@@ -6,4 +6,6 @@
 
     <color name="color_green">#4CAF50</color>
     <color name="color_red">#F44336</color>
+
+    <color name="color_background_default">#fafafa</color>
 </resources>
