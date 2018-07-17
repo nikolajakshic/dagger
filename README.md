@@ -1,6 +1,6 @@
 # Dagger: Dota 2 Stats
 
-Dagger is an Android app that keeps you up-to-date with the latest Dota 2 matches, it also is ad-free and open source under MIT license.
+Dagger is an Android app that keeps you up-to-date with the latest Dota 2 matches, it also is ad-free and open source.
 
 Data is collected through the [OpenDota's](https://www.opendota.com) API and [Dota 2](https://www.dota2.com) web API.
 
