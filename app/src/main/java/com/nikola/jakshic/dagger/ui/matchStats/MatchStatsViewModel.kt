@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.matchStats
+package com.nikola.jakshic.dagger.ui.matchstats
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel

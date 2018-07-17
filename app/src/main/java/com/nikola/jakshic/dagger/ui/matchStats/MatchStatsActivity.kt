@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.ui.matchStats
+package com.nikola.jakshic.dagger.ui.matchstats
 
 import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer

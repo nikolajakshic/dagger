@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.nikola.jakshic.dagger.ui.matchStats.MatchStatsLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.nikola.jakshic.dagger.ui.matchstats.MatchStatsLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -9,4 +9,4 @@
     <include
         layout="@layout/item_match_stats_expanded"
         android:visibility="gone" />
-</com.nikola.jakshic.dagger.ui.matchStats.MatchStatsLayout>
+</com.nikola.jakshic.dagger.ui.matchstats.MatchStatsLayout>

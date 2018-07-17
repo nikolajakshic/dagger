@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
-import com.nikola.jakshic.dagger.ui.matchStats.MatchStatsActivity
+import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
 import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
 

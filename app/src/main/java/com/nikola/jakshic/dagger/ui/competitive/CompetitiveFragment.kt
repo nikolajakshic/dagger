@@ -12,12 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.R.id.recView
-import com.nikola.jakshic.dagger.R.id.swipeRefresh
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.HomeActivity
 import com.nikola.jakshic.dagger.ui.Status
-import com.nikola.jakshic.dagger.ui.matchStats.MatchStatsActivity
+import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 

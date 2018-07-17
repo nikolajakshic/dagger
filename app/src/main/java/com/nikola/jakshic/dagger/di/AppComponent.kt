@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.di
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment
-import com.nikola.jakshic.dagger.ui.matchStats.MatchStatsActivity
+import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
