@@ -1,20 +1,14 @@
 package com.nikola.jakshic.dagger.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.view.Menu
-import android.view.MenuItem
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.R.id.btmNavigation
 import com.nikola.jakshic.dagger.hide
 import com.nikola.jakshic.dagger.show
-import com.nikola.jakshic.dagger.ui.search.SearchActivity
 import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.ui.leaderboard.LeaderboardFragment
-import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
@@ -51,21 +45,18 @@ class HomeActivity : AppCompatActivity() {
                     competitive.show()
                     leaderboard.hide()
                     bookmark.hide()
-                    title = "Competitive"
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_leaderboard -> {
                     competitive.hide()
                     leaderboard.show()
                     bookmark.hide()
-                    title = "Leaderboard"
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_bookmark -> {
                     competitive.hide()
                     leaderboard.hide()
                     bookmark.show()
-                    title = "Bookmark"
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> return@setOnNavigationItemSelectedListener false
@@ -78,25 +69,6 @@ class HomeActivity : AppCompatActivity() {
                 R.id.action_leaderboard -> (leaderboard as LeaderboardFragment).onItemReselected()
                 R.id.action_bookmark -> (bookmark as BookmarkFragment).onItemReselected()
             }
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        return when (item?.itemId) {
-            R.id.menu_home_search -> {
-                startActivity(Intent(this, SearchActivity::class.java))
-                true
-            }
-            R.id.menu_home_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
     }
 

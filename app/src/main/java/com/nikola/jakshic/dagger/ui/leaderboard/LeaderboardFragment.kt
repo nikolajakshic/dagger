@@ -1,15 +1,16 @@
 package com.nikola.jakshic.dagger.ui.leaderboard
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.R.id.tabLayout
-import com.nikola.jakshic.dagger.R.id.viewPager
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.ui.HomeActivity
+import com.nikola.jakshic.dagger.ui.search.SearchActivity
+import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
 
 class LeaderboardFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
@@ -24,18 +25,27 @@ class LeaderboardFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        toolbar.inflateMenu(R.menu.menu_home)
+
         adapter = RegionPagerAdapter(childFragmentManager)
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)
-    }
 
-    override fun onResume() {
-        super.onResume()
-        // This fragment is an item from BottomNavigationView
-        // Set the proper title when this fragment is not hidden
-        if (!isHidden) activity?.title = "Leaderboard"
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_home_search -> {
+                    startActivity(Intent(activity, SearchActivity::class.java))
+                    true
+                }
+                R.id.menu_home_settings -> {
+                    startActivity(Intent(activity, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onItemReselected() {

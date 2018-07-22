@@ -18,14 +18,14 @@ fun Fragment.toast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(activity, msg, duration).show()
 }
 
-fun Fragment.show(transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
+fun Fragment.show(transition: Int = FragmentTransaction.TRANSIT_NONE) {
     fragmentManager?.beginTransaction()
             ?.show(this)
             ?.setTransition(transition)
             ?.commit()
 }
 
-fun Fragment.hide(transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
+fun Fragment.hide(transition: Int = FragmentTransaction.TRANSIT_NONE) {
     fragmentManager?.beginTransaction()
             ?.hide(this)
             ?.setTransition(transition)

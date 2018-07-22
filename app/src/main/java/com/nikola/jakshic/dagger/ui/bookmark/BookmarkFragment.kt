@@ -13,11 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.R.id.recView
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.HomeActivity
+import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
+import com.nikola.jakshic.dagger.ui.search.SearchActivity
+import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 import javax.inject.Inject
 
@@ -36,6 +37,8 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        toolbar.inflateMenu(R.menu.menu_home)
+
         val viewModel = ViewModelProviders.of(this, factory)[BookmarkViewModel::class.java]
 
         val adapter = PlayerAdapter {
@@ -50,13 +53,20 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(this, Observer(adapter::addData))
-    }
 
-    override fun onResume() {
-        super.onResume()
-        // This fragment is an item from BottomNavigationView
-        // Set the proper title when this fragment is not hidden
-        if (!isHidden) activity?.title = "Bookmark"
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_home_search -> {
+                    startActivity(Intent(activity, SearchActivity::class.java))
+                    true
+                }
+                R.id.menu_home_settings -> {
+                    startActivity(Intent(activity, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onItemReselected() {

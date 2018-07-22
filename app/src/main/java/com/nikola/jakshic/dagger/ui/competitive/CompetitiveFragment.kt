@@ -16,6 +16,8 @@ import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.HomeActivity
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.ui.search.SearchActivity
+import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 
@@ -35,6 +37,8 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbar.inflateMenu(R.menu.menu_home)
 
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
@@ -64,13 +68,20 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
                 swipeRefresh.isRefreshing = false
             }
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
-        // This fragment is an item from the BottomNavigationView
-        // Set the proper title when this fragment is not hidden
-        if (!isHidden) activity?.title = "Competitive"
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_home_search -> {
+                    startActivity(Intent(activity, SearchActivity::class.java))
+                    true
+                }
+                R.id.menu_home_settings -> {
+                    startActivity(Intent(activity, SettingsActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onItemReselected() {
