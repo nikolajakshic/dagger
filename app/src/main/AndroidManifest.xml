@@ -16,7 +16,8 @@
 
         <activity
             android:name=".ui.HomeActivity"
-            android:theme="@style/HomeTheme">
+            android:theme="@style/HomeTheme"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
