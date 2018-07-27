@@ -21,7 +21,7 @@ interface OpenDotaService {
     @GET("players/{account_id}/wl")
     fun getPlayerWinLoss(@Path("account_id") playerId: Long): Deferred<Player>
 
-    @GET("players/{account_id}/matches")
+    @GET("players/{account_id}/matches?significant=0")
     fun getMatches(
             @Path("account_id") playerId: Long,
             @Query("limit") limit: Int,
