@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.competitive
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.CompetitiveRepository
 import com.nikola.jakshic.dagger.ui.Status
 import kotlinx.coroutines.experimental.Job

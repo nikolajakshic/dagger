@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.profile
 
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
 import com.nikola.jakshic.dagger.ui.profile.peers.PeerFragment

@@ -1,14 +1,14 @@
 package com.nikola.jakshic.dagger.ui.profile.heroes
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
-import com.nikola.jakshic.dagger.vo.Hero
 import com.nikola.jakshic.dagger.util.DotaUtil
+import com.nikola.jakshic.dagger.vo.Hero
 import kotlinx.android.synthetic.main.item_hero.view.*
 
 class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {

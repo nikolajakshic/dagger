@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.nikola.jakshic.dagger.ui.HomeActivity">
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmNavigation"
         android:background="#fff"
         android:layout_width="match_parent"

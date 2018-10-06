@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.repository
 
-import android.arch.paging.PagedList
+import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService

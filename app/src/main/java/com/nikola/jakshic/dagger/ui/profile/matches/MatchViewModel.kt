@@ -1,9 +1,9 @@
 package com.nikola.jakshic.dagger.ui.profile.matches
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.arch.paging.PagedList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.repository.MatchRepository
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match

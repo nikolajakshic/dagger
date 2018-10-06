@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.repository
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService

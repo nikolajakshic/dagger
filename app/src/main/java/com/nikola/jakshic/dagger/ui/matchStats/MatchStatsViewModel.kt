@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.matchstats
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.MatchRepository
 import com.nikola.jakshic.dagger.vo.Stats
 import kotlinx.coroutines.experimental.Job

@@ -48,6 +48,3 @@
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
-
-# searchview causing runtime error
--keep class android.support.v7.widget.SearchView { *; }

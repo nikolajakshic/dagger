@@ -1,10 +1,10 @@
 package com.nikola.jakshic.dagger.ui.profile.matches
 
-import android.arch.paging.PagedListAdapter
+import androidx.paging.PagedListAdapter
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -89,11 +89,11 @@ class MatchAdapter(
 
     companion object {
         val MATCH_COMPARATOR = object : DiffUtil.ItemCallback<Match>() {
-            override fun areItemsTheSame(oldItem: Match?, newItem: Match?): Boolean {
-                return oldItem?.matchId == newItem?.matchId
+            override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
+                return oldItem.matchId == newItem.matchId
             }
 
-            override fun areContentsTheSame(oldItem: Match?, newItem: Match?): Boolean {
+            override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
                 return oldItem == newItem
             }
         }

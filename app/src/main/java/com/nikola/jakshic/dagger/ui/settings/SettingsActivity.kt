@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.settings
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.Dispatcher.IO

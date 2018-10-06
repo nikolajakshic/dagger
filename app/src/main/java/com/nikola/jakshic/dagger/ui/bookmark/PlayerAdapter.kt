@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.bookmark
 
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide

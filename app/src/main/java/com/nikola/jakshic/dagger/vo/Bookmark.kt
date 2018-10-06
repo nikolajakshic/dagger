@@ -1,9 +1,9 @@
 package com.nikola.jakshic.dagger.vo
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "bookmark", indices = [(Index(value = ["account_id"], unique = true))])
 data class Bookmark(@ColumnInfo(name = "account_id") var id: Long) {

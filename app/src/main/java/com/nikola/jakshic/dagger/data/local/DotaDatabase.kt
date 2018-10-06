@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.data.local
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
+import androidx.room.Database
+import androidx.room.RoomDatabase
 import com.nikola.jakshic.dagger.vo.*
 import com.nikola.jakshic.dagger.vo.Match
 

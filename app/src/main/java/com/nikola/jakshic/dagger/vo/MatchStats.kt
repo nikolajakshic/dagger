@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.vo
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 

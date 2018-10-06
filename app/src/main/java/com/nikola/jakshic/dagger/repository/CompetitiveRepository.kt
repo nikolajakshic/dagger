@@ -1,8 +1,8 @@
 package com.nikola.jakshic.dagger.repository
 
-import android.arch.lifecycle.LiveData
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService

@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.ui.search
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
 import com.nikola.jakshic.dagger.repository.PlayerRepository

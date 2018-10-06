@@ -1,9 +1,9 @@
 package com.nikola.jakshic.dagger.ui.competitive
 
-import android.arch.paging.PagedListAdapter
+import androidx.paging.PagedListAdapter
 import android.content.Context
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
@@ -76,11 +76,11 @@ class CompetitiveAdapter(
 
     companion object {
         val COMPETITIVE_COMPARATOR = object : DiffUtil.ItemCallback<Competitive>() {
-            override fun areItemsTheSame(oldItem: Competitive?, newItem: Competitive?): Boolean {
-                return oldItem?.matchId == newItem?.matchId
+            override fun areItemsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {
+                return oldItem.matchId == newItem.matchId
             }
 
-            override fun areContentsTheSame(oldItem: Competitive?, newItem: Competitive?): Boolean {
+            override fun areContentsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {
                 return oldItem == newItem
             }
         }

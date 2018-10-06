@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.di
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import com.nikola.jakshic.dagger.data.local.*
 import dagger.Module

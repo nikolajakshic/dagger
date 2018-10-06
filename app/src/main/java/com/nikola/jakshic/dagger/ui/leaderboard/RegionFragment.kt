@@ -1,22 +1,20 @@
 package com.nikola.jakshic.dagger.ui.leaderboard
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.R.id.recView
-import com.nikola.jakshic.dagger.R.id.swipeRefresh
-import com.nikola.jakshic.dagger.vo.Region
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.HomeActivity
 import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.vo.Region
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
