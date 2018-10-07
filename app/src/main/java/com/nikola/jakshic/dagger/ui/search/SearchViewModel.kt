@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.ui.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.Dispatcher.IO
@@ -20,27 +21,36 @@ class SearchViewModel @Inject constructor(
         private val repository: PlayerRepository
 ) : ViewModel() {
 
-    val playerList = MutableLiveData<List<Player>>()
-    val historyList = MutableLiveData<List<SearchHistory>>()
-    val status = MutableLiveData<Status>()
+    private val _playerList = MutableLiveData<List<Player>>()
+    val playerList: LiveData<List<Player>>
+        get() = _playerList
+
+    private val _historyList = MutableLiveData<List<SearchHistory>>()
+    val historyList: LiveData<List<SearchHistory>>
+        get() = _historyList
+
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
+
     private val jobs = Job()
     private val onSuccess: (List<Player>) -> Unit = {
-        status.value = Status.SUCCESS
-        playerList.value = it
+        _status.value = Status.SUCCESS
+        _playerList.value = it
     }
-    private val onError: () -> Unit = { status.value = Status.ERROR }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun getAllQueries() {
         launch(UI) {
             val list = withContext(IO) { dao.getAllQueries() }
-            historyList.value = list
+            _historyList.value = list
         }
     }
 
     fun getQueries(query: String) {
         launch(UI) {
             val list = withContext(IO) { dao.getQuery(query) }
-            historyList.value = list
+            _historyList.value = list
         }
     }
 
@@ -51,7 +61,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun fetchPlayers(name: String) {
-        status.value = Status.LOADING
+        _status.value = Status.LOADING
         // Users can hit the search button multiple times
         // So we need to cancel previous call
         jobs.cancelChildren()
@@ -59,7 +69,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun clearList() {
-        playerList.value = ArrayList()
+        _playerList.value = ArrayList()
     }
 
     override fun onCleared() {

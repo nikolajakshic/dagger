@@ -22,15 +22,17 @@ class ProfileViewModel @Inject constructor(
         private val bookmarkDao: BookmarkDao,
         private val repo: PlayerRepository) : ViewModel() {
 
-    val status = MutableLiveData<Status>()
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
     lateinit var profile: LiveData<Player>
         private set
     lateinit var bookmark: LiveData<Player>
         private set
     private var initialFetch = false
     private val jobs = Job()
-    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { status.value = Status.ERROR }
+    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun getProfile(id: Long) {
         if (!initialFetch) {
@@ -42,7 +44,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun fetchProfile(id: Long) {
-        status.value = Status.LOADING
+        _status.value = Status.LOADING
         repo.getProfile(jobs, id, onSuccess, onError)
     }
 

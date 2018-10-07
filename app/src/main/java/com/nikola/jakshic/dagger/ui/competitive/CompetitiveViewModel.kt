@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.ui.competitive
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.CompetitiveRepository
@@ -12,11 +13,13 @@ class CompetitiveViewModel @Inject constructor(
         private val repo: CompetitiveRepository) : ViewModel() {
 
     val list = repo.getCompetitiveLiveData()
-    val status = MutableLiveData<Status>()
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
     private var initialFetch = false
     private val jobs = Job()
-    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { status.value = Status.ERROR }
+    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun initialFetch() {
         if (!initialFetch) {
@@ -26,7 +29,7 @@ class CompetitiveViewModel @Inject constructor(
     }
 
     fun refreshData() {
-        status.value = Status.LOADING
+        _status.value = Status.LOADING
         repo.fetchCompetitive(jobs, onSuccess, onError)
     }
 

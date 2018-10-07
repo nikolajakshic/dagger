@@ -15,12 +15,14 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
 
     lateinit var list: LiveData<PagedList<Match>>
         private set
-    val status = MutableLiveData<Status>()
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
     private var initialFetch = false
     private val jobs = Job()
-    private val onLoading: () -> Unit = { status.value = Status.LOADING }
-    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { status.value = Status.ERROR }
+    private val onLoading: () -> Unit = { _status.value = Status.LOADING }
+    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun initialFetch(id: Long) {
         if (!initialFetch) {
@@ -31,8 +33,8 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
     }
 
     fun fetchMatches(id: Long) {
-        status.value = Status.LOADING
-        repository.fetchMatches(jobs,id, onSuccess, onError)
+        _status.value = Status.LOADING
+        repository.fetchMatches(jobs, id, onSuccess, onError)
     }
 
     override fun onCleared() {

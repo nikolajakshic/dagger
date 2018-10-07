@@ -14,11 +14,13 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
 
     lateinit var list: LiveData<List<Peer>>
         private set
-    val status = MutableLiveData<Status>()
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
     private var initialFatch = false
     private val jobs = Job()
-    private val onSuccess: () -> Unit = { status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { status.value = Status.ERROR }
+    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun initialFetch(id: Long) {
         if (!initialFatch) {
@@ -29,7 +31,7 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
     }
 
     fun fetchPeers(id: Long) {
-        status.value = Status.LOADING
+        _status.value = Status.LOADING
         repository.fetchPeers(jobs, id, onSuccess, onError)
     }
 
