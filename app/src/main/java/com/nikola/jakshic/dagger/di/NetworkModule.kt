@@ -14,6 +14,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import okhttp3.CipherSuite
+import okhttp3.ConnectionSpec
+
 
 @Module
 class NetworkModule(private val context: Context) {
@@ -45,10 +48,21 @@ class NetworkModule(private val context: Context) {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder()
+        val cipherSuites = ArrayList<CipherSuite>()
+        cipherSuites.addAll(ConnectionSpec.MODERN_TLS.cipherSuites()!!)
+        cipherSuites.add(CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA)
+        cipherSuites.add(CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA)
+
+        val legacyTls = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                .cipherSuites(*cipherSuites.toTypedArray())
+                .build()
+
+        val clientBuilder = OkHttpClient.Builder()
                 .cache(Cache(context.cacheDir, (10 * 1000 * 1000).toLong()))
                 .readTimeout(35, TimeUnit.SECONDS)
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
-                .build()
+                .connectionSpecs(listOf(legacyTls, ConnectionSpec.CLEARTEXT))
+
+        return clientBuilder.build()
     }
 }
