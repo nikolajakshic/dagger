@@ -65,11 +65,13 @@ dependencies {
     //Paging
     implementation 'androidx.paging:paging-runtime:2.0.0'
     //Crashlytics
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.2@aar') {
-        transitive = true
-    }
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    //Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     //Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 }
+
+apply plugin: 'com.google.gms.google-services'

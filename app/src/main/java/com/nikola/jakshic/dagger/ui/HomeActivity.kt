@@ -17,9 +17,9 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-         val competitive: Fragment
-         val leaderboard: Fragment
-         val bookmark: Fragment
+        val competitive: Fragment
+        val leaderboard: Fragment
+        val bookmark: Fragment
 
         if (savedInstanceState == null) {
             competitive = CompetitiveFragment()
