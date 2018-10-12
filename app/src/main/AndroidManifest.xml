@@ -36,7 +36,9 @@
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/ProfileTheme" />
 
-        <activity android:name=".ui.matchstats.MatchStatsActivity" />
+        <activity
+            android:name=".ui.matchstats.MatchStatsActivity"
+            android:theme="@style/MatchStatsTheme"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
