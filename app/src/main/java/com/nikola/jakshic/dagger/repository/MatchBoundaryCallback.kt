@@ -1,17 +1,16 @@
 package com.nikola.jakshic.dagger.repository
 
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Match
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.CoroutineScope
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
 
 class MatchBoundaryCallback(
-        private val job: Job,
+        private val scope: CoroutineScope,
         private val service: OpenDotaService,
         private val dao: MatchDao,
         private val id: Long,
@@ -20,10 +19,10 @@ class MatchBoundaryCallback(
         private val onError: () -> Unit) : PagedList.BoundaryCallback<Match>() {
 
     override fun onItemAtEndLoaded(itemAtEnd: Match) {
-        onLoading()
-        launch(UI, parent = job) {
+        scope.launch {
             try {
-                withContext(IO) {
+                onLoading()
+                withContext(Dispatchers.IO) {
                     val count = dao.getMatchCount(id)
                     val list = service.getMatches(id, 20, count).await()
                     list.map {

@@ -1,19 +1,18 @@
 package com.nikola.jakshic.dagger.ui.matchstats
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.MatchRepository
+import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.vo.Stats
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.cancelChildren
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class MatchStatsViewModel @Inject constructor(
-        private val repository: MatchRepository) : ViewModel() {
+        private val repository: MatchRepository) : ScopedViewModel() {
 
     lateinit var match: LiveData<Stats>
         private set
-    private val jobs = Job()
+
     private var initialFetch = false
 
     fun initialFetch(id: Long) {
@@ -25,10 +24,8 @@ class MatchStatsViewModel @Inject constructor(
     }
 
     fun fetchMatchStats(id: Long) {
-        repository.fetchMatchStats(jobs, id)
-    }
-
-    override fun onCleared() {
-        jobs.cancelChildren()
+        launch {
+            repository.fetchMatchStats(id)
+        }
     }
 }

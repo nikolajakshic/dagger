@@ -1,12 +1,10 @@
 package com.nikola.jakshic.dagger.repository
 
 import androidx.lifecycle.LiveData
-import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.HeroDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -46,25 +44,20 @@ class HeroRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getHeroesLiveDataByGames], [getHeroesLiveDataByWins],
      * [getHeroesLiveDataByLosses] and [getHeroesLiveDataByWinrate] are notified.
-     *
-     * @param onSuccess called on main thread
-     * @param onError called on main thread
      */
-    fun fetchHeroes(job: Job, id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
-        launch(UI, parent = job) {
-            try {
-                val heroes = service.getHeroes(id).await()
-                withContext(IO) {
-                    heroes.map {
-                        it.accountId = id   // response from the network doesn't contain any information
-                        it          // about who played this heroes, so we need to set this manually
-                    }
-                    dao.insertHeroes(heroes)
+    suspend fun fetchHeroes(id: Long, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+        try {
+            val heroes = service.getHeroes(id).await()
+            withContext(Dispatchers.IO) {
+                heroes.map {
+                    it.accountId = id   // response from the network doesn't contain any information
+                    it          // about who played this heroes, so we need to set this manually
                 }
-                onSuccess()
-            } catch (e: Exception) {
-                onError()
+                dao.insertHeroes(heroes)
             }
+            onSuccess()
+        } catch (e: Exception) {
+            onError()
         }
     }
 }

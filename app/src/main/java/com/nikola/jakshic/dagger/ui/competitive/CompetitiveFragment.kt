@@ -1,16 +1,16 @@
 package com.nikola.jakshic.dagger.ui.competitive
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.HomeActivity
@@ -52,7 +52,6 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.initialFetch()
         viewModel.list.observe(this, Observer(adapter::submitList))
         viewModel.status.observe(this, Observer {
             when (it) {

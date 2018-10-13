@@ -2,24 +2,25 @@ package com.nikola.jakshic.dagger.ui.profile.heroes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.nikola.jakshic.dagger.repository.HeroRepository
+import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Hero
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.cancelChildren
+import kotlinx.coroutines.experimental.launch
 import javax.inject.Inject
 
 class HeroViewModel @Inject constructor(
-        private val repository: HeroRepository) : ViewModel() {
+        private val repository: HeroRepository) : ScopedViewModel() {
 
     lateinit var list: LiveData<List<Hero>>
         private set
+
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
-    private val jobs = Job()
+
     private var initialFetch = false
+
     private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
     private val onError: () -> Unit = { _status.value = Status.ERROR }
 
@@ -32,8 +33,10 @@ class HeroViewModel @Inject constructor(
     }
 
     fun fetchHeroes(id: Long) {
-        _status.value = Status.LOADING
-        repository.fetchHeroes(jobs, id, onSuccess, onError)
+        launch {
+            _status.value = Status.LOADING
+            repository.fetchHeroes(id, onSuccess, onError)
+        }
     }
 
     fun sortByGames(id: Long) {
@@ -50,9 +53,5 @@ class HeroViewModel @Inject constructor(
 
     fun sortByLosses(id: Long) {
         list = repository.getHeroesLiveDataByLosses(id)
-    }
-
-    override fun onCleared() {
-        jobs.cancelChildren()
     }
 }

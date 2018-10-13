@@ -48,8 +48,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0'
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.23.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.3'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
     //ImageLoading
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'

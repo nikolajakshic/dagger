@@ -3,13 +3,11 @@ package com.nikola.jakshic.dagger.repository
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Competitive
-import kotlinx.coroutines.experimental.Job
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.experimental.Dispatchers
+import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -39,19 +37,14 @@ class CompetitiveRepository @Inject constructor(
      *
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getCompetitiveLiveData] are notified.
-     *
-     * @param onSuccess called on main thread
-     * @param onError called on main thread
      */
-    fun fetchCompetitive(job: Job, onSuccess: () -> Unit, onError: () -> Unit) {
-        launch(UI, parent = job) {
-            try {
-                val matches = service.getCompetitiveMatches().await()
-                withContext(IO) { dao.insertMatches(matches) }
-                onSuccess()
-            } catch (e: Exception) {
-                onError()
-            }
+    suspend fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+        try {
+            val matches = service.getCompetitiveMatches().await()
+            withContext(Dispatchers.IO) { dao.insertMatches(matches) }
+            onSuccess()
+        } catch (e: Exception) {
+            onError()
         }
     }
 }

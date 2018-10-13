@@ -1,20 +1,23 @@
 package com.nikola.jakshic.dagger.ui.settings
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.Dispatcher.IO
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
 import com.nikola.jakshic.dagger.toast
 import kotlinx.android.synthetic.main.settings_item_history.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.experimental.*
 import javax.inject.Inject
+import kotlin.coroutines.experimental.CoroutineContext
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity(), CoroutineScope {
+
+    private val job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     @Inject lateinit var searchHistoryDao: SearchHistoryDao
 
@@ -27,8 +30,8 @@ class SettingsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         settingsHistoryClear.setOnClickListener {
-            launch(UI) {
-                withContext(IO) { searchHistoryDao.deleteHistory() }
+            launch {
+                withContext(Dispatchers.IO) { searchHistoryDao.deleteHistory() }
                 toast("Search history cleared")
             }
         }
@@ -42,5 +45,10 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
     }
 }
