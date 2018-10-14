@@ -96,7 +96,7 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getMatchStatsLiveData] are notified.
      */
-    suspend fun fetchMatchStats(matchId: Long) {
+    suspend fun fetchMatchStats(matchId: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId).await()
@@ -105,8 +105,9 @@ class MatchRepository @Inject constructor(
                     playerStatsDao.insert(match.players ?: Collections.emptyList())
                 }
             }
+            onSuccess()
         } catch (e: Exception) {
-
+            onError()
         }
     }
 }
