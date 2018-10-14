@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,7 +31,7 @@ class PeerRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getPeersLiveDataByGames] and [getPeersLiveDataByWinrate] are notified.
      */
-    suspend fun fetchPeers(id: Long, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+    suspend fun fetchPeers(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             val peers = service.getPeers(id).await()
             withContext(Dispatchers.IO) {

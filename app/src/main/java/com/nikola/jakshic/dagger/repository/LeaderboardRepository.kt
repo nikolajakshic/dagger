@@ -5,7 +5,6 @@ import com.nikola.jakshic.dagger.data.local.LeaderboardDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Leaderboard
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +29,7 @@ class LeaderboardRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getLeaderboardLiveData] are notified.
      */
-    suspend fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+    suspend fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             val leaderboard = service.getLeaderboard(region).await().leaderboard
                     ?: throw Exception()

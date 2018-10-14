@@ -37,13 +37,11 @@ class PlayerRepository @Inject constructor(
     }
 
     suspend fun fetchPlayers(name: String, onSuccess: (List<Player>) -> Unit, onError: () -> Unit) {
-        coroutineScope {
-            try {
-                val list = service.searchPlayers(name).await()
-                onSuccess(list)
-            } catch (e: Exception) {
-                onError()
-            }
+        try {
+            val list = service.searchPlayers(name).await()
+            onSuccess(list)
+        } catch (e: Exception) {
+            onError()
         }
     }
 }

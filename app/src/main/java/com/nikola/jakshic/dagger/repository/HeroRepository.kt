@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.data.local.HeroDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -45,7 +44,7 @@ class HeroRepository @Inject constructor(
      * returned by [getHeroesLiveDataByGames], [getHeroesLiveDataByWins],
      * [getHeroesLiveDataByLosses] and [getHeroesLiveDataByWinrate] are notified.
      */
-    suspend fun fetchHeroes(id: Long, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+    suspend fun fetchHeroes(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             val heroes = service.getHeroes(id).await()
             withContext(Dispatchers.IO) {

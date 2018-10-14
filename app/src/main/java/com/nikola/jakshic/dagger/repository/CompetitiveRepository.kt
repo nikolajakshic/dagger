@@ -7,7 +7,6 @@ import com.nikola.jakshic.dagger.data.local.CompetitiveDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Competitive
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,7 +37,7 @@ class CompetitiveRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getCompetitiveLiveData] are notified.
      */
-    suspend fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+    suspend fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             val matches = service.getCompetitiveMatches().await()
             withContext(Dispatchers.IO) { dao.insertMatches(matches) }

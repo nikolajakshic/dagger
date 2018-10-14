@@ -12,7 +12,6 @@ import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.Stats
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
 import kotlinx.coroutines.experimental.withContext
 import java.util.*
 import javax.inject.Inject
@@ -56,7 +55,7 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getMatchesLiveData] are notified.
      */
-    suspend fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
+    suspend fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
                 val count = matchDao.getMatchCount(id)
@@ -97,7 +96,7 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getMatchStatsLiveData] are notified.
      */
-    suspend fun fetchMatchStats(matchId: Long) = coroutineScope {
+    suspend fun fetchMatchStats(matchId: Long) {
         try {
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId).await()
