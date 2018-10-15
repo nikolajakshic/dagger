@@ -69,7 +69,7 @@ class RegionFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
             if (hasNetworkConnection())
                 viewModel.fetchLeaderboard(region)
             else {
-                toast("Check network connection!")
+                toast(getString(R.string.error_network_connection))
                 swipeRefresh.isRefreshing = false
             }
         }

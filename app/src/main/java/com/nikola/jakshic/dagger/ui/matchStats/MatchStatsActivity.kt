@@ -34,7 +34,7 @@ class MatchStatsActivity : AppCompatActivity() {
         }
 
         val id = intent.getLongExtra("match_id", -1)
-        toolbar.title = "Match $id"
+        toolbar.title = "${getString(R.string.match)} $id"
 
         val viewModel = ViewModelProviders.of(this, factory)[MatchStatsViewModel::class.java]
 

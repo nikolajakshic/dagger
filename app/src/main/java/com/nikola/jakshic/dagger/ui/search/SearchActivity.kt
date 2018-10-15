@@ -1,16 +1,16 @@
 package com.nikola.jakshic.dagger.ui.search
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.hasNetworkConnection
@@ -88,7 +88,7 @@ class SearchActivity : AppCompatActivity() {
         searchItem?.expandActionView()
         searchView = searchItem?.actionView as SearchView
 
-        searchView.queryHint = "Search Players"
+        searchView.queryHint = getString(R.string.search_players)
         searchView.setQuery(query, false)
         // Fix for landscape mode, editText is not set to match_parent
         searchView.maxWidth = Int.MAX_VALUE
@@ -117,7 +117,7 @@ class SearchActivity : AppCompatActivity() {
                 if (hasNetworkConnection())
                     viewModel.fetchPlayers(query!!)
                 else
-                    toast("Check network connection!")
+                    toast(getString(R.string.error_network_connection))
 
                 viewModel.saveQuery(SearchHistory(query!!))
                 searchView.clearFocus()

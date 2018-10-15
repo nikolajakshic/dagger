@@ -2,10 +2,10 @@ package com.nikola.jakshic.dagger.ui.leaderboard
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.ui.HomeActivity
@@ -27,7 +27,7 @@ class LeaderboardFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
         toolbar.inflateMenu(R.menu.menu_home)
 
-        adapter = RegionPagerAdapter(childFragmentManager)
+        adapter = RegionPagerAdapter(context!!, childFragmentManager)
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3

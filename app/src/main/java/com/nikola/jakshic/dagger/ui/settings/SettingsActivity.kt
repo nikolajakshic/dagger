@@ -32,7 +32,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         settingsHistoryClear.setOnClickListener {
             launch {
                 withContext(Dispatchers.IO) { searchHistoryDao.deleteHistory() }
-                toast("Search history cleared")
+                toast(getString(R.string.info_search_history_cleared))
             }
         }
     }

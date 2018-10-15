@@ -1,11 +1,13 @@
 package com.nikola.jakshic.dagger.ui.leaderboard
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.vo.Region
 
-class RegionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class RegionPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment =
             when (position) {
@@ -17,10 +19,10 @@ class RegionPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getPageTitle(position: Int): CharSequence? =
             when (position) {
-                0 -> "Europe"
-                1 -> "America"
-                2 -> "China"
-                else -> "SEA"
+                0 -> context.getString(R.string.region_europe)
+                1 -> context.getString(R.string.region_america)
+                2 -> context.getString(R.string.region_china)
+                else -> context.getString(R.string.region_sea)
             }
 
     override fun getCount() = 4

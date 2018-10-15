@@ -6,11 +6,11 @@ import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
@@ -118,8 +118,8 @@ class OverviewFragment : Fragment() {
         else
             tvDireName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_trophy, 0)
 
-        val radiantName = if (TextUtils.isEmpty(item.radiantTeam?.name)) "The Radiant" else item.radiantTeam?.name
-        val direName = if (TextUtils.isEmpty(item.direTeam?.name)) "The Dire" else item.direTeam?.name
+        val radiantName = if (TextUtils.isEmpty(item.radiantTeam?.name)) getString(R.string.team_radiant) else item.radiantTeam?.name
+        val direName = if (TextUtils.isEmpty(item.direTeam?.name)) getString(R.string.team_dire) else item.direTeam?.name
         tvRadiantName.text = radiantName
         tvDireName.text = direName
 

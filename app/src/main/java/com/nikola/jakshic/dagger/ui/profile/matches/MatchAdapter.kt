@@ -1,12 +1,12 @@
 package com.nikola.jakshic.dagger.ui.profile.matches
 
-import androidx.paging.PagedListAdapter
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
@@ -39,15 +39,15 @@ class MatchAdapter(
                         .load(DotaUtil.getHero(context, item.heroId))
                         .transition(withCrossFade())
                         .into(imgHero)
-                tvMatchResult.text = if (isWin(item)) "Won" else "Lost"
+                tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
                 val resultColor = if (isWin(item))
                     ContextCompat.getColor(context, R.color.color_green)
                 else
                     ContextCompat.getColor(context, R.color.color_red)
                 tvMatchResult.setTextColor(resultColor)
-                tvMatchSkill.text = DotaUtil.skill[item.skill, "Unknown"]
-                tvMatchMode.text = DotaUtil.mode[item.gameMode, "Unknown"]
-                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType, "Unknown"]
+                tvMatchSkill.text = DotaUtil.skill[item.skill, context.getString(R.string.unknown)]
+                tvMatchMode.text = DotaUtil.mode[item.gameMode, context.getString(R.string.unknown)]
+                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType, context.getString(R.string.unknown)]
                 tvMatchDuration.text = getDuration(context, item)
                 tvMatchTimePassed.text = getTimePassed(context, item)
             }

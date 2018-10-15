@@ -1,12 +1,12 @@
 package com.nikola.jakshic.dagger.ui.competitive
 
-import androidx.paging.PagedListAdapter
 import android.content.Context
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.vo.Competitive
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_competitive.view.*
 import java.util.concurrent.TimeUnit
 
 class CompetitiveAdapter(
-        val context: Context?,
+        val context: Context,
         val listener: (matchId: Long?) -> Unit
 ) : PagedListAdapter<Competitive, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
 
@@ -35,9 +35,9 @@ class CompetitiveAdapter(
         }
 
         fun bind(item: Competitive) {
-            val leagueName = if (TextUtils.isEmpty(item.leagueName)) "Unknown League" else item.leagueName
-            val radiantName = if (TextUtils.isEmpty(item.radiantName)) "Unknown Team" else item.radiantName
-            val direName = if (TextUtils.isEmpty(item.direName)) "Unknown Team" else item.direName
+            val leagueName = if (TextUtils.isEmpty(item.leagueName)) context.getString(R.string.match_unknown_league) else item.leagueName
+            val radiantName = if (TextUtils.isEmpty(item.radiantName)) context.getString(R.string.match_unknown_team) else item.radiantName
+            val direName = if (TextUtils.isEmpty(item.direName)) context.getString(R.string.match_unknown_team) else item.direName
             val timePassed = getTimePassed(item)
             val radiantTrophy = if (item.isRadiantWin) R.drawable.ic_trophy else R.drawable.ic_trophy_invisible
             val direTrophy = if (item.isRadiantWin) R.drawable.ic_trophy_invisible else R.drawable.ic_trophy
@@ -65,11 +65,11 @@ class CompetitiveAdapter(
             val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
 
             return when {
-                years > 0 -> context?.resources?.getQuantityString(R.plurals.year, years.toInt(), years)
-                months > 0 -> context?.resources?.getQuantityString(R.plurals.month, months.toInt(), months)
-                days > 0 -> context?.resources?.getQuantityString(R.plurals.day, days.toInt(), days)
-                hours > 0 -> context?.resources?.getQuantityString(R.plurals.hour, hours.toInt(), hours)
-                else -> context?.resources?.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
+                years > 0 -> context.resources?.getQuantityString(R.plurals.year, years.toInt(), years)
+                months > 0 -> context.resources?.getQuantityString(R.plurals.month, months.toInt(), months)
+                days > 0 -> context.resources?.getQuantityString(R.plurals.day, days.toInt(), days)
+                hours > 0 -> context.resources?.getQuantityString(R.plurals.hour, hours.toInt(), hours)
+                else -> context.resources?.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
             }
         }
     }

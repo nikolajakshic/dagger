@@ -42,7 +42,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
-        val adapter = CompetitiveAdapter(context) {
+        val adapter = CompetitiveAdapter(context!!) {
             val intent = Intent(activity, MatchStatsActivity::class.java)
             intent.putExtra("match_id", it)
             startActivity(intent)
@@ -63,7 +63,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
             if (hasNetworkConnection())
                 viewModel.refreshData()
             else {
-                toast("Check network connection!")
+                toast(getString(R.string.error_network_connection))
                 swipeRefresh.isRefreshing = false
             }
         }

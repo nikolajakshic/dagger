@@ -1,16 +1,16 @@
 package com.nikola.jakshic.dagger.ui.profile
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.DaggerApp
@@ -70,11 +70,11 @@ class ProfileActivity : AppCompatActivity() {
         viewModel.bookmark.observe(this, Observer {
             with(btnFollow) {
                 if (it == null) {
-                    text = "Follow"
+                    text = getString(R.string.follow)
                     setTextColor(ContextCompat.getColor(this@ProfileActivity, android.R.color.white))
                     background = ContextCompat.getDrawable(this@ProfileActivity, R.drawable.button_toolbar_follow_inactive)
                 } else {
-                    text = "Unfollow"
+                    text = getString(R.string.unfollow)
                     setTextColor(ContextCompat.getColor(this@ProfileActivity, R.color.colorAccent))
                     background = ContextCompat.getDrawable(this@ProfileActivity, R.drawable.button_toolbar_follow_active)
                 }
@@ -125,7 +125,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         viewPager.offscreenPageLimit = 2
-        viewPager.adapter = ProfilePagerAdapter(supportFragmentManager)
+        viewPager.adapter = ProfilePagerAdapter(this, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 }

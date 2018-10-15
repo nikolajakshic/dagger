@@ -1,16 +1,16 @@
 package com.nikola.jakshic.dagger.ui.profile.peers
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
@@ -73,7 +73,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
             if (hasNetworkConnection())
                 viewModel.fetchPeers(id)
             else {
-                toast("Check network connection!")
+                toast(getString(R.string.error_network_connection))
                 swipeRefresh.isRefreshing = false
             }
         }

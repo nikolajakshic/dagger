@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">Dagger</string>
 
+    <string name="team_radiant">The Radiant</string>
+    <string name="team_dire">The Dire</string>
+
     <string name="player_games">Games: %1$d</string>
     <string name="player_winrate">Winrate: %1$.2f%%</string>
     <string name="player_wins">Wins: %1$d</string>
     <string name="player_losses">Losses: %1$d</string>
 
+    <string name="peers">Peers</string>
     <string name="peer_winrate">%1$.2f%%</string>
 
+    <string name="heroes">Heroes</string>
     <string name="hero_winrate">%1$.2f%%</string>
     <string name="hero_win_loss">%1$d/%2$d</string>
 
+    <string name="match">Match</string>
+    <string name="matches">Matches</string>
+    <string name="match_unknown_league">Unknown League</string>
+    <string name="match_unknown_team">Unknown Team</string>
     <string name="match_hero_damage">Hero damage: %1$d</string>
     <string name="match_tower_damage">Tower damage: %1$d</string>
     <string name="match_hero_healing">Hero healing: %1$d</string>
@@ -33,9 +42,27 @@
     <string name="match_duration_with_prefix">Duration: %1$1d:%2$02d:%3$02d</string>
     <string name="match_duration_zero_hours_with_prefix">Duration: %1$02d:%2$02d</string>
 
+    <string name="region_europe">Europe</string>
+    <string name="region_america">America</string>
+    <string name="region_china">China</string>
+    <string name="region_sea">SEA</string>
+
     <string name="content_description_hero">Hero image</string>
     <string name="content_description_item">Item image</string>
 
+    <string name="error_network_connection">Check network connection!</string>
+    <string name="info_search_history_cleared">Search history cleared!</string>
+
+    <string name="unknown">Unknown</string>
+    <string name="won">Won</string>
+    <string name="lost">Lost</string>
+
+    <string name="sort_by">Sort by</string>
+    <string name="medals">Medals</string>
+    <string name="close">Close</string>
+    <string name="follow">Follow</string>
+    <string name="unfollow">Unfollow</string>
+    <string name="search_players">Search Players</string>
 
     <string-array name="sort_hero_options">
         <item>Total games</item>
@@ -48,8 +75,5 @@
         <item>Total games</item>
         <item>Win rate</item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
