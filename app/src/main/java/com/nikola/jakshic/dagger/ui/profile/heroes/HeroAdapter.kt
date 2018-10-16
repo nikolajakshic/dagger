@@ -1,8 +1,8 @@
 package com.nikola.jakshic.dagger.ui.profile.heroes
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
@@ -11,7 +11,7 @@ import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.dagger.vo.Hero
 import kotlinx.android.synthetic.main.item_hero.view.*
 
-class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
+class HeroAdapter(val listener: (Int) -> Unit) : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
 
     private var list: List<Hero>? = null
 
@@ -31,6 +31,10 @@ class HeroAdapter : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
     override fun getItemCount() = list?.size ?: 0
 
     inner class HeroVH(view: View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            itemView.setOnClickListener { listener(list!![adapterPosition].heroId) }
+        }
 
         fun bind(item: Hero) {
             with(itemView) {

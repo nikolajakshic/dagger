@@ -13,7 +13,6 @@
         android:roundIcon="@mipmap/ic_dagger_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".ui.HomeActivity"
             android:theme="@style/HomeTheme"
@@ -23,26 +22,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="Settings" />
-
         <activity
             android:name=".ui.search.SearchActivity"
             android:theme="@style/SearchTheme" />
-
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/ProfileTheme" />
-
         <activity
             android:name=".ui.matchstats.MatchStatsActivity"
-            android:theme="@style/MatchStatsTheme"/>
+            android:theme="@style/MatchStatsTheme" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0788d77e2f99959df7d7f7aa9fd9bcd8acfcc2c5" />
 
+        <activity
+            android:name=".ui.profile.matches.byhero.MatchesByHeroActivity"
+            android:theme="@style/MatchesByHeroTheme" />
     </application>
+
 </manifest>

@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.ui.profile.heroes
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
+import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroActivity
 import kotlinx.android.synthetic.main.fragment_hero.*
 import javax.inject.Inject
 
@@ -41,7 +43,13 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
 
         viewModel.initialFetch(id)
 
-        adapter = HeroAdapter()
+        adapter = HeroAdapter {
+            val intent = Intent(context, MatchesByHeroActivity::class.java).apply {
+                putExtra("account_id", id)
+                putExtra("hero_id", it)
+            }
+            startActivity(intent)
+        }
 
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

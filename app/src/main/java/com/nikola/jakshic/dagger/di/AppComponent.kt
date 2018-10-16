@@ -7,6 +7,7 @@ import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
+import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroActivity
 import com.nikola.jakshic.dagger.ui.profile.peers.PeerFragment
 import com.nikola.jakshic.dagger.ui.search.SearchActivity
 import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
@@ -36,4 +37,6 @@ interface AppComponent {
     fun inject(activity: SettingsActivity)
 
     fun inject(activity: ProfileActivity)
+
+    fun inject(activity: MatchesByHeroActivity)
 }

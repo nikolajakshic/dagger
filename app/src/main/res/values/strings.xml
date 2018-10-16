@@ -51,6 +51,7 @@
     <string name="content_description_item">Item image</string>
 
     <string name="error_network_connection">Check network connection!</string>
+    <string name="error_network">NETWORK ERROR</string>
     <string name="info_search_history_cleared">Search history cleared!</string>
 
     <string name="unknown">Unknown</string>
@@ -63,6 +64,7 @@
     <string name="follow">Follow</string>
     <string name="unfollow">Unfollow</string>
     <string name="search_players">Search Players</string>
+    <string name="retry">Retry</string>
 
     <string-array name="sort_hero_options">
         <item>Total games</item>

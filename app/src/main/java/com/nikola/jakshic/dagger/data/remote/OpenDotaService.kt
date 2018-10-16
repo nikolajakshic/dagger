@@ -27,6 +27,13 @@ interface OpenDotaService {
             @Query("limit") limit: Int,
             @Query("offset") offset: Int): Deferred<List<Match>>
 
+    @GET("players/{account_id}/matches?significant=0")
+    fun getMatchesByHero(
+            @Path("account_id") playerId: Long,
+            @Query("hero_id") heroId: Int,
+            @Query("limit") limit: Int,
+            @Query("offset") offset: Int): Deferred<List<Match>>
+
     @GET("players/{account_id}/heroes")
     fun getHeroes(@Path("account_id") playerId: Long): Deferred<List<Hero>>
 

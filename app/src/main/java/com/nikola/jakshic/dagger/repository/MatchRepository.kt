@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.data.local.DotaDatabase
@@ -8,6 +9,8 @@ import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.local.MatchStatsDao
 import com.nikola.jakshic.dagger.data.local.PlayerStatsDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
+import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroDataSourceFactory
+import com.nikola.jakshic.dagger.ui.profile.matches.byhero.PagedResponse
 import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.Stats
 import kotlinx.coroutines.experimental.CoroutineScope
@@ -80,6 +83,24 @@ class MatchRepository @Inject constructor(
         } catch (e: Exception) {
             onError()
         }
+    }
+
+    fun fetchMatchesByHero(accountId: Long, heroId: Int): PagedResponse<Match> {
+        val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service)
+        val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(60)
+                .setPageSize(20)
+                .setPrefetchDistance(15)
+                .build()
+        val livePagedList = LivePagedListBuilder(sourceFactory, config)
+                .build()
+
+        return PagedResponse(
+                pagedList = livePagedList,
+                status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
+                refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
+                retry = { sourceFactory.sourceLiveData.value?.retry?.invoke() })
     }
 
     /**

@@ -10,6 +10,7 @@ import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.ui.profile.ProfileViewModel
 import com.nikola.jakshic.dagger.ui.profile.heroes.HeroViewModel
 import com.nikola.jakshic.dagger.ui.profile.matches.MatchViewModel
+import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroViewModel
 import com.nikola.jakshic.dagger.ui.profile.peers.PeerViewModel
 import com.nikola.jakshic.dagger.ui.search.SearchViewModel
 import dagger.Binds
@@ -63,6 +64,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(ProfileViewModel::class)
     fun bindProfileViewModel(viewModel: ProfileViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MatchesByHeroViewModel::class)
+    fun bindMatchesByHeroViewModel(viewModel: MatchesByHeroViewModel): ViewModel
 
     @Binds
     fun bindViewModelFactory(factory: DaggerViewModelFactory): ViewModelProvider.Factory
