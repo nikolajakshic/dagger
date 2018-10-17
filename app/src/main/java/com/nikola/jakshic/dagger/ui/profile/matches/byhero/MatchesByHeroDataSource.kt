@@ -6,7 +6,9 @@ import androidx.paging.PositionalDataSource
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match
+import kotlinx.coroutines.experimental.Dispatchers
 import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.experimental.withContext
 
 class MatchesByHeroDataSource(
         private val accountId: Long,
@@ -17,12 +19,18 @@ class MatchesByHeroDataSource(
     val status: LiveData<Status>
         get() = _status
 
-    var retry: (() -> Any)? = null
+    private var retry: (() -> Any)? = null
         get() {
             val tmp = field
             field = null
             return tmp
         }
+
+    suspend fun retry() {
+        withContext(Dispatchers.IO) {
+            retry?.invoke()
+        }
+    }
 
     override fun loadInitial(params: LoadInitialParams, callback: LoadInitialCallback<Match>) {
         runBlocking {
@@ -33,7 +41,7 @@ class MatchesByHeroDataSource(
                 _status.postValue(Status.SUCCESS)
                 retry = null
             } catch (e: Exception) {
-                retry = { loadInitial(params, callback) }
+                retry = { invalidate() }
                 _status.postValue(Status.ERROR)
             }
         }

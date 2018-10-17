@@ -100,7 +100,7 @@ class MatchRepository @Inject constructor(
                 pagedList = livePagedList,
                 status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
                 refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
-                retry = { sourceFactory.sourceLiveData.value?.retry?.invoke() })
+                retry = { sourceFactory.sourceLiveData.value?.retry() })
     }
 
     /**
