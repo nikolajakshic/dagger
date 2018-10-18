@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.*
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
@@ -52,10 +54,34 @@ class MatchFragment : Fragment() {
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(this, Observer(adapter::submitList))
-        viewModel.status.observe(this, Observer {
+        viewModel.refreshStatus.observe(this, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
+            }
+        })
+
+        var snackbar: Snackbar? = null
+
+        viewModel.loadMoreStatus.observe(this, Observer { status ->
+            when (status) {
+                Status.LOADING -> {
+                    swipeRefresh.isRefreshing = true
+                    snackbar?.dismiss()
+                }
+                Status.SUCCESS -> {
+                    swipeRefresh.isRefreshing = false
+                    snackbar?.dismiss()
+                }
+                else -> {
+                    swipeRefresh.isRefreshing = false
+                    snackbar = Snackbar.make(swipeRefresh, getString(R.string.error_network), Snackbar.LENGTH_INDEFINITE)
+                    snackbar?.setActionTextColor(ContextCompat.getColor(context!!, android.R.color.white))
+                    snackbar?.setAction(getString(R.string.retry)) {
+                        viewModel.retry()
+                    }
+                    snackbar?.show()
+                }
             }
         })
         swipeRefresh.setOnRefreshListener {

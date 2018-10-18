@@ -9,6 +9,7 @@ import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.local.MatchStatsDao
 import com.nikola.jakshic.dagger.data.local.PlayerStatsDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
+import com.nikola.jakshic.dagger.ui.profile.matches.Response
 import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.ui.profile.matches.byhero.PagedResponse
 import com.nikola.jakshic.dagger.vo.Match
@@ -32,12 +33,7 @@ class MatchRepository @Inject constructor(
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
-    fun getMatchesLiveData(
-            scope: CoroutineScope,
-            id: Long,
-            onLoading: () -> Unit,
-            onSuccess: () -> Unit,
-            onError: () -> Unit): LiveData<PagedList<Match>> {
+    fun getMatchesLiveData(scope: CoroutineScope, id: Long): Response {
 
         val factory = matchDao.getMatches(id)
         val config = PagedList.Config.Builder()
@@ -46,10 +42,17 @@ class MatchRepository @Inject constructor(
                 .setPageSize(20)
                 .setPrefetchDistance(5)
                 .build()
-        return LivePagedListBuilder(factory, config)
-                .setBoundaryCallback(
-                        MatchBoundaryCallback(scope, service, matchDao, id, onLoading, onSuccess, onError))
+
+        val boundaryCallback = MatchBoundaryCallback(scope, service, matchDao, id)
+
+        val pagedList = LivePagedListBuilder(factory, config)
+                .setBoundaryCallback(boundaryCallback)
                 .build()
+
+        return Response(
+                pagedList = pagedList,
+                status = boundaryCallback.status,
+                retry = { boundaryCallback.retry() })
     }
 
     /**

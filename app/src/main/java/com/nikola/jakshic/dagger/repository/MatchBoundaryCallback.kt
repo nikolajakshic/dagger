@@ -1,8 +1,11 @@
 package com.nikola.jakshic.dagger.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.data.local.MatchDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
+import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match
 import kotlinx.coroutines.experimental.CoroutineScope
 import kotlinx.coroutines.experimental.Dispatchers
@@ -13,15 +16,27 @@ class MatchBoundaryCallback(
         private val scope: CoroutineScope,
         private val service: OpenDotaService,
         private val dao: MatchDao,
-        private val id: Long,
-        private val onLoading: () -> Unit,
-        private val onSuccess: () -> Unit,
-        private val onError: () -> Unit) : PagedList.BoundaryCallback<Match>() {
+        private val id: Long) : PagedList.BoundaryCallback<Match>() {
+
+    private val _status = MutableLiveData<Status>()
+    val status: LiveData<Status>
+        get() = _status
+
+    private var retry: (() -> Any)? = null
+        get() {
+            val tmp = field
+            field = null
+            return tmp
+        }
+
+    fun retry() {
+        retry?.invoke()
+    }
 
     override fun onItemAtEndLoaded(itemAtEnd: Match) {
         scope.launch {
             try {
-                onLoading()
+                _status.value = Status.LOADING
                 withContext(Dispatchers.IO) {
                     val count = dao.getMatchCount(id)
                     val list = service.getMatches(id, 20, count).await()
@@ -31,9 +46,10 @@ class MatchBoundaryCallback(
                     }
                     dao.insertMatches(list)
                 }
-                onSuccess()
+                _status.value = Status.SUCCESS
             } catch (e: Exception) {
-                onError()
+                retry = { onItemAtEndLoaded(itemAtEnd) }
+                _status.value = Status.ERROR
             }
         }
     }

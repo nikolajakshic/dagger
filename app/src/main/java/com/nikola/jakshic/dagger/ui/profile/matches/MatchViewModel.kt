@@ -12,31 +12,37 @@ import javax.inject.Inject
 
 class MatchViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {
 
-    lateinit var list: LiveData<PagedList<Match>>
-        private set
+    private lateinit var response: Response
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    val list: LiveData<PagedList<Match>>
+        get() = response.pagedList
+
+    private val _refreshStatus = MutableLiveData<Status>()
+    val refreshStatus: LiveData<Status>
+        get() = _refreshStatus
+
+    val loadMoreStatus: LiveData<Status>
+        get() = response.status
 
     private var initialFetch = false
 
-    private val onLoading: () -> Unit = { _status.value = Status.LOADING }
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
+    private val onSuccess: () -> Unit = { _refreshStatus.value = Status.SUCCESS }
+    private val onError: () -> Unit = { _refreshStatus.value = Status.ERROR }
 
     fun initialFetch(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            list = repository.getMatchesLiveData(this, id, onLoading, onSuccess, onError)
+            response = repository.getMatchesLiveData(this, id)
             fetchMatches(id)
         }
     }
 
     fun fetchMatches(id: Long) {
         launch {
-            _status.value = Status.LOADING
+            _refreshStatus.value = Status.LOADING
             repository.fetchMatches(id, onSuccess, onError)
         }
     }
+
+    fun retry() = response.retry()
 }
