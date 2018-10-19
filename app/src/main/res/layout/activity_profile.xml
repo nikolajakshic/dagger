@@ -36,7 +36,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabSelectedTextColor="@color/colorAccent"
-            app:tabTextAppearance="@style/Base.TextAppearance.AppCompat.Small"
             app:tabTextColor="#999999" />
 
     </com.google.android.material.appbar.AppBarLayout>
