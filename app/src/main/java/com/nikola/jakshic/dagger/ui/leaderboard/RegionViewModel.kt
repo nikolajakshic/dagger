@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.repository.LeaderboardRepository
 import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Leaderboard
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RegionViewModel @Inject constructor(

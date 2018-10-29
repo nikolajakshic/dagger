@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.data.remote
 
 import com.nikola.jakshic.dagger.vo.*
-import kotlinx.coroutines.experimental.Deferred
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

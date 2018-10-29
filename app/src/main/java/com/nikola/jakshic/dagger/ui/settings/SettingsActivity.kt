@@ -8,9 +8,9 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.data.local.SearchHistoryDao
 import com.nikola.jakshic.dagger.toast
 import kotlinx.android.synthetic.main.settings_item_history.*
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
-import kotlin.coroutines.experimental.CoroutineContext
+import kotlin.coroutines.CoroutineContext
 
 class SettingsActivity : AppCompatActivity(), CoroutineScope {
 

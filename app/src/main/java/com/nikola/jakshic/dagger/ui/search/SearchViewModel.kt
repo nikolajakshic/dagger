@@ -8,7 +8,7 @@ import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Player
 import com.nikola.jakshic.dagger.vo.SearchHistory
-import kotlinx.coroutines.experimental.*
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(

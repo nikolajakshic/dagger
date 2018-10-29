@@ -9,9 +9,9 @@ import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Bookmark
 import com.nikola.jakshic.dagger.vo.Player
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.launch
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(

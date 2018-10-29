@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.repository.CompetitiveRepository
 import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompetitiveViewModel @Inject constructor(

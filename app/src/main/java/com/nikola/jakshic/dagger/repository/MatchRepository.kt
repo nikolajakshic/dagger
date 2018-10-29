@@ -14,9 +14,9 @@ import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroDataSour
 import com.nikola.jakshic.dagger.ui.profile.matches.byhero.PagedResponse
 import com.nikola.jakshic.dagger.vo.Match
 import com.nikola.jakshic.dagger.vo.Stats
-import kotlinx.coroutines.experimental.CoroutineScope
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton

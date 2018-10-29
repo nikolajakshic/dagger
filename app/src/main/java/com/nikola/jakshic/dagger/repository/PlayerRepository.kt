@@ -3,9 +3,9 @@ package com.nikola.jakshic.dagger.repository
 import com.nikola.jakshic.dagger.data.local.PlayerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.vo.Player
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.coroutineScope
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 

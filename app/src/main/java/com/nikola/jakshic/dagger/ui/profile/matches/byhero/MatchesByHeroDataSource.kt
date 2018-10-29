@@ -6,9 +6,9 @@ import androidx.paging.PositionalDataSource
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.runBlocking
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class MatchesByHeroDataSource(
         private val accountId: Long,

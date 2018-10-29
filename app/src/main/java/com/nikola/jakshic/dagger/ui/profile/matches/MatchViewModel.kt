@@ -7,7 +7,7 @@ import com.nikola.jakshic.dagger.repository.MatchRepository
 import com.nikola.jakshic.dagger.ui.ScopedViewModel
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.vo.Match
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {

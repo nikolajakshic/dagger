@@ -3,8 +3,8 @@ package com.nikola.jakshic.dagger.repository
 import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import kotlinx.coroutines.experimental.Dispatchers
-import kotlinx.coroutines.experimental.withContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
