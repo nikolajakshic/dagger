@@ -8,4 +8,7 @@
     <color name="color_red">#F44336</color>
 
     <color name="color_background_default">#fafafa</color>
+
+    <color name="comparison_player1">#7d8c9eff</color>
+    <color name="comparison_player2">#7dff8a80</color>
 </resources>

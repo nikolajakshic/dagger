@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        app:layout_constraintBottom_toTopOf="@id/player5"
+        android:id="@+id/player0"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_hero_1" />
+
+    <ImageView
+        android:id="@+id/player1"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player2"
+        app:layout_constraintStart_toEndOf="@id/player0"
+        app:layout_constraintTop_toTopOf="@id/player0"
+        tools:src="@drawable/ic_hero_2" />
+
+    <ImageView
+        android:id="@+id/player2"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player3"
+        app:layout_constraintStart_toEndOf="@id/player1"
+        app:layout_constraintTop_toTopOf="@id/player0"
+        tools:src="@drawable/ic_hero_3" />
+
+    <ImageView
+        android:id="@+id/player3"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player4"
+        app:layout_constraintStart_toEndOf="@id/player2"
+        app:layout_constraintTop_toTopOf="@id/player0"
+        tools:src="@drawable/ic_hero_4" />
+
+    <ImageView
+        android:id="@+id/player4"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/player3"
+        app:layout_constraintTop_toTopOf="@id/player0"
+        tools:src="@drawable/ic_hero_5" />
+
+    <ImageView
+        android:layout_marginTop="8dp"
+        android:id="@+id/player5"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/player6"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/player0"
+        tools:src="@drawable/ic_hero_6" />
+
+    <ImageView
+        android:id="@+id/player6"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player7"
+        app:layout_constraintStart_toEndOf="@id/player5"
+        app:layout_constraintTop_toTopOf="@id/player5"
+        tools:src="@drawable/ic_hero_7" />
+
+    <ImageView
+        android:id="@+id/player7"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player8"
+        app:layout_constraintStart_toEndOf="@id/player6"
+        app:layout_constraintTop_toTopOf="@id/player5"
+        tools:src="@drawable/ic_hero_8" />
+
+    <ImageView
+        android:id="@+id/player8"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player9"
+        app:layout_constraintStart_toEndOf="@id/player7"
+        app:layout_constraintTop_toTopOf="@id/player5"
+        tools:src="@drawable/ic_hero_9" />
+
+    <ImageView
+        android:id="@+id/player9"
+        android:layout_width="54dp"
+        android:layout_height="40dp"
+        android:background="#d3d3d3"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/player8"
+        app:layout_constraintTop_toTopOf="@id/player5"
+        tools:src="@drawable/ic_hero_10" />
+</androidx.constraintlayout.widget.ConstraintLayout>

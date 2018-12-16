@@ -11,7 +11,6 @@ import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
-import com.nikola.jakshic.dagger.ui.matchstats.overview.OverviewFragment
 import kotlinx.android.synthetic.main.activity_match_stats.*
 import javax.inject.Inject
 
@@ -26,12 +25,6 @@ class MatchStatsActivity : AppCompatActivity() {
 
         // Change the color of the progress bar
         progressBar.indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, OverviewFragment(), "overview-tag")
-                    .commit()
-        }
 
         val id = intent.getLongExtra("match_id", -1)
         toolbar.title = "${getString(R.string.match)} $id"
@@ -55,5 +48,8 @@ class MatchStatsActivity : AppCompatActivity() {
             }
         })
         btnRefresh.setOnClickListener { viewModel.fetchMatchStats(id) }
+
+        viewPager.adapter = MatchStatsPagerAdapter(this, supportFragmentManager)
+        tabLayout.setupWithViewPager(viewPager)
     }
 }
