@@ -68,11 +68,11 @@ class MatchRepository @Inject constructor(
                 val list = if (count != 0)
                 // There are already some matches in the database
                 // we want to refresh all of them
-                    service.getMatches(id, count, 0).await()
+                    withContext(Dispatchers.IO) { service.getMatches(id, count, 0) }
                 else
                 // There are no matches in the database,
                 // we want to fetch only 20 from the network
-                    service.getMatches(id, 20, 0).await()
+                    withContext(Dispatchers.IO) { service.getMatches(id, 20, 0) }
                 list.map {
                     it.accountId = id   // response from the network doesn't contain any information
                     it           // about who played this matches, so we need to set this manually
@@ -123,7 +123,7 @@ class MatchRepository @Inject constructor(
     suspend fun fetchMatchStats(matchId: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
-                val match = service.getMatch(matchId).await()
+                val match = service.getMatch(matchId)
                 db.runInTransaction {
                     matchStatsDao.insert(match)
                     playerStatsDao.insert(match.players ?: Collections.emptyList())

@@ -39,7 +39,7 @@ class MatchBoundaryCallback(
                 _status.value = Status.LOADING
                 withContext(Dispatchers.IO) {
                     val count = dao.getMatchCount(id)
-                    val list = service.getMatches(id, 20, count).await()
+                    val list = service.getMatches(id, 20, count)
                     list.map {
                         it.accountId = id   // response from the network doesn't contain any information
                         it           // about who played this matches, so we need to set this manually

@@ -36,7 +36,7 @@ class MatchesByHeroDataSource(
         runBlocking {
             try {
                 _status.postValue(Status.LOADING)
-                val matches = service.getMatchesByHero(accountId, heroId, 60, 0).await()
+                val matches = withContext(Dispatchers.IO) { service.getMatchesByHero(accountId, heroId, 60, 0) }
                 callback.onResult(matches, 0)
                 _status.postValue(Status.SUCCESS)
                 retry = null
@@ -52,7 +52,7 @@ class MatchesByHeroDataSource(
             try {
                 _status.postValue(Status.LOADING)
                 val offset = params.startPosition
-                val matches = service.getMatchesByHero(accountId, heroId, 20, offset).await()
+                val matches = withContext(Dispatchers.IO) { service.getMatchesByHero(accountId, heroId, 20, offset) }
                 callback.onResult(matches)
                 _status.postValue(Status.SUCCESS)
                 retry = null

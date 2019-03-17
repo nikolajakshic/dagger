@@ -46,8 +46,8 @@ class HeroRepository @Inject constructor(
      */
     suspend fun fetchHeroes(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            val heroes = service.getHeroes(id).await()
             withContext(Dispatchers.IO) {
+                val heroes = service.getHeroes(id)
                 heroes.map {
                     it.accountId = id   // response from the network doesn't contain any information
                     it          // about who played this heroes, so we need to set this manually

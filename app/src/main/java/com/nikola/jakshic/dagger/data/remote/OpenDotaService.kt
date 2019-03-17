@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.data.remote
 
 import com.nikola.jakshic.dagger.vo.*
-import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,39 +12,39 @@ interface OpenDotaService {
     }
 
     @GET("search")
-    fun searchPlayers(@Query("q") name: String): Deferred<List<Player>>
+    suspend fun searchPlayers(@Query("q") name: String): List<Player>
 
     @GET("players/{account_id}")
-    fun getPlayerProfile(@Path("account_id") id: Long): Deferred<_Player>
+    suspend fun getPlayerProfile(@Path("account_id") id: Long): _Player
 
     @GET("players/{account_id}/wl")
-    fun getPlayerWinLoss(@Path("account_id") playerId: Long): Deferred<Player>
+    suspend fun getPlayerWinLoss(@Path("account_id") playerId: Long): Player
 
     @GET("players/{account_id}/matches?significant=0")
-    fun getMatches(
+    suspend fun getMatches(
             @Path("account_id") playerId: Long,
             @Query("limit") limit: Int,
-            @Query("offset") offset: Int): Deferred<List<Match>>
+            @Query("offset") offset: Int): List<Match>
 
     @GET("players/{account_id}/matches?significant=0")
-    fun getMatchesByHero(
+    suspend fun getMatchesByHero(
             @Path("account_id") playerId: Long,
             @Query("hero_id") heroId: Int,
             @Query("limit") limit: Int,
-            @Query("offset") offset: Int): Deferred<List<Match>>
+            @Query("offset") offset: Int): List<Match>
 
     @GET("players/{account_id}/heroes")
-    fun getHeroes(@Path("account_id") playerId: Long): Deferred<List<Hero>>
+    suspend fun getHeroes(@Path("account_id") playerId: Long): List<Hero>
 
     @GET("players/{account_id}/peers")
-    fun getPeers(@Path("account_id") playerId: Long): Deferred<List<Peer>>
+    suspend fun getPeers(@Path("account_id") playerId: Long): List<Peer>
 
     @GET("matches/{match_id}/")
-    fun getMatch(@Path("match_id") matchId: Long): Deferred<MatchStats>
+    suspend fun getMatch(@Path("match_id") matchId: Long): MatchStats
 
     @GET("proMatches")
-    fun getCompetitiveMatches(): Deferred<List<Competitive>>
+    suspend fun getCompetitiveMatches(): List<Competitive>
 
     @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
-    fun getLeaderboard(@Query("division") region: String): Deferred<_Leaderboard>
+    suspend fun getLeaderboard(@Query("division") region: String): _Leaderboard
 }

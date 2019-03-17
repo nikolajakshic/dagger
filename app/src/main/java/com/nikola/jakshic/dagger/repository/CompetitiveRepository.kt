@@ -39,8 +39,10 @@ class CompetitiveRepository @Inject constructor(
      */
     suspend fun fetchCompetitive(onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            val matches = service.getCompetitiveMatches().await()
-            withContext(Dispatchers.IO) { dao.insertMatches(matches) }
+            withContext(Dispatchers.IO) {
+                val matches = service.getCompetitiveMatches()
+                dao.insertMatches(matches)
+            }
             onSuccess()
         } catch (e: Exception) {
             onError()

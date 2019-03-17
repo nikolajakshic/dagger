@@ -31,9 +31,9 @@ class LeaderboardRepository @Inject constructor(
      */
     suspend fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            val leaderboard = service.getLeaderboard(region).await().leaderboard
-                    ?: throw Exception()
             withContext(Dispatchers.IO) {
+                val leaderboard = service.getLeaderboard(region).leaderboard
+                        ?: throw Exception()
                 val list = leaderboard.take(100)
                 list.map {
                     it.region = region  // response from the network doesn't contain any information

@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.repository
 
 import androidx.lifecycle.LiveData
+import com.google.android.gms.tasks.Tasks.await
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import kotlinx.coroutines.Dispatchers
@@ -33,8 +34,8 @@ class PeerRepository @Inject constructor(
      */
     suspend fun fetchPeers(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            val peers = service.getPeers(id).await()
             withContext(Dispatchers.IO) {
+                val peers = service.getPeers(id)
                 val list = peers.filter { it.withGames != 0 }   // filter opponents from the peer list
                 list.map {
                     it.accountId = id   // response from the network doesn't contain any information

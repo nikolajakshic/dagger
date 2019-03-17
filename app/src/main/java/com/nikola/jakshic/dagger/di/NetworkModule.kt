@@ -5,23 +5,24 @@ import android.os.Build
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.data.remote.Tls12SocketFactory
 import dagger.Module
 import dagger.Provides
-import okhttp3.*
+import okhttp3.Cache
+import okhttp3.CipherSuite
+import okhttp3.ConnectionSpec
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 import java.security.KeyStore
 import java.util.*
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
-import kotlin.Exception
 
 @Module
 class NetworkModule(private val context: Context) {
@@ -43,7 +44,6 @@ class NetworkModule(private val context: Context) {
     fun provideOpenDotaService(okHttpClient: OkHttpClient, gson: Gson): OpenDotaService {
         return Retrofit.Builder()
                 .baseUrl(OpenDotaService.BASE_URL)
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build()
