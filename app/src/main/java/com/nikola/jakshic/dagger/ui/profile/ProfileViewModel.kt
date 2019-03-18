@@ -45,8 +45,13 @@ class ProfileViewModel @Inject constructor(
 
     fun fetchProfile(id: Long) {
         launch {
-            _status.value = Status.LOADING
-            repo.getProfile(id, onSuccess, onError)
+            try {
+                _status.value = Status.LOADING
+                repo.getProfile(id)
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
+            }
         }
     }
 

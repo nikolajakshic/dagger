@@ -15,25 +15,19 @@ class PlayerRepository @Inject constructor(
         private val service: OpenDotaService,
         private val dao: PlayerDao) {
 
-    suspend fun getProfile(id: Long, onSuccess: () -> Unit, onError: () -> Unit) = coroutineScope {
-        try {
-            val profileDef = async(Dispatchers.IO) { service.getPlayerProfile(id) }
-            val winsLossesDef = async(Dispatchers.IO) { service.getPlayerWinLoss(id) }
+    suspend fun getProfile(id: Long) = coroutineScope {
+        val profileDef = async(Dispatchers.IO) { service.getPlayerProfile(id) }
+        val winsLossesDef = async(Dispatchers.IO) { service.getPlayerWinLoss(id) }
 
-            val profile = profileDef.await()
-            val winsLosses = winsLossesDef.await()
+        val profile = profileDef.await()
+        val winsLosses = winsLossesDef.await()
 
-            profile.player!!.rankTier = profile.rankTier
-            profile.player.leaderboardRank = profile.leaderboardRank
-            profile.player.wins = winsLosses.wins
-            profile.player.losses = winsLosses.losses
+        profile.player!!.rankTier = profile.rankTier
+        profile.player.leaderboardRank = profile.leaderboardRank
+        profile.player.wins = winsLosses.wins
+        profile.player.losses = winsLosses.losses
 
-            withContext(Dispatchers.IO) { dao.insertPlayer(profile.player) }
-
-            onSuccess()
-        } catch (e: Exception) {
-            onError()
-        }
+        withContext(Dispatchers.IO) { dao.insertPlayer(profile.player) }
     }
 
     suspend fun fetchPlayers(name: String, onSuccess: (List<Player>) -> Unit, onError: () -> Unit) {
