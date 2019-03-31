@@ -68,11 +68,11 @@ class MatchRepository @Inject constructor(
                 val list = if (count != 0)
                 // There are already some matches in the database
                 // we want to refresh all of them
-                    withContext(Dispatchers.IO) { service.getMatches(id, count, 0) }
+                    service.getMatches(id, count, 0)
                 else
                 // There are no matches in the database,
                 // we want to fetch only 20 from the network
-                    withContext(Dispatchers.IO) { service.getMatches(id, 20, 0) }
+                    service.getMatches(id, 20, 0)
                 list.map {
                     it.accountId = id   // response from the network doesn't contain any information
                     it           // about who played this matches, so we need to set this manually
