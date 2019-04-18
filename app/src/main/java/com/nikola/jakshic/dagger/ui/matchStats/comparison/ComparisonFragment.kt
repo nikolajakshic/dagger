@@ -16,6 +16,7 @@ import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.dagger.vo.PlayerStats
 import com.nikola.jakshic.dagger.vo.Stats
+import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.android.synthetic.main.fragment_comparison.*
 import java.util.concurrent.TimeUnit
 
@@ -102,14 +103,14 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
 
         val durationInMinutes = TimeUnit.SECONDS.toMinutes(stats.matchStats!!.duration.toLong())
 
-        val entries1 = listOf(
+        val entries1 = floatArrayOf(
                 100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
                 100 * player1.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
                 100 * player1.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
                 100 * player1.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
                 100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes))
 
-        val entries2 = listOf(
+        val entries2 = floatArrayOf(
                 100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
                 100 * player2.towerDamage / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
                 100 * player2.goldPerMin / (MAX_GOLD_PER_MINUTE),
@@ -121,6 +122,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
 
         spiderChart.setData(listOf(SpiderData(entries1, color1), SpiderData(entries2, color2)))
         spiderChart.setLabels(labels)
+        spiderChart.refresh()
 
         Glide.with(this).load(DotaUtil.getHero(context!!, player1.heroId)).transition(withCrossFade()).into(imgPlayer1Hero)
         Glide.with(this).load(DotaUtil.getHero(context!!, player2.heroId)).transition(withCrossFade()).into(imgPlayer2Hero)
