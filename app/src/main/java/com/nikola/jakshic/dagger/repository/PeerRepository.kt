@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.repository
 
 import androidx.lifecycle.LiveData
-import com.google.android.gms.tasks.Tasks.await
 import com.nikola.jakshic.dagger.data.local.PeerDao
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import kotlinx.coroutines.Dispatchers
