@@ -21,12 +21,12 @@ class MatchStatsLayout @JvmOverloads constructor(
         }
     }
 
-    private fun collapse() {
+    fun collapse() {
         getChildAt(1).visibility = View.GONE
         expanded = false
     }
 
-    private fun expand() {
+    fun expand() {
         getChildAt(1).visibility = View.VISIBLE
         expanded = true
     }

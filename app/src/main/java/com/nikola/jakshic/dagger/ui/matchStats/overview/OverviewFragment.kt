@@ -42,6 +42,17 @@ class OverviewFragment : Fragment() {
 
         container.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
+        if (savedInstanceState == null) {
+            // Expand the first item
+            for (i in 0 until container.childCount) {
+                val child = container.getChildAt(i) as? MatchStatsLayout
+                if (child != null) {
+                    child.expand()
+                    break
+                }
+            }
+        }
+
         val viewModel = ViewModelProviders.of(activity!!)[MatchStatsViewModel::class.java]
 
         viewModel.match.observe(this, Observer {
