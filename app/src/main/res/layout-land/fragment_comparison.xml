@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:paddingBottom="8dp"
+    android:clipToPadding="false"
     tools:context=".ui.matchstats.comparison.ComparisonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,28 +21,36 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
         <com.nikola.jakshic.spiderchart.SpiderChart
             android:id="@+id/spiderChart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1:1"
-            android:layout_margin="16dp"
+            android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgPlayer1Backpack0" />
+            app:layout_constraintStart_toEndOf="@id/guideline_vertical"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgPlayer1Hero"
+            android:layout_marginTop="8dp"
             android:layout_width="54dp"
             android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer1Item0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:src="@drawable/ic_hero_12" />
 
         <TextView
@@ -98,6 +108,7 @@
             android:layout_marginRight="1dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer1Item3"
             app:layout_constraintStart_toStartOf="@id/imgPlayer1Hero"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer1Hero"
             tools:src="@mipmap/ic_launcher" />
@@ -135,6 +146,7 @@
             android:layout_marginRight="1dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer1Backpack0"
             app:layout_constraintStart_toStartOf="@id/imgPlayer1Hero"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer1Item0"
             tools:src="@mipmap/ic_launcher" />
@@ -170,9 +182,9 @@
             android:layout_marginTop="4dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
             app:layout_constraintStart_toStartOf="@id/imgPlayer1Item0"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer1Item3"
-            app:layout_constraintVertical_chainStyle="spread_inside"
             tools:src="@mipmap/ic_launcher" />
 
         <ImageView
@@ -203,13 +215,13 @@
             android:id="@+id/imgPlayer2Hero"
             android:layout_width="54dp"
             android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
-            app:layout_constraintStart_toEndOf="@+id/guideline_vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer2Item0"
+            app:layout_constraintStart_toStartOf="@id/imgPlayer1Hero"
+            app:layout_constraintTop_toBottomOf="@id/guideline_horizontal"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:src="@drawable/ic_hero_13" />
 
         <TextView
@@ -224,7 +236,7 @@
             android:maxLines="1"
             android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@id/tvPlayer2KdaText"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
             app:layout_constraintStart_toEndOf="@+id/imgPlayer2Hero"
             app:layout_constraintTop_toTopOf="@id/imgPlayer2Hero"
             app:layout_constraintVertical_chainStyle="packed"
@@ -242,7 +254,7 @@
             android:text="K/D/A"
             android:textSize="11sp"
             app:layout_constraintBottom_toTopOf="@id/tvPlayer2Kda"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
             app:layout_constraintStart_toStartOf="@+id/tvPlayer2Name"
             app:layout_constraintTop_toBottomOf="@+id/tvPlayer2Name" />
 
@@ -257,7 +269,7 @@
             android:maxLines="1"
             android:textSize="11sp"
             app:layout_constraintBottom_toBottomOf="@id/imgPlayer2Hero"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
             app:layout_constraintStart_toStartOf="@+id/tvPlayer2Name"
             app:layout_constraintTop_toBottomOf="@+id/tvPlayer2KdaText"
             tools:text="16/0/11" />
@@ -271,6 +283,7 @@
             android:layout_marginRight="1dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer2Item3"
             app:layout_constraintStart_toStartOf="@id/imgPlayer2Hero"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer2Hero"
             tools:src="@mipmap/ic_launcher" />
@@ -308,6 +321,7 @@
             android:layout_marginRight="1dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@id/imgPlayer2Backpack0"
             app:layout_constraintStart_toStartOf="@id/imgPlayer2Hero"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer2Item0"
             tools:src="@mipmap/ic_launcher" />
@@ -343,6 +357,7 @@
             android:layout_marginTop="4dp"
             android:background="#d3d3d3"
             android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/imgPlayer2Item0"
             app:layout_constraintTop_toBottomOf="@id/imgPlayer2Item3"
             tools:src="@mipmap/ic_launcher" />
@@ -375,7 +390,7 @@
             android:id="@+id/player1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/imgPlayer1Backpack0"
+            app:layout_constraintBottom_toTopOf="@id/guideline_horizontal"
             app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -384,10 +399,10 @@
             android:id="@+id/player2"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/imgPlayer2Backpack0"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/guideline_vertical"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guideline_horizontal" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

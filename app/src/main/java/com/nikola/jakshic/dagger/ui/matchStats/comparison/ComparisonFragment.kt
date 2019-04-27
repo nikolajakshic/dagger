@@ -25,6 +25,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     private val MAX_HERO_DAMAGE_PER_MINUTE = 800F
     private val MAX_TOWER_DAMAGE_PER_MINUTE = 300F
     private val MAX_LAST_HITS_PER_MINUTE = 12F
+    private val MAX_DENIES_PER_MINUTE = 3F
     private val MAX_GOLD_PER_MINUTE = 700F
     private val MAX_EXPERIENCE_PER_MINUTE = 600F
 
@@ -96,7 +97,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     }
 
     private fun setData(stats: Stats) {
-        val labels = listOf("HD", "TD", "GPM", "XPM", "LH")
+        val labels = listOf("LH", "DN", "TD", "GPM", "XPM", "HD")
 
         val player1 = stats.playerStats!![leftPlayerIndex]
         val player2 = stats.playerStats!![rightPlayerIndex]
@@ -104,24 +105,27 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         val durationInMinutes = TimeUnit.SECONDS.toMinutes(stats.matchStats!!.duration.toLong())
 
         val entries1 = floatArrayOf(
-                100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
+                100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
+                100 * player1.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
                 100 * player1.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
                 100 * player1.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
                 100 * player1.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
-                100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes))
+                100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
 
         val entries2 = floatArrayOf(
-                100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
-                100 * player2.towerDamage / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
-                100 * player2.goldPerMin / (MAX_GOLD_PER_MINUTE),
-                100 * player2.xpPerMin / (MAX_EXPERIENCE_PER_MINUTE),
-                100 * player2.lastHits / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes))
+                100 * player2.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
+                100 * player2.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
+                100 * player2.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
+                100 * player2.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
+                100 * player2.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
+                100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
 
         val color1 = ContextCompat.getColor(context!!, R.color.comparison_player1)
         val color2 = ContextCompat.getColor(context!!, R.color.comparison_player2)
 
         spiderChart.setData(listOf(SpiderData(entries1, color1), SpiderData(entries2, color2)))
         spiderChart.setLabels(labels)
+        spiderChart.setRotationAngle(120f)
         spiderChart.refresh()
 
         Glide.with(this).load(DotaUtil.getHero(context!!, player1.heroId)).transition(withCrossFade()).into(imgPlayer1Hero)
