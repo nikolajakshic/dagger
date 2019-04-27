@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.nikola.jakshic.dagger.BuildConfig
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.data.remote.Tls12SocketFactory
 import dagger.Module
@@ -56,7 +57,10 @@ class NetworkModule(private val context: Context) {
         val clientBuilder = OkHttpClient.Builder()
                 .cache(Cache(context.cacheDir, (10 * 1000 * 1000).toLong()))
                 .readTimeout(35, TimeUnit.SECONDS)
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+
+        if (BuildConfig.DEBUG) {
+            clientBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+        }
 
         val cipherSuites = ArrayList<CipherSuite>()
         cipherSuites.addAll(ConnectionSpec.MODERN_TLS.cipherSuites()!!)
