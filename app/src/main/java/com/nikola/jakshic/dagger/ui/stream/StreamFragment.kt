@@ -39,7 +39,11 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
 
         val viewModel = ViewModelProviders.of(this, factory)[StreamViewModel::class.java]
 
-        val adapter = StreamAdapter()
+        val adapter = StreamAdapter {
+            val intent = Intent(context, StreamPlayerActivity::class.java)
+            intent.putExtra("user-name", it)
+            startActivity(intent)
+        }
 
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

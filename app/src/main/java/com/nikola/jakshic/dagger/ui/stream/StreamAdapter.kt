@@ -10,7 +10,9 @@ import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.vo.Stream
 import kotlinx.android.synthetic.main.item_stream.view.*
 
-class StreamAdapter : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
+class StreamAdapter(
+        private val listener: (userName: String) -> Unit
+) : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
 
     private var list: List<Stream>? = null
 
@@ -30,6 +32,11 @@ class StreamAdapter : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
     }
 
     inner class StreamViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        init {
+            itemView.setOnClickListener { listener(list!![adapterPosition].userName) }
+        }
+
         fun bind(item: Stream) {
             with(itemView) {
                 tvName.text = item.userName

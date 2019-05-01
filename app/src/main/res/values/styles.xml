@@ -43,7 +43,7 @@
     </style>
 
     <style name="MatchStatsTeamName">
-       <item name="android:background">#42a5f5</item>
+        <item name="android:background">#42a5f5</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingLeft">16dp</item>
@@ -66,6 +66,11 @@
         <item name="colorPrimaryDark">#FF2196F3</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/color_background_default</item>
+    </style>
+
+    <style name="StreamPlayerTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
 </resources>
