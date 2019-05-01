@@ -24,7 +24,7 @@ class StreamViewModel @Inject constructor(
         _status.value = Status.SUCCESS
         _streams.value = it
     }
-    private val onError: () -> Unit = { Status.ERROR }
+    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     private var initialFetch = false
 
