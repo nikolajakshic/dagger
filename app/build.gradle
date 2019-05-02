@@ -6,6 +6,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -18,9 +22,13 @@ android {
     }
     buildTypes {
         release {
+            buildConfigField("String", "TWITCH_HEADER", "\"${localProperties['twitch_header']}\"")
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField("String", "TWITCH_HEADER", "\"${localProperties['twitch_header']}\"")
         }
     }
     compileOptions {

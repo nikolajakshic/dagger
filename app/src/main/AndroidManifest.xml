@@ -37,6 +37,10 @@
         <activity
             android:name=".ui.profile.matches.byhero.MatchesByHeroActivity"
             android:theme="@style/MatchesByHeroTheme" />
+        <activity
+            android:name=".ui.stream.StreamPlayerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/StreamPlayerTheme" />
     </application>
 
 </manifest>

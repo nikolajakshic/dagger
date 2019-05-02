@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder
 import com.nikola.jakshic.dagger.BuildConfig
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.data.remote.Tls12SocketFactory
+import com.nikola.jakshic.dagger.data.remote.TwitchService
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -49,6 +50,17 @@ class NetworkModule(private val context: Context) {
                 .client(okHttpClient)
                 .build()
                 .create(OpenDotaService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTwitchService(okHttpClient: OkHttpClient, gson: Gson): TwitchService {
+        return Retrofit.Builder()
+                .baseUrl(TwitchService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(okHttpClient)
+                .build()
+                .create(TwitchService::class.java)
     }
 
     @Provides
