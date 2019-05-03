@@ -3,21 +3,23 @@ package com.nikola.jakshic.dagger.vo
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 class _Player(
-        @SerializedName("profile") @Expose val player: Player?,
-        @SerializedName("rank_tier") @Expose val rankTier: Int,
-        @SerializedName("leaderboard_rank") @Expose val leaderboardRank: Int)
+        @Json(name = "profile") val player: Player?,
+        @Json(name = "rank_tier") val rankTier: Int,
+        @Json(name = "leaderboard_rank") val leaderboardRank: Int)
 
 @Entity(tableName = "players")
+@JsonClass(generateAdapter = true)
 data class Player(
-        @PrimaryKey @ColumnInfo(name = "account_id") @SerializedName("account_id") @Expose var id: Long,
-        @ColumnInfo(name = "name") @SerializedName("name") @Expose var name: String?,
-        @ColumnInfo(name = "persona_name") @SerializedName("personaname") @Expose var personaName: String?,
-        @ColumnInfo(name = "avatar_url") @SerializedName("avatarfull") @Expose var avatarUrl: String?,
-        @ColumnInfo(name = "rank_tier") @SerializedName("rank_tier") @Expose var rankTier: Int,
-        @ColumnInfo(name = "leaderboard_rank")@SerializedName("leaderboard_rank") @Expose var leaderboardRank: Int,
-        @ColumnInfo(name = "wins") @SerializedName("win") @Expose var wins: Int,
-        @ColumnInfo(name = "losses") @SerializedName("lose") @Expose var losses: Int)
+        @PrimaryKey @ColumnInfo(name = "account_id") @Json(name = "account_id") var id: Long = 0,
+        @ColumnInfo(name = "name") @Json(name = "name") var name: String?,
+        @ColumnInfo(name = "persona_name") @Json(name = "personaname") var personaName: String?,
+        @ColumnInfo(name = "avatar_url") @Json(name = "avatarfull") var avatarUrl: String?,
+        @ColumnInfo(name = "rank_tier") @Json(name = "rank_tier") var rankTier: Int = 0,
+        @ColumnInfo(name = "leaderboard_rank") @Json(name = "leaderboard_rank") var leaderboardRank: Int = 0,
+        @ColumnInfo(name = "wins") @Json(name = "win") var wins: Int = 0,
+        @ColumnInfo(name = "losses") @Json(name = "lose") var losses: Int = 0)

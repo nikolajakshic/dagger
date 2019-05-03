@@ -3,12 +3,12 @@ package com.nikola.jakshic.dagger.di
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.nikola.jakshic.dagger.BuildConfig
+import com.nikola.jakshic.dagger.data.remote.NullPrimitiveAdapter
 import com.nikola.jakshic.dagger.data.remote.OpenDotaService
 import com.nikola.jakshic.dagger.data.remote.Tls12SocketFactory
 import com.nikola.jakshic.dagger.data.remote.TwitchService
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -17,7 +17,7 @@ import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import java.security.KeyStore
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -35,18 +35,18 @@ class NetworkModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create()
+    fun provideMoshi(): Moshi {
+        return Moshi.Builder()
+                .add(NullPrimitiveAdapter())
+                .build()
     }
 
     @Provides
     @Singleton
-    fun provideOpenDotaService(okHttpClient: OkHttpClient, gson: Gson): OpenDotaService {
+    fun provideOpenDotaService(okHttpClient: OkHttpClient, moshi: Moshi): OpenDotaService {
         return Retrofit.Builder()
                 .baseUrl(OpenDotaService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(okHttpClient)
                 .build()
                 .create(OpenDotaService::class.java)
@@ -54,10 +54,10 @@ class NetworkModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideTwitchService(okHttpClient: OkHttpClient, gson: Gson): TwitchService {
+    fun provideTwitchService(okHttpClient: OkHttpClient, moshi: Moshi): TwitchService {
         return Retrofit.Builder()
                 .baseUrl(TwitchService.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .client(okHttpClient)
                 .build()
                 .create(TwitchService::class.java)

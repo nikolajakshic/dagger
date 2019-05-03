@@ -2,13 +2,18 @@ package com.nikola.jakshic.dagger.vo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class _Leaderboard(@SerializedName("leaderboard") @Expose val leaderboard: List<Leaderboard>?)
+@JsonClass(generateAdapter = true)
+class _Leaderboard(@Json(name = "leaderboard") val leaderboard: List<Leaderboard>?)
 
 @Entity(tableName = "leaderboards")
-data class Leaderboard(@PrimaryKey(autoGenerate = true) var id: Int, @SerializedName("name") @Expose var name: String?, var region: String?)
+@JsonClass(generateAdapter = true)
+data class Leaderboard(
+        @PrimaryKey(autoGenerate = true) var id: Int = 0,
+        @Json(name = "name") var name: String?,
+        var region: String?)
 
 enum class Region {
     AMERICAS,

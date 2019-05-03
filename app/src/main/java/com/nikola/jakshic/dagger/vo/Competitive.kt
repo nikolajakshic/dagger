@@ -3,18 +3,19 @@ package com.nikola.jakshic.dagger.vo
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "competitive")
+@JsonClass(generateAdapter = true)
 data class Competitive(
-        @Expose @PrimaryKey @ColumnInfo(name = "match_id") @SerializedName("match_id") var matchId: Long,
-        @Expose @ColumnInfo(name = "start_time") @SerializedName("start_time") var startTime: Long,
-        @Expose @ColumnInfo(name = "duration") @SerializedName("duration") var duration: Int,
-        @Expose @ColumnInfo(name = "radiant_name") @SerializedName("radiant_name") var radiantName: String?,
-        @Expose @ColumnInfo(name = "dire_name") @SerializedName("dire_name") var direName: String?,
-        @Expose @ColumnInfo(name = "league_name") @SerializedName("league_name") var leagueName: String?,
-        @Expose @ColumnInfo(name = "radiant_score") @SerializedName("radiant_score") var radiantScore: Int,
-        @Expose @ColumnInfo(name = "dire_score") @SerializedName("dire_score") var direScore: Int,
-        @Expose @ColumnInfo(name = "radiant_win") @SerializedName("radiant_win") var isRadiantWin: Boolean
+        @PrimaryKey @ColumnInfo(name = "match_id") @Json(name = "match_id") var matchId: Long,
+        @ColumnInfo(name = "start_time") @Json(name = "start_time") var startTime: Long,
+        @ColumnInfo(name = "duration") @Json(name = "duration") var duration: Int,
+        @ColumnInfo(name = "radiant_name") @Json(name = "radiant_name") var radiantName: String?,
+        @ColumnInfo(name = "dire_name") @Json(name = "dire_name") var direName: String?,
+        @ColumnInfo(name = "league_name") @Json(name = "league_name") var leagueName: String?,
+        @ColumnInfo(name = "radiant_score") @Json(name = "radiant_score") var radiantScore: Int,
+        @ColumnInfo(name = "dire_score") @Json(name = "dire_score") var direScore: Int,
+        @ColumnInfo(name = "radiant_win") @Json(name = "radiant_win") var isRadiantWin: Boolean
 )

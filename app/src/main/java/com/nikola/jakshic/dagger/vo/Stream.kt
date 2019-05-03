@@ -1,12 +1,14 @@
 package com.nikola.jakshic.dagger.vo
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
-class StreamBox(@SerializedName("data") @Expose val stream: List<Stream>)
+@JsonClass(generateAdapter = true)
+class StreamBox(@Json(name = "data") val stream: List<Stream>)
 
+@JsonClass(generateAdapter = true)
 data class Stream(
-        @SerializedName("user_name") @Expose val userName: String,
-        @SerializedName("title") @Expose val title: String,
-        @SerializedName("viewer_count") @Expose val viewerCount: Long,
-        @SerializedName("thumbnail_url") @Expose val thumbnailUrl: String)
+        @Json(name = "user_name") val userName: String,
+        @Json(name = "title") val title: String,
+        @Json(name = "viewer_count") val viewerCount: Long,
+        @Json(name = "thumbnail_url") val thumbnailUrl: String)
