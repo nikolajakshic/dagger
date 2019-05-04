@@ -3,9 +3,8 @@ package com.nikola.jakshic.dagger.ui.stream
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.vo.Stream
 import kotlinx.android.synthetic.main.item_stream.view.*
@@ -46,7 +45,7 @@ class StreamAdapter(
                 val thumbnailUrl = item.thumbnailUrl
                         .replace("{width}", "260")
                         .replace("{height}", "160")
-                Glide.with(this).load(thumbnailUrl).transition(withCrossFade()).into(imgThumbnail)
+                GlideApp.with(this).load(thumbnailUrl).into(imgThumbnail)
             }
         }
     }

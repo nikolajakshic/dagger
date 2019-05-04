@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 
 class ComparisonDialog : BottomSheetDialogFragment() {
@@ -44,7 +44,7 @@ class ComparisonDialog : BottomSheetDialogFragment() {
         for (i in 0 until root.childCount) {
             val imgHero = root.getChildAt(i) as ImageView
             val heroId = heroes[i]
-            Glide.with(this).load(DotaUtil.getHero(context!!, heroId)).into(imgHero)
+            GlideApp.with(this).load(DotaUtil.getHero(context!!, heroId)).into(imgHero)
             if (player1 == i || player2 == i) {
                 imgHero.alpha = 0.5F
                 continue

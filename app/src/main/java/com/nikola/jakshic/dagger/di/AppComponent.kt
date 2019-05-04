@@ -19,6 +19,8 @@ import javax.inject.Singleton
 @Component(modules = [(DbModule::class), (ViewModelModule::class)])
 interface AppComponent {
 
+    fun inject(glideModule: DaggerGlideModule)
+
     fun inject(activity: SearchActivity)
 
     fun inject(fragment: MatchFragment)

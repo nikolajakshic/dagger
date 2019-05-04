@@ -9,9 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.dagger.vo.PlayerStats
@@ -128,8 +127,8 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         spiderChart.setRotationAngle(120f)
         spiderChart.refresh()
 
-        Glide.with(this).load(DotaUtil.getHero(context!!, player1.heroId)).transition(withCrossFade()).into(imgPlayer1Hero)
-        Glide.with(this).load(DotaUtil.getHero(context!!, player2.heroId)).transition(withCrossFade()).into(imgPlayer2Hero)
+        GlideApp.with(this).load(DotaUtil.getHero(context!!, player1.heroId)).into(imgPlayer1Hero)
+        GlideApp.with(this).load(DotaUtil.getHero(context!!, player2.heroId)).into(imgPlayer2Hero)
 
         tvPlayer1Name.text = getPlayerName(player1)
         tvPlayer2Name.text = getPlayerName(player2)
@@ -137,28 +136,27 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         tvPlayer1Kda.text = getString(R.string.match_kda, player1.kills, player1.deaths, player1.assists)
         tvPlayer2Kda.text = getString(R.string.match_kda, player2.kills, player2.deaths, player2.assists)
 
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item0)).transition(withCrossFade()).into(imgPlayer1Item0)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item1)).transition(withCrossFade()).into(imgPlayer1Item1)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item2)).transition(withCrossFade()).into(imgPlayer1Item2)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item3)).transition(withCrossFade()).into(imgPlayer1Item3)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item4)).transition(withCrossFade()).into(imgPlayer1Item4)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.item5)).transition(withCrossFade()).into(imgPlayer1Item5)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item0)).into(imgPlayer1Item0)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item1)).into(imgPlayer1Item1)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item2)).into(imgPlayer1Item2)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item3)).into(imgPlayer1Item3)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item4)).into(imgPlayer1Item4)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item5)).into(imgPlayer1Item5)
 
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.backpack0)).transition(withCrossFade()).into(imgPlayer1Backpack0)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.backpack1)).transition(withCrossFade()).into(imgPlayer1Backpack1)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player1.backpack2)).transition(withCrossFade()).into(imgPlayer1Backpack2)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack0)).into(imgPlayer1Backpack0)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack1)).into(imgPlayer1Backpack1)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack2)).into(imgPlayer1Backpack2)
 
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item0)).transition(withCrossFade()).into(imgPlayer2Item0)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item1)).transition(withCrossFade()).into(imgPlayer2Item1)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item2)).transition(withCrossFade()).into(imgPlayer2Item2)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item3)).transition(withCrossFade()).into(imgPlayer2Item3)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item4)).transition(withCrossFade()).into(imgPlayer2Item4)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.item5)).transition(withCrossFade()).into(imgPlayer2Item5)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item0)).into(imgPlayer2Item0)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item1)).into(imgPlayer2Item1)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item2)).into(imgPlayer2Item2)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item3)).into(imgPlayer2Item3)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item4)).into(imgPlayer2Item4)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item5)).into(imgPlayer2Item5)
 
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.backpack0)).transition(withCrossFade()).into(imgPlayer2Backpack0)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.backpack1)).transition(withCrossFade()).into(imgPlayer2Backpack1)
-        Glide.with(this).load(DotaUtil.getItem(context!!, player2.backpack2)).transition(withCrossFade()).into(imgPlayer2Backpack2)
-
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack0)).into(imgPlayer2Backpack0)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack1)).into(imgPlayer2Backpack1)
+        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack2)).into(imgPlayer2Backpack2)
     }
 
     private fun getPlayerName(item: PlayerStats) = when {

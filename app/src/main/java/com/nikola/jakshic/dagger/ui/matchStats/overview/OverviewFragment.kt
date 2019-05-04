@@ -13,9 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
@@ -86,7 +85,7 @@ class OverviewFragment : Fragment() {
 
     private fun bindPlayerStats(view: View, item: PlayerStats) {
         with(view) {
-            Glide.with(this).load(DotaUtil.getHero(context, item.heroId)).transition(DrawableTransitionOptions.withCrossFade()).into(imgHero)
+            GlideApp.with(this).load(DotaUtil.getHero(context, item.heroId)).into(imgHero)
             tvPlayerName.text = getPlayerName(item)
             val playerColor = ContextCompat.getColor(context, if (item.playerSlot <= 4) R.color.color_green else R.color.color_red)
             tvPlayerName.setTextColor(playerColor)
@@ -102,16 +101,16 @@ class OverviewFragment : Fragment() {
             tvGpm.text = getString(R.string.match_gpm, item.goldPerMin)
             tvXpm.text = getString(R.string.match_xpm, item.xpPerMin)
 
-            Glide.with(this).load(DotaUtil.getItem(context, item.item0)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem0)
-            Glide.with(this).load(DotaUtil.getItem(context, item.item1)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem1)
-            Glide.with(this).load(DotaUtil.getItem(context, item.item2)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem2)
-            Glide.with(this).load(DotaUtil.getItem(context, item.item3)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem3)
-            Glide.with(this).load(DotaUtil.getItem(context, item.item4)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem4)
-            Glide.with(this).load(DotaUtil.getItem(context, item.item5)).transition(DrawableTransitionOptions.withCrossFade()).into(imgItem5)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item0)).into(imgItem0)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item1)).into(imgItem1)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item2)).into(imgItem2)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item3)).into(imgItem3)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item4)).into(imgItem4)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.item5)).into(imgItem5)
 
-            Glide.with(this).load(DotaUtil.getItem(context, item.backpack0)).transition(DrawableTransitionOptions.withCrossFade()).into(imgBackpack0)
-            Glide.with(this).load(DotaUtil.getItem(context, item.backpack1)).transition(DrawableTransitionOptions.withCrossFade()).into(imgBackpack1)
-            Glide.with(this).load(DotaUtil.getItem(context, item.backpack2)).transition(DrawableTransitionOptions.withCrossFade()).into(imgBackpack2)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack0)).into(imgBackpack0)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack1)).into(imgBackpack1)
+            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack2)).into(imgBackpack2)
 
             // Having personaName = null means the player has not exposed his data to public,
             // so we don't need to set onClickListener

@@ -7,9 +7,8 @@ import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.inflate
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.dagger.vo.Match
@@ -35,10 +34,7 @@ class MatchAdapter(
 
         fun bind(item: Match) {
             with(itemView) {
-                Glide.with(this)
-                        .load(DotaUtil.getHero(context, item.heroId))
-                        .transition(withCrossFade())
-                        .into(imgHero)
+                GlideApp.with(this).load(DotaUtil.getHero(context, item.heroId)).into(imgHero)
                 tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
                 val resultColor = if (isWin(item))
                     ContextCompat.getColor(context, R.color.color_green)

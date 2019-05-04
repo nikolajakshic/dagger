@@ -11,10 +11,9 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.ui.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.ui.Status
 import com.nikola.jakshic.dagger.util.DotaUtil
@@ -44,13 +43,12 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.profile.observe(this, Observer {
             if (it != null) {
-                val options = RequestOptions().circleCrop()
-                Glide.with(this).load(it.avatarUrl).apply(options).into(imgPlayerAvatar)
+                GlideApp.with(this).load(it.avatarUrl).circleCrop().into(imgPlayerAvatar)
 
                 val medal = DotaUtil.getMedal(this, it.rankTier, it.leaderboardRank)
                 val stars = DotaUtil.getStars(this, it.rankTier, it.leaderboardRank)
-                Glide.with(this).load(medal).into(imgRankMedal)
-                Glide.with(this).load(stars).into(imgRankStars)
+                GlideApp.with(this).load(medal).into(imgRankMedal)
+                GlideApp.with(this).load(stars).into(imgRankStars)
 
                 val name = if (TextUtils.isEmpty(it.name)) it.personaName else it.name
                 collapsingToolbar.title = name
