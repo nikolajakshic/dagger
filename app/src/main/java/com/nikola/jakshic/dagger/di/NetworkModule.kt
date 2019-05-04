@@ -18,6 +18,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.io.File
 import java.security.KeyStore
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -66,8 +67,13 @@ class NetworkModule(private val context: Context) {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
+        val cacheDir = File(context.cacheDir, "okhttp-cache")
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs()
+        }
+
         val clientBuilder = OkHttpClient.Builder()
-                .cache(Cache(context.cacheDir, (10 * 1000 * 1000).toLong()))
+                .cache(Cache(cacheDir, (30 * 1024 * 1024).toLong()))
                 .readTimeout(35, TimeUnit.SECONDS)
 
         if (BuildConfig.DEBUG) {
