@@ -123,4 +123,4 @@
 }
 
 # APP
--keep @interface com.nikola.jakshic.dagger.data.remote.Nullable
+-keep @interface com.nikola.jakshic.dagger.common.network.Nullable

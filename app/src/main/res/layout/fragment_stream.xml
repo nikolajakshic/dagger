@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.nikola.jakshic.dagger.ui.stream.StreamFragment">
+    tools:context="com.nikola.jakshic.dagger.stream.StreamFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"

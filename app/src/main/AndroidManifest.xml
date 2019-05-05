@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".HomeActivity"
             android:theme="@style/HomeTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -23,22 +23,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="Settings" />
         <activity
-            android:name=".ui.search.SearchActivity"
+            android:name=".search.SearchActivity"
             android:theme="@style/SearchTheme" />
         <activity
-            android:name=".ui.profile.ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:theme="@style/ProfileTheme" />
         <activity
-            android:name=".ui.matchstats.MatchStatsActivity"
+            android:name=".matchstats.MatchStatsActivity"
             android:theme="@style/MatchStatsTheme" />
         <activity
-            android:name=".ui.profile.matches.byhero.MatchesByHeroActivity"
+            android:name=".profile.matches.byhero.MatchesByHeroActivity"
             android:theme="@style/MatchesByHeroTheme" />
         <activity
-            android:name=".ui.stream.StreamPlayerActivity"
+            android:name=".stream.StreamPlayerActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/StreamPlayerTheme" />
     </application>

@@ -4,10 +4,10 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import com.nikola.jakshic.dagger.BuildConfig
-import com.nikola.jakshic.dagger.data.remote.NullPrimitiveAdapter
-import com.nikola.jakshic.dagger.data.remote.OpenDotaService
-import com.nikola.jakshic.dagger.data.remote.Tls12SocketFactory
-import com.nikola.jakshic.dagger.data.remote.TwitchService
+import com.nikola.jakshic.dagger.common.network.NullPrimitiveAdapter
+import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.network.Tls12SocketFactory
+import com.nikola.jakshic.dagger.common.network.TwitchService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides

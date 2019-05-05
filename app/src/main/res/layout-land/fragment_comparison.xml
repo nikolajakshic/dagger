@@ -7,7 +7,7 @@
     android:fillViewport="true"
     android:paddingBottom="8dp"
     android:clipToPadding="false"
-    tools:context=".ui.matchstats.comparison.ComparisonFragment">
+    tools:context=".matchstats.comparison.ComparisonFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/rootView"

@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.di
 
 import androidx.room.Room
 import android.content.Context
-import com.nikola.jakshic.dagger.data.local.*
+import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

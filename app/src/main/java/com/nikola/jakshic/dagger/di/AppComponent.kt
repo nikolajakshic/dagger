@@ -1,17 +1,17 @@
 package com.nikola.jakshic.dagger.di
 
-import com.nikola.jakshic.dagger.ui.bookmark.BookmarkFragment
-import com.nikola.jakshic.dagger.ui.competitive.CompetitiveFragment
-import com.nikola.jakshic.dagger.ui.leaderboard.RegionFragment
-import com.nikola.jakshic.dagger.ui.matchstats.MatchStatsActivity
-import com.nikola.jakshic.dagger.ui.profile.ProfileActivity
-import com.nikola.jakshic.dagger.ui.profile.heroes.HeroFragment
-import com.nikola.jakshic.dagger.ui.profile.matches.MatchFragment
-import com.nikola.jakshic.dagger.ui.profile.matches.byhero.MatchesByHeroActivity
-import com.nikola.jakshic.dagger.ui.profile.peers.PeerFragment
-import com.nikola.jakshic.dagger.ui.search.SearchActivity
-import com.nikola.jakshic.dagger.ui.settings.SettingsActivity
-import com.nikola.jakshic.dagger.ui.stream.StreamFragment
+import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
+import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
+import com.nikola.jakshic.dagger.leaderboard.RegionFragment
+import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.profile.heroes.HeroFragment
+import com.nikola.jakshic.dagger.profile.matches.MatchFragment
+import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
+import com.nikola.jakshic.dagger.profile.peers.PeerFragment
+import com.nikola.jakshic.dagger.search.SearchActivity
+import com.nikola.jakshic.dagger.settings.SettingsActivity
+import com.nikola.jakshic.dagger.stream.StreamFragment
 import dagger.Component
 import javax.inject.Singleton
 
