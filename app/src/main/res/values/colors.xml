@@ -9,6 +9,8 @@
 
     <color name="color_background_default">#fafafa</color>
 
-    <color name="comparison_player1">#7dc1e6db</color>
-    <color name="comparison_player2">#7dd1d9ea</color>
+    <color name="comparison_player1">#6640C4FF</color>
+    <color name="comparison_player2">#66FFAB40</color>
+    <color name="comparison_player1_text">#40C4FF</color>
+    <color name="comparison_player2_text">#FFAB40</color>
 </resources>

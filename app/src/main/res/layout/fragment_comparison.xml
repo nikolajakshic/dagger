@@ -45,6 +45,7 @@
 
         <TextView
             android:id="@+id/tvPlayer1Name"
+            android:textColor="@color/comparison_player1_text"
             style="@style/Base.TextAppearance.AppCompat.Body2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -214,6 +215,7 @@
 
         <TextView
             android:id="@+id/tvPlayer2Name"
+            android:textColor="@color/comparison_player2_text"
             style="@style/Base.TextAppearance.AppCompat.Body2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
