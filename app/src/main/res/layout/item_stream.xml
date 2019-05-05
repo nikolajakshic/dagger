@@ -16,6 +16,7 @@
         app:cardCornerRadius="4dp">
 
         <ImageView
+            android:background="#d3d3d3"
             android:id="@+id/imgThumbnail"
             android:layout_width="130dp"
             android:layout_height="80dp"
@@ -56,18 +57,18 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="17sp"
+            android:textSize="16sp"
             tools:text="Gorgc" />
 
         <TextView
+            android:textColor="#616161"
             android:id="@+id/tvTitle"
-            style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="15sp"
+            android:textSize="14sp"
             tools:text="hell yeah brother" />
 
         <TextView
