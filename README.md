@@ -5,18 +5,20 @@ Dagger is an Android app that keeps you up-to-date with the latest Dota 2 matche
 Data is collected through the [OpenDota's](https://www.opendota.com) API and [Dota 2](https://www.dota2.com) web API.
 
 ## Screenshots
-<img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen1.png" width="150"> <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen2.png" width="150" > <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen3.png" width="150"> <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen4.png" width="150">   
+<img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen1.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen2.png" width="150" > <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen3.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen4.png" width="150">   
 
-<img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen5.png" width="150"> <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen6.png" width="150"> <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen7.png" width="150"> <img src="https://github.com/nikolajakshic/truesight/blob/master/assets/screen8.png" width="150">
+<img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen5.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen6.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen7.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen8.png" width="150">
 
 ## Features
 - Offline support
 - Search players
 - Bookmark players
-- General information about a player
-- General information about a match
+- Match history for any player
+- Match summary
+- Player performance comparison
 - Leaderboards
 - Competitive matches
+- Live Twitch streams
 - Search history
 
 ## Libraries
