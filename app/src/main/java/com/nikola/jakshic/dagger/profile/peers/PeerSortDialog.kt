@@ -14,9 +14,9 @@ class PeerSortDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(context!!)
-                .setTitle(getString(R.string.sort_by))
-                .setItems(R.array.sort_peer_options) { _, which ->
-                    (targetFragment as OnSortListener).onSort(which)
-                }.create()
+            .setTitle(getString(R.string.sort_by))
+            .setItems(R.array.sort_peer_options) { _, which ->
+                (targetFragment as OnSortListener).onSort(which)
+            }.create()
     }
 }

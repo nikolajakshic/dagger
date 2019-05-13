@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchStatsViewModel @Inject constructor(
-        private val repository: MatchRepository) : ScopedViewModel() {
+    private val repository: MatchRepository
+) : ScopedViewModel() {
 
     lateinit var match: LiveData<Stats>
         private set

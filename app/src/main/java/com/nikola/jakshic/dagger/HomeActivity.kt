@@ -1,11 +1,11 @@
 package com.nikola.jakshic.dagger
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.common.hide
 import com.nikola.jakshic.dagger.common.show
-import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
@@ -29,14 +29,14 @@ class HomeActivity : AppCompatActivity() {
             stream = StreamFragment()
 
             supportFragmentManager.beginTransaction()
-                    .add(R.id.home_fragment_container, competitive, "competitive-tag")
-                    .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
-                    .add(R.id.home_fragment_container, bookmark, "bookmark-tag")
-                    .add(R.id.home_fragment_container, stream, "stream-tag")
-                    .hide(leaderboard)
-                    .hide(bookmark)
-                    .hide(stream)
-                    .commit()
+                .add(R.id.home_fragment_container, competitive, "competitive-tag")
+                .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
+                .add(R.id.home_fragment_container, bookmark, "bookmark-tag")
+                .add(R.id.home_fragment_container, stream, "stream-tag")
+                .hide(leaderboard)
+                .hide(bookmark)
+                .hide(stream)
+                .commit()
         } else {
             competitive = supportFragmentManager.findFragmentByTag("competitive-tag")!!
             leaderboard = supportFragmentManager.findFragmentByTag("leaderboard-tag")!!

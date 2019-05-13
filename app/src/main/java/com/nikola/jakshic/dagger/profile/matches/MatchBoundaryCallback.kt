@@ -3,18 +3,19 @@ package com.nikola.jakshic.dagger.profile.matches
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MatchBoundaryCallback(
-        private val scope: CoroutineScope,
-        private val service: OpenDotaService,
-        private val dao: MatchDao,
-        private val id: Long) : PagedList.BoundaryCallback<Match>() {
+    private val scope: CoroutineScope,
+    private val service: OpenDotaService,
+    private val dao: MatchDao,
+    private val id: Long
+) : PagedList.BoundaryCallback<Match>() {
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -39,8 +40,8 @@ class MatchBoundaryCallback(
                     val count = dao.getMatchCount(id)
                     val list = service.getMatches(id, 20, count)
                     list.map {
-                        it.accountId = id   // response from the network doesn't contain any information
-                        it           // about who played this matches, so we need to set this manually
+                        it.accountId = id // response from the network doesn't contain any information
+                        it // about who played this matches, so we need to set this manually
                     }
                     dao.insertMatches(list)
                 }

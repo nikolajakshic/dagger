@@ -11,8 +11,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.common.*
+import com.nikola.jakshic.dagger.DaggerApp
+import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.hasNetworkConnection
+import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import kotlinx.android.synthetic.main.fragment_peer.*
 import javax.inject.Inject
@@ -29,7 +34,11 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_peer)
     }
 

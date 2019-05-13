@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.nikola.jakshic.dagger.HomeActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.HomeActivity
 import com.nikola.jakshic.dagger.search.SearchActivity
 import com.nikola.jakshic.dagger.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
@@ -17,8 +17,11 @@ class LeaderboardFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
     private lateinit var adapter: RegionPagerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_leaderboard)
     }
 

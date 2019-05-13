@@ -1,8 +1,8 @@
 package com.nikola.jakshic.dagger.search
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import kotlinx.android.synthetic.main.item_search_history.view.*

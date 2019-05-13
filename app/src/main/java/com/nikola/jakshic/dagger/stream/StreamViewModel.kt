@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class StreamViewModel @Inject constructor(
-        private val repository: StreamRepository) : ScopedViewModel() {
+    private val repository: StreamRepository
+) : ScopedViewModel() {
 
     private val _streams = MutableLiveData<List<Stream>>()
     val streams: LiveData<List<Stream>>

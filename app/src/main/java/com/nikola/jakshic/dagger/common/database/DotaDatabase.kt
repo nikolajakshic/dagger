@@ -16,24 +16,24 @@ import com.nikola.jakshic.dagger.profile.Player
 import com.nikola.jakshic.dagger.profile.PlayerDao
 import com.nikola.jakshic.dagger.profile.heroes.Hero
 import com.nikola.jakshic.dagger.profile.heroes.HeroDao
-import com.nikola.jakshic.dagger.profile.matches.MatchDao
-import com.nikola.jakshic.dagger.profile.peers.PeerDao
-import com.nikola.jakshic.dagger.search.SearchHistoryDao
 import com.nikola.jakshic.dagger.profile.matches.Match
+import com.nikola.jakshic.dagger.profile.matches.MatchDao
 import com.nikola.jakshic.dagger.profile.peers.Peer
+import com.nikola.jakshic.dagger.profile.peers.PeerDao
 import com.nikola.jakshic.dagger.search.SearchHistory
+import com.nikola.jakshic.dagger.search.SearchHistoryDao
 
 @Database(entities = arrayOf(
-        Competitive::class,
-        Leaderboard::class,
-        Player::class,
-        SearchHistory::class,
-        Match::class,
-        Hero::class,
-        Peer::class,
-        Bookmark::class,
-        MatchStats::class,
-        PlayerStats::class
+    Competitive::class,
+    Leaderboard::class,
+    Player::class,
+    SearchHistory::class,
+    Match::class,
+    Hero::class,
+    Peer::class,
+    Bookmark::class,
+    MatchStats::class,
+    PlayerStats::class
 ), version = 6, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
 
@@ -53,7 +53,7 @@ abstract class DotaDatabase : RoomDatabase() {
 
     abstract fun bookmarkDao(): BookmarkDao
 
-    abstract fun matchStatsDao() : MatchStatsDao
+    abstract fun matchStatsDao(): MatchStatsDao
 
-    abstract fun playerStatsDao() : PlayerStatsDao
+    abstract fun playerStatsDao(): PlayerStatsDao
 }

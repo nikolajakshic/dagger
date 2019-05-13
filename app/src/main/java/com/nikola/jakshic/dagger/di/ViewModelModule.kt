@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.bookmark.BookmarkViewModel
+import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.competitive.CompetitiveViewModel
 import com.nikola.jakshic.dagger.leaderboard.RegionViewModel
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel

@@ -9,8 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 class LeaderboardRepository @Inject constructor(
-        private val dao: LeaderboardDao,
-        private val service: OpenDotaService) {
+    private val dao: LeaderboardDao,
+    private val service: OpenDotaService
+) {
 
     /**
      * Constructs the [LiveData] which emits every time
@@ -31,11 +32,11 @@ class LeaderboardRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val leaderboard = service.getLeaderboard(region).leaderboard
-                        ?: throw Exception()
+                    ?: throw Exception()
                 val list = leaderboard.take(100)
                 list.map {
-                    it.region = region  // response from the network doesn't contain any information
-                    it            // about the region, so we need to set this manually
+                    it.region = region // response from the network doesn't contain any information
+                    it // about the region, so we need to set this manually
                 }
                 if (list.isNotEmpty()) {
                     // We don't have players ids, we only have their names,

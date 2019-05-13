@@ -4,8 +4,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_hero.view.*
 
@@ -42,7 +42,7 @@ class HeroAdapter(val listener: (Int) -> Unit) : RecyclerView.Adapter<HeroAdapte
                 tvHeroWinRate.text = context.resources.getString(R.string.hero_winrate, winRate)
                 setPercentageBar(viewHeroWinRateBar, winRate)
                 tvHeroWinLose.text = context.resources.getString(R.string.hero_win_loss,
-                        item.gamesWon, item.gamesPlayed - item.gamesWon)
+                    item.gamesWon, item.gamesPlayed - item.gamesWon)
             }
         }
 

@@ -10,7 +10,7 @@ import androidx.room.Query
 interface PeerDao {
 
     @Query("SELECT * FROM peers WHERE peers.account_id = :id ORDER BY games DESC")
-    fun getByGames(id: Long):  LiveData<List<Peer>>
+    fun getByGames(id: Long): LiveData<List<Peer>>
 
     // Multiplying by 1.0 to convert from Integer to Float
     @Query("SELECT * FROM peers WHERE peers.account_id = :id ORDER BY ((peers.wins*1.0/peers.games)*100) DESC")

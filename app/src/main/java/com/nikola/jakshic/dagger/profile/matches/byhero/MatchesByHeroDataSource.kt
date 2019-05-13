@@ -3,17 +3,18 @@ package com.nikola.jakshic.dagger.profile.matches.byhero
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
-import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.profile.matches.Match
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MatchesByHeroDataSource(
-        private val accountId: Long,
-        private val heroId: Int,
-        private val service: OpenDotaService) : PositionalDataSource<Match>() {
+    private val accountId: Long,
+    private val heroId: Int,
+    private val service: OpenDotaService
+) : PositionalDataSource<Match>() {
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>

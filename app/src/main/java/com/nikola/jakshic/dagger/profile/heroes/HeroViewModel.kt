@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HeroViewModel @Inject constructor(
-        private val repository: HeroRepository) : ScopedViewModel() {
+    private val repository: HeroRepository
+) : ScopedViewModel() {
 
     lateinit var list: LiveData<List<Hero>>
         private set

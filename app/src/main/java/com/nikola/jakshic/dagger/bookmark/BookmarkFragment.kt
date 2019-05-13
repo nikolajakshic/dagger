@@ -1,21 +1,21 @@
 package com.nikola.jakshic.dagger.bookmark
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.HomeActivity
+import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import com.nikola.jakshic.dagger.search.SearchActivity
 import com.nikola.jakshic.dagger.settings.SettingsActivity
@@ -31,12 +31,15 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_bookmark)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         toolbar.inflateMenu(R.menu.menu_home)
 
         val viewModel = ViewModelProviders.of(this, factory)[BookmarkViewModel::class.java]

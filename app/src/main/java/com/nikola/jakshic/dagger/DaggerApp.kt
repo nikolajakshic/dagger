@@ -14,7 +14,7 @@ class DaggerApp : Application() {
         super.onCreate()
 
         appComponent = DaggerAppComponent.builder()
-                .networkModule(NetworkModule(this))
-                .build()
+            .networkModule(NetworkModule(this))
+            .build()
     }
 }

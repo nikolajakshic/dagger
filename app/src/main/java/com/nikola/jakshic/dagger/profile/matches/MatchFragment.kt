@@ -13,8 +13,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.nikola.jakshic.dagger.*
-import com.nikola.jakshic.dagger.common.*
+import com.nikola.jakshic.dagger.DaggerApp
+import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
+import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.hasNetworkConnection
+import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
 import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
@@ -28,7 +33,11 @@ class MatchFragment : Fragment() {
         super.onAttach(context)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_match)
     }
 

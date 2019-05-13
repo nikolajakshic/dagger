@@ -1,8 +1,8 @@
 package com.nikola.jakshic.dagger.leaderboard
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import kotlinx.android.synthetic.main.item_leaderboard.view.*
@@ -21,7 +21,7 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(data: List<Leaderboard>?){
+    fun addData(data: List<Leaderboard>?) {
         list = data
         notifyDataSetChanged()
     }
@@ -30,7 +30,7 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH
 
         fun bind(item: Leaderboard) {
             with(itemView) {
-                tvRank.text = "${adapterPosition+1}."
+                tvRank.text = "${adapterPosition + 1}."
                 tvPlayerName.text = item.name
             }
         }

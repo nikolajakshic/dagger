@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.dagger.matchstats.PlayerStats
 import com.nikola.jakshic.dagger.matchstats.Stats
+import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.android.synthetic.main.fragment_comparison.*
 import java.util.concurrent.TimeUnit
@@ -37,8 +37,11 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
 
     private var stats: Stats? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_comparison, container, false)
     }
 
@@ -67,9 +70,9 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
                 fun setupDialog() {
                     if (dialog?.isAdded != true) {
                         dialog = ComparisonDialog.newInstance(
-                                leftPlayerIndex,
-                                rightPlayerIndex,
-                                stats.playerStats!!.map { it.heroId }.toList() as ArrayList<Int>)
+                            leftPlayerIndex,
+                            rightPlayerIndex,
+                            stats.playerStats!!.map { it.heroId }.toList() as ArrayList<Int>)
                         dialog?.setTargetFragment(this, 301)
                         dialog?.show(fragmentManager, null)
                     }
@@ -104,20 +107,20 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         val durationInMinutes = TimeUnit.SECONDS.toMinutes(stats.matchStats!!.duration.toLong())
 
         val entries1 = floatArrayOf(
-                100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
-                100 * player1.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
-                100 * player1.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
-                100 * player1.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
-                100 * player1.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
-                100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
+            100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
+            100 * player1.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
+            100 * player1.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
+            100 * player1.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
+            100 * player1.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
+            100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
 
         val entries2 = floatArrayOf(
-                100 * player2.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
-                100 * player2.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
-                100 * player2.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
-                100 * player2.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
-                100 * player2.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
-                100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
+            100 * player2.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
+            100 * player2.denies.toFloat() / (MAX_DENIES_PER_MINUTE * durationInMinutes),
+            100 * player2.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
+            100 * player2.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
+            100 * player2.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
+            100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes))
 
         val color1 = ContextCompat.getColor(context!!, R.color.comparison_player1)
         val color2 = ContextCompat.getColor(context!!, R.color.comparison_player2)

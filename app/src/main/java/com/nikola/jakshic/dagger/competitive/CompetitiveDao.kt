@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface CompetitiveDao{
+interface CompetitiveDao {
 
     @Query("SELECT * FROM competitive ORDER BY start_time+duration DESC")
     fun getMatches(): DataSource.Factory<Int, Competitive>

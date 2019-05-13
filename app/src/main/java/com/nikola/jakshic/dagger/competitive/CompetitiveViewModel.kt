@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CompetitiveViewModel @Inject constructor(
-        private val repo: CompetitiveRepository) : ScopedViewModel() {
+    private val repo: CompetitiveRepository
+) : ScopedViewModel() {
 
     val list = repo.getCompetitiveLiveData()
 

@@ -11,9 +11,9 @@ class MedalDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return AlertDialog.Builder(context!!)
-                .setTitle(getString(R.string.medals))
-                .setView(R.layout.dialog_medal)
-                .setPositiveButton(getString(R.string.close), null)
-                .create()
+            .setTitle(getString(R.string.medals))
+            .setView(R.layout.dialog_medal)
+            .setPositiveButton(getString(R.string.close), null)
+            .create()
     }
 }

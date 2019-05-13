@@ -10,8 +10,9 @@ import javax.inject.Singleton
 
 @Singleton
 class PlayerRepository @Inject constructor(
-        private val service: OpenDotaService,
-        private val dao: PlayerDao) {
+    private val service: OpenDotaService,
+    private val dao: PlayerDao
+) {
 
     suspend fun getProfile(id: Long) = coroutineScope {
         val profileDef = async(Dispatchers.IO) { service.getPlayerProfile(id) }

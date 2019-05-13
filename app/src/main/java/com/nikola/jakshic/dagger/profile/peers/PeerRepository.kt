@@ -9,8 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 class PeerRepository @Inject constructor(
-        private val service: OpenDotaService,
-        private val dao: PeerDao) {
+    private val service: OpenDotaService,
+    private val dao: PeerDao
+) {
 
     /**
      * Constructs the [LiveData] which emits every time
@@ -34,10 +35,10 @@ class PeerRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val peers = service.getPeers(id)
-                val list = peers.filter { it.withGames != 0 }   // filter opponents from the peer list
+                val list = peers.filter { it.withGames != 0 } // filter opponents from the peer list
                 list.map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it            // about whose this peers are, so we need to set this manually
+                    it.accountId = id // response from the network doesn't contain any information
+                    it // about whose this peers are, so we need to set this manually
                 }
                 dao.insertPeers(list)
             }

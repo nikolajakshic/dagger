@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.item_competitive.view.*
 import java.util.concurrent.TimeUnit
 
 class CompetitiveAdapter(
-        val context: Context,
-        val listener: (matchId: Long?) -> Unit
+    val context: Context,
+    val listener: (matchId: Long?) -> Unit
 ) : PagedListAdapter<Competitive, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {

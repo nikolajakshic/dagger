@@ -8,7 +8,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class RegionViewModel @Inject constructor(
-        private val repository: LeaderboardRepository) : ScopedViewModel() {
+    private val repository: LeaderboardRepository
+) : ScopedViewModel() {
 
     lateinit var list: LiveData<List<Leaderboard>>
         private set

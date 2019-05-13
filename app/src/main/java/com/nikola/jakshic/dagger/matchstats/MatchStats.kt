@@ -1,6 +1,11 @@
 package com.nikola.jakshic.dagger.matchstats
 
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -32,8 +37,8 @@ class Stats {
     @Embedded
     var matchStats: MatchStats? = null
     @Relation(
-            entity = PlayerStats::class,
-            entityColumn = "match_id",
-            parentColumn = "match_id")
+        entity = PlayerStats::class,
+        entityColumn = "match_id",
+        parentColumn = "match_id")
     var playerStats: List<PlayerStats>? = null
 }

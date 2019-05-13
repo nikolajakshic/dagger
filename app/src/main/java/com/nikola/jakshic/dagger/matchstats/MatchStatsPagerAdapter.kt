@@ -10,16 +10,16 @@ import com.nikola.jakshic.dagger.matchstats.overview.OverviewFragment
 class MatchStatsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int) =
-            when (position) {
-                0 -> OverviewFragment()
-                else -> ComparisonFragment()
-            }
+        when (position) {
+            0 -> OverviewFragment()
+            else -> ComparisonFragment()
+        }
 
     override fun getPageTitle(position: Int) =
-            when (position) {
-                0 -> context.getString(R.string.match_stats_overview)
-                else -> context.getString(R.string.match_stats_comparison)
-            }
+        when (position) {
+            0 -> context.getString(R.string.match_stats_overview)
+            else -> context.getString(R.string.match_stats_comparison)
+        }
 
     override fun getCount() = 2
 }

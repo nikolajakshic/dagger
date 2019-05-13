@@ -29,16 +29,18 @@ interface OpenDotaService {
 
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatches(
-            @Path("account_id") playerId: Long,
-            @Query("limit") limit: Int,
-            @Query("offset") offset: Int): List<Match>
+        @Path("account_id") playerId: Long,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): List<Match>
 
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatchesByHero(
-            @Path("account_id") playerId: Long,
-            @Query("hero_id") heroId: Int,
-            @Query("limit") limit: Int,
-            @Query("offset") offset: Int): List<Match>
+        @Path("account_id") playerId: Long,
+        @Query("hero_id") heroId: Int,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): List<Match>
 
     @GET("players/{account_id}/heroes")
     suspend fun getHeroes(@Path("account_id") playerId: Long): List<Hero>

@@ -2,19 +2,20 @@ package com.nikola.jakshic.dagger.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.nikola.jakshic.dagger.bookmark.Bookmark
 import com.nikola.jakshic.dagger.bookmark.BookmarkDao
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.bookmark.Bookmark
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-        private val playerDao: PlayerDao,
-        private val bookmarkDao: BookmarkDao,
-        private val repo: PlayerRepository) : ScopedViewModel() {
+    private val playerDao: PlayerDao,
+    private val bookmarkDao: BookmarkDao,
+    private val repo: PlayerRepository
+) : ScopedViewModel() {
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>

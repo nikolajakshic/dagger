@@ -4,12 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.di.GlideApp
 import kotlinx.android.synthetic.main.item_stream.view.*
 
 class StreamAdapter(
-        private val listener: (userName: String) -> Unit
+    private val listener: (userName: String) -> Unit
 ) : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
 
     private var list: List<Stream>? = null
@@ -42,8 +42,8 @@ class StreamAdapter(
                 tvViewerCount.text = "${item.viewerCount}"
                 // Must be the same aspect ratio as imgThumbnail's layout_width/layout_height.
                 val thumbnailUrl = item.thumbnailUrl
-                        .replace("{width}", "260")
-                        .replace("{height}", "160")
+                    .replace("{width}", "260")
+                    .replace("{height}", "160")
                 GlideApp.with(this).load(thumbnailUrl).into(imgThumbnail)
             }
         }

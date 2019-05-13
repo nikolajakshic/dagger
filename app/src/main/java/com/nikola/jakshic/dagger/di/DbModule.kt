@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
-import androidx.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import dagger.Module
 import dagger.Provides
@@ -44,7 +44,7 @@ class DbModule {
     @Singleton
     fun provideDotaDatabase(context: Context): DotaDatabase {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
-                .fallbackToDestructiveMigration()
-                .build()
+            .fallbackToDestructiveMigration()
+            .build()
     }
 }

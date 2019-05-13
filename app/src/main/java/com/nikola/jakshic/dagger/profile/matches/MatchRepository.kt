@@ -5,26 +5,27 @@ import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
+import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.matchstats.MatchStatsDao
 import com.nikola.jakshic.dagger.matchstats.PlayerStatsDao
-import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.matchstats.Stats
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
-import com.nikola.jakshic.dagger.matchstats.Stats
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.Collections
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MatchRepository @Inject constructor(
-        private val service: OpenDotaService,
-        private val db: DotaDatabase,
-        private val matchDao: MatchDao,
-        private val matchStatsDao: MatchStatsDao,
-        private val playerStatsDao: PlayerStatsDao) {
+    private val service: OpenDotaService,
+    private val db: DotaDatabase,
+    private val matchDao: MatchDao,
+    private val matchStatsDao: MatchStatsDao,
+    private val playerStatsDao: PlayerStatsDao
+) {
 
     /**
      * Constructs the [LiveData] which emits every time
@@ -34,22 +35,22 @@ class MatchRepository @Inject constructor(
 
         val factory = matchDao.getMatches(id)
         val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(40)
-                .setPageSize(20)
-                .setPrefetchDistance(5)
-                .build()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(40)
+            .setPageSize(20)
+            .setPrefetchDistance(5)
+            .build()
 
         val boundaryCallback = MatchBoundaryCallback(scope, service, matchDao, id)
 
         val pagedList = LivePagedListBuilder(factory, config)
-                .setBoundaryCallback(boundaryCallback)
-                .build()
+            .setBoundaryCallback(boundaryCallback)
+            .build()
 
         return Response(
-                pagedList = pagedList,
-                status = boundaryCallback.status,
-                retry = { boundaryCallback.retry() })
+            pagedList = pagedList,
+            status = boundaryCallback.status,
+            retry = { boundaryCallback.retry() })
     }
 
     /**
@@ -71,8 +72,8 @@ class MatchRepository @Inject constructor(
                 // we want to fetch only 20 from the network
                     service.getMatches(id, 20, 0)
                 list.map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it           // about who played this matches, so we need to set this manually
+                    it.accountId = id // response from the network doesn't contain any information
+                    it // about who played this matches, so we need to set this manually
                 }
                 if (list.isNotEmpty()) {
                     matchDao.deleteMatches(id)
@@ -88,19 +89,19 @@ class MatchRepository @Inject constructor(
     fun fetchMatchesByHero(accountId: Long, heroId: Int): PagedResponse<Match> {
         val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service)
         val config = PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setInitialLoadSizeHint(60)
-                .setPageSize(20)
-                .setPrefetchDistance(15)
-                .build()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(60)
+            .setPageSize(20)
+            .setPrefetchDistance(15)
+            .build()
         val livePagedList = LivePagedListBuilder(sourceFactory, config)
-                .build()
+            .build()
 
         return PagedResponse(
-                pagedList = livePagedList,
-                status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
-                refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
-                retry = { sourceFactory.sourceLiveData.value?.retry() })
+            pagedList = livePagedList,
+            status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
+            refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
+            retry = { sourceFactory.sourceLiveData.value?.retry() })
     }
 
     /**

@@ -2,16 +2,21 @@ package com.nikola.jakshic.dagger.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.profile.PlayerRepository
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.profile.Player
-import kotlinx.coroutines.*
+import com.nikola.jakshic.dagger.profile.PlayerRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(
-        private val dao: SearchHistoryDao,
-        private val repository: PlayerRepository
+    private val dao: SearchHistoryDao,
+    private val repository: PlayerRepository
 ) : ScopedViewModel() {
 
     private var job = Job()

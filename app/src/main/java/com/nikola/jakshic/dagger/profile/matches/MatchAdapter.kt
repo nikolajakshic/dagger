@@ -8,14 +8,15 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_match.view.*
 import java.util.concurrent.TimeUnit
 
 class MatchAdapter(
-        val listener: (Long) -> Unit) : PagedListAdapter<Match, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
+    val listener: (Long) -> Unit
+) : PagedListAdapter<Match, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
         return MatchVH(parent.inflate(R.layout.item_match))

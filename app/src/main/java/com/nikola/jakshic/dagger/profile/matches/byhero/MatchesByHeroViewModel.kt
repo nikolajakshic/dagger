@@ -2,10 +2,10 @@ package com.nikola.jakshic.dagger.profile.matches.byhero
 
 import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.profile.matches.Match
+import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

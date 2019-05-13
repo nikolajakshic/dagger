@@ -5,10 +5,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.search.SearchHistoryDao
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.search.SearchHistoryDao
 import kotlinx.android.synthetic.main.settings_item_history.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 

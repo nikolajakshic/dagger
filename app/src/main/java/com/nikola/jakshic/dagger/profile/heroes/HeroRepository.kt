@@ -9,8 +9,9 @@ import javax.inject.Singleton
 
 @Singleton
 class HeroRepository @Inject constructor(
-        private val dao: HeroDao,
-        private val service: OpenDotaService) {
+    private val dao: HeroDao,
+    private val service: OpenDotaService
+) {
 
     /**
      * Constructs the [LiveData] which emits every time
@@ -48,8 +49,8 @@ class HeroRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val heroes = service.getHeroes(id)
                 heroes.map {
-                    it.accountId = id   // response from the network doesn't contain any information
-                    it          // about who played this heroes, so we need to set this manually
+                    it.accountId = id // response from the network doesn't contain any information
+                    it // about who played this heroes, so we need to set this manually
                 }
                 dao.insertHeroes(heroes)
             }

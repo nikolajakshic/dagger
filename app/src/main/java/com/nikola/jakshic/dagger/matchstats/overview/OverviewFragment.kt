@@ -15,13 +15,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.di.GlideApp
+import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.profile.ProfileActivity
-import com.nikola.jakshic.dagger.util.DotaUtil
-import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.matchstats.PlayerStats
 import com.nikola.jakshic.dagger.matchstats.Stats
+import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
@@ -31,8 +31,11 @@ import java.util.concurrent.TimeUnit
 
 class OverviewFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 

@@ -11,9 +11,10 @@ class _Leaderboard(@Json(name = "leaderboard") val leaderboard: List<Leaderboard
 @Entity(tableName = "leaderboards")
 @JsonClass(generateAdapter = true)
 data class Leaderboard(
-        @PrimaryKey(autoGenerate = true) var id: Int = 0,
-        @Json(name = "name") var name: String?,
-        var region: String?)
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @Json(name = "name") var name: String?,
+    var region: String?
+)
 
 enum class Region {
     AMERICAS,

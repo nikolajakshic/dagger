@@ -11,18 +11,18 @@ import com.nikola.jakshic.dagger.profile.peers.PeerFragment
 class ProfilePagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int) =
-            when (position) {
-                0 -> MatchFragment()
-                1 -> HeroFragment()
-                else -> PeerFragment()
-            }
+        when (position) {
+            0 -> MatchFragment()
+            1 -> HeroFragment()
+            else -> PeerFragment()
+        }
 
     override fun getPageTitle(position: Int) =
-            when (position) {
-                0 -> context.getString(R.string.matches)
-                1 -> context.getString(R.string.heroes)
-                else -> context.getString(R.string.peers)
-            }
+        when (position) {
+            0 -> context.getString(R.string.matches)
+            1 -> context.getString(R.string.heroes)
+            else -> context.getString(R.string.peers)
+        }
 
     override fun getCount() = 3
 }

@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.hasNetworkConnection
-import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.bookmark.PlayerAdapter
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.bookmark.PlayerAdapter
+import com.nikola.jakshic.dagger.common.hasNetworkConnection
+import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject

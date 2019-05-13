@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.common.network
 
 import com.squareup.moshi.FromJson
-import kotlin.annotation.AnnotationRetention.*
+import kotlin.annotation.AnnotationRetention.RUNTIME
 
 class NullPrimitiveAdapter {
     @FromJson

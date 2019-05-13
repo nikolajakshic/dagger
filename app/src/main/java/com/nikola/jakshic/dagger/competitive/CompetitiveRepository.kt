@@ -11,8 +11,9 @@ import javax.inject.Singleton
 
 @Singleton
 class CompetitiveRepository @Inject constructor(
-        private val dao: CompetitiveDao,
-        private val service: OpenDotaService) {
+    private val dao: CompetitiveDao,
+    private val service: OpenDotaService
+) {
 
     /**
      * Constructs the [LiveData] which emits every time
@@ -21,11 +22,11 @@ class CompetitiveRepository @Inject constructor(
     fun getCompetitiveLiveData(): LiveData<PagedList<Competitive>> {
         val factory = dao.getMatches()
         val config = PagedList.Config.Builder()
-                .setInitialLoadSizeHint(80)
-                .setPageSize(40)
-                .setPrefetchDistance(15)
-                .setEnablePlaceholders(false)
-                .build()
+            .setInitialLoadSizeHint(80)
+            .setPageSize(40)
+            .setPrefetchDistance(15)
+            .setEnablePlaceholders(false)
+            .build()
         return LivePagedListBuilder(factory, config).build()
     }
 
