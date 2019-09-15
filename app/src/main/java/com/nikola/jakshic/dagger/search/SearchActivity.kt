@@ -132,9 +132,9 @@ class SearchActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.putString(STATE_QUERY, searchView.query.toString())
-        outState?.putBoolean(STATE_FOCUS, searchView.hasFocus())
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putString(STATE_QUERY, searchView.query.toString())
+        outState.putBoolean(STATE_FOCUS, searchView.hasFocus())
         super.onSaveInstanceState(outState)
     }
 }
