@@ -3,9 +3,9 @@ package com.nikola.jakshic.dagger.stream
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.di.GlideApp
 import kotlinx.android.synthetic.main.item_stream.view.*
 
 class StreamAdapter(
@@ -44,7 +44,7 @@ class StreamAdapter(
                 val thumbnailUrl = item.thumbnailUrl
                     .replace("{width}", "260")
                     .replace("{height}", "160")
-                GlideApp.with(this).load(thumbnailUrl).into(imgThumbnail)
+                imgThumbnail.load(thumbnailUrl)
             }
         }
     }

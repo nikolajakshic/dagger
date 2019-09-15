@@ -11,11 +11,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.toolbar_profile.*
@@ -43,12 +44,14 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.profile.observe(this, Observer {
             if (it != null) {
-                GlideApp.with(this).load(it.avatarUrl).circleCrop().into(imgPlayerAvatar)
+                imgPlayerAvatar.load(it.avatarUrl) {
+                    transformations(CircleCropTransformation())
+                }
 
                 val medal = DotaUtil.getMedal(this, it.rankTier, it.leaderboardRank)
                 val stars = DotaUtil.getStars(this, it.rankTier, it.leaderboardRank)
-                GlideApp.with(this).load(medal).into(imgRankMedal)
-                GlideApp.with(this).load(stars).into(imgRankStars)
+                imgRankMedal.load(medal)
+                imgRankStars.load(stars)
 
                 val name = if (TextUtils.isEmpty(it.name)) it.personaName else it.name
                 collapsingToolbar.title = name

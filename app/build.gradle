@@ -61,9 +61,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
     // ImageLoading
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'io.coil-kt:coil:0.7.0'
     // Dependency Injection
     implementation 'com.google.dagger:dagger:2.22.1'
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
@@ -83,6 +81,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+}
+
+// Coil requires Java 8 bytecode.
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 task ktlint(type: JavaExec, group: "verification") {

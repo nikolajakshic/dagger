@@ -4,9 +4,10 @@ import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.profile.Player
 import kotlinx.android.synthetic.main.item_player.view.*
 
@@ -39,7 +40,9 @@ class PlayerAdapter(val listener: (Player) -> Unit) : RecyclerView.Adapter<Playe
             with(itemView) {
                 tvPlayerName.text = if (TextUtils.isEmpty(item.name)) item.personaName else item.name
                 tvPlayerId.text = item.id.toString()
-                GlideApp.with(this).load(item.avatarUrl).circleCrop().into(imgAvatar)
+                imgAvatar.load(item.avatarUrl) {
+                    transformations(CircleCropTransformation())
+                }
             }
         }
     }

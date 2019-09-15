@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_match.view.*
 import java.util.concurrent.TimeUnit
@@ -34,7 +34,7 @@ class MatchAdapter(
 
         fun bind(item: Match) {
             with(itemView) {
-                GlideApp.with(this).load(DotaUtil.getHero(context, item.heroId)).into(imgHero)
+                imgHero.load(DotaUtil.getHero(context, item.heroId))
                 tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
                 val resultColor = if (isWin(item))
                     ContextCompat.getColor(context, R.color.color_green)

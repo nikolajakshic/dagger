@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.di
 
+import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.RegionFragment
@@ -16,10 +17,9 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(DbModule::class), (ViewModelModule::class)])
+@Component(modules = [(DbModule::class), (ViewModelModule::class), (CoilModule::class)])
 interface AppComponent {
-
-    fun inject(glideModule: DaggerGlideModule)
+    fun inject(application: DaggerApp)
 
     fun inject(activity: SearchActivity)
 

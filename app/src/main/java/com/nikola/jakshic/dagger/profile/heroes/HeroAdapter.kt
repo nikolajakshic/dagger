@@ -3,9 +3,9 @@ package com.nikola.jakshic.dagger.profile.heroes
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_hero.view.*
 
@@ -36,7 +36,7 @@ class HeroAdapter(val listener: (Int) -> Unit) : RecyclerView.Adapter<HeroAdapte
 
         fun bind(item: Hero) {
             with(itemView) {
-                GlideApp.with(this).load(DotaUtil.getHero(context, item.heroId)).into(imgHero)
+                imgHero.load(DotaUtil.getHero(context, item.heroId))
                 tvGamesPlayed.text = item.gamesPlayed.toString()
                 val winRate = if (item.gamesPlayed != 0) (item.gamesWon.toFloat() / item.gamesPlayed) * 100 else 0f
                 tvHeroWinRate.text = context.resources.getString(R.string.hero_winrate, winRate)

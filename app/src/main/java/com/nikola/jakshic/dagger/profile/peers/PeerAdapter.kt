@@ -3,9 +3,10 @@ package com.nikola.jakshic.dagger.profile.peers
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.di.GlideApp
 import kotlinx.android.synthetic.main.item_peer.view.*
 
 class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapter.PeerVH>() {
@@ -35,7 +36,9 @@ class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapt
 
         fun bind(item: Peer) {
             with(itemView) {
-                GlideApp.with(this).load(item.avatarfull).circleCrop().into(imgPeerAvatar)
+                imgPeerAvatar.load(item.avatarfull) {
+                    transformations(CircleCropTransformation())
+                }
                 tvPeerName.text = item.personaname
                 tvPeerGamesWith.text = item.withGames.toString()
                 val winRate = (item.withWin.toDouble() / item.withGames) * 100

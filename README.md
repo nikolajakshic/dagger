@@ -25,7 +25,7 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 - [Android Architecture Components](https://developer.android.com/arch)
 - [Retrofit](https://github.com/square/retrofit) for REST api communication
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines.html) for writing asynchronous code
-- [Glide](https://github.com/bumptech/glide) for image loading
+- [Coil](https://github.com/coil-kt/coil) for image loading
 - [Dagger 2](https://github.com/google/dagger) for dependency injection
 
 ## Notes

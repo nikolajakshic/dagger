@@ -13,8 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import coil.api.load
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
@@ -88,7 +88,7 @@ class OverviewFragment : Fragment() {
 
     private fun bindPlayerStats(view: View, item: PlayerStats) {
         with(view) {
-            GlideApp.with(this).load(DotaUtil.getHero(context, item.heroId)).into(imgHero)
+            imgHero.load(DotaUtil.getHero(context, item.heroId))
             tvPlayerName.text = getPlayerName(item)
             val playerColor = ContextCompat.getColor(context, if (item.playerSlot <= 4) R.color.color_green else R.color.color_red)
             tvPlayerName.setTextColor(playerColor)
@@ -104,16 +104,16 @@ class OverviewFragment : Fragment() {
             tvGpm.text = getString(R.string.match_gpm, item.goldPerMin)
             tvXpm.text = getString(R.string.match_xpm, item.xpPerMin)
 
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item0)).into(imgItem0)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item1)).into(imgItem1)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item2)).into(imgItem2)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item3)).into(imgItem3)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item4)).into(imgItem4)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.item5)).into(imgItem5)
+            imgItem0.load(DotaUtil.getItem(context, item.item0))
+            imgItem1.load(DotaUtil.getItem(context, item.item1))
+            imgItem2.load(DotaUtil.getItem(context, item.item2))
+            imgItem3.load(DotaUtil.getItem(context, item.item3))
+            imgItem4.load(DotaUtil.getItem(context, item.item4))
+            imgItem5.load(DotaUtil.getItem(context, item.item5))
 
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack0)).into(imgBackpack0)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack1)).into(imgBackpack1)
-            GlideApp.with(this).load(DotaUtil.getItem(context, item.backpack2)).into(imgBackpack2)
+            imgBackpack0.load(DotaUtil.getItem(context, item.backpack0))
+            imgBackpack1.load(DotaUtil.getItem(context, item.backpack1))
+            imgBackpack2.load(DotaUtil.getItem(context, item.backpack2))
 
             // Having personaName = null means the player has not exposed his data to public,
             // so we don't need to set onClickListener

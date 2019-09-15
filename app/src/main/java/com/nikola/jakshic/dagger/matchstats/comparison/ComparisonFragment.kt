@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import coil.api.load
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.di.GlideApp
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.matchstats.PlayerStats
 import com.nikola.jakshic.dagger.matchstats.Stats
@@ -130,8 +130,8 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         spiderChart.setRotationAngle(120f)
         spiderChart.refresh()
 
-        GlideApp.with(this).load(DotaUtil.getHero(context!!, player1.heroId)).into(imgPlayer1Hero)
-        GlideApp.with(this).load(DotaUtil.getHero(context!!, player2.heroId)).into(imgPlayer2Hero)
+        imgPlayer1Hero.load(DotaUtil.getHero(context!!, player1.heroId))
+        imgPlayer2Hero.load(DotaUtil.getHero(context!!, player2.heroId))
 
         tvPlayer1Name.text = getPlayerName(player1)
         tvPlayer2Name.text = getPlayerName(player2)
@@ -139,27 +139,27 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         tvPlayer1Kda.text = getString(R.string.match_kda, player1.kills, player1.deaths, player1.assists)
         tvPlayer2Kda.text = getString(R.string.match_kda, player2.kills, player2.deaths, player2.assists)
 
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item0)).into(imgPlayer1Item0)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item1)).into(imgPlayer1Item1)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item2)).into(imgPlayer1Item2)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item3)).into(imgPlayer1Item3)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item4)).into(imgPlayer1Item4)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.item5)).into(imgPlayer1Item5)
+        imgPlayer1Item0.load(DotaUtil.getItem(context!!, player1.item0))
+        imgPlayer1Item1.load(DotaUtil.getItem(context!!, player1.item1))
+        imgPlayer1Item2.load(DotaUtil.getItem(context!!, player1.item2))
+        imgPlayer1Item3.load(DotaUtil.getItem(context!!, player1.item3))
+        imgPlayer1Item4.load(DotaUtil.getItem(context!!, player1.item4))
+        imgPlayer1Item5.load(DotaUtil.getItem(context!!, player1.item5))
 
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack0)).into(imgPlayer1Backpack0)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack1)).into(imgPlayer1Backpack1)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player1.backpack2)).into(imgPlayer1Backpack2)
+        imgPlayer1Backpack0.load(DotaUtil.getItem(context!!, player1.backpack0))
+        imgPlayer1Backpack1.load(DotaUtil.getItem(context!!, player1.backpack1))
+        imgPlayer1Backpack2.load(DotaUtil.getItem(context!!, player1.backpack2))
 
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item0)).into(imgPlayer2Item0)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item1)).into(imgPlayer2Item1)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item2)).into(imgPlayer2Item2)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item3)).into(imgPlayer2Item3)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item4)).into(imgPlayer2Item4)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.item5)).into(imgPlayer2Item5)
+        imgPlayer2Item0.load(DotaUtil.getItem(context!!, player2.item0))
+        imgPlayer2Item1.load(DotaUtil.getItem(context!!, player2.item1))
+        imgPlayer2Item2.load(DotaUtil.getItem(context!!, player2.item2))
+        imgPlayer2Item3.load(DotaUtil.getItem(context!!, player2.item3))
+        imgPlayer2Item4.load(DotaUtil.getItem(context!!, player2.item4))
+        imgPlayer2Item5.load(DotaUtil.getItem(context!!, player2.item5))
 
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack0)).into(imgPlayer2Backpack0)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack1)).into(imgPlayer2Backpack1)
-        GlideApp.with(this).load(DotaUtil.getItem(context!!, player2.backpack2)).into(imgPlayer2Backpack2)
+        imgPlayer2Backpack0.load(DotaUtil.getItem(context!!, player2.backpack0))
+        imgPlayer2Backpack1.load(DotaUtil.getItem(context!!, player2.backpack1))
+        imgPlayer2Backpack2.load(DotaUtil.getItem(context!!, player2.backpack2))
     }
 
     private fun getPlayerName(item: PlayerStats) = when {
