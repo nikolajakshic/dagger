@@ -34,7 +34,7 @@ class MatchStatsLayout @JvmOverloads constructor(
 
     override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
-        val ss = State(superState)
+        val ss = State(superState!!)
         ss.expanded = if (expanded) 1 else 0
         return ss
     }
