@@ -34,7 +34,7 @@ import com.nikola.jakshic.dagger.search.SearchHistoryDao
     Bookmark::class,
     MatchStats::class,
     PlayerStats::class
-), version = 6, exportSchema = false)
+), version = 7, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
 
     abstract fun competitiveDao(): CompetitiveDao
