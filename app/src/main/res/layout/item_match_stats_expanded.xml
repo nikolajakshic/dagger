@@ -63,6 +63,7 @@
 
 
     <LinearLayout
+        android:gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -94,6 +95,16 @@
             <ImageView
                 android:scaleType="centerCrop"
                 android:id="@+id/imgBackpack2"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/imgBackpack3"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:background="#d3d3d3"

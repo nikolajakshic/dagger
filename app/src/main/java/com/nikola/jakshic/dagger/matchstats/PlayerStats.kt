@@ -24,6 +24,7 @@ data class PlayerStats(
     @ColumnInfo(name = "backpack_0") @Json(name = "backpack_0") var backpack0: Int,
     @ColumnInfo(name = "backpack_1") @Json(name = "backpack_1") var backpack1: Int,
     @ColumnInfo(name = "backpack_2") @Json(name = "backpack_2") var backpack2: Int,
+    @ColumnInfo(name = "backpack_3") @Json(name = "backpack_3") var backpack3: Int,
     @ColumnInfo(name = "deaths") @Json(name = "deaths") var deaths: Int,
     @ColumnInfo(name = "denies") @Json(name = "denies") var denies: Int,
     @ColumnInfo(name = "gpm") @Json(name = "gold_per_min") var goldPerMin: Int,
