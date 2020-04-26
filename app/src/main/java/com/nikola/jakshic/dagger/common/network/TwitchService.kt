@@ -13,6 +13,6 @@ interface TwitchService {
     }
 
     @GET("streams?game_id=29595")
-    @Headers(BuildConfig.TWITCH_HEADER)
+    @Headers("Client-ID: ${BuildConfig.TWITCH_CLIENT_ID}")
     suspend fun getStreams(@Query("first") limit: Int): StreamBox
 }

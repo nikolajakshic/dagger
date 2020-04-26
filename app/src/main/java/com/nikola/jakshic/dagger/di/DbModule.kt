@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import dagger.Module
@@ -46,5 +47,11 @@ class DbModule {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreference(context: Context): SharedPreferences {
+        return context.getSharedPreferences("dagger_prefs", Context.MODE_PRIVATE)
     }
 }
