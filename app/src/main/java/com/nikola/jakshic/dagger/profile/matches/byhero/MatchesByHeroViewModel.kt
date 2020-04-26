@@ -7,7 +7,6 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.profile.matches.Match
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class MatchesByHeroViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {
@@ -23,14 +22,9 @@ class MatchesByHeroViewModel @Inject constructor(private val repository: MatchRe
     private var initialFetch = false
 
     fun initialFetch(accountId: Long, heroId: Int) {
-        runBlocking {
-            launch {
-                if (!initialFetch) {
-                    initialFetch = true
-
-                    response = repository.fetchMatchesByHero(accountId, heroId)
-                }
-            }
+        if (!initialFetch) {
+            initialFetch = true
+            response = repository.fetchMatchesByHero(accountId, heroId)
         }
     }
 
