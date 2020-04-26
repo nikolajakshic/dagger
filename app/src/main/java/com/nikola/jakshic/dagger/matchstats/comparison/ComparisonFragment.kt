@@ -149,7 +149,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         imgPlayer1Backpack0.load(DotaUtil.getItem(context!!, player1.backpack0))
         imgPlayer1Backpack1.load(DotaUtil.getItem(context!!, player1.backpack1))
         imgPlayer1Backpack2.load(DotaUtil.getItem(context!!, player1.backpack2))
-        imgPlayer1Backpack3.load(DotaUtil.getItem(context!!, player1.backpack3))
+        imgPlayer1ItemNeutral.load(DotaUtil.getItem(context!!, player1.itemNeutral))
 
         imgPlayer2Item0.load(DotaUtil.getItem(context!!, player2.item0))
         imgPlayer2Item1.load(DotaUtil.getItem(context!!, player2.item1))
@@ -161,7 +161,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         imgPlayer2Backpack0.load(DotaUtil.getItem(context!!, player2.backpack0))
         imgPlayer2Backpack1.load(DotaUtil.getItem(context!!, player2.backpack1))
         imgPlayer2Backpack2.load(DotaUtil.getItem(context!!, player2.backpack2))
-        imgPlayer2Backpack3.load(DotaUtil.getItem(context!!, player2.backpack3))
+        imgPlayer2ItemNeutral.load(DotaUtil.getItem(context!!, player2.itemNeutral))
     }
 
     private fun getPlayerName(item: PlayerStats) = when {

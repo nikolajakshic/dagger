@@ -213,7 +213,7 @@
             tools:src="@mipmap/ic_launcher" />
 
         <ImageView
-            android:id="@+id/imgPlayer1Backpack3"
+            android:id="@+id/imgPlayer1ItemNeutral"
             android:layout_width="27dp"
             android:layout_height="22dp"
             android:layout_marginStart="1dp"
@@ -401,7 +401,7 @@
             tools:src="@mipmap/ic_launcher" />
 
         <ImageView
-            android:id="@+id/imgPlayer2Backpack3"
+            android:id="@+id/imgPlayer2ItemNeutral"
             android:layout_width="27dp"
             android:layout_height="22dp"
             android:layout_marginStart="1dp"

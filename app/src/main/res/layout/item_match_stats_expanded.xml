@@ -74,7 +74,7 @@
 
             <ImageView
                 android:scaleType="centerCrop"
-                android:id="@+id/imgBackpack0"
+                android:id="@+id/imgItemNeutral"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:layout_marginEnd="1dp"
@@ -104,7 +104,7 @@
 
             <ImageView
                 android:scaleType="centerCrop"
-                android:id="@+id/imgBackpack3"
+                android:id="@+id/imgBackpack0"
                 android:layout_width="30dp"
                 android:layout_height="25dp"
                 android:background="#d3d3d3"

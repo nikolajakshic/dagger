@@ -114,7 +114,7 @@ class OverviewFragment : Fragment() {
             imgBackpack0.load(DotaUtil.getItem(context, item.backpack0))
             imgBackpack1.load(DotaUtil.getItem(context, item.backpack1))
             imgBackpack2.load(DotaUtil.getItem(context, item.backpack2))
-            imgBackpack3.load(DotaUtil.getItem(context, item.backpack3))
+            imgItemNeutral.load(DotaUtil.getItem(context, item.itemNeutral))
 
             // Having personaName = null means the player has not exposed his data to public,
             // so we don't need to set onClickListener
