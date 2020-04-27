@@ -57,7 +57,7 @@ class OverviewFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(activity!!)[MatchStatsViewModel::class.java]
 
-        viewModel.match.observe(this, Observer {
+        viewModel.match.observe(viewLifecycleOwner, Observer {
             if (it?.playerStats?.size == 10) {
 
                 bind(it)

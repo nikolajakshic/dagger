@@ -55,7 +55,7 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(this, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
 
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {

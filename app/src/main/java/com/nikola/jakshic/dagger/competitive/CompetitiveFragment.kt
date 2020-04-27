@@ -59,8 +59,8 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(this, Observer(adapter::submitList))
-        viewModel.status.observe(this, Observer {
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
+        viewModel.status.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false

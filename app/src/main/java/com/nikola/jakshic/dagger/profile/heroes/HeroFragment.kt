@@ -64,8 +64,8 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(this, Observer(adapter::addData))
-        viewModel.status.observe(this, Observer {
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
+        viewModel.status.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
@@ -91,7 +91,7 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
 
     override fun onSort(sort: Int) {
         // Remove previous observers b/c we are attaching new LiveData
-        viewModel.list.removeObservers(this)
+        viewModel.list.removeObservers(viewLifecycleOwner)
 
         when (sort) {
             0 -> viewModel.sortByGames(id)
@@ -102,6 +102,6 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
         // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
         adapter.addData(null)
         // Attach the observer to the new LiveData
-        viewModel.list.observe(this, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
     }
 }

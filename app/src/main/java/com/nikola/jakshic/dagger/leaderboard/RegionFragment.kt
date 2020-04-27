@@ -63,9 +63,9 @@ class RegionFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(this, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
 
-        viewModel.status.observe(this, Observer {
+        viewModel.status.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false

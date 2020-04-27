@@ -56,7 +56,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
             SELECTED_PLAYER = savedInstanceState.getInt("selectedPlayer", -1)
         }
 
-        viewModel.match.observe(this, Observer { stats ->
+        viewModel.match.observe(viewLifecycleOwner, Observer { stats ->
             if (stats?.playerStats?.size == 10) {
 
                 // Sort by player slot, so that first 5 players are from the Radiant Team,

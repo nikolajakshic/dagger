@@ -61,8 +61,8 @@ class MatchFragment : Fragment() {
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(this, Observer(adapter::submitList))
-        viewModel.refreshStatus.observe(this, Observer {
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
+        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
@@ -71,7 +71,7 @@ class MatchFragment : Fragment() {
 
         var snackbar: Snackbar? = null
 
-        viewModel.loadMoreStatus.observe(this, Observer { status ->
+        viewModel.loadMoreStatus.observe(viewLifecycleOwner, Observer { status ->
             when (status) {
                 Status.LOADING -> {
                     swipeRefresh.isRefreshing = true

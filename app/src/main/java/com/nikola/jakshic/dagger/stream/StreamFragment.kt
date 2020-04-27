@@ -59,13 +59,13 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
         recView.setHasFixedSize(true)
 
         viewModel.initialFetch(100)
-        viewModel.status.observe(this, Observer {
+        viewModel.status.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
         })
-        viewModel.streams.observe(this, Observer(adapter::addData))
+        viewModel.streams.observe(viewLifecycleOwner, Observer(adapter::addData))
 
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
