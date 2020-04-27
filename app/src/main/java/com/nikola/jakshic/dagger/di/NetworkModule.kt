@@ -90,6 +90,7 @@ class NetworkModule(private val context: Context) {
             if (twitchResponse.code() != 401) {
                 return@Interceptor twitchResponse
             }
+            twitchResponse.close() // close response body
             // Either we are communicating with Twitch for the first time, so we don't have saved
             // token, or the token has expired. Either way, we need to get the new one.
             val url = """
@@ -104,7 +105,7 @@ class NetworkModule(private val context: Context) {
                 .build()
             val tokenResponse = it.proceed(tokenRequest)
             if (tokenResponse.isSuccessful && tokenResponse.body() != null) {
-                val tokenBody = tokenResponse.body()!!.string()
+                val tokenBody = tokenResponse.body()!!.string() // string() closes response body
                 val token = moshi.adapter(TwitchAuthentication::class.java)
                     .fromJson(tokenBody)!!
                     .token
