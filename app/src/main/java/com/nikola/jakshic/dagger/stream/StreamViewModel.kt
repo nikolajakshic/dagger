@@ -27,17 +27,17 @@ class StreamViewModel @Inject constructor(
 
     private var initialFetch = false
 
-    fun initialFetch(limit: Int) {
+    fun initialFetch() {
         if (!initialFetch) {
             initialFetch = true
-            getStreams(limit)
+            getStreams()
         }
     }
 
-    fun getStreams(limit: Int) {
+    fun getStreams() {
         _status.value = Status.LOADING
         launch {
-            repository.getStreams(limit, onSuccess, onError)
+            repository.getStreams(onSuccess, onError)
         }
     }
 }

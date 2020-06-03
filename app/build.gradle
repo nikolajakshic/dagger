@@ -22,15 +22,9 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField("String", "TWITCH_CLIENT_ID", "\"${localProperties['twitch_client_id']}\"")
-            buildConfigField("String", "TWITCH_SECRET", "\"${localProperties['twitch_secret']}\"")
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            buildConfigField("String", "TWITCH_CLIENT_ID", "\"${localProperties['twitch_client_id']}\"")
-            buildConfigField("String", "TWITCH_SECRET", "\"${localProperties['twitch_secret']}\"")
         }
     }
     compileOptions {
