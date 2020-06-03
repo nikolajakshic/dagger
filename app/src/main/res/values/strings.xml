@@ -55,6 +55,7 @@
 
     <string name="error_network_connection">Check network connection!</string>
     <string name="error_network">NETWORK ERROR</string>
+    <string name="error_network_try_again">NETWORK ERROR\nTRY AGAIN LATER</string>
     <string name="info_search_history_cleared">Search history cleared!</string>
 
     <string name="unknown">Unknown</string>

@@ -61,8 +61,22 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
         viewModel.initialFetch()
         viewModel.status.observe(viewLifecycleOwner, Observer {
             when (it) {
-                Status.LOADING -> swipeRefresh.isRefreshing = true
-                else -> swipeRefresh.isRefreshing = false
+                Status.LOADING -> {
+                    tvNetworkError.visibility = View.GONE
+                    swipeRefresh.isRefreshing = true
+                }
+                Status.ERROR -> {
+                    swipeRefresh.isRefreshing = false
+                    tvNetworkError.visibility = View.VISIBLE
+                }
+                Status.SUCCESS -> {
+                    tvNetworkError.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
+                }
+                else -> {
+                    tvNetworkError.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
+                }
             }
         })
         viewModel.streams.observe(viewLifecycleOwner, Observer(adapter::addData))
