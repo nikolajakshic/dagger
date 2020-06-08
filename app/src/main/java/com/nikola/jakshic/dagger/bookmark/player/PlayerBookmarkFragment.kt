@@ -17,8 +17,6 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.profile.ProfileActivity
-import com.nikola.jakshic.dagger.search.SearchActivity
-import com.nikola.jakshic.dagger.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_bookmark_player.*
 import javax.inject.Inject
 
@@ -40,7 +38,7 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        toolbar.inflateMenu(R.menu.menu_home)
+        super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProviders.of(this, factory)[PlayerBookmarkViewModel::class.java]
 
@@ -56,20 +54,6 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
-
-        toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.menu_home_search -> {
-                    startActivity(Intent(activity, SearchActivity::class.java))
-                    true
-                }
-                R.id.menu_home_settings -> {
-                    startActivity(Intent(activity, SettingsActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     override fun onItemReselected() {

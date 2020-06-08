@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkFragment
+import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.common.hide
 import com.nikola.jakshic.dagger.common.show
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
@@ -25,7 +25,7 @@ class HomeActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             competitive = CompetitiveFragment()
             leaderboard = LeaderboardFragment()
-            bookmark = PlayerBookmarkFragment()
+            bookmark = BookmarkFragment()
             stream = StreamFragment()
 
             supportFragmentManager.beginTransaction()
@@ -82,7 +82,7 @@ class HomeActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.action_competitive -> (competitive as CompetitiveFragment).onItemReselected()
                 R.id.action_leaderboard -> (leaderboard as LeaderboardFragment).onItemReselected()
-                R.id.action_bookmark -> (bookmark as PlayerBookmarkFragment).onItemReselected()
+                R.id.action_bookmark -> (bookmark as BookmarkFragment).onItemReselected()
                 R.id.action_stream -> (stream as StreamFragment).onItemReselected()
             }
         }
