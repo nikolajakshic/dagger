@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
+import com.nikola.jakshic.dagger.bookmark.player.BookmarkFragment
 import com.nikola.jakshic.dagger.common.hide
 import com.nikola.jakshic.dagger.common.show
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment

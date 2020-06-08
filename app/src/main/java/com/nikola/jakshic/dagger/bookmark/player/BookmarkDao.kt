@@ -1,10 +1,11 @@
-package com.nikola.jakshic.dagger.bookmark
+package com.nikola.jakshic.dagger.bookmark.player
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.nikola.jakshic.dagger.bookmark.player.Bookmark
 import com.nikola.jakshic.dagger.profile.Player
 
 @Dao

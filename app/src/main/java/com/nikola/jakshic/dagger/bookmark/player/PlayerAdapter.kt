@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.bookmark
+package com.nikola.jakshic.dagger.bookmark.player
 
 import android.text.TextUtils
 import android.view.View

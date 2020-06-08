@@ -1,4 +1,4 @@
-package com.nikola.jakshic.dagger.bookmark
+package com.nikola.jakshic.dagger.bookmark.player
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.common.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.nikola.jakshic.dagger.bookmark.Bookmark
-import com.nikola.jakshic.dagger.bookmark.BookmarkDao
+import com.nikola.jakshic.dagger.bookmark.player.Bookmark
+import com.nikola.jakshic.dagger.bookmark.player.BookmarkDao
 import com.nikola.jakshic.dagger.competitive.Competitive
 import com.nikola.jakshic.dagger.competitive.CompetitiveDao
 import com.nikola.jakshic.dagger.leaderboard.Leaderboard

@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.bookmark.Bookmark
-import com.nikola.jakshic.dagger.bookmark.BookmarkDao
+import com.nikola.jakshic.dagger.bookmark.player.Bookmark
+import com.nikola.jakshic.dagger.bookmark.player.BookmarkDao
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.Dispatchers
