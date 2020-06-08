@@ -11,6 +11,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.profile.Player
 import kotlinx.android.synthetic.main.item_player.view.*
 
+// Not renamed because it is shared between Search and Bookmark functionality.
 class PlayerAdapter(val listener: (Player) -> Unit) : RecyclerView.Adapter<PlayerAdapter.PlayerVH>() {
 
     private var list: List<Player>? = null

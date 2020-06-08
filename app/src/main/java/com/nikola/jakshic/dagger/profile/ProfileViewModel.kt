@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.bookmark.player.Bookmark
-import com.nikola.jakshic.dagger.bookmark.player.BookmarkDao
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmark
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkDao
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
     private val playerDao: PlayerDao,
-    private val bookmarkDao: BookmarkDao,
+    private val playerBookmarkDao: PlayerBookmarkDao,
     private val repo: PlayerRepository
 ) : ScopedViewModel() {
 
@@ -36,7 +36,7 @@ class ProfileViewModel @Inject constructor(
         if (!initialFetch) {
             initialFetch = true
             profile = playerDao.getPlayer(id)
-            bookmark = bookmarkDao.getPlayer(id)
+            bookmark = playerBookmarkDao.getPlayer(id)
             fetchProfile(id)
         }
     }
@@ -55,13 +55,13 @@ class ProfileViewModel @Inject constructor(
 
     fun addToBookmark(id: Long) {
         launch {
-            withContext(Dispatchers.IO) { bookmarkDao.addToBookmark(Bookmark(id)) }
+            withContext(Dispatchers.IO) { playerBookmarkDao.addToBookmark(PlayerBookmark(id)) }
         }
     }
 
     fun removeFromBookmark(id: Long) {
         launch {
-            withContext(Dispatchers.IO) { bookmarkDao.removeFromBookmark(id) }
+            withContext(Dispatchers.IO) { playerBookmarkDao.removeFromBookmark(id) }
         }
     }
 }

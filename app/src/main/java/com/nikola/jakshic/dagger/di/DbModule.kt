@@ -32,7 +32,7 @@ class DbModule {
     fun provideLeaderboardDao(db: DotaDatabase) = db.leaderboardDao()
 
     @Provides
-    fun provideBookmarkDao(db: DotaDatabase) = db.bookmarkDao()
+    fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
 
     @Provides
     fun provideMatchStatsDao(db: DotaDatabase) = db.matchStatsDao()

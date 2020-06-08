@@ -22,7 +22,7 @@ import com.nikola.jakshic.dagger.settings.SettingsActivity
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 import javax.inject.Inject
 
-class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
+class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -42,7 +42,7 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         toolbar.inflateMenu(R.menu.menu_home)
 
-        val viewModel = ViewModelProviders.of(this, factory)[BookmarkViewModel::class.java]
+        val viewModel = ViewModelProviders.of(this, factory)[PlayerBookmarkViewModel::class.java]
 
         val adapter = PlayerAdapter {
             val intent = Intent(context, ProfileActivity::class.java)

@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.common.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.nikola.jakshic.dagger.bookmark.player.Bookmark
-import com.nikola.jakshic.dagger.bookmark.player.BookmarkDao
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmark
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkDao
 import com.nikola.jakshic.dagger.competitive.Competitive
 import com.nikola.jakshic.dagger.competitive.CompetitiveDao
 import com.nikola.jakshic.dagger.leaderboard.Leaderboard
@@ -31,7 +31,7 @@ import com.nikola.jakshic.dagger.search.SearchHistoryDao
     Match::class,
     Hero::class,
     Peer::class,
-    Bookmark::class,
+    PlayerBookmark::class,
     MatchStats::class,
     PlayerStats::class
 ), version = 8, exportSchema = false)
@@ -51,7 +51,7 @@ abstract class DotaDatabase : RoomDatabase() {
 
     abstract fun peerDao(): PeerDao
 
-    abstract fun bookmarkDao(): BookmarkDao
+    abstract fun playerBookmarkDao(): PlayerBookmarkDao
 
     abstract fun matchStatsDao(): MatchStatsDao
 

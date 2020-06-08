@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.bookmark.player.BookmarkFragment
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.RegionFragment
 import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
@@ -29,7 +29,7 @@ interface AppComponent {
 
     fun inject(activity: MatchStatsActivity)
 
-    fun inject(fragment: BookmarkFragment)
+    fun inject(fragment: PlayerBookmarkFragment)
 
     fun inject(fragment: PeerFragment)
 
