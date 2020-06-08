@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import com.nikola.jakshic.dagger.search.SearchActivity
 import com.nikola.jakshic.dagger.settings.SettingsActivity
-import kotlinx.android.synthetic.main.fragment_bookmark.*
+import kotlinx.android.synthetic.main.fragment_bookmark_player.*
 import javax.inject.Inject
 
 class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
@@ -36,7 +36,7 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return container?.inflate(R.layout.fragment_bookmark)
+        return container?.inflate(R.layout.fragment_bookmark_player)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
