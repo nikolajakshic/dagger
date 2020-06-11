@@ -37,16 +37,33 @@ class MatchStatsActivity : AppCompatActivity() {
             when (it) {
                 Status.LOADING -> {
                     btnRefresh.isEnabled = false
-                    btnRefresh.visibility = View.GONE
+                    btnRefresh.visibility = View.INVISIBLE
                     progressBar.visibility = View.VISIBLE
                 }
                 else -> {
-                    progressBar.visibility = View.GONE
+                    progressBar.visibility = View.INVISIBLE
                     btnRefresh.visibility = View.VISIBLE
                     btnRefresh.isEnabled = true
                 }
             }
         })
+
+        viewModel.isBookmarked.observe(this, Observer {
+            if (it != 0L) {
+                imgBookmark.setImageResource(R.drawable.ic_match_note_bookmark_active)
+            } else {
+                imgBookmark.setImageResource(R.drawable.ic_match_note_bookmark_inactive)
+            }
+        })
+
+        imgBookmark.setOnClickListener {
+            if (viewModel.isBookmarked.value != 0L) {
+                viewModel.removeFromBookmark(id)
+            } else {
+                viewModel.addToBookmark(id)
+            }
+        }
+
         btnRefresh.setOnClickListener { viewModel.fetchMatchStats(id) }
 
         viewPager.adapter = MatchStatsPagerAdapter(this, supportFragmentManager)

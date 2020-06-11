@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/tvMatchNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ellipsize="end"
+        android:maxLength="@integer/match_note_character_limit"
+        android:maxLines="1"
+        tools:text="Touch and hold to add a note." />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgPlayer1"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer2"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer3"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer4"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer5"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgWinnerRadiant"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_trophy"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvRadiantScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/color_green"
+            tools:text="53" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imgPlayer6"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer7"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer8"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer9"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgPlayer10"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginRight="1dp"
+                android:background="#d3d3d3"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/imgWinnerDire"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:src="@drawable/ic_trophy"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDireScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/color_red"
+            tools:text="24" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvMatchId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textSize="12sp"
+            tools:text="ID 4743170778" />
+
+        <TextView
+            android:id="@+id/tvTimePassed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp"
+            tools:text="2 hours ago" />
+    </LinearLayout>
+</LinearLayout>

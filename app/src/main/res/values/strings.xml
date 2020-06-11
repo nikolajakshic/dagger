@@ -4,6 +4,7 @@
     <string name="team_radiant">The Radiant</string>
     <string name="team_dire">The Dire</string>
 
+    <string name="players">Players</string>
     <string name="player_games">Games: %1$d</string>
     <string name="player_winrate">Winrate: %1$.2f%%</string>
     <string name="player_wins">Wins: %1$d</string>
@@ -69,6 +70,9 @@
     <string name="unfollow">Unfollow</string>
     <string name="search_players">Search Players</string>
     <string name="retry">Retry</string>
+    <string name="save">SAVE</string>
+
+    <string name="note_touch_and_hold">Touch and hold to add a note.</string>
 
     <string-array name="sort_hero_options">
         <item>Total games</item>

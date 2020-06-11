@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
 import com.nikola.jakshic.dagger.DaggerApp
+import com.nikola.jakshic.dagger.bookmark.match.MatchBookmarkFragment
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.RegionFragment
@@ -30,6 +31,8 @@ interface AppComponent {
     fun inject(activity: MatchStatsActivity)
 
     fun inject(fragment: PlayerBookmarkFragment)
+
+    fun inject(fragment: MatchBookmarkFragment)
 
     fun inject(fragment: PeerFragment)
 

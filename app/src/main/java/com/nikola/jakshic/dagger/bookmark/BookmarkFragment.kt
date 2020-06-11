@@ -15,8 +15,11 @@ import kotlinx.android.synthetic.main.fragment_bookmark.*
 class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
     private lateinit var adapter: BookmarkPagerAdapter
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_bookmark, container, false)
     }
@@ -25,7 +28,7 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         super.onViewCreated(view, savedInstanceState)
         toolbar.inflateMenu(R.menu.menu_home)
 
-        adapter = BookmarkPagerAdapter(childFragmentManager)
+        adapter = BookmarkPagerAdapter(context!!, childFragmentManager)
 
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

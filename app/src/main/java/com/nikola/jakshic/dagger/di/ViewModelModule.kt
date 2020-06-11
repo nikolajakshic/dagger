@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.nikola.jakshic.dagger.bookmark.match.MatchBookmarkViewModel
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkViewModel
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.competitive.CompetitiveViewModel
@@ -40,6 +41,11 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(PlayerBookmarkViewModel::class)
     fun bindPlayerBookmarkViewModel(viewModel: PlayerBookmarkViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MatchBookmarkViewModel::class)
+    fun bindMatchBookmarkViewModel(viewModel: MatchBookmarkViewModel): ViewModel
 
     @Binds
     @IntoMap
