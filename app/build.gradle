@@ -1,14 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-kapt'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
-def localPropertiesFile = rootProject.file("local.properties")
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(localPropertiesFile))
 
 android {
     compileSdkVersion 29
