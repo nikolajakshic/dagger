@@ -11,6 +11,7 @@ import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.toast
 import kotlinx.android.synthetic.main.activity_match_stats.*
 import javax.inject.Inject
 
@@ -61,6 +62,7 @@ class MatchStatsActivity : AppCompatActivity() {
                 viewModel.removeFromBookmark(id)
             } else {
                 viewModel.addToBookmark(id)
+                toast("Bookmarked!")
             }
         }
 
