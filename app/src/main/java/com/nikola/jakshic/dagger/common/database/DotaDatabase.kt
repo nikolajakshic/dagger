@@ -6,8 +6,7 @@ import com.nikola.jakshic.dagger.bookmark.match.MatchBookmark
 import com.nikola.jakshic.dagger.bookmark.match.MatchBookmarkDao
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmark
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkDao
-import com.nikola.jakshic.dagger.competitive.Competitive
-import com.nikola.jakshic.dagger.competitive.CompetitiveDao
+import com.nikola.jakshic.dagger.competitive.CompetitiveJson
 import com.nikola.jakshic.dagger.leaderboard.Leaderboard
 import com.nikola.jakshic.dagger.leaderboard.LeaderboardDao
 import com.nikola.jakshic.dagger.matchstats.MatchStats
@@ -26,7 +25,7 @@ import com.nikola.jakshic.dagger.search.SearchHistory
 import com.nikola.jakshic.dagger.search.SearchHistoryDao
 
 @Database(entities = arrayOf(
-    Competitive::class,
+    CompetitiveJson::class,
     Leaderboard::class,
     Player::class,
     SearchHistory::class,
@@ -39,8 +38,6 @@ import com.nikola.jakshic.dagger.search.SearchHistoryDao
     PlayerStats::class
 ), version = 9, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
-
-    abstract fun competitiveDao(): CompetitiveDao
 
     abstract fun leaderboardDao(): LeaderboardDao
 

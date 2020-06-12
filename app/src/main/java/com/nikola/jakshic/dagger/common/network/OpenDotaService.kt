@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.common.network
 
-import com.nikola.jakshic.dagger.competitive.Competitive
+import com.nikola.jakshic.dagger.competitive.CompetitiveJson
 import com.nikola.jakshic.dagger.leaderboard._Leaderboard
 import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.profile.Player
@@ -52,7 +52,7 @@ interface OpenDotaService {
     suspend fun getMatch(@Path("match_id") matchId: Long): MatchStats
 
     @GET("proMatches")
-    suspend fun getCompetitiveMatches(): List<Competitive>
+    suspend fun getCompetitiveMatches(): List<CompetitiveJson>
 
     @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
     suspend fun getLeaderboard(@Query("division") region: String): _Leaderboard

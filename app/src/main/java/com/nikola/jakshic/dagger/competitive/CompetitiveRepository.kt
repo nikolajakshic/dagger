@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.sqldelight.Competitive
+import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
+import com.squareup.sqldelight.android.paging.QueryDataSourceFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -11,7 +14,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CompetitiveRepository @Inject constructor(
-    private val dao: CompetitiveDao,
+    private val competitiveQueries: CompetitiveQueries,
     private val service: OpenDotaService
 ) {
 
@@ -20,7 +23,11 @@ class CompetitiveRepository @Inject constructor(
      * the requested data in the database has changed
      */
     fun getCompetitiveLiveData(): LiveData<PagedList<Competitive>> {
-        val factory = dao.getMatches()
+        val factory = QueryDataSourceFactory(
+            queryProvider = competitiveQueries::getMatches,
+            countQuery = competitiveQueries.countMatches(),
+            transacter = competitiveQueries
+        )
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(80)
             .setPageSize(40)
@@ -40,7 +47,22 @@ class CompetitiveRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val matches = service.getCompetitiveMatches()
-                dao.insertMatches(matches)
+                    .map {
+                        Competitive(
+                            match_id = it.matchId,
+                            start_time = it.startTime,
+                            duration = it.duration.toLong(),
+                            radiant_name = it.radiantName,
+                            dire_name = it.direName,
+                            league_name = it.leagueName,
+                            radiant_score = it.radiantScore.toLong(),
+                            dire_score = it.direScore.toLong(),
+                            radiant_win = it.isRadiantWin
+                        )
+                    }
+                competitiveQueries.transaction {
+                    matches.forEach(competitiveQueries::insert)
+                }
             }
             onSuccess()
         } catch (e: Exception) {

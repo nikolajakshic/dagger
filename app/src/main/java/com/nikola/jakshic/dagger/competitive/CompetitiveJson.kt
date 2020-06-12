@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "competitive")
 @JsonClass(generateAdapter = true)
-data class Competitive(
+data class CompetitiveJson(
     @PrimaryKey @ColumnInfo(name = "match_id") @Json(name = "match_id") var matchId: Long,
     @ColumnInfo(name = "start_time") @Json(name = "start_time") var startTime: Long,
     @ColumnInfo(name = "duration") @Json(name = "duration") var duration: Int,
