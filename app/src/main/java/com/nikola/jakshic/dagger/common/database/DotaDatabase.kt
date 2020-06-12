@@ -20,7 +20,6 @@ import com.nikola.jakshic.dagger.profile.matches.MatchDao
 import com.nikola.jakshic.dagger.profile.peers.Peer
 import com.nikola.jakshic.dagger.profile.peers.PeerDao
 import com.nikola.jakshic.dagger.search.SearchHistory
-import com.nikola.jakshic.dagger.search.SearchHistoryDao
 
 @Database(entities = arrayOf(
     CompetitiveJson::class,
@@ -36,8 +35,6 @@ import com.nikola.jakshic.dagger.search.SearchHistoryDao
     PlayerStats::class
 ), version = 9, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
-
-    abstract fun searchHistoryDao(): SearchHistoryDao
 
     abstract fun matchDao(): MatchDao
 
