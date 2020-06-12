@@ -44,21 +44,21 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.profile.observe(this, Observer {
             if (it != null) {
-                imgPlayerAvatar.load(it.avatarUrl) {
+                imgPlayerAvatar.load(it.avatar_url) {
                     transformations(CircleCropTransformation())
                 }
 
-                val medal = DotaUtil.getMedal(this, it.rankTier, it.leaderboardRank)
-                val stars = DotaUtil.getStars(this, it.rankTier, it.leaderboardRank)
+                val medal = DotaUtil.getMedal(this, it.rank_tier.toInt(), it.leaderboard_rank.toInt())
+                val stars = DotaUtil.getStars(this, it.rank_tier.toInt(), it.leaderboard_rank.toInt())
                 imgRankMedal.load(medal)
                 imgRankStars.load(stars)
 
-                val name = if (TextUtils.isEmpty(it.name)) it.personaName else it.name
+                val name = if (TextUtils.isEmpty(it.name)) it.persona_name else it.name
                 collapsingToolbar.title = name
                 tvPlayerName.text = name
 
-                tvLeaderboardRank.text = if (it.leaderboardRank != 0) it.leaderboardRank.toString() else null
-                tvPlayerId.text = it.id.toString()
+                tvLeaderboardRank.text = if (it.leaderboard_rank != 0L) it.leaderboard_rank.toString() else null
+                tvPlayerId.text = it.account_id.toString()
                 tvPlayerGames.text = resources.getString(R.string.player_games, it.wins + it.losses)
                 tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins)
                 tvPlayerLosses.text = resources.getString(R.string.player_losses, it.losses)

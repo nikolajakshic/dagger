@@ -6,6 +6,7 @@ import com.nikola.jakshic.dagger.Database
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -14,9 +15,6 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class DbModule {
-
-    @Provides
-    fun providePlayerDao(db: DotaDatabase) = db.playerDao()
 
     @Provides
     fun provideSearchHistoryDao(db: DotaDatabase) = db.searchHistoryDao()
@@ -48,6 +46,12 @@ class DbModule {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePlayerQueries(database: Database): PlayerQueries {
+        return database.playerQueries
     }
 
     @Provides

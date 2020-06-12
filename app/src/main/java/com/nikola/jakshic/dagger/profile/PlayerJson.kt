@@ -8,14 +8,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 class _Player(
-    @Json(name = "profile") val player: Player?,
+    @Json(name = "profile") val player: PlayerJson?,
     @Json(name = "rank_tier") val rankTier: Int,
     @Json(name = "leaderboard_rank") val leaderboardRank: Int
 )
 
 @Entity(tableName = "players")
 @JsonClass(generateAdapter = true)
-data class Player(
+data class PlayerJson(
     @PrimaryKey @ColumnInfo(name = "account_id") @Json(name = "account_id") var id: Long = 0,
     @ColumnInfo(name = "name") @Json(name = "name") var name: String?,
     @ColumnInfo(name = "persona_name") @Json(name = "personaname") var personaName: String?,

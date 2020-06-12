@@ -6,13 +6,18 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmark
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkDao
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Players
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val playerDao: PlayerDao,
+    private val playerQueries: PlayerQueries,
     private val playerBookmarkDao: PlayerBookmarkDao,
     private val repo: PlayerRepository
 ) : ScopedViewModel() {
@@ -21,10 +26,11 @@ class ProfileViewModel @Inject constructor(
     val status: LiveData<Status>
         get() = _status
 
-    lateinit var profile: LiveData<Player>
-        private set
+    private val _profile = MutableLiveData<Players>()
+    val profile: LiveData<Players>
+        get() = _profile
 
-    lateinit var bookmark: LiveData<Player>
+    lateinit var bookmark: LiveData<PlayerJson>
         private set
 
     private var initialFetch = false
@@ -35,7 +41,12 @@ class ProfileViewModel @Inject constructor(
     fun getProfile(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            profile = playerDao.getPlayer(id)
+            launch {
+                playerQueries.select(id)
+                    .asFlow()
+                    .mapToOneOrNull(Dispatchers.IO)
+                    .collect { _profile.value = it }
+            }
             bookmark = playerBookmarkDao.getPlayer(id)
             fetchProfile(id)
         }

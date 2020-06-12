@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.profile.Player
+import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile.PlayerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +22,8 @@ class SearchViewModel @Inject constructor(
     private var job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
-    private val _playerList = MutableLiveData<List<Player>>()
-    val playerList: LiveData<List<Player>>
+    private val _playerList = MutableLiveData<List<PlayerJson>>()
+    val playerList: LiveData<List<PlayerJson>>
         get() = _playerList
 
     private val _historyList = MutableLiveData<List<SearchHistory>>()
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(
     val status: LiveData<Status>
         get() = _status
 
-    private val onSuccess: (List<Player>) -> Unit = {
+    private val onSuccess: (List<PlayerJson>) -> Unit = {
         _status.value = Status.SUCCESS
         _playerList.value = it
     }
