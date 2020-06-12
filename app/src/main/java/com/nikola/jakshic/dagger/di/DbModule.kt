@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.nikola.jakshic.dagger.Database
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
+import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -30,9 +31,6 @@ class DbModule {
     fun provideMatchDao(db: DotaDatabase) = db.matchDao()
 
     @Provides
-    fun provideLeaderboardDao(db: DotaDatabase) = db.leaderboardDao()
-
-    @Provides
     fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
 
     @Provides
@@ -56,6 +54,12 @@ class DbModule {
     @Singleton
     fun provideCompetitiveQueries(database: Database): CompetitiveQueries {
         return database.competitiveQueries
+    }
+
+    @Provides
+    @Singleton
+    fun provideLeaderboardQueries(database: Database): LeaderboardQueries {
+        return database.leaderboardQueries
     }
 
     @Provides

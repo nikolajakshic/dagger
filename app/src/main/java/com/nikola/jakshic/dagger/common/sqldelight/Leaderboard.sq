@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS `leaderboards` (
+    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    `name` TEXT,
+    `region` TEXT
+);
+
+selectAll:
+SELECT * FROM `leaderboards` WHERE `region` = :region;
+
+insert:
+INSERT INTO `leaderboards` (`name`,`region`) VALUES ?;
+
+deleteAllByRegion:
+DELETE FROM `leaderboards` WHERE `region` = :region;
