@@ -62,7 +62,6 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.0.0'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
-    implementation "com.squareup.sqldelight:android-paging-extensions:$sqldelight_version"
     implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqldelight_version"
     // Paging
     implementation 'androidx.paging:paging-runtime:2.0.0'
