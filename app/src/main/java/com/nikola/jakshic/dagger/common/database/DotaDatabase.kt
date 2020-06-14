@@ -15,8 +15,7 @@ import com.nikola.jakshic.dagger.matchstats.PlayerStatsDao
 import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile.heroes.Hero
 import com.nikola.jakshic.dagger.profile.heroes.HeroDao
-import com.nikola.jakshic.dagger.profile.matches.Match
-import com.nikola.jakshic.dagger.profile.matches.MatchDao
+import com.nikola.jakshic.dagger.profile.matches.MatchJson
 import com.nikola.jakshic.dagger.profile.peers.Peer
 import com.nikola.jakshic.dagger.profile.peers.PeerDao
 import com.nikola.jakshic.dagger.search.SearchHistory
@@ -26,7 +25,7 @@ import com.nikola.jakshic.dagger.search.SearchHistory
     LeaderboardJson::class,
     PlayerJson::class,
     SearchHistory::class,
-    Match::class,
+    MatchJson::class,
     Hero::class,
     Peer::class,
     PlayerBookmark::class,
@@ -35,8 +34,6 @@ import com.nikola.jakshic.dagger.search.SearchHistory
     PlayerStats::class
 ), version = 9, exportSchema = false)
 abstract class DotaDatabase : RoomDatabase() {
-
-    abstract fun matchDao(): MatchDao
 
     abstract fun heroDao(): HeroDao
 

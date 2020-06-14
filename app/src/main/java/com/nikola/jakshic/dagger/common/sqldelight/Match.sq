@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS matches (
+    `account_id` INTEGER NOT NULL,
+    `match_id` INTEGER NOT NULL,
+    `hero_id` INTEGER NOT NULL,
+    `player_slot` INTEGER NOT NULL,
+    `skill` INTEGER NOT NULL,
+    `duration` INTEGER NOT NULL,
+    `mode` INTEGER NOT NULL,
+    `lobby` INTEGER NOT NULL,
+    `radiant_win` INTEGER AS Boolean NOT NULL,
+    `start_time` INTEGER NOT NULL,
+    PRIMARY KEY(`match_id`, `account_id`)
+);
+
+selectAll:
+SELECT * FROM matches
+WHERE matches.`account_id` = :accountId
+ORDER BY matches.`match_id` DESC
+LIMIT :limit
+OFFSET :offset;
+
+countMatches:
+SELECT COUNT(matches.`account_id`) FROM matches WHERE matches.`account_id` = :acountId;
+
+insert:
+INSERT OR REPLACE INTO matches (
+    `account_id`,
+    `match_id`,
+    `hero_id`,
+    `player_slot`,
+    `skill`,
+    `duration`,
+    `mode`,
+    `lobby`,
+    `radiant_win`,
+    `start_time`
+) VALUES ?;
+
+deleteAll:
+DELETE FROM matches WHERE matches.`account_id` = :id;

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,9 +14,9 @@ import kotlinx.coroutines.withContext
 class MatchBoundaryCallback(
     private val scope: CoroutineScope,
     private val service: OpenDotaService,
-    private val dao: MatchDao,
+    private val matchQueries: MatchQueries,
     private val id: Long
-) : PagedList.BoundaryCallback<Match>() {
+) : PagedList.BoundaryCallback<MatchUI>() {
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -32,18 +33,20 @@ class MatchBoundaryCallback(
         retry?.invoke()
     }
 
-    override fun onItemAtEndLoaded(itemAtEnd: Match) {
+    override fun onItemAtEndLoaded(itemAtEnd: MatchUI) {
         scope.launch {
             try {
                 _status.value = Status.LOADING
                 withContext(Dispatchers.IO) {
-                    val count = dao.getMatchCount(id)
-                    val list = service.getMatches(id, 20, count)
-                    list.map {
-                        it.accountId = id // response from the network doesn't contain any information
-                        it // about who played this matches, so we need to set this manually
+                    val count = matchQueries.countMatches(id).executeAsOne()
+                    val list = service.getMatches(id, 20, count.toInt())
+                        .map {
+                            it.accountId = id // response from the network doesn't contain any information
+                            it // about who played this matches, so we need to set this manually
+                        }
+                    matchQueries.transaction {
+                        list.forEach { matchQueries.insert(it.mapToDb()) }
                     }
-                    dao.insertMatches(list)
                 }
                 _status.value = Status.SUCCESS
             } catch (e: Exception) {

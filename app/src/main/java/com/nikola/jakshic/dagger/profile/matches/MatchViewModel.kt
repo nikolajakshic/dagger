@@ -12,7 +12,7 @@ class MatchViewModel @Inject constructor(private val repository: MatchRepository
 
     private lateinit var response: Response
 
-    val list: LiveData<PagedList<Match>>
+    val list: LiveData<PagedList<MatchUI>>
         get() = response.pagedList
 
     private val _refreshStatus = MutableLiveData<Status>()

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 class MatchAdapter(
     val listener: (Long) -> Unit
-) : PagedListAdapter<Match, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
+) : PagedListAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
         return MatchVH(parent.inflate(R.layout.item_match))
@@ -32,7 +32,7 @@ class MatchAdapter(
             itemView.setOnClickListener { listener(getItem(adapterPosition)!!.matchId) }
         }
 
-        fun bind(item: Match) {
+        fun bind(item: MatchUI) {
             with(itemView) {
                 imgHero.load(DotaUtil.getHero(context, item.heroId))
                 tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
@@ -49,13 +49,13 @@ class MatchAdapter(
             }
         }
 
-        private fun isWin(item: Match): Boolean {
+        private fun isWin(item: MatchUI): Boolean {
             if (item.isRadiantWin && item.playerSlot <= 4) return true
             if (!item.isRadiantWin && item.playerSlot > 4) return true
             return false
         }
 
-        private fun getDuration(context: Context, item: Match): String {
+        private fun getDuration(context: Context, item: MatchUI): String {
             val hours = item.duration / (60 * 60)
             val minutes = (item.duration / 60) % 60
             val seconds = item.duration % 60
@@ -63,7 +63,7 @@ class MatchAdapter(
             return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
         }
 
-        private fun getTimePassed(context: Context, item: Match): String? {
+        private fun getTimePassed(context: Context, item: MatchUI): String? {
             val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
             val timePassed = System.currentTimeMillis() - endTime
 
@@ -84,12 +84,12 @@ class MatchAdapter(
     }
 
     companion object {
-        val MATCH_COMPARATOR = object : DiffUtil.ItemCallback<Match>() {
-            override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
+        val MATCH_COMPARATOR = object : DiffUtil.ItemCallback<MatchUI>() {
+            override fun areItemsTheSame(oldItem: MatchUI, newItem: MatchUI): Boolean {
                 return oldItem.matchId == newItem.matchId
             }
 
-            override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {
+            override fun areContentsTheSame(oldItem: MatchUI, newItem: MatchUI): Boolean {
                 return oldItem == newItem
             }
         }

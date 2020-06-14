@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile._Player
 import com.nikola.jakshic.dagger.profile.heroes.Hero
-import com.nikola.jakshic.dagger.profile.matches.Match
+import com.nikola.jakshic.dagger.profile.matches.MatchJson
 import com.nikola.jakshic.dagger.profile.peers.Peer
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -32,7 +32,7 @@ interface OpenDotaService {
         @Path("account_id") playerId: Long,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): List<Match>
+    ): List<MatchJson>
 
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatchesByHero(
@@ -40,7 +40,7 @@ interface OpenDotaService {
         @Query("hero_id") heroId: Int,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
-    ): List<Match>
+    ): List<MatchJson>
 
     @GET("players/{account_id}/heroes")
     suspend fun getHeroes(@Path("account_id") playerId: Long): List<Hero>

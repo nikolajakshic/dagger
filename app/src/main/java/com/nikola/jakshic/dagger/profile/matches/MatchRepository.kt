@@ -6,6 +6,8 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
+import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsDao
 import com.nikola.jakshic.dagger.matchstats.PlayerStatsDao
 import com.nikola.jakshic.dagger.matchstats.Stats
@@ -22,7 +24,7 @@ import javax.inject.Singleton
 class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
     private val db: DotaDatabase,
-    private val matchDao: MatchDao,
+    private val matchQueries: MatchQueries,
     private val matchStatsDao: MatchStatsDao,
     private val playerStatsDao: PlayerStatsDao
 ) {
@@ -32,8 +34,15 @@ class MatchRepository @Inject constructor(
      * the requested data in the database has changed
      */
     fun getMatchesLiveData(scope: CoroutineScope, id: Long): Response {
+        val queryProvider = { limit: Long, offset: Long ->
+            matchQueries.selectAll(id, limit, offset, ::mapToUi)
+        }
+        val factory = QueryDataSourceFactory(
+            queryProvider = queryProvider,
+            countQuery = matchQueries.countMatches(id),
+            transacter = matchQueries
+        )
 
-        val factory = matchDao.getMatches(id)
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(40)
@@ -41,7 +50,7 @@ class MatchRepository @Inject constructor(
             .setPrefetchDistance(5)
             .build()
 
-        val boundaryCallback = MatchBoundaryCallback(scope, service, matchDao, id)
+        val boundaryCallback = MatchBoundaryCallback(scope, service, matchQueries, id)
 
         val pagedList = LivePagedListBuilder(factory, config)
             .setBoundaryCallback(boundaryCallback)
@@ -62,11 +71,11 @@ class MatchRepository @Inject constructor(
     suspend fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
-                val count = matchDao.getMatchCount(id)
-                val list = if (count != 0)
+                val count = matchQueries.countMatches(id).executeAsOne()
+                val list = if (count != 0L)
                 // There are already some matches in the database
                 // we want to refresh all of them
-                    service.getMatches(id, count, 0)
+                    service.getMatches(id, count.toInt(), 0)
                 else
                 // There are no matches in the database,
                 // we want to fetch only 20 from the network
@@ -76,8 +85,10 @@ class MatchRepository @Inject constructor(
                     it // about who played this matches, so we need to set this manually
                 }
                 if (list.isNotEmpty()) {
-                    matchDao.deleteMatches(id)
-                    matchDao.insertMatches(list)
+                    matchQueries.transaction {
+                        matchQueries.deleteAll(id)
+                        list.forEach { matchQueries.insert(it.mapToDb()) }
+                    }
                 }
             }
             onSuccess()
@@ -86,7 +97,7 @@ class MatchRepository @Inject constructor(
         }
     }
 
-    fun fetchMatchesByHero(accountId: Long, heroId: Int): PagedResponse<Match> {
+    fun fetchMatchesByHero(accountId: Long, heroId: Int): PagedResponse<MatchUI> {
         val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service)
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)

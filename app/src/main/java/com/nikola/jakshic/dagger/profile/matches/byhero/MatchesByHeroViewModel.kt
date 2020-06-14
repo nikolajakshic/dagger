@@ -4,20 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.profile.matches.Match
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
+import com.nikola.jakshic.dagger.profile.matches.MatchUI
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MatchesByHeroViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {
 
-    val matches: LiveData<PagedList<Match>>
+    val matches: LiveData<PagedList<MatchUI>>
         get() = response.pagedList
 
     val status: LiveData<Status>
         get() = response.status
 
-    private lateinit var response: PagedResponse<Match>
+    private lateinit var response: PagedResponse<MatchUI>
 
     private var initialFetch = false
 
