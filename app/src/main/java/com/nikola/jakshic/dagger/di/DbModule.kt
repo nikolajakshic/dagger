@@ -8,6 +8,7 @@ import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PeerQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -18,9 +19,6 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class DbModule {
-
-    @Provides
-    fun providePeerDao(db: DotaDatabase) = db.peerDao()
 
     @Provides
     fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
@@ -40,6 +38,12 @@ class DbModule {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePeerQueries(database: Database): PeerQueries {
+        return database.peerQueries
     }
 
     @Provides

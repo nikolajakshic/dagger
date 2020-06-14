@@ -7,7 +7,7 @@ import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile._Player
 import com.nikola.jakshic.dagger.profile.heroes.HeroJson
 import com.nikola.jakshic.dagger.profile.matches.MatchJson
-import com.nikola.jakshic.dagger.profile.peers.Peer
+import com.nikola.jakshic.dagger.profile.peers.PeerJson
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -46,7 +46,7 @@ interface OpenDotaService {
     suspend fun getHeroes(@Path("account_id") playerId: Long): List<HeroJson>
 
     @GET("players/{account_id}/peers")
-    suspend fun getPeers(@Path("account_id") playerId: Long): List<Peer>
+    suspend fun getPeers(@Path("account_id") playerId: Long): List<PeerJson>
 
     @GET("matches/{match_id}/")
     suspend fun getMatch(@Path("match_id") matchId: Long): MatchStats
