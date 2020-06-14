@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.nikola.jakshic.dagger.Database
 import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
+import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
@@ -20,9 +21,6 @@ class DbModule {
 
     @Provides
     fun providePeerDao(db: DotaDatabase) = db.peerDao()
-
-    @Provides
-    fun provideHeroDao(db: DotaDatabase) = db.heroDao()
 
     @Provides
     fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
@@ -42,6 +40,12 @@ class DbModule {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHeroQueries(database: Database): HeroQueries {
+        return database.heroQueries
     }
 
     @Provides
