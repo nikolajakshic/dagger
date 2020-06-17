@@ -1,0 +1,25 @@
+CREATE TABLE IF NOT EXISTS `match_stats` (
+    `match_id` INTEGER PRIMARY KEY NOT NULL,
+    `radiant_win` INTEGER AS Boolean NOT NULL,
+    `dire_score` INTEGER NOT NULL,
+    `radiant_score` INTEGER NOT NULL,
+    `skill` INTEGER NOT NULL,
+    `game_mode` INTEGER NOT NULL,
+    `duration` INTEGER NOT NULL,
+    `start_time` INTEGER NOT NULL,
+    `radiant_barracks` INTEGER NOT NULL,
+    `dire_barracks` INTEGER NOT NULL,
+    `radiant_towers` INTEGER NOT NULL,
+    `dire_towers` INTEGER NOT NULL,
+    `radiant_name` TEXT,
+    `dire_name` TEXT
+);
+
+selectAllMatchStats:
+SELECT * FROM `match_stats`
+INNER JOIN `player_stats` ON `match_stats`.`match_id` = `player_stats`.`match_id`
+WHERE `match_stats`.`match_id` = :id
+ORDER BY `player_stats`.`player_slot` ASC;
+
+insert:
+INSERT OR REPLACE INTO `match_stats` VALUES ?;

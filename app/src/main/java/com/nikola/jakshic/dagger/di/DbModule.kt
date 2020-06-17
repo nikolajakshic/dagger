@@ -7,9 +7,13 @@ import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
+import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
+import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PeerQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
@@ -19,25 +23,36 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class DbModule {
-
-    @Provides
-    fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
-
-    @Provides
-    fun provideMatchBookmarkDao(db: DotaDatabase) = db.matchBookmarkDao()
-
-    @Provides
-    fun provideMatchStatsDao(db: DotaDatabase) = db.matchStatsDao()
-
-    @Provides
-    fun providePlayerStatsDao(db: DotaDatabase) = db.playerStatsDao()
-
     @Provides
     @Singleton
     fun provideDotaDatabase(context: Context): DotaDatabase {
         return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePlayerBookmarkQueries(database: Database): PlayerBookmarkQueries {
+        return database.playerBookmarkQueries
+    }
+
+    @Provides
+    @Singleton
+    fun provideMatchBookmarkQueries(database: Database): MatchBookmarkQueries {
+        return database.matchBookmarkQueries
+    }
+
+    @Provides
+    @Singleton
+    fun providePlayerStatsQueries(database: Database): PlayerStatsQueries {
+        return database.playerStatsQueries
+    }
+
+    @Provides
+    @Singleton
+    fun provideMatchStatsQueries(database: Database): MatchStatsQueries {
+        return database.matchStatsQueries
     }
 
     @Provides

@@ -42,7 +42,7 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
 
         val viewModel = ViewModelProviders.of(this, factory)[PlayerBookmarkViewModel::class.java]
 
-        val adapter = PlayerAdapter {
+        val adapter = PlayerBookmarkAdapter {
             val intent = Intent(context, ProfileActivity::class.java)
             intent.putExtra("account_id", it.id)
             startActivity(intent)

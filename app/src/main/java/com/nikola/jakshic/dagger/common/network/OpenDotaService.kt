@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.common.network
 
 import com.nikola.jakshic.dagger.competitive.CompetitiveJson
 import com.nikola.jakshic.dagger.leaderboard._Leaderboard
-import com.nikola.jakshic.dagger.matchstats.MatchStats
+import com.nikola.jakshic.dagger.matchstats.MatchStatsJson
 import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile._Player
 import com.nikola.jakshic.dagger.profile.heroes.HeroJson
@@ -49,7 +49,7 @@ interface OpenDotaService {
     suspend fun getPeers(@Path("account_id") playerId: Long): List<PeerJson>
 
     @GET("matches/{match_id}/")
-    suspend fun getMatch(@Path("match_id") matchId: Long): MatchStats
+    suspend fun getMatch(@Path("match_id") matchId: Long): MatchStatsJson
 
     @GET("proMatches")
     suspend fun getCompetitiveMatches(): List<CompetitiveJson>

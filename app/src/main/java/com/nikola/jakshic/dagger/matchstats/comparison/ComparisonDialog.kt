@@ -17,12 +17,12 @@ class ComparisonDialog : BottomSheetDialogFragment() {
     }
 
     companion object {
-        fun newInstance(player1: Int, player2: Int, heroes: ArrayList<Int>): ComparisonDialog {
+        fun newInstance(player1: Int, player2: Int, heroes: LongArray): ComparisonDialog {
             val dialog = ComparisonDialog()
             val args = Bundle()
             args.putInt("player1", player1)
             args.putInt("player2", player2)
-            args.putIntegerArrayList("heroes", heroes)
+            args.putLongArray("heroes", heroes)
             dialog.arguments = args
             return dialog
         }
@@ -37,7 +37,7 @@ class ComparisonDialog : BottomSheetDialogFragment() {
 
         val player1 = arguments!!.getInt("player1", 0)
         val player2 = arguments!!.getInt("player2", 5)
-        val heroes = arguments!!.getIntegerArrayList("heroes")!!
+        val heroes = arguments!!.getLongArray("heroes")!!
 
         val root = view as ViewGroup
 

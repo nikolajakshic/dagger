@@ -15,11 +15,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.matchstats.MatchStats
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
+import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.matchstats.PlayerStats
-import com.nikola.jakshic.dagger.matchstats.Stats
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.fragment_overview.*
@@ -58,35 +56,31 @@ class OverviewFragment : Fragment() {
         val viewModel = ViewModelProviders.of(activity!!)[MatchStatsViewModel::class.java]
 
         viewModel.match.observe(viewLifecycleOwner, Observer {
-            if (it?.playerStats?.size == 10) {
-
+            if (it?.players?.size == 10) {
                 bind(it)
             }
         })
     }
 
-    private fun bind(stats: Stats) {
+    private fun bind(stats: MatchStatsUI) {
         var playerPosition = 0
 
-        bindMatchStats(stats.matchStats!!)
-        bindMinimap(stats.matchStats!!)
-        // Sort by player slot, so that first 5 players are from the Radiant Team,
-        // and the rest of them are from Dire
-        val sortedPlayerStats = stats.playerStats!!.sortedBy { it.playerSlot }
+        bindMatchStats(stats)
+        bindMinimap(stats)
 
         for (i in 0 until container.childCount) {
             // Player stats data can be bound only on MatchStatsLayout,
             // so we need to ignore other layouts
             val view = container.getChildAt(i) as? MatchStatsLayout ?: continue
 
-            val playerStats = sortedPlayerStats[playerPosition]
-            bindPlayerStats(view, playerStats)
+            val player = stats.players[playerPosition]
+            bindPlayerStats(view, player)
 
             playerPosition++
         }
     }
 
-    private fun bindPlayerStats(view: View, item: PlayerStats) {
+    private fun bindPlayerStats(view: View, item: MatchStatsUI.PlayerStatsUI) {
         with(view) {
             imgHero.load(DotaUtil.getHero(context, item.heroId))
             tvPlayerName.text = getPlayerName(item)
@@ -126,31 +120,31 @@ class OverviewFragment : Fragment() {
         }
     }
 
-    private fun bindMatchStats(item: MatchStats) {
+    private fun bindMatchStats(item: MatchStatsUI) {
         if (item.isRadiantWin)
             tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_trophy, 0)
         else
             tvDireName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_trophy, 0)
 
-        val radiantName = if (TextUtils.isEmpty(item.radiantTeam?.name)) getString(R.string.team_radiant) else item.radiantTeam?.name
-        val direName = if (TextUtils.isEmpty(item.direTeam?.name)) getString(R.string.team_dire) else item.direTeam?.name
+        val radiantName = if (TextUtils.isEmpty(item.radiantName)) getString(R.string.team_radiant) else item.radiantName
+        val direName = if (TextUtils.isEmpty(item.direName)) getString(R.string.team_dire) else item.direName
         tvRadiantName.text = radiantName
         tvDireName.text = direName
 
         tvRadiantScore.text = item.radiantScore.toString()
         tvDireScore.text = item.direScore.toString()
-        tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode, "Unknown"])
-        tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill, "Unknown"])
+        tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
+        tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
         tvMatchDuration.text = getDuration(item)
         tvMatchTimePassed.text = getTimePassed(item)
     }
 
-    private fun bindMinimap(item: MatchStats) {
+    private fun bindMinimap(item: MatchStatsUI) {
         // https://wiki.teamfortress.com/wiki/WebAPI/GetMatchDetails
-        val radiantTowers = Integer.toBinaryString(item.radiantTowers).padStart(11, '0')
-        val direTowers = Integer.toBinaryString(item.direTowers).padStart(11, '0')
-        val radiantBarracks = Integer.toBinaryString(item.radiantBarracks).padStart(6, '0')
-        val direBarracks = Integer.toBinaryString(item.direBarracks).padStart(6, '0')
+        val radiantTowers = Integer.toBinaryString(item.radiantTowers.toInt()).padStart(11, '0')
+        val direTowers = Integer.toBinaryString(item.direTowers.toInt()).padStart(11, '0')
+        val radiantBarracks = Integer.toBinaryString(item.radiantBarracks.toInt()).padStart(6, '0')
+        val direBarracks = Integer.toBinaryString(item.direBarracks.toInt()).padStart(6, '0')
 
         // Gray-scale filter for destroyed buildings
         val matrix = ColorMatrix().apply { setSaturation(0F) }
@@ -198,21 +192,21 @@ class OverviewFragment : Fragment() {
         if (direBarracks[1] == '0') with(imgDireBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
     }
 
-    private fun getPlayerName(item: PlayerStats) = when {
+    private fun getPlayerName(item: MatchStatsUI.PlayerStatsUI) = when {
         !TextUtils.isEmpty(item.name) -> item.name
         !TextUtils.isEmpty(item.personaName) -> item.personaName
         else -> "Unknown"
     }
 
-    private fun getDuration(item: MatchStats): String {
+    private fun getDuration(item: MatchStatsUI): String {
         val hours = item.duration / (60 * 60)
         val minutes = (item.duration / 60) % 60
         val seconds = item.duration % 60
-        if (hours != 0) return resources.getString(R.string.match_duration_with_prefix, hours, minutes, seconds)
+        if (hours != 0L) return resources.getString(R.string.match_duration_with_prefix, hours, minutes, seconds)
         return resources.getString(R.string.match_duration_zero_hours_with_prefix, minutes, seconds)
     }
 
-    private fun getTimePassed(item: MatchStats): String {
+    private fun getTimePassed(item: MatchStatsUI): String {
         val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
         val timePassed = System.currentTimeMillis() - endTime
 

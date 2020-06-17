@@ -1,0 +1,36 @@
+CREATE TABLE IF NOT EXISTS `player_stats` (
+    `account_id` INTEGER NOT NULL,
+    `match_id` INTEGER NOT NULL,
+    `name` TEXT,
+    `persona_name` TEXT,
+    `player_slot` INTEGER NOT NULL,
+    `assists` INTEGER NOT NULL,
+    `backpack_0` INTEGER NOT NULL,
+    `backpack_1` INTEGER NOT NULL,
+    `backpack_2` INTEGER NOT NULL,
+    `deaths` INTEGER NOT NULL,
+    `denies` INTEGER NOT NULL,
+    `gpm` INTEGER NOT NULL,
+    `hero_damage` INTEGER NOT NULL,
+    `hero_healing` INTEGER NOT NULL,
+    `hero_id` INTEGER NOT NULL,
+    `item_0` INTEGER NOT NULL,
+    `item_1` INTEGER NOT NULL,
+    `item_2` INTEGER NOT NULL,
+    `item_3` INTEGER NOT NULL,
+    `item_4` INTEGER NOT NULL,
+    `item_5` INTEGER NOT NULL,
+    `item_neutral` INTEGER NOT NULL,
+    `kills` INTEGER NOT NULL,
+    `last_hits` INTEGER NOT NULL,
+    `level` INTEGER NOT NULL,
+    `tower_damage` INTEGER NOT NULL,
+    `xpm` INTEGER NOT NULL,
+    `observers` INTEGER NOT NULL,
+    `sentries` INTEGER NOT NULL,
+    PRIMARY KEY(`match_id`, `account_id`, `player_slot`),
+    FOREIGN KEY(`match_id`) REFERENCES `match_stats`(`match_id`) ON DELETE CASCADE
+);
+
+insert:
+INSERT INTO `player_stats` VALUES ?;

@@ -11,9 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.matchstats.PlayerStats
-import com.nikola.jakshic.dagger.matchstats.Stats
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.android.synthetic.main.fragment_comparison.*
@@ -35,7 +34,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     private val SELECTED_PLAYER_LEFT = 0
     private val SELECTED_PLAYER_RIGHT = 1
 
-    private var stats: Stats? = null
+    private var stats: MatchStatsUI? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,11 +56,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         }
 
         viewModel.match.observe(viewLifecycleOwner, Observer { stats ->
-            if (stats?.playerStats?.size == 10) {
-
-                // Sort by player slot, so that first 5 players are from the Radiant Team,
-                // and the rest of them are from Dire
-                stats.playerStats = stats.playerStats!!.sortedBy { it.playerSlot }
+            if (stats?.players?.size == 10) {
                 this.stats = stats
                 setData(stats)
 
@@ -72,7 +67,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
                         dialog = ComparisonDialog.newInstance(
                             leftPlayerIndex,
                             rightPlayerIndex,
-                            stats.playerStats!!.map { it.heroId }.toList() as ArrayList<Int>)
+                            stats.players.map { it.heroId }.toList().toLongArray())
                         dialog?.setTargetFragment(this, 301)
                         dialog?.show(fragmentManager, null)
                     }
@@ -98,13 +93,13 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         super.onSaveInstanceState(outState)
     }
 
-    private fun setData(stats: Stats) {
+    private fun setData(stats: MatchStatsUI) {
         val labels = listOf("LH", "DN", "TD", "GPM", "XPM", "HD")
 
-        val player1 = stats.playerStats!![leftPlayerIndex]
-        val player2 = stats.playerStats!![rightPlayerIndex]
+        val player1 = stats.players[leftPlayerIndex]
+        val player2 = stats.players[rightPlayerIndex]
 
-        val durationInMinutes = TimeUnit.SECONDS.toMinutes(stats.matchStats!!.duration.toLong())
+        val durationInMinutes = TimeUnit.SECONDS.toMinutes(stats.duration)
 
         val entries1 = floatArrayOf(
             100 * player1.lastHits.toFloat() / (MAX_LAST_HITS_PER_MINUTE * durationInMinutes),
@@ -164,7 +159,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         imgPlayer2ItemNeutral.load(DotaUtil.getItem(context!!, player2.itemNeutral))
     }
 
-    private fun getPlayerName(item: PlayerStats) = when {
+    private fun getPlayerName(item: MatchStatsUI.PlayerStatsUI) = when {
         !TextUtils.isEmpty(item.name) -> item.name
         !TextUtils.isEmpty(item.personaName) -> item.personaName
         else -> "Unknown"

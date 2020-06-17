@@ -4,29 +4,33 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
-import com.nikola.jakshic.dagger.matchstats.MatchStatsDao
-import com.nikola.jakshic.dagger.matchstats.PlayerStatsDao
-import com.nikola.jakshic.dagger.matchstats.Stats
+import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
+import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
+import com.nikola.jakshic.dagger.matchstats.mapToDb
+import com.nikola.jakshic.dagger.matchstats.mapToUi
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.Collections
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
-    private val db: DotaDatabase,
     private val matchQueries: MatchQueries,
-    private val matchStatsDao: MatchStatsDao,
-    private val playerStatsDao: PlayerStatsDao
+    private val matchStatsQueries: MatchStatsQueries,
+    private val playerStatsQueries: PlayerStatsQueries
 ) {
 
     /**
@@ -116,26 +120,30 @@ class MatchRepository @Inject constructor(
     }
 
     /**
-     * Constructs the [LiveData] which emits every time
+     * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getMatchStatsLiveData(id: Long): LiveData<Stats> {
-        return matchStatsDao.getMatchStats(id)
+    fun getMatchStatsFlow(id: Long): Flow<MatchStatsUI?> {
+        return matchStatsQueries.selectAllMatchStats(id)
+            .asFlow()
+            .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
     }
 
     /**
      * Fetches the match-stats from the network and inserts it into database.
      *
-     * Whenever the database is updated, the observers of [LiveData]
-     * returned by [getMatchStatsLiveData] are notified.
+     * Whenever the database is updated, the observers of [Flow]
+     * returned by [getMatchStatsFlow] are notified.
      */
     suspend fun fetchMatchStats(matchId: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId)
-                db.runInTransaction {
-                    matchStatsDao.insert(match)
-                    playerStatsDao.insert(match.players ?: Collections.emptyList())
+                matchStatsQueries.transaction {
+                    matchStatsQueries.insert(match.mapToDb())
+                    match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
                 }
             }
             onSuccess()

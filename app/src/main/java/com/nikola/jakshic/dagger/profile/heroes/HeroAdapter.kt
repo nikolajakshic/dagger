@@ -36,7 +36,7 @@ class HeroAdapter(val listener: (Int) -> Unit) : RecyclerView.Adapter<HeroAdapte
 
         fun bind(item: HeroUI) {
             with(itemView) {
-                imgHero.load(DotaUtil.getHero(context, item.heroId))
+                imgHero.load(DotaUtil.getHero(context, item.heroId.toLong()))
                 tvGamesPlayed.text = item.gamesPlayed.toString()
                 val winRate = if (item.gamesPlayed != 0) (item.gamesWon.toFloat() / item.gamesPlayed) * 100 else 0f
                 tvHeroWinRate.text = context.resources.getString(R.string.hero_winrate, winRate)

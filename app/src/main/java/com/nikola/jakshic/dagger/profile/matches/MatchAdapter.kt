@@ -34,7 +34,7 @@ class MatchAdapter(
 
         fun bind(item: MatchUI) {
             with(itemView) {
-                imgHero.load(DotaUtil.getHero(context, item.heroId))
+                imgHero.load(DotaUtil.getHero(context, item.heroId.toLong()))
                 tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
                 val resultColor = if (isWin(item))
                     ContextCompat.getColor(context, R.color.color_green)
