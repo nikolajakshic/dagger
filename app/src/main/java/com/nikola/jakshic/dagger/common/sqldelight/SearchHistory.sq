@@ -1,16 +1,16 @@
-CREATE TABLE IF NOT EXISTS `search_history` (
-    `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    `query` TEXT UNIQUE NOT NULL COLLATE NOCASE
+CREATE TABLE IF NOT EXISTS search_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    query TEXT UNIQUE NOT NULL COLLATE NOCASE
 );
 
 selectAll:
-SELECT * FROM `search_history` ORDER BY `id` DESC;
+SELECT * FROM search_history ORDER BY id DESC;
 
 selectAllByQuery:
-SELECT * FROM `search_history` WHERE `search_history`.`query` LIKE :startsWith || '%' ORDER BY `id` DESC;
+SELECT * FROM search_history WHERE search_history.query LIKE :startsWith || '%' ORDER BY id DESC;
 
 insert:
-INSERT OR REPLACE INTO `search_history` (`query`) VALUES ?;
+INSERT OR REPLACE INTO search_history (query) VALUES ?;
 
 deleteAll:
-DELETE FROM `search_history`;
+DELETE FROM search_history;

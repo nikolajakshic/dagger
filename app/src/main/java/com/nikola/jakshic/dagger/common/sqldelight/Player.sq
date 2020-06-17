@@ -1,29 +1,29 @@
-CREATE TABLE IF NOT EXISTS `players` (
-    `account_id` INTEGER NOT NULL,
-    `name` TEXT,
-    `persona_name` TEXT,
-    `avatar_url` TEXT,
-    `rank_tier` INTEGER NOT NULL,
-    `leaderboard_rank` INTEGER NOT NULL,
-    `wins` INTEGER NOT NULL,
-    `losses` INTEGER NOT NULL,
-    PRIMARY KEY(`account_id`)
+CREATE TABLE IF NOT EXISTS players (
+    account_id INTEGER NOT NULL,
+    name TEXT,
+    persona_name TEXT,
+    avatar_url TEXT,
+    rank_tier INTEGER NOT NULL,
+    leaderboard_rank INTEGER NOT NULL,
+    wins INTEGER NOT NULL,
+    losses INTEGER NOT NULL,
+    PRIMARY KEY(account_id)
 );
 
 select:
-SELECT * FROM `players` WHERE `players`.`account_id` = :id;
+SELECT * FROM players WHERE players.account_id = :id;
 
 insert:
-INSERT OR REPLACE INTO `players` (
-    `account_id`,
-    `name`,
-    `persona_name`,
-    `avatar_url`,
-    `rank_tier`,
-    `leaderboard_rank`,
-    `wins`,
-    `losses`)
+INSERT OR REPLACE INTO players (
+    account_id,
+    name,
+    persona_name,
+    avatar_url,
+    rank_tier,
+    leaderboard_rank,
+    wins,
+    losses)
 VALUES ?;
 
 delete:
-DELETE FROM `players` WHERE `account_id` = :id;
+DELETE FROM players WHERE account_id = :id;
