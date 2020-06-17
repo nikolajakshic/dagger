@@ -1,92 +1,65 @@
 package com.nikola.jakshic.dagger.matchstats
 
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.nikola.jakshic.dagger.common.sqldelight.Match_stats
 import com.nikola.jakshic.dagger.common.sqldelight.Player_stats
 import com.nikola.jakshic.dagger.common.sqldelight.SelectAllMatchStats
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
-@Entity(tableName = "match_stats")
 @JsonClass(generateAdapter = true)
 class MatchStatsJson {
-    @PrimaryKey @ColumnInfo(name = "match_id") @Json(name = "match_id") var matchId: Long = 0
-    @ColumnInfo(name = "radiant_win") @Json(name = "radiant_win") var isRadiantWin = false
-    @ColumnInfo(name = "dire_score") @Json(name = "dire_score") var direScore: Int = 0
-    @ColumnInfo(name = "radiant_score") @Json(name = "radiant_score") var radiantScore: Int = 0
-    @ColumnInfo(name = "skill") @Json(name = "skill") var skill: Int = 0
-    @ColumnInfo(name = "game_mode") @Json(name = "game_mode") var mode: Int = 0
-    @ColumnInfo(name = "duration") @Json(name = "duration") var duration: Int = 0
-    @ColumnInfo(name = "start_time") @Json(name = "start_time") var startTime: Long = 0
-    @ColumnInfo(name = "radiant_barracks") @Json(name = "barracks_status_radiant") var radiantBarracks: Int = 0
-    @ColumnInfo(name = "dire_barracks") @Json(name = "barracks_status_dire") var direBarracks: Int = 0
-    @ColumnInfo(name = "radiant_towers") @Json(name = "tower_status_radiant") var radiantTowers: Int = 0
-    @ColumnInfo(name = "dire_towers") @Json(name = "tower_status_dire") var direTowers: Int = 0
-    @Embedded(prefix = "radiant_") @Json(name = "radiant_team") var radiantTeam: Team? = null
-    @Embedded(prefix = "dire_") @Json(name = "dire_team") var direTeam: Team? = null
-    @Ignore @Json(name = "players") var players: List<PlayerStatsJson>? = null
+    @Json(name = "match_id") var matchId: Long = 0
+    @Json(name = "radiant_win") var isRadiantWin = false
+    @Json(name = "dire_score") var direScore: Int = 0
+    @Json(name = "radiant_score") var radiantScore: Int = 0
+    @Json(name = "skill") var skill: Int = 0
+    @Json(name = "game_mode") var mode: Int = 0
+    @Json(name = "duration") var duration: Int = 0
+    @Json(name = "start_time") var startTime: Long = 0
+    @Json(name = "barracks_status_radiant") var radiantBarracks: Int = 0
+    @Json(name = "barracks_status_dire") var direBarracks: Int = 0
+    @Json(name = "tower_status_radiant") var radiantTowers: Int = 0
+    @Json(name = "tower_status_dire") var direTowers: Int = 0
+    @Json(name = "radiant_team") var radiantTeam: Team? = null
+    @Json(name = "dire_team") var direTeam: Team? = null
+    @Json(name = "players") var players: List<PlayerStatsJson>? = null
 }
 
 @JsonClass(generateAdapter = true)
 data class Team(@Json(name = "name") var name: String?)
 
-@Entity(tableName = "player_stats",
-    primaryKeys = ["match_id", "account_id", "player_slot"],
-    foreignKeys = [(ForeignKey(
-        entity = MatchStatsJson::class,
-        parentColumns = ["match_id"],
-        childColumns = ["match_id"],
-        onDelete = ForeignKey.CASCADE))])
 @JsonClass(generateAdapter = true)
 data class PlayerStatsJson(
-    @ColumnInfo(name = "account_id") @Json(name = "account_id") var id: Long,
-    @ColumnInfo(name = "match_id") @Json(name = "match_id") var matchId: Long,
-    @ColumnInfo(name = "name") @Json(name = "name") var name: String?,
-    @ColumnInfo(name = "persona_name") @Json(name = "personaname") var personaName: String?,
-    @ColumnInfo(name = "player_slot") @Json(name = "player_slot") var playerSlot: Int,
-    @ColumnInfo(name = "assists") @Json(name = "assists") var assists: Int,
-    @ColumnInfo(name = "backpack_0") @Json(name = "backpack_0") var backpack0: Int,
-    @ColumnInfo(name = "backpack_1") @Json(name = "backpack_1") var backpack1: Int,
-    @ColumnInfo(name = "backpack_2") @Json(name = "backpack_2") var backpack2: Int,
-    @ColumnInfo(name = "deaths") @Json(name = "deaths") var deaths: Int,
-    @ColumnInfo(name = "denies") @Json(name = "denies") var denies: Int,
-    @ColumnInfo(name = "gpm") @Json(name = "gold_per_min") var goldPerMin: Int,
-    @ColumnInfo(name = "hero_damage") @Json(name = "hero_damage") var heroDamage: Int,
-    @ColumnInfo(name = "hero_healing") @Json(name = "hero_healing") var heroHealing: Int,
-    @ColumnInfo(name = "hero_id") @Json(name = "hero_id") var heroId: Int,
-    @ColumnInfo(name = "item_0") @Json(name = "item_0") var item0: Int,
-    @ColumnInfo(name = "item_1") @Json(name = "item_1") var item1: Int,
-    @ColumnInfo(name = "item_2") @Json(name = "item_2") var item2: Int,
-    @ColumnInfo(name = "item_3") @Json(name = "item_3") var item3: Int,
-    @ColumnInfo(name = "item_4") @Json(name = "item_4") var item4: Int,
-    @ColumnInfo(name = "item_5") @Json(name = "item_5") var item5: Int,
-    @ColumnInfo(name = "item_neutral") @Json(name = "item_neutral") var itemNeutral: Int,
-    @ColumnInfo(name = "kills") @Json(name = "kills") var kills: Int,
-    @ColumnInfo(name = "last_hits") @Json(name = "last_hits") var lastHits: Int,
-    @ColumnInfo(name = "level") @Json(name = "level") var level: Int,
-    @ColumnInfo(name = "tower_damage") @Json(name = "tower_damage") var towerDamage: Int,
-    @ColumnInfo(name = "xpm") @Json(name = "xp_per_min") var xpPerMin: Int,
-    @ColumnInfo(name = "observers") @Json(name = "purchase_ward_observer") var purchaseWardObserver: Int = 0,
-    @ColumnInfo(name = "sentries") @Json(name = "purchase_ward_sentry") var purchaseWardSentry: Int = 0
+    @Json(name = "account_id") var id: Long,
+    @Json(name = "match_id") var matchId: Long,
+    @Json(name = "name") var name: String?,
+    @Json(name = "personaname") var personaName: String?,
+    @Json(name = "player_slot") var playerSlot: Int,
+    @Json(name = "assists") var assists: Int,
+    @Json(name = "backpack_0") var backpack0: Int,
+    @Json(name = "backpack_1") var backpack1: Int,
+    @Json(name = "backpack_2") var backpack2: Int,
+    @Json(name = "deaths") var deaths: Int,
+    @Json(name = "denies") var denies: Int,
+    @Json(name = "gold_per_min") var goldPerMin: Int,
+    @Json(name = "hero_damage") var heroDamage: Int,
+    @Json(name = "hero_healing") var heroHealing: Int,
+    @Json(name = "hero_id") var heroId: Int,
+    @Json(name = "item_0") var item0: Int,
+    @Json(name = "item_1") var item1: Int,
+    @Json(name = "item_2") var item2: Int,
+    @Json(name = "item_3") var item3: Int,
+    @Json(name = "item_4") var item4: Int,
+    @Json(name = "item_5") var item5: Int,
+    @Json(name = "item_neutral") var itemNeutral: Int,
+    @Json(name = "kills") var kills: Int,
+    @Json(name = "last_hits") var lastHits: Int,
+    @Json(name = "level") var level: Int,
+    @Json(name = "tower_damage") var towerDamage: Int,
+    @Json(name = "xp_per_min") var xpPerMin: Int,
+    @Json(name = "purchase_ward_observer") var purchaseWardObserver: Int = 0,
+    @Json(name = "purchase_ward_sentry") var purchaseWardSentry: Int = 0
 )
-
-// POJO for Database Query
-class Stats {
-    @Embedded
-    var matchStats: MatchStatsJson? = null
-
-    @Relation(
-        entity = PlayerStatsJson::class,
-        entityColumn = "match_id",
-        parentColumn = "match_id")
-    var playerStats: List<PlayerStatsJson>? = null
-}
 
 data class MatchStatsUI(
     val matchId: Long,

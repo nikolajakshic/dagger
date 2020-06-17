@@ -1,9 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
 import android.content.Context
-import androidx.room.Room
 import com.nikola.jakshic.dagger.Database
-import com.nikola.jakshic.dagger.common.database.DotaDatabase
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
@@ -23,14 +21,6 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class DbModule {
-    @Provides
-    @Singleton
-    fun provideDotaDatabase(context: Context): DotaDatabase {
-        return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
     @Provides
     @Singleton
     fun providePlayerBookmarkQueries(database: Database): PlayerBookmarkQueries {
