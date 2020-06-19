@@ -2,17 +2,6 @@ package com.nikola.jakshic.dagger.di
 
 import android.content.Context
 import com.nikola.jakshic.dagger.Database
-import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
-import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
-import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
-import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
-import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
-import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
-import com.nikola.jakshic.dagger.common.sqldelight.PeerQueries
-import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
-import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
-import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
-import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -22,70 +11,37 @@ import javax.inject.Singleton
 @Module(includes = [NetworkModule::class])
 class DbModule {
     @Provides
-    @Singleton
-    fun providePlayerBookmarkQueries(database: Database): PlayerBookmarkQueries {
-        return database.playerBookmarkQueries
-    }
+    fun providePlayerBookmarkQueries(database: Database) = database.playerBookmarkQueries
 
     @Provides
-    @Singleton
-    fun provideMatchBookmarkQueries(database: Database): MatchBookmarkQueries {
-        return database.matchBookmarkQueries
-    }
+    fun provideMatchBookmarkQueries(database: Database) = database.matchBookmarkQueries
 
     @Provides
-    @Singleton
-    fun providePlayerStatsQueries(database: Database): PlayerStatsQueries {
-        return database.playerStatsQueries
-    }
+    fun providePlayerStatsQueries(database: Database) = database.playerStatsQueries
 
     @Provides
-    @Singleton
-    fun provideMatchStatsQueries(database: Database): MatchStatsQueries {
-        return database.matchStatsQueries
-    }
+    fun provideMatchStatsQueries(database: Database) = database.matchStatsQueries
 
     @Provides
-    @Singleton
-    fun providePeerQueries(database: Database): PeerQueries {
-        return database.peerQueries
-    }
+    fun providePeerQueries(database: Database) = database.peerQueries
 
     @Provides
-    @Singleton
-    fun provideHeroQueries(database: Database): HeroQueries {
-        return database.heroQueries
-    }
+    fun provideHeroQueries(database: Database) = database.heroQueries
 
     @Provides
-    @Singleton
-    fun provideMatchQueries(database: Database): MatchQueries {
-        return database.matchQueries
-    }
+    fun provideMatchQueries(database: Database) = database.matchQueries
 
     @Provides
-    @Singleton
-    fun provideSearchHistoryQueries(database: Database): SearchHistoryQueries {
-        return database.searchHistoryQueries
-    }
+    fun provideSearchHistoryQueries(database: Database) = database.searchHistoryQueries
 
     @Provides
-    @Singleton
-    fun providePlayerQueries(database: Database): PlayerQueries {
-        return database.playerQueries
-    }
+    fun providePlayerQueries(database: Database) = database.playerQueries
 
     @Provides
-    @Singleton
-    fun provideCompetitiveQueries(database: Database): CompetitiveQueries {
-        return database.competitiveQueries
-    }
+    fun provideCompetitiveQueries(database: Database) = database.competitiveQueries
 
     @Provides
-    @Singleton
-    fun provideLeaderboardQueries(database: Database): LeaderboardQueries {
-        return database.leaderboardQueries
-    }
+    fun provideLeaderboardQueries(database: Database) = database.leaderboardQueries
 
     @Provides
     @Singleton
