@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.di
 
 import android.content.Context
 import com.nikola.jakshic.dagger.Database
+import com.nikola.jakshic.dagger.common.sqldelight.DaggerSchema
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
@@ -46,7 +47,7 @@ class DbModule {
     @Provides
     @Singleton
     fun provideSqlDriver(context: Context): SqlDriver {
-        return AndroidSqliteDriver(Database.Schema, context, "dagger.db")
+        return AndroidSqliteDriver(DaggerSchema, context, "dagger.db")
     }
 
     @Provides
