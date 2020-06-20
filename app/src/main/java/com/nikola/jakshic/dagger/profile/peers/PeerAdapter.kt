@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.item_peer.view.*
 
 class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapter.PeerVH>() {
 
-    private var list: List<Peer>? = null
+    private var list: List<PeerUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeerVH {
         return PeerVH(parent.inflate(R.layout.item_peer))
@@ -23,7 +23,7 @@ class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapt
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(newList: List<Peer>?) {
+    fun addData(newList: List<PeerUI>?) {
         list = newList
         notifyDataSetChanged()
     }
@@ -34,7 +34,7 @@ class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapt
             itemView.setOnClickListener { listener(list!![adapterPosition].peerId) }
         }
 
-        fun bind(item: Peer) {
+        fun bind(item: PeerUI) {
             with(itemView) {
                 imgPeerAvatar.load(item.avatarfull) {
                     transformations(CircleCropTransformation())

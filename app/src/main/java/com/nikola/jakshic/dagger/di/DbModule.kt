@@ -1,53 +1,58 @@
 package com.nikola.jakshic.dagger.di
 
 import android.content.Context
-import androidx.room.Room
-import com.nikola.jakshic.dagger.common.database.DotaDatabase
+import com.nikola.jakshic.dagger.Database
+import com.nikola.jakshic.dagger.common.sqldelight.DaggerSchema
+import com.squareup.sqldelight.android.AndroidSqliteDriver
+import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class DbModule {
+    @Provides
+    fun providePlayerBookmarkQueries(database: Database) = database.playerBookmarkQueries
 
     @Provides
-    fun providePlayerDao(db: DotaDatabase) = db.playerDao()
+    fun provideMatchBookmarkQueries(database: Database) = database.matchBookmarkQueries
 
     @Provides
-    fun provideCompetitiveDao(db: DotaDatabase) = db.competitiveDao()
+    fun providePlayerStatsQueries(database: Database) = database.playerStatsQueries
 
     @Provides
-    fun provideSearchHistoryDao(db: DotaDatabase) = db.searchHistoryDao()
+    fun provideMatchStatsQueries(database: Database) = database.matchStatsQueries
 
     @Provides
-    fun providePeerDao(db: DotaDatabase) = db.peerDao()
+    fun providePeerQueries(database: Database) = database.peerQueries
 
     @Provides
-    fun provideHeroDao(db: DotaDatabase) = db.heroDao()
+    fun provideHeroQueries(database: Database) = database.heroQueries
 
     @Provides
-    fun provideMatchDao(db: DotaDatabase) = db.matchDao()
+    fun provideMatchQueries(database: Database) = database.matchQueries
 
     @Provides
-    fun provideLeaderboardDao(db: DotaDatabase) = db.leaderboardDao()
+    fun provideSearchHistoryQueries(database: Database) = database.searchHistoryQueries
 
     @Provides
-    fun providePlayerBookmarkDao(db: DotaDatabase) = db.playerBookmarkDao()
+    fun providePlayerQueries(database: Database) = database.playerQueries
 
     @Provides
-    fun provideMatchBookmarkDao(db: DotaDatabase) = db.matchBookmarkDao()
+    fun provideCompetitiveQueries(database: Database) = database.competitiveQueries
 
     @Provides
-    fun provideMatchStatsDao(db: DotaDatabase) = db.matchStatsDao()
-
-    @Provides
-    fun providePlayerStatsDao(db: DotaDatabase) = db.playerStatsDao()
+    fun provideLeaderboardQueries(database: Database) = database.leaderboardQueries
 
     @Provides
     @Singleton
-    fun provideDotaDatabase(context: Context): DotaDatabase {
-        return Room.databaseBuilder(context, DotaDatabase::class.java, "dagger.db")
-            .fallbackToDestructiveMigration()
-            .build()
+    fun provideSqlDriver(context: Context): SqlDriver {
+        return AndroidSqliteDriver(DaggerSchema, context, "dagger.db")
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(driver: SqlDriver): Database {
+        return Database(driver)
     }
 }

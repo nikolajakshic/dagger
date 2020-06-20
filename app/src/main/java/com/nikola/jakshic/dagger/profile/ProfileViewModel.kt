@@ -2,18 +2,28 @@ package com.nikola.jakshic.dagger.profile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmark
-import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkDao
+import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
+import com.nikola.jakshic.dagger.bookmark.player.mapToUi
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.sqldelight.Bookmark
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Players
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-    private val playerDao: PlayerDao,
-    private val playerBookmarkDao: PlayerBookmarkDao,
+    private val playerQueries: PlayerQueries,
+    private val playerBookmarkQueries: PlayerBookmarkQueries,
     private val repo: PlayerRepository
 ) : ScopedViewModel() {
 
@@ -21,11 +31,14 @@ class ProfileViewModel @Inject constructor(
     val status: LiveData<Status>
         get() = _status
 
-    lateinit var profile: LiveData<Player>
-        private set
+    // TODO PLAYERS SHOULD NOT BE REFERENCED FROM THE DB MODEL, DO IT FROM THE PlayerUI
+    private val _profile = MutableLiveData<Players>()
+    val profile: LiveData<Players>
+        get() = _profile
 
-    lateinit var bookmark: LiveData<Player>
-        private set
+    private val _bookmark = MutableLiveData<PlayerBookmarkUI>()
+    val bookmark: LiveData<PlayerBookmarkUI>
+        get() = _bookmark
 
     private var initialFetch = false
 
@@ -35,8 +48,20 @@ class ProfileViewModel @Inject constructor(
     fun getProfile(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            profile = playerDao.getPlayer(id)
-            bookmark = playerBookmarkDao.getPlayer(id)
+            launch {
+                playerQueries.select(id)
+                    .asFlow()
+                    .mapToOneOrNull(Dispatchers.IO)
+                    .collect { _profile.value = it }
+            }
+            launch {
+                playerBookmarkQueries.select(id)
+                    .asFlow()
+                    .mapToOneOrNull(Dispatchers.IO)
+                    .map { it?.mapToUi() }
+                    .flowOn(Dispatchers.IO)
+                    .collectLatest { _bookmark.value = it }
+            }
             fetchProfile(id)
         }
     }
@@ -55,13 +80,14 @@ class ProfileViewModel @Inject constructor(
 
     fun addToBookmark(id: Long) {
         launch {
-            withContext(Dispatchers.IO) { playerBookmarkDao.addToBookmark(PlayerBookmark(id)) }
+            // TODO -1 is irrelevant, never gonna make it in database, create new model that receives only account id and then mapToDb()
+            withContext(Dispatchers.IO) { playerBookmarkQueries.insert(Bookmark(-1, id)) }
         }
     }
 
     fun removeFromBookmark(id: Long) {
         launch {
-            withContext(Dispatchers.IO) { playerBookmarkDao.removeFromBookmark(id) }
+            withContext(Dispatchers.IO) { playerBookmarkQueries.delete(id) }
         }
     }
 }

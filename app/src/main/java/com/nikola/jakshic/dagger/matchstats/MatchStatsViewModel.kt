@@ -2,26 +2,31 @@ package com.nikola.jakshic.dagger.matchstats
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.bookmark.match.MatchBookmark
-import com.nikola.jakshic.dagger.bookmark.match.MatchBookmarkDao
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.sqldelight.Bookmark_match
+import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MatchStatsViewModel @Inject constructor(
     private val repository: MatchRepository,
-    private val matchBookmarkDao: MatchBookmarkDao
+    private val matchBookmarkQueries: MatchBookmarkQueries
 ) : ScopedViewModel() {
 
-    lateinit var match: LiveData<Stats>
-        private set
+    private val _match = MutableLiveData<MatchStatsUI>()
+    val match: LiveData<MatchStatsUI>
+        get() = _match
 
-    lateinit var isBookmarked: LiveData<Long>
-        private set
+    private val _isBookmarked = MutableLiveData<Long>()
+    val isBookmarked: LiveData<Long>
+        get() = _isBookmarked
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -35,8 +40,16 @@ class MatchStatsViewModel @Inject constructor(
     fun initialFetch(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            match = repository.getMatchStatsLiveData(id)
-            isBookmarked = matchBookmarkDao.isMatchBookmarked(id)
+            launch {
+                repository.getMatchStatsFlow(id)
+                    .collectLatest { _match.value = it }
+            }
+            launch {
+                matchBookmarkQueries.isBookmarked(id)
+                    .asFlow()
+                    .mapToOne(Dispatchers.IO)
+                    .collectLatest { _isBookmarked.value = it }
+            }
             fetchMatchStats(id)
         }
     }
@@ -50,13 +63,15 @@ class MatchStatsViewModel @Inject constructor(
 
     fun addToBookmark(matchId: Long) {
         launch {
-            withContext(Dispatchers.IO) { matchBookmarkDao.addToBookmark(MatchBookmark(matchId)) }
+            // ID -1 and empty note are not relevant, they will not be picked by query
+            // TODO refactor to MatchBookmarkUI.mapToDb() something like that, the model that will have only matchId variable
+            withContext(Dispatchers.IO) { matchBookmarkQueries.insert(Bookmark_match(-1, "", matchId)) }
         }
     }
 
     fun removeFromBookmark(matchId: Long) {
         launch {
-            withContext(Dispatchers.IO) { matchBookmarkDao.removeFromBookmark(matchId) }
+            withContext(Dispatchers.IO) { matchBookmarkQueries.delete(matchId) }
         }
     }
 }

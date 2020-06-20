@@ -4,13 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PeerViewModel @Inject constructor(private val repository: PeerRepository) : ScopedViewModel() {
-
-    lateinit var list: LiveData<List<Peer>>
-        private set
+    private val _list = MutableLiveData<List<PeerUI>>()
+    val list: LiveData<List<PeerUI>>
+        get() = _list
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -25,7 +26,7 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
         if (!initialFetch) {
             initialFetch = true
             fetchPeers(id)
-            list = repository.getPeersLiveDataByGames(id)
+            sortByGames(id)
         }
     }
 
@@ -37,10 +38,16 @@ class PeerViewModel @Inject constructor(private val repository: PeerRepository) 
     }
 
     fun sortByGames(id: Long) {
-        list = repository.getPeersLiveDataByGames(id)
+        launch {
+            repository.getPeersFlowByGames(id)
+                .collectLatest { _list.value = it }
+        }
     }
 
     fun sortByWinRate(id: Long) {
-        list = repository.getPeersLiveDataByWinrate(id)
+        launch {
+            repository.getPeersFlowByWinrate(id)
+                .collectLatest { _list.value = it }
+        }
     }
 }

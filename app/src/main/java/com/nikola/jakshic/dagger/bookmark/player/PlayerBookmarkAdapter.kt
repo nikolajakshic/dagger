@@ -8,13 +8,13 @@ import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.profile.PlayerJson
 import kotlinx.android.synthetic.main.item_player.view.*
 
-// Not renamed because it is shared between Search and Bookmark functionality.
-class PlayerAdapter(val listener: (PlayerJson) -> Unit) : RecyclerView.Adapter<PlayerAdapter.PlayerVH>() {
+class PlayerBookmarkAdapter(
+    private val listener: (PlayerBookmarkUI) -> Unit
+) : RecyclerView.Adapter<PlayerBookmarkAdapter.PlayerVH>() {
 
-    private var list: List<PlayerJson>? = null
+    private var list: List<PlayerBookmarkUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerVH {
         return PlayerVH(parent.inflate(R.layout.item_player))
@@ -26,7 +26,7 @@ class PlayerAdapter(val listener: (PlayerJson) -> Unit) : RecyclerView.Adapter<P
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(newList: List<PlayerJson>?) {
+    fun addData(newList: List<PlayerBookmarkUI>?) {
         list = newList
         notifyDataSetChanged()
     }
@@ -37,7 +37,7 @@ class PlayerAdapter(val listener: (PlayerJson) -> Unit) : RecyclerView.Adapter<P
             itemView.setOnClickListener { listener(list!![adapterPosition]) }
         }
 
-        fun bind(item: PlayerJson) {
+        fun bind(item: PlayerBookmarkUI) {
             with(itemView) {
                 tvPlayerName.text = if (TextUtils.isEmpty(item.name)) item.personaName else item.name
                 tvPlayerId.text = item.id.toString()

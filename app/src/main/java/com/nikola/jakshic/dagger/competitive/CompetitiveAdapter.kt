@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import kotlinx.android.synthetic.main.item_competitive.view.*
 import java.util.concurrent.TimeUnit
 
@@ -29,23 +30,23 @@ class CompetitiveAdapter(
 
         init {
             itemView.setOnClickListener {
-                listener(getItem(adapterPosition)!!.matchId)
+                listener(getItem(adapterPosition)!!.match_id)
             }
         }
 
         fun bind(item: Competitive) {
-            val leagueName = if (TextUtils.isEmpty(item.leagueName)) context.getString(R.string.match_unknown_league) else item.leagueName
-            val radiantName = if (TextUtils.isEmpty(item.radiantName)) context.getString(R.string.match_unknown_team) else item.radiantName
-            val direName = if (TextUtils.isEmpty(item.direName)) context.getString(R.string.match_unknown_team) else item.direName
+            val leagueName = if (TextUtils.isEmpty(item.league_name)) context.getString(R.string.match_unknown_league) else item.league_name
+            val radiantName = if (TextUtils.isEmpty(item.radiant_name)) context.getString(R.string.match_unknown_team) else item.radiant_name
+            val direName = if (TextUtils.isEmpty(item.dire_name)) context.getString(R.string.match_unknown_team) else item.dire_name
             val timePassed = getTimePassed(item)
-            val radiantTrophy = if (item.isRadiantWin) R.drawable.ic_trophy else R.drawable.ic_trophy_invisible
-            val direTrophy = if (item.isRadiantWin) R.drawable.ic_trophy_invisible else R.drawable.ic_trophy
+            val radiantTrophy = if (item.radiant_win) R.drawable.ic_trophy else R.drawable.ic_trophy_invisible
+            val direTrophy = if (item.radiant_win) R.drawable.ic_trophy_invisible else R.drawable.ic_trophy
 
             with(itemView) {
                 tvRadiantName.text = radiantName
-                tvRadiantScore.text = item.radiantScore.toString()
+                tvRadiantScore.text = item.radiant_score.toString()
                 tvDireName.text = direName
-                tvDireScore.text = item.direScore.toString()
+                tvDireScore.text = item.dire_score.toString()
                 tvLeagueName.text = leagueName
                 tvTimePassed.text = timePassed
                 tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(radiantTrophy, 0, 0, 0)
@@ -54,7 +55,7 @@ class CompetitiveAdapter(
         }
 
         private fun getTimePassed(item: Competitive): String? {
-            val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
+            val endTime = TimeUnit.SECONDS.toMillis(item.start_time + item.duration)
             val timePassed = System.currentTimeMillis() - endTime
 
             val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
@@ -76,7 +77,7 @@ class CompetitiveAdapter(
     companion object {
         val COMPETITIVE_COMPARATOR = object : DiffUtil.ItemCallback<Competitive>() {
             override fun areItemsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {
-                return oldItem.matchId == newItem.matchId
+                return oldItem.match_id == newItem.match_id
             }
 
             override fun areContentsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {

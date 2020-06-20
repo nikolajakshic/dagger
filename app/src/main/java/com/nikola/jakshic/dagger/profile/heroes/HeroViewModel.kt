@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -11,8 +12,9 @@ class HeroViewModel @Inject constructor(
     private val repository: HeroRepository
 ) : ScopedViewModel() {
 
-    lateinit var list: LiveData<List<Hero>>
-        private set
+    private val _list = MutableLiveData<List<HeroUI>>()
+    val list: LiveData<List<HeroUI>>
+        get() = _list
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -39,18 +41,30 @@ class HeroViewModel @Inject constructor(
     }
 
     fun sortByGames(id: Long) {
-        list = repository.getHeroesLiveDataByGames(id)
+        launch {
+            repository.getHeroesFlowByGames(id)
+                .collectLatest { _list.value = it }
+        }
     }
 
     fun sortByWinRate(id: Long) {
-        list = repository.getHeroesLiveDataByWinrate(id)
+        launch {
+            repository.getHeroesFlowByWinrate(id)
+                .collectLatest { _list.value = it }
+        }
     }
 
     fun sortByWins(id: Long) {
-        list = repository.getHeroesLiveDataByWins(id)
+        launch {
+            repository.getHeroesFlowByWins(id)
+                .collectLatest { _list.value = it }
+        }
     }
 
     fun sortByLosses(id: Long) {
-        list = repository.getHeroesLiveDataByLosses(id)
+        launch {
+            repository.getHeroesFlowByLosses(id)
+                .collectLatest { _list.value = it }
+        }
     }
 }

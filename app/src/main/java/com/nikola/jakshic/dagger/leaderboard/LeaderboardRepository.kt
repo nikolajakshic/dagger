@@ -2,23 +2,30 @@ package com.nikola.jakshic.dagger.leaderboard
 
 import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Leaderboards
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class LeaderboardRepository @Inject constructor(
-    private val dao: LeaderboardDao,
+    private val leaderboardQueries: LeaderboardQueries,
     private val service: OpenDotaService
 ) {
 
     /**
-     * Constructs the [LiveData] which emits every time
+     * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getLeaderboardLiveData(region: String): LiveData<List<Leaderboard>> {
-        return dao.getLeaderboard(region)
+    fun getLeaderboardFlow(region: String): Flow<List<Leaderboards>> {
+        return leaderboardQueries.selectAll(region)
+            .asFlow()
+            .mapToList(Dispatchers.IO)
     }
 
     /**
@@ -26,7 +33,7 @@ class LeaderboardRepository @Inject constructor(
      * and inserts them into database.
      *
      * Whenever the database is updated, the observers of [LiveData]
-     * returned by [getLeaderboardLiveData] are notified.
+     * returned by [getLeaderboardFlow] are notified.
      */
     suspend fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
@@ -44,8 +51,13 @@ class LeaderboardRepository @Inject constructor(
                     // that would result into 2 rows in the database for a single player.
                     // So we need to remove all players from the database and then insert
                     // the fresh ones.
-                    dao.deleteLeaderboards(region)
-                    dao.insertLeaderboard(list)
+                    leaderboardQueries.transaction {
+                        leaderboardQueries.deleteAllByRegion(region)
+                        list.forEach {
+                            // ID is auto-incrementing, the value we passed here is irrelevant.
+                            leaderboardQueries.insert(Leaderboards(-1, it.name, it.region))
+                        }
+                    }
                 }
             }
             onSuccess()

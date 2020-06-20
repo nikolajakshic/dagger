@@ -15,7 +15,7 @@ object DotaUtil {
     val lobby = SparseArray<String>()
     val skill = SparseArray<String>()
 
-    private val recipes = intArrayOf(
+    private val recipes = longArrayOf(
         35, 47, 64, 72, 74, 76, 78, 80, 85, 87, 89, 91, 93, 97, 99,
         101, 103, 105, 109, 111, 113, 115, 118, 122, 124, 136, 140, 142, 144, 146,
         148, 150, 157, 161, 169, 173, 177, 184, 189, 205, 207, 227, 230, 233, 238,
@@ -68,7 +68,7 @@ object DotaUtil {
         }
     }
 
-    fun getItem(context: Context, id: Int): Int {
+    fun getItem(context: Context, id: Long): Int {
         val resource = context.resources
         val packageName = context.packageName
 
@@ -78,7 +78,7 @@ object DotaUtil {
         }
     }
 
-    fun getHero(context: Context, id: Int): Int {
+    fun getHero(context: Context, id: Long): Int {
         val resource = context.resources
         val packageName = context.packageName
 

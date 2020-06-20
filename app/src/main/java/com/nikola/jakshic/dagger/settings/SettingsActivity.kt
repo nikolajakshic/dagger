@@ -5,8 +5,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.search.SearchHistoryDao
 import kotlinx.android.synthetic.main.settings_item_history.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    @Inject lateinit var searchHistoryDao: SearchHistoryDao
+    @Inject lateinit var searchHistoryQueries: SearchHistoryQueries
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as DaggerApp).appComponent.inject(this)
@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
         settingsHistoryClear.setOnClickListener {
             launch {
-                withContext(Dispatchers.IO) { searchHistoryDao.deleteHistory() }
+                withContext(Dispatchers.IO) { searchHistoryQueries.deleteAll() }
                 toast(getString(R.string.info_search_history_cleared))
             }
         }

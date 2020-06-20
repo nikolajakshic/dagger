@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS bookmark_match (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    note TEXT,
+    match_id INTEGER UNIQUE NOT NULL,
+    FOREIGN KEY (match_id) REFERENCES match_stats(match_id) ON DELETE CASCADE
+);
+
+selectAllMatchBookmark:
+SELECT * FROM bookmark_match
+INNER JOIN match_stats ON bookmark_match.match_id = match_stats.match_id
+INNER JOIN player_stats ON bookmark_match.match_id = player_stats.match_id
+ORDER BY bookmark_match.id DESC, player_stats.player_slot ASC;
+
+insert:
+INSERT OR REPLACE INTO bookmark_match (match_id) VALUES :matchId;
+
+isBookmarked:
+SELECT COUNT(*) FROM bookmark_match WHERE match_id = :matchId;
+
+update:
+UPDATE bookmark_match SET note = :note WHERE match_id = :matchId;
+
+delete:
+DELETE FROM bookmark_match WHERE bookmark_match.match_id = :matchId;

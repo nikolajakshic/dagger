@@ -1,6 +1,8 @@
 package com.nikola.jakshic.dagger.profile
 
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Players
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -11,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class PlayerRepository @Inject constructor(
     private val service: OpenDotaService,
-    private val dao: PlayerDao
+    private val playerQueries: PlayerQueries
 ) {
 
     suspend fun getProfile(id: Long) = coroutineScope {
@@ -26,10 +28,23 @@ class PlayerRepository @Inject constructor(
         profile.player.wins = winsLosses.wins
         profile.player.losses = winsLosses.losses
 
-        withContext(Dispatchers.IO) { dao.insertPlayer(profile.player) }
+        withContext(Dispatchers.IO) {
+            playerQueries.insert(
+                Players(
+                    account_id = profile.player.id,
+                    name = profile.player.name,
+                    persona_name = profile.player.personaName,
+                    avatar_url = profile.player.avatarUrl,
+                    rank_tier = profile.player.rankTier.toLong(),
+                    leaderboard_rank = profile.player.leaderboardRank.toLong(),
+                    wins = profile.player.wins.toLong(),
+                    losses = profile.player.losses.toLong()
+                )
+            )
+        }
     }
 
-    suspend fun fetchPlayers(name: String, onSuccess: (List<Player>) -> Unit, onError: () -> Unit) {
+    suspend fun fetchPlayers(name: String, onSuccess: (List<PlayerJson>) -> Unit, onError: () -> Unit) {
         try {
             val list = withContext(Dispatchers.IO) { service.searchPlayers(name) }
             onSuccess(list)

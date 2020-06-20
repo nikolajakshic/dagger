@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS heroes (
+    account_id INTEGER NOT NULL,
+    hero_id INTEGER NOT NULL,
+    games INTEGER NOT NULL,
+    wins INTEGER NOT NULL,
+    PRIMARY KEY(account_id, hero_id)
+);
+
+insert:
+INSERT OR REPLACE INTO heroes (account_id,hero_id,games,wins) VALUES ?;
+
+selectAllByGames:
+SELECT * FROM heroes
+WHERE heroes.account_id = :id
+ORDER BY heroes.games DESC;
+
+selectAllByWinrate:
+SELECT * FROM heroes
+WHERE heroes.account_id = :id
+ORDER BY ((heroes.wins * 1.0 / heroes.games) * 100) DESC;
+
+selectAllByWins:
+SELECT * FROM heroes
+WHERE heroes.account_id = :id
+ORDER BY heroes.wins DESC;
+
+selectAllByLosses:
+SELECT * FROM heroes
+WHERE heroes.account_id = :id
+ORDER BY (heroes.games - heroes.wins) DESC;
