@@ -4,14 +4,18 @@ import android.content.Context
 import com.nikola.jakshic.dagger.R
 import java.util.concurrent.TimeUnit
 
+/**
+ * @param endTime in seconds
+ */
 fun timeElapsed(context: Context, endTime: Long): String {
-    val timePassed = System.currentTimeMillis() - endTime
+    val endTimeInMillis = TimeUnit.SECONDS.toMillis(endTime)
+    val timeElapsed = System.currentTimeMillis() - endTimeInMillis
 
-    val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
-    val months = TimeUnit.MILLISECONDS.toDays(timePassed) / 30
-    val days = TimeUnit.MILLISECONDS.toDays(timePassed)
-    val hours = TimeUnit.MILLISECONDS.toHours(timePassed)
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
+    val years = TimeUnit.MILLISECONDS.toDays(timeElapsed) / 365
+    val months = TimeUnit.MILLISECONDS.toDays(timeElapsed) / 30
+    val days = TimeUnit.MILLISECONDS.toDays(timeElapsed)
+    val hours = TimeUnit.MILLISECONDS.toHours(timeElapsed)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeElapsed)
 
     return when {
         years > 0 -> context.resources.getQuantityString(R.plurals.year, years.toInt(), years)
