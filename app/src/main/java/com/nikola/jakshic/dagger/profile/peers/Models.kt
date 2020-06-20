@@ -10,16 +10,16 @@ data class PeerJson(
     @Json(name = "account_id") var peerId: Long,
     @Json(name = "personaname") var personaname: String?,
     @Json(name = "avatarfull") var avatarfull: String?,
-    @Json(name = "with_games") var withGames: Int,
-    @Json(name = "with_win") var withWin: Int
+    @Json(name = "with_games") var withGames: Long,
+    @Json(name = "with_win") var withWin: Long
 )
 
 data class PeerUI(
     val peerId: Long,
     val personaname: String?,
     val avatarfull: String?,
-    val withGames: Int,
-    val withWin: Int
+    val withGames: Long,
+    val withWin: Long
 )
 
 fun PeerJson.mapToDb(): Peers {
@@ -28,8 +28,8 @@ fun PeerJson.mapToDb(): Peers {
         peer_id = this.peerId,
         persona_name = this.personaname,
         avatar_url = this.avatarfull,
-        games = this.withGames.toLong(),
-        wins = this.withWin.toLong()
+        games = this.withGames,
+        wins = this.withWin
     )
 }
 
@@ -45,7 +45,7 @@ fun mapToUi(
         peerId = peer_id,
         personaname = persona_name,
         avatarfull = avatar_url,
-        withGames = games.toInt(),
-        withWin = wins.toInt()
+        withGames = games,
+        withWin = wins
     )
 }

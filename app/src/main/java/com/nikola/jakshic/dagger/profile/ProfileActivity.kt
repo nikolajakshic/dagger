@@ -57,7 +57,7 @@ class ProfileActivity : AppCompatActivity() {
                 collapsingToolbar.title = name
                 tvPlayerName.text = name
 
-                tvLeaderboardRank.text = if (it.leaderboardRank != 0) it.leaderboardRank.toString() else null
+                tvLeaderboardRank.text = if (it.leaderboardRank != 0L) it.leaderboardRank.toString() else null
                 tvPlayerId.text = it.id.toString()
                 tvPlayerGames.text = resources.getString(R.string.player_games, it.wins + it.losses)
                 tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins)

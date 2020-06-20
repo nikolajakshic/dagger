@@ -7,8 +7,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 class _Player(
     @Json(name = "profile") val player: PlayerJson?,
-    @Json(name = "rank_tier") val rankTier: Int,
-    @Json(name = "leaderboard_rank") val leaderboardRank: Int
+    @Json(name = "rank_tier") val rankTier: Long,
+    @Json(name = "leaderboard_rank") val leaderboardRank: Long
 )
 
 @JsonClass(generateAdapter = true)
@@ -17,10 +17,10 @@ data class PlayerJson(
     @Json(name = "name") var name: String?,
     @Json(name = "personaname") var personaName: String?,
     @Json(name = "avatarfull") var avatarUrl: String?,
-    @Json(name = "rank_tier") var rankTier: Int = 0,
-    @Json(name = "leaderboard_rank") var leaderboardRank: Int = 0,
-    @Json(name = "win") var wins: Int = 0,
-    @Json(name = "lose") var losses: Int = 0
+    @Json(name = "rank_tier") var rankTier: Long = 0,
+    @Json(name = "leaderboard_rank") var leaderboardRank: Long = 0,
+    @Json(name = "win") var wins: Long = 0,
+    @Json(name = "lose") var losses: Long = 0
 )
 
 data class PlayerUI(
@@ -28,10 +28,10 @@ data class PlayerUI(
     val name: String?,
     val personaName: String?,
     val avatarUrl: String?,
-    val rankTier: Int = 0,
-    val leaderboardRank: Int = 0,
-    val wins: Int = 0,
-    val losses: Int = 0
+    val rankTier: Long = 0,
+    val leaderboardRank: Long = 0,
+    val wins: Long = 0,
+    val losses: Long = 0
 )
 
 fun Players.mapToUi(): PlayerUI {
@@ -40,10 +40,10 @@ fun Players.mapToUi(): PlayerUI {
         name,
         persona_name,
         avatar_url,
-        rank_tier.toInt(),
-        leaderboard_rank.toInt(),
-        wins.toInt(),
-        losses.toInt()
+        rank_tier,
+        leaderboard_rank,
+        wins,
+        losses
     )
 }
 

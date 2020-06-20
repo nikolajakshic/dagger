@@ -34,16 +34,16 @@ class MatchAdapter(
 
         fun bind(item: MatchUI) {
             with(itemView) {
-                imgHero.load(DotaUtil.getHero(context, item.heroId.toLong()))
+                imgHero.load(DotaUtil.getHero(context, item.heroId))
                 tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
                 val resultColor = if (isWin(item))
                     ContextCompat.getColor(context, R.color.color_green)
                 else
                     ContextCompat.getColor(context, R.color.color_red)
                 tvMatchResult.setTextColor(resultColor)
-                tvMatchSkill.text = DotaUtil.skill[item.skill, context.getString(R.string.unknown)]
-                tvMatchMode.text = DotaUtil.mode[item.gameMode, context.getString(R.string.unknown)]
-                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType, context.getString(R.string.unknown)]
+                tvMatchSkill.text = DotaUtil.skill[item.skill.toInt(), context.getString(R.string.unknown)]
+                tvMatchMode.text = DotaUtil.mode[item.gameMode.toInt(), context.getString(R.string.unknown)]
+                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType.toInt(), context.getString(R.string.unknown)]
                 tvMatchDuration.text = getDuration(context, item)
                 tvMatchTimeElapsed.text = timeElapsed(context, item.startTime + item.duration)
             }
@@ -59,7 +59,7 @@ class MatchAdapter(
             val hours = item.duration / (60 * 60)
             val minutes = (item.duration / 60) % 60
             val seconds = item.duration % 60
-            if (hours != 0) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
+            if (hours != 0L) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
             return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
         }
     }

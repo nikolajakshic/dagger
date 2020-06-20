@@ -85,12 +85,12 @@ object DotaUtil {
         return resource.getIdentifier(hero + id, "drawable", packageName)
     }
 
-    fun getMedal(context: Context, rankTier: Int, leaderBoardRank: Int): Int {
+    fun getMedal(context: Context, rankTier: Long, leaderBoardRank: Long): Int {
         val resource = context.resources
         val packageName = context.packageName
 
         val medalName = when {
-            rankTier == 0 -> medal + "0"
+            rankTier == 0L -> medal + "0"
             leaderBoardRank in 1..10 -> medal + "7b"
             leaderBoardRank in 11..100 -> medal + "7a"
             else -> medal + rankTier / 10
@@ -99,14 +99,14 @@ object DotaUtil {
         return resource.getIdentifier(medalName, "drawable", packageName)
     }
 
-    fun getStars(context: Context, rankTier: Int, leaderBoardRank: Int): Int {
+    fun getStars(context: Context, rankTier: Long, leaderBoardRank: Long): Int {
         val resource = context.resources
         val packageName = context.packageName
 
         val starName = when {
             // Resources.getIdentifier throws Exception if name param is null,
             // so we need to return empty String
-            leaderBoardRank != 0 -> "" // players placed on the leaderboard have special medals without stars
+            leaderBoardRank != 0L -> "" // players placed on the leaderboard have special medals without stars
             else -> stars + rankTier % 10
         }
 

@@ -35,10 +35,10 @@ class PlayerRepository @Inject constructor(
                     name = profile.player.name,
                     persona_name = profile.player.personaName,
                     avatar_url = profile.player.avatarUrl,
-                    rank_tier = profile.player.rankTier.toLong(),
-                    leaderboard_rank = profile.player.leaderboardRank.toLong(),
-                    wins = profile.player.wins.toLong(),
-                    losses = profile.player.losses.toLong()
+                    rank_tier = profile.player.rankTier,
+                    leaderboard_rank = profile.player.leaderboardRank,
+                    wins = profile.player.wins,
+                    losses = profile.player.losses
                 )
             )
         }

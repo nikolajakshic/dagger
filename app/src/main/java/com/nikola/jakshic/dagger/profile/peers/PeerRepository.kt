@@ -43,7 +43,7 @@ class PeerRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val peers = service.getPeers(id)
-                val list = peers.filter { it.withGames != 0 } // filter opponents from the peer list
+                val list = peers.filter { it.withGames != 0L } // filter opponents from the peer list
                 list.map {
                     it.accountId = id // response from the network doesn't contain any information
                     it // about whose this peers are, so we need to set this manually

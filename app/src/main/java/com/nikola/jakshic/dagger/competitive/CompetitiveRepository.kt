@@ -51,12 +51,12 @@ class CompetitiveRepository @Inject constructor(
                         Competitive(
                             match_id = it.matchId,
                             start_time = it.startTime,
-                            duration = it.duration.toLong(),
+                            duration = it.duration,
                             radiant_name = it.radiantName,
                             dire_name = it.direName,
                             league_name = it.leagueName,
-                            radiant_score = it.radiantScore.toLong(),
-                            dire_score = it.direScore.toLong(),
+                            radiant_score = it.radiantScore,
+                            dire_score = it.direScore,
                             radiant_win = it.isRadiantWin
                         )
                     }

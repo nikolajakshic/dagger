@@ -8,10 +8,10 @@ data class PlayerBookmarkUI(
     var name: String?,
     var personaName: String?,
     var avatarUrl: String?,
-    var rankTier: Int,
-    var leaderboardRank: Int,
-    var wins: Int,
-    var losses: Int
+    var rankTier: Long,
+    var leaderboardRank: Long,
+    var wins: Long,
+    var losses: Long
 )
 
 fun Select.mapToUi(): PlayerBookmarkUI {
@@ -20,10 +20,10 @@ fun Select.mapToUi(): PlayerBookmarkUI {
         name = this.name,
         personaName = this.persona_name,
         avatarUrl = this.avatar_url,
-        rankTier = this.rank_tier.toInt(),
-        leaderboardRank = this.leaderboard_rank.toInt(),
-        wins = this.wins.toInt(),
-        losses = this.losses.toInt()
+        rankTier = this.rank_tier,
+        leaderboardRank = this.leaderboard_rank,
+        wins = this.wins,
+        losses = this.losses
     )
 }
 
@@ -38,10 +38,10 @@ fun List<SelectAllPlayerBookmark>.mapToUi(): List<PlayerBookmarkUI> {
                 item.name,
                 item.persona_name,
                 item.avatar_url,
-                item.rank_tier.toInt(),
-                item.leaderboard_rank.toInt(),
-                item.wins.toInt(),
-                item.losses.toInt()
+                item.rank_tier,
+                item.leaderboard_rank,
+                item.wins,
+                item.losses
             )
         )
     }
