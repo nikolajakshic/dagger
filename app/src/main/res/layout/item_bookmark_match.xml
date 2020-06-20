@@ -215,7 +215,7 @@
             tools:text="ID 4743170778" />
 
         <TextView
-            android:id="@+id/tvTimePassed"
+            android:id="@+id/tvTimeElapsed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

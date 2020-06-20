@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_bookmark_match.view.*
-import java.util.concurrent.TimeUnit
 
 class MatchBookmarkAdapter(
     private val onClick: (matchId: Long) -> Unit,
@@ -53,7 +53,8 @@ class MatchBookmarkAdapter(
                 tvMatchId.text = "ID ${item.matchStats.matchId}"
                 tvRadiantScore.text = "${item.matchStats.radiantScore}"
                 tvDireScore.text = "${item.matchStats.direScore}"
-                tvTimePassed.text = getTimePassed(item)
+                val endTime = item.matchStats.startTime + item.matchStats.duration
+                tvTimeElapsed.text = timeElapsed(context, endTime)
                 tvMatchNote.text = item.note ?: context.getString(R.string.note_touch_and_hold)
                 if (item.matchStats.isRadiantWin) {
                     imgWinnerRadiant.visibility = View.VISIBLE
@@ -72,25 +73,6 @@ class MatchBookmarkAdapter(
                 imgPlayer8.load(DotaUtil.getHero(context, item.matchStats.players[7].heroId))
                 imgPlayer9.load(DotaUtil.getHero(context, item.matchStats.players[8].heroId))
                 imgPlayer10.load(DotaUtil.getHero(context, item.matchStats.players[9].heroId))
-            }
-        }
-
-        private fun getTimePassed(item: MatchBookmarkUI): String? {
-            val endTime = TimeUnit.SECONDS.toMillis(item.matchStats.startTime + item.matchStats.duration)
-            val timePassed = System.currentTimeMillis() - endTime
-
-            val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
-            val months = TimeUnit.MILLISECONDS.toDays(timePassed) / 30
-            val days = TimeUnit.MILLISECONDS.toDays(timePassed)
-            val hours = TimeUnit.MILLISECONDS.toHours(timePassed)
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
-
-            return when {
-                years > 0 -> itemView.context.resources?.getQuantityString(R.plurals.year, years.toInt(), years)
-                months > 0 -> itemView.context.resources?.getQuantityString(R.plurals.month, months.toInt(), months)
-                days > 0 -> itemView.context.resources?.getQuantityString(R.plurals.day, days.toInt(), days)
-                hours > 0 -> itemView.context.resources?.getQuantityString(R.plurals.hour, hours.toInt(), hours)
-                else -> itemView.context.resources?.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
             }
         }
     }

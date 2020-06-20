@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.item_match.view.*
-import java.util.concurrent.TimeUnit
 
 class MatchAdapter(
     val listener: (Long) -> Unit
@@ -45,7 +45,7 @@ class MatchAdapter(
                 tvMatchMode.text = DotaUtil.mode[item.gameMode, context.getString(R.string.unknown)]
                 tvMatchLobby.text = DotaUtil.lobby[item.lobbyType, context.getString(R.string.unknown)]
                 tvMatchDuration.text = getDuration(context, item)
-                tvMatchTimePassed.text = getTimePassed(context, item)
+                tvMatchTimeElapsed.text = timeElapsed(context, item.startTime + item.duration)
             }
         }
 
@@ -61,25 +61,6 @@ class MatchAdapter(
             val seconds = item.duration % 60
             if (hours != 0) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
             return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
-        }
-
-        private fun getTimePassed(context: Context, item: MatchUI): String? {
-            val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
-            val timePassed = System.currentTimeMillis() - endTime
-
-            val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
-            val months = TimeUnit.MILLISECONDS.toDays(timePassed) / 30
-            val days = TimeUnit.MILLISECONDS.toDays(timePassed)
-            val hours = TimeUnit.MILLISECONDS.toHours(timePassed)
-            val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
-
-            return when {
-                years > 0 -> context.resources?.getQuantityString(R.plurals.year, years.toInt(), years)
-                months > 0 -> context.resources?.getQuantityString(R.plurals.month, months.toInt(), months)
-                days > 0 -> context.resources?.getQuantityString(R.plurals.day, days.toInt(), days)
-                hours > 0 -> context.resources?.getQuantityString(R.plurals.hour, hours.toInt(), hours)
-                else -> context.resources?.getQuantityString(R.plurals.minute, minutes.toInt(), minutes)
-            }
         }
     }
 

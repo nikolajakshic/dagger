@@ -81,7 +81,7 @@
     <TextView
         android:maxLines="1"
         android:ellipsize="end"
-        android:id="@+id/tvMatchTimePassed"
+        android:id="@+id/tvMatchTimeElapsed"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

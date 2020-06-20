@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
@@ -25,7 +26,6 @@ import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
 import kotlinx.android.synthetic.main.item_match_stats_match_info.*
 import kotlinx.android.synthetic.main.item_match_stats_minimap.*
-import java.util.concurrent.TimeUnit
 
 class OverviewFragment : Fragment() {
 
@@ -136,7 +136,7 @@ class OverviewFragment : Fragment() {
         tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
         tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
         tvMatchDuration.text = getDuration(item)
-        tvMatchTimePassed.text = getTimePassed(item)
+        tvMatchTimeElapsed.text = timeElapsed(context!!, item.startTime + item.duration)
     }
 
     private fun bindMinimap(item: MatchStatsUI) {
@@ -204,24 +204,5 @@ class OverviewFragment : Fragment() {
         val seconds = item.duration % 60
         if (hours != 0L) return resources.getString(R.string.match_duration_with_prefix, hours, minutes, seconds)
         return resources.getString(R.string.match_duration_zero_hours_with_prefix, minutes, seconds)
-    }
-
-    private fun getTimePassed(item: MatchStatsUI): String {
-        val endTime = TimeUnit.SECONDS.toMillis(item.startTime + item.duration)
-        val timePassed = System.currentTimeMillis() - endTime
-
-        val years = TimeUnit.MILLISECONDS.toDays(timePassed) / 365
-        val months = TimeUnit.MILLISECONDS.toDays(timePassed) / 30
-        val days = TimeUnit.MILLISECONDS.toDays(timePassed)
-        val hours = TimeUnit.MILLISECONDS.toHours(timePassed)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(timePassed)
-
-        return when {
-            years > 0 -> resources.getQuantityString(R.plurals.year_with_prefix, years.toInt(), years)
-            months > 0 -> resources.getQuantityString(R.plurals.month_with_prefix, months.toInt(), months)
-            days > 0 -> resources.getQuantityString(R.plurals.day_with_prefix, days.toInt(), days)
-            hours > 0 -> resources.getQuantityString(R.plurals.hour_with_prefix, hours.toInt(), hours)
-            else -> resources.getQuantityString(R.plurals.minute_with_prefix, minutes.toInt(), minutes)
-        }
     }
 }
