@@ -5,6 +5,8 @@ import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,36 +22,44 @@ class HeroRepository @Inject constructor(
      * the requested data in the database has changed
      */
     fun getHeroesFlowByGames(id: Long) =
-        heroQueries.selectAllByGames(id, ::mapToUi)
+        heroQueries.selectAllByGames(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
     fun getHeroesFlowByWinrate(id: Long) =
-        heroQueries.selectAllByWinrate(id, ::mapToUi)
+        heroQueries.selectAllByWinrate(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
     fun getHeroesFlowByWins(id: Long) =
-        heroQueries.selectAllByWins(id, ::mapToUi)
+        heroQueries.selectAllByWins(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
     fun getHeroesFlowByLosses(id: Long) =
-        heroQueries.selectAllByLosses(id, ::mapToUi)
+        heroQueries.selectAllByLosses(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Fetches the heroes from the network and inserts them into database.

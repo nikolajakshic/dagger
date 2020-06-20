@@ -5,6 +5,8 @@ import com.nikola.jakshic.dagger.common.sqldelight.PeerQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,18 +22,22 @@ class PeerRepository @Inject constructor(
      * the requested data in the database has changed
      */
     fun getPeersFlowByGames(id: Long) =
-        peerQueries.selectAllByGames(id, ::mapToUi)
+        peerQueries.selectAllByGames(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
     fun getPeersFlowByWinrate(id: Long) =
-        peerQueries.selectAllByWinrate(id, ::mapToUi)
+        peerQueries.selectAllByWinrate(id)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
+            .flowOn(Dispatchers.IO)
 
     /**
      * Fetches the peers from the network and inserts them into database.

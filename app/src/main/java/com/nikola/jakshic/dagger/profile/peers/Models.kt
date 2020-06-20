@@ -33,19 +33,18 @@ fun PeerJson.mapToDb(): Peers {
     )
 }
 
-fun mapToUi(
-    account_id: Long,
-    peer_id: Long,
-    persona_name: String?,
-    avatar_url: String?,
-    games: Long,
-    wins: Long
-): PeerUI {
-    return PeerUI(
-        peerId = peer_id,
-        personaname = persona_name,
-        avatarfull = avatar_url,
-        withGames = games,
-        withWin = wins
-    )
+fun List<Peers>.mapToUi(): List<PeerUI> {
+    val list = mutableListOf<PeerUI>()
+    for (item in this) {
+        list.add(
+            PeerUI(
+                peerId = item.peer_id,
+                personaname = item.persona_name,
+                avatarfull = item.avatar_url,
+                withGames = item.games,
+                withWin = item.wins
+            )
+        )
+    }
+    return list
 }

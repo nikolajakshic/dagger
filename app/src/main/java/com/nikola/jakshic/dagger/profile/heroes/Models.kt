@@ -27,23 +27,16 @@ fun HeroJson.mapToDb(): Heroes {
     )
 }
 
-fun Heroes.mapToUi(): HeroUI {
-    return HeroUI(
-        heroId = this.hero_id,
-        gamesPlayed = this.games,
-        gamesWon = this.wins
-    )
-}
-
-fun mapToUi(
-    account_id: Long,
-    hero_id: Long,
-    games: Long,
-    wins: Long
-): HeroUI {
-    return HeroUI(
-        heroId = hero_id,
-        gamesPlayed = games,
-        gamesWon = wins
-    )
+fun List<Heroes>.mapToUi(): List<HeroUI> {
+    val list = mutableListOf<HeroUI>()
+    for (item in this) {
+        list.add(
+            HeroUI(
+                heroId = item.hero_id,
+                gamesPlayed = item.games,
+                gamesWon = item.wins
+            )
+        )
+    }
+    return list
 }

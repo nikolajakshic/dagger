@@ -73,27 +73,10 @@ fun Matches.mapToUi(): MatchUI {
     )
 }
 
-fun mapToUi(
-    account_id: Long,
-    match_id: Long,
-    hero_id: Long,
-    player_slot: Long,
-    skill: Long,
-    duration: Long,
-    mode: Long,
-    lobby: Long,
-    radiant_win: Boolean,
-    start_time: Long
-): MatchUI {
-    return MatchUI(
-        matchId = match_id,
-        heroId = hero_id,
-        playerSlot = player_slot,
-        skill = skill,
-        duration = duration,
-        gameMode = mode,
-        lobbyType = lobby,
-        isRadiantWin = radiant_win,
-        startTime = start_time
-    )
+fun List<Matches>.mapToUi(): List<MatchUI> {
+    val list = mutableListOf<MatchUI>()
+    for (item in this) {
+        list.add(item.mapToUi())
+    }
+    return list
 }

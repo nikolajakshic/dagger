@@ -8,6 +8,7 @@ import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
@@ -39,13 +40,13 @@ class MatchRepository @Inject constructor(
      */
     fun getMatchesLiveData(scope: CoroutineScope, id: Long): Response {
         val queryProvider = { limit: Long, offset: Long ->
-            matchQueries.selectAll(id, limit, offset, ::mapToUi)
+            matchQueries.selectAll(id, limit, offset)
         }
         val factory = QueryDataSourceFactory(
             queryProvider = queryProvider,
             countQuery = matchQueries.countMatches(id),
             transacter = matchQueries
-        )
+        ).map(Matches::mapToUi)
 
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
