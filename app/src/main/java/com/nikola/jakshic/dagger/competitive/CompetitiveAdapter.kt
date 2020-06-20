@@ -9,14 +9,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import com.nikola.jakshic.dagger.common.timeElapsed
 import kotlinx.android.synthetic.main.item_competitive.view.*
 
 class CompetitiveAdapter(
     val context: Context,
     val listener: (matchId: Long?) -> Unit
-) : PagedListAdapter<Competitive, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
+) : PagedListAdapter<CompetitiveUI, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {
         return CompetitiveViewHolder(parent.inflate(R.layout.item_competitive))
@@ -30,23 +29,23 @@ class CompetitiveAdapter(
 
         init {
             itemView.setOnClickListener {
-                listener(getItem(adapterPosition)!!.match_id)
+                listener(getItem(adapterPosition)!!.matchId)
             }
         }
 
-        fun bind(item: Competitive) {
-            val leagueName = if (TextUtils.isEmpty(item.league_name)) context.getString(R.string.match_unknown_league) else item.league_name
-            val radiantName = if (TextUtils.isEmpty(item.radiant_name)) context.getString(R.string.match_unknown_team) else item.radiant_name
-            val direName = if (TextUtils.isEmpty(item.dire_name)) context.getString(R.string.match_unknown_team) else item.dire_name
-            val timeElapsed = timeElapsed(context, item.start_time + item.duration)
-            val radiantTrophy = if (item.radiant_win) R.drawable.ic_trophy else R.drawable.ic_trophy_invisible
-            val direTrophy = if (item.radiant_win) R.drawable.ic_trophy_invisible else R.drawable.ic_trophy
+        fun bind(item: CompetitiveUI) {
+            val leagueName = if (TextUtils.isEmpty(item.leagueName)) context.getString(R.string.match_unknown_league) else item.leagueName
+            val radiantName = if (TextUtils.isEmpty(item.radiantName)) context.getString(R.string.match_unknown_team) else item.radiantName
+            val direName = if (TextUtils.isEmpty(item.direName)) context.getString(R.string.match_unknown_team) else item.direName
+            val timeElapsed = timeElapsed(context, item.startTime + item.duration)
+            val radiantTrophy = if (item.isRadiantWin) R.drawable.ic_trophy else R.drawable.ic_trophy_invisible
+            val direTrophy = if (item.isRadiantWin) R.drawable.ic_trophy_invisible else R.drawable.ic_trophy
 
             with(itemView) {
                 tvRadiantName.text = radiantName
-                tvRadiantScore.text = item.radiant_score.toString()
+                tvRadiantScore.text = item.radiantScore.toString()
                 tvDireName.text = direName
-                tvDireScore.text = item.dire_score.toString()
+                tvDireScore.text = item.direScore.toString()
                 tvLeagueName.text = leagueName
                 tvTimeElapsed.text = timeElapsed
                 tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(radiantTrophy, 0, 0, 0)
@@ -56,12 +55,12 @@ class CompetitiveAdapter(
     }
 
     companion object {
-        val COMPETITIVE_COMPARATOR = object : DiffUtil.ItemCallback<Competitive>() {
-            override fun areItemsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {
-                return oldItem.match_id == newItem.match_id
+        val COMPETITIVE_COMPARATOR = object : DiffUtil.ItemCallback<CompetitiveUI>() {
+            override fun areItemsTheSame(oldItem: CompetitiveUI, newItem: CompetitiveUI): Boolean {
+                return oldItem.matchId == newItem.matchId
             }
 
-            override fun areContentsTheSame(oldItem: Competitive, newItem: Competitive): Boolean {
+            override fun areContentsTheSame(oldItem: CompetitiveUI, newItem: CompetitiveUI): Boolean {
                 return oldItem == newItem
             }
         }

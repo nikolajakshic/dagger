@@ -13,3 +13,19 @@ data class Stream(
     @Json(name = "viewer_count") val viewerCount: Long,
     @Json(name = "thumbnail_url") val thumbnailUrl: String
 )
+
+data class StreamUI(
+    val userName: String,
+    val title: String,
+    val viewerCount: Long,
+    val thumbnailUrl: String
+)
+
+fun Stream.mapToUi(): StreamUI {
+    return StreamUI(
+        userName = userName,
+        title = title,
+        viewerCount = viewerCount,
+        thumbnailUrl = thumbnailUrl
+    )
+}

@@ -5,12 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.common.sqldelight.Search_history
 import kotlinx.android.synthetic.main.item_search_history.view.*
 
 class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<HistoryAdapter.HistoryVH>() {
 
-    private var list: List<Search_history>? = null
+    private var list: List<SearchHistoryUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryVH {
         return HistoryVH(parent.inflate(R.layout.item_search_history))
@@ -22,7 +21,7 @@ class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<Hist
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(newList: List<Search_history>?) {
+    fun addData(newList: List<SearchHistoryUI>?) {
         list = newList
         notifyDataSetChanged()
     }
@@ -33,7 +32,7 @@ class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<Hist
             itemView.setOnClickListener { listener(list!![adapterPosition].query) }
         }
 
-        fun bind(item: Search_history) {
+        fun bind(item: SearchHistoryUI) {
             with(itemView) {
                 tvQuery.text = item.query
             }

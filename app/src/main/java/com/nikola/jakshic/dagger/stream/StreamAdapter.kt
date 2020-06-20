@@ -12,7 +12,7 @@ class StreamAdapter(
     private val listener: (userName: String) -> Unit
 ) : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
 
-    private var list: List<Stream>? = null
+    private var list: List<StreamUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
         return StreamViewHolder(parent.inflate(R.layout.item_stream))
@@ -24,7 +24,7 @@ class StreamAdapter(
         holder.bind(list!![position])
     }
 
-    fun addData(list: List<Stream>?) {
+    fun addData(list: List<StreamUI>?) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -35,7 +35,7 @@ class StreamAdapter(
             itemView.setOnClickListener { listener(list!![adapterPosition].userName) }
         }
 
-        fun bind(item: Stream) {
+        fun bind(item: StreamUI) {
             with(itemView) {
                 tvName.text = item.userName
                 tvTitle.text = item.title

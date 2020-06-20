@@ -44,9 +44,12 @@ class PlayerRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchPlayers(name: String, onSuccess: (List<PlayerJson>) -> Unit, onError: () -> Unit) {
+    suspend fun fetchPlayers(name: String, onSuccess: (List<PlayerUI>) -> Unit, onError: () -> Unit) {
         try {
-            val list = withContext(Dispatchers.IO) { service.searchPlayers(name) }
+            val list = withContext(Dispatchers.IO) {
+                service.searchPlayers(name)
+                    .map(PlayerJson::mapToUi)
+            }
             onSuccess(list)
         } catch (e: Exception) {
             onError()

@@ -6,8 +6,8 @@ import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.common.sqldelight.Search_history
-import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile.PlayerRepository
+import com.nikola.jakshic.dagger.profile.PlayerUI
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,19 +24,19 @@ class SearchViewModel @Inject constructor(
     private var job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
-    private val _playerList = MutableLiveData<List<PlayerJson>>()
-    val playerList: LiveData<List<PlayerJson>>
+    private val _playerList = MutableLiveData<List<PlayerUI>>()
+    val playerList: LiveData<List<PlayerUI>>
         get() = _playerList
 
-    private val _historyList = MutableLiveData<List<Search_history>>()
-    val historyList: LiveData<List<Search_history>>
+    private val _historyList = MutableLiveData<List<SearchHistoryUI>>()
+    val historyList: LiveData<List<SearchHistoryUI>>
         get() = _historyList
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
 
-    private val onSuccess: (List<PlayerJson>) -> Unit = {
+    private val onSuccess: (List<PlayerUI>) -> Unit = {
         _status.value = Status.SUCCESS
         _playerList.value = it
     }
@@ -44,23 +44,30 @@ class SearchViewModel @Inject constructor(
 
     fun getAllQueries() {
         launch {
-            val list = withContext(Dispatchers.IO) { searchHistoryQueries.selectAll().executeAsList() }
+            val list = withContext(Dispatchers.IO) {
+                searchHistoryQueries.selectAll()
+                    .executeAsList()
+                    .map(Search_history::mapToUi)
+            }
             _historyList.value = list
         }
     }
 
     fun getQueries(query: String) {
         launch {
-            val list = withContext(Dispatchers.IO) { searchHistoryQueries.selectAllByQuery(query).executeAsList() }
+            val list = withContext(Dispatchers.IO) {
+                searchHistoryQueries.selectAllByQuery(query)
+                    .executeAsList()
+                    .map(Search_history::mapToUi)
+            }
             _historyList.value = list
         }
     }
 
-    fun saveQuery(item: SearchHistory) {
+    fun saveQuery(item: SearchHistoryUI) {
         launch {
             withContext(Dispatchers.IO) {
-                // ID is auto-incrementing, the value we passed here is irrelevant.
-                searchHistoryQueries.insert(Search_history(-1, item.query))
+                searchHistoryQueries.insert(item.mapToDb())
             }
         }
     }

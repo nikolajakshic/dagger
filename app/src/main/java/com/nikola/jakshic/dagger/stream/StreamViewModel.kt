@@ -11,15 +11,15 @@ class StreamViewModel @Inject constructor(
     private val repository: StreamRepository
 ) : ScopedViewModel() {
 
-    private val _streams = MutableLiveData<List<Stream>>()
-    val streams: LiveData<List<Stream>>
+    private val _streams = MutableLiveData<List<StreamUI>>()
+    val streams: LiveData<List<StreamUI>>
         get() = _streams
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
 
-    private val onSuccess: (List<Stream>) -> Unit = {
+    private val onSuccess: (List<StreamUI>) -> Unit = {
         _status.value = Status.SUCCESS
         _streams.value = it
     }

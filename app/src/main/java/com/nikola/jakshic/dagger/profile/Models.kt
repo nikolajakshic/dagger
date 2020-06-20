@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.profile
 
+import com.nikola.jakshic.dagger.common.sqldelight.Players
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -21,3 +22,40 @@ data class PlayerJson(
     @Json(name = "win") var wins: Int = 0,
     @Json(name = "lose") var losses: Int = 0
 )
+
+data class PlayerUI(
+    val id: Long = 0,
+    val name: String?,
+    val personaName: String?,
+    val avatarUrl: String?,
+    val rankTier: Int = 0,
+    val leaderboardRank: Int = 0,
+    val wins: Int = 0,
+    val losses: Int = 0
+)
+
+fun Players.mapToUi(): PlayerUI {
+    return PlayerUI(
+        account_id,
+        name,
+        persona_name,
+        avatar_url,
+        rank_tier.toInt(),
+        leaderboard_rank.toInt(),
+        wins.toInt(),
+        losses.toInt()
+    )
+}
+
+fun PlayerJson.mapToUi(): PlayerUI {
+    return PlayerUI(
+        id = id,
+        name = name,
+        personaName = personaName,
+        avatarUrl = avatarUrl,
+        rankTier = rankTier,
+        leaderboardRank = leaderboardRank,
+        wins = wins,
+        losses = losses
+    )
+}

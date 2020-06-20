@@ -7,10 +7,14 @@ import javax.inject.Inject
 
 class StreamRepository @Inject constructor(private val service: TwitchService) {
 
-    suspend fun getStreams(onSuccess: (list: List<Stream>) -> Unit, onError: () -> Unit) {
+    suspend fun getStreams(onSuccess: (list: List<StreamUI>) -> Unit, onError: () -> Unit) {
         try {
-            val list = withContext(Dispatchers.IO) { service.getStreams() }
-            onSuccess(list.stream)
+            val list = withContext(Dispatchers.IO) {
+                service.getStreams()
+                    .stream
+                    .map(Stream::mapToUi)
+            }
+            onSuccess(list)
         } catch (e: Exception) {
             onError()
         }

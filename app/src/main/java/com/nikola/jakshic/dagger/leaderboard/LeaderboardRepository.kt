@@ -8,6 +8,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -22,10 +23,11 @@ class LeaderboardRepository @Inject constructor(
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getLeaderboardFlow(region: String): Flow<List<Leaderboards>> {
+    fun getLeaderboardFlow(region: String): Flow<List<LeaderboardUI>> {
         return leaderboardQueries.selectAll(region)
             .asFlow()
             .mapToList(Dispatchers.IO)
+            .map { it.mapToUi() }
     }
 
     /**

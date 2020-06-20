@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.common.sqldelight.Leaderboards
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,8 +12,8 @@ class RegionViewModel @Inject constructor(
     private val repository: LeaderboardRepository
 ) : ScopedViewModel() {
 
-    private val _list = MutableLiveData<List<Leaderboards>>()
-    val list: LiveData<List<Leaderboards>>
+    private val _list = MutableLiveData<List<LeaderboardUI>>()
+    val list: LiveData<List<LeaderboardUI>>
         get() = _list
 
     private val _status = MutableLiveData<Status>()

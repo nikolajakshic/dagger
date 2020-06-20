@@ -22,12 +22,12 @@ class CompetitiveRepository @Inject constructor(
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
-    fun getCompetitiveLiveData(): LiveData<PagedList<Competitive>> {
+    fun getCompetitiveLiveData(): LiveData<PagedList<CompetitiveUI>> {
         val factory = QueryDataSourceFactory(
             queryProvider = competitiveQueries::getMatches,
             countQuery = competitiveQueries.countMatches(),
             transacter = competitiveQueries
-        )
+        ).map(Competitive::mapToUi)
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(80)
             .setPageSize(40)

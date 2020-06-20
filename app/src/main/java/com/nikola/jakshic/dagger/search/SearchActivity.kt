@@ -118,7 +118,7 @@ class SearchActivity : AppCompatActivity() {
                 else
                     toast(getString(R.string.error_network_connection))
 
-                viewModel.saveQuery(SearchHistory(query!!))
+                viewModel.saveQuery(SearchHistoryUI(query!!))
                 searchView.clearFocus()
 
                 return true

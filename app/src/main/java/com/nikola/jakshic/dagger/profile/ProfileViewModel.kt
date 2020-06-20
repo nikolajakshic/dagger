@@ -9,11 +9,9 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.Bookmark
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Players
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -31,9 +29,8 @@ class ProfileViewModel @Inject constructor(
     val status: LiveData<Status>
         get() = _status
 
-    // TODO PLAYERS SHOULD NOT BE REFERENCED FROM THE DB MODEL, DO IT FROM THE PlayerUI
-    private val _profile = MutableLiveData<Players>()
-    val profile: LiveData<Players>
+    private val _profile = MutableLiveData<PlayerUI>()
+    val profile: LiveData<PlayerUI>
         get() = _profile
 
     private val _bookmark = MutableLiveData<PlayerBookmarkUI>()
@@ -52,7 +49,9 @@ class ProfileViewModel @Inject constructor(
                 playerQueries.select(id)
                     .asFlow()
                     .mapToOneOrNull(Dispatchers.IO)
-                    .collect { _profile.value = it }
+                    .map { it?.mapToUi() }
+                    .flowOn(Dispatchers.IO)
+                    .collectLatest { _profile.value = it }
             }
             launch {
                 playerBookmarkQueries.select(id)
