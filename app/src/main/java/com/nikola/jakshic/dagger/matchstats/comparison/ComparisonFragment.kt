@@ -69,7 +69,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
                             rightPlayerIndex,
                             stats.players.map { it.heroId }.toList().toLongArray())
                         dialog?.setTargetFragment(this, 301)
-                        dialog?.show(fragmentManager, null)
+                        dialog?.show(parentFragmentManager, null)
                     }
                 }
 

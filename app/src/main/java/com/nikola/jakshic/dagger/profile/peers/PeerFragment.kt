@@ -29,7 +29,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
     private lateinit var viewModel: PeerViewModel
     private lateinit var adapter: PeerAdapter
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
     }
@@ -74,7 +74,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         sortDialog.setTargetFragment(this, 300)
 
         btnSort.setOnClickListener {
-            if (!sortDialog.isAdded) sortDialog.show(fragmentManager, null)
+            if (!sortDialog.isAdded) sortDialog.show(parentFragmentManager, null)
         }
 
         swipeRefresh.setOnRefreshListener {

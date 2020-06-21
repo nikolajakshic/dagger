@@ -24,7 +24,7 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
     }

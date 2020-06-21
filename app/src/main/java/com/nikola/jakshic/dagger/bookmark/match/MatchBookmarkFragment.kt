@@ -23,7 +23,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
     @Inject lateinit var factory: DaggerViewModelFactory
     private lateinit var viewModel: MatchBookmarkViewModel
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
     }
@@ -51,7 +51,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
             onHold = { note, matchId ->
                 val dialog = MatchNoteDialog.newInstance(note, matchId)
                 dialog.setTargetFragment(this, 501)
-                dialog.show(fragmentManager, null)
+                dialog.show(parentFragmentManager, null)
             }
         )
 

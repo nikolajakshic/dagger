@@ -29,7 +29,7 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
     private lateinit var viewModel: HeroViewModel
     private lateinit var adapter: HeroAdapter
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
     }
@@ -76,7 +76,7 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
         sortDialog.setTargetFragment(this, 301)
 
         btnSort.setOnClickListener {
-            if (!sortDialog.isAdded) sortDialog.show(fragmentManager, null)
+            if (!sortDialog.isAdded) sortDialog.show(parentFragmentManager, null)
         }
 
         swipeRefresh.setOnRefreshListener {
