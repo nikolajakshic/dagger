@@ -33,4 +33,4 @@ CREATE TABLE IF NOT EXISTS player_stats (
 );
 
 insert:
-INSERT INTO player_stats VALUES ?;
+INSERT OR REPLACE INTO player_stats VALUES ?;

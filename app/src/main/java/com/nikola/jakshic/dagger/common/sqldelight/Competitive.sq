@@ -21,7 +21,7 @@ LIMIT :limit
 OFFSET :offset;
 
 insert:
-INSERT INTO competitive (
+INSERT OR REPLACE INTO competitive (
     match_id,
     start_time,
     duration,
