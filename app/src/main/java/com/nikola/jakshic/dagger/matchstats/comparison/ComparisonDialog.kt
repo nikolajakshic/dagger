@@ -35,16 +35,16 @@ class ComparisonDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val player1 = arguments!!.getInt("player1", 0)
-        val player2 = arguments!!.getInt("player2", 5)
-        val heroes = arguments!!.getLongArray("heroes")!!
+        val player1 = requireArguments().getInt("player1", 0)
+        val player2 = requireArguments().getInt("player2", 5)
+        val heroes = requireArguments().getLongArray("heroes")!!
 
         val root = view as ViewGroup
 
         for (i in 0 until root.childCount) {
             val imgHero = root.getChildAt(i) as ImageView
             val heroId = heroes[i]
-            imgHero.load(DotaUtil.getHero(context!!, heroId))
+            imgHero.load(DotaUtil.getHero(requireContext(), heroId))
             if (player1 == i || player2 == i) {
                 imgHero.alpha = 0.5F
                 continue

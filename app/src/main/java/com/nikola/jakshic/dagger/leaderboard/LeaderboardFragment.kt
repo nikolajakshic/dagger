@@ -30,7 +30,7 @@ class LeaderboardFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
         toolbar.inflateMenu(R.menu.menu_home)
 
-        adapter = RegionPagerAdapter(context!!, childFragmentManager)
+        adapter = RegionPagerAdapter(requireContext(), childFragmentManager)
 
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3

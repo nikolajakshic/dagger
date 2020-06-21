@@ -28,7 +28,7 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         super.onViewCreated(view, savedInstanceState)
         toolbar.inflateMenu(R.menu.menu_home)
 
-        adapter = BookmarkPagerAdapter(context!!, childFragmentManager)
+        adapter = BookmarkPagerAdapter(requireContext(), childFragmentManager)
 
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)

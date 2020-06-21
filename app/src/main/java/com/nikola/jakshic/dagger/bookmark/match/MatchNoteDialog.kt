@@ -55,8 +55,8 @@ class MatchNoteDialog : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val note = arguments!!.getString("note")
-        val matchId = arguments!!.getLong("match_id")
+        val note = requireArguments().getString("note")
+        val matchId = requireArguments().getLong("match_id")
         etMatchNote.setText(note)
         tvCharacterCounter.text = "${etMatchNote.text.length}/140" // TODO 140 should be 3rd argument in bundle taken from resources
         etMatchNote.addTextChangedListener(noteWatcher)

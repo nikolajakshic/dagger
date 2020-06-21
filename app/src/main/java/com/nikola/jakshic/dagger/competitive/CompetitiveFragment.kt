@@ -49,7 +49,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
 
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
-        val adapter = CompetitiveAdapter(context!!) {
+        val adapter = CompetitiveAdapter(requireContext()) {
             val intent = Intent(activity, MatchStatsActivity::class.java)
             intent.putExtra("match_id", it)
             startActivity(intent)

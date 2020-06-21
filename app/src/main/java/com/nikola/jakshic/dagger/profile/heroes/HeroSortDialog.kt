@@ -13,7 +13,7 @@ class HeroSortDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.sort_by))
             .setItems(R.array.sort_hero_options) { _, which ->
                 (targetFragment as OnSortListener).onSort(which)

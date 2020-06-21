@@ -53,7 +53,7 @@ class OverviewFragment : Fragment() {
             }
         }
 
-        val viewModel = ViewModelProviders.of(activity!!)[MatchStatsViewModel::class.java]
+        val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
 
         viewModel.match.observe(viewLifecycleOwner, Observer {
             if (it?.players?.size == 10) {
@@ -136,7 +136,7 @@ class OverviewFragment : Fragment() {
         tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
         tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
         tvMatchDuration.text = getDuration(item)
-        tvMatchTimeElapsed.text = timeElapsed(context!!, item.startTime + item.duration)
+        tvMatchTimeElapsed.text = timeElapsed(requireContext(), item.startTime + item.duration)
     }
 
     private fun bindMinimap(item: MatchStatsUI) {

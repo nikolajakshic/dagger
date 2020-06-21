@@ -84,7 +84,7 @@ class MatchFragment : Fragment() {
                 else -> {
                     swipeRefresh.isRefreshing = false
                     snackbar = Snackbar.make(swipeRefresh, getString(R.string.error_network), Snackbar.LENGTH_INDEFINITE)
-                    snackbar?.setActionTextColor(ContextCompat.getColor(context!!, android.R.color.white))
+                    snackbar?.setActionTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
                     snackbar?.setAction(getString(R.string.retry)) {
                         viewModel.retry()
                     }
