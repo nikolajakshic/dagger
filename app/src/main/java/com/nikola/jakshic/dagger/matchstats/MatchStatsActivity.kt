@@ -4,23 +4,20 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_match_stats.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class MatchStatsActivity : AppCompatActivity() {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
+    private val viewModel: MatchStatsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_match_stats)
 
@@ -29,8 +26,6 @@ class MatchStatsActivity : AppCompatActivity() {
 
         val id = intent.getLongExtra("match_id", -1)
         toolbar.title = "${getString(R.string.match)} $id"
-
-        val viewModel = ViewModelProviders.of(this, factory)[MatchStatsViewModel::class.java]
 
         viewModel.initialFetch(id)
 

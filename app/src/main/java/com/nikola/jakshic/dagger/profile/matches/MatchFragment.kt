@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.profile.matches
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,30 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_match.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class MatchFragment : Fragment() {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
-
-    override fun onAttach(context: Context) {
-        (activity?.application as DaggerApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
+    private val viewModel: MatchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,8 +35,6 @@ class MatchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel = ViewModelProviders.of(this, factory)[MatchViewModel::class.java]
 
         val id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
 

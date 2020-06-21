@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.timeElapsed
@@ -21,13 +21,16 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.profile.ProfileActivity
 import com.nikola.jakshic.dagger.util.DotaUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
 import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
 import kotlinx.android.synthetic.main.item_match_stats_match_info.*
 import kotlinx.android.synthetic.main.item_match_stats_minimap.*
 
+@AndroidEntryPoint
 class OverviewFragment : Fragment() {
+    private val viewModel: MatchStatsViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,8 +55,6 @@ class OverviewFragment : Fragment() {
                 }
             }
         }
-
-        val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
 
         viewModel.match.observe(viewLifecycleOwner, Observer {
             if (it?.players?.size == 10) {

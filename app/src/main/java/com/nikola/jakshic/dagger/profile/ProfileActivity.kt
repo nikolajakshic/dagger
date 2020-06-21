@@ -6,32 +6,27 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import coil.transform.CircleCropTransformation
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.util.DotaUtil
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.toolbar_profile.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class ProfileActivity : AppCompatActivity() {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-
-        val viewModel = ViewModelProviders.of(this, factory)[ProfileViewModel::class.java]
 
         setSupportActionBar(toolbar)
 

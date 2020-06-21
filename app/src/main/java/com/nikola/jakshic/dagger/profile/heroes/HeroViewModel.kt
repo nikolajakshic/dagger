@@ -1,14 +1,14 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class HeroViewModel @Inject constructor(
+class HeroViewModel @ViewModelInject constructor(
     private val repository: HeroRepository
 ) : ScopedViewModel() {
 

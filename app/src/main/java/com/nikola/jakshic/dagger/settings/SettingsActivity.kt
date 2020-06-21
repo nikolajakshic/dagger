@@ -3,10 +3,10 @@ package com.nikola.jakshic.dagger.settings
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.common.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.settings_item_history.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,17 +16,15 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@AndroidEntryPoint
 class SettingsActivity : AppCompatActivity(), CoroutineScope {
-
+    @Inject lateinit var searchHistoryQueries: SearchHistoryQueries
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    @Inject lateinit var searchHistoryQueries: SearchHistoryQueries
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 

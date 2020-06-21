@@ -9,8 +9,10 @@ import com.nikola.jakshic.dagger.common.show
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

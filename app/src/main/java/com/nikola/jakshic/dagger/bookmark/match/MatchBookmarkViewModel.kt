@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.bookmark.match
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
@@ -12,9 +13,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class MatchBookmarkViewModel @Inject constructor(
+class MatchBookmarkViewModel @ViewModelInject constructor(
     private val matchBookmarkQueries: MatchBookmarkQueries
 ) : ScopedViewModel() {
 

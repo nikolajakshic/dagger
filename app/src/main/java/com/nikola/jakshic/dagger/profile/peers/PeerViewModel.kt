@@ -1,14 +1,16 @@
 package com.nikola.jakshic.dagger.profile.peers
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class PeerViewModel @Inject constructor(private val repository: PeerRepository) : ScopedViewModel() {
+class PeerViewModel @ViewModelInject constructor(
+    private val repository: PeerRepository
+) : ScopedViewModel() {
     private val _list = MutableLiveData<List<PeerUI>>()
     val list: LiveData<List<PeerUI>>
         get() = _list

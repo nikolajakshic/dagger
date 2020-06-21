@@ -2,35 +2,30 @@ package com.nikola.jakshic.dagger.profile.matches.byhero
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
 import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_matches_per_hero.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class MatchesByHeroActivity : AppCompatActivity() {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
+    private val viewModel: MatchesByHeroViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_matches_per_hero)
 
         val accountId = intent.getLongExtra("account_id", -1)
         val heroId = intent.getIntExtra("hero_id", -1)
-
-        val viewModel = ViewModelProviders.of(this, factory)[MatchesByHeroViewModel::class.java]
 
         viewModel.initialFetch(accountId, heroId)
 

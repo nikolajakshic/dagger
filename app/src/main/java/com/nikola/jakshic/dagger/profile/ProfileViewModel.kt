@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.profile
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
@@ -17,9 +18,8 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+class ProfileViewModel @ViewModelInject constructor(
     private val playerQueries: PlayerQueries,
     private val playerBookmarkQueries: PlayerBookmarkQueries,
     private val repo: PlayerRepository

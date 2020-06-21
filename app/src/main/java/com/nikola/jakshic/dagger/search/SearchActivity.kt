@@ -5,27 +5,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.bookmark.player.PlayerAdapter
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.ProfileActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_search.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModels()
     private var hasFocus = true
     private var query: String? = null
     private lateinit var searchView: SearchView
@@ -33,12 +30,9 @@ class SearchActivity : AppCompatActivity() {
     private val STATE_FOCUS = "focus"
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         setContentView(R.layout.activity_search)
-
-        viewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
 
         if (savedInstanceState != null) {
             hasFocus = savedInstanceState.getBoolean(STATE_FOCUS)

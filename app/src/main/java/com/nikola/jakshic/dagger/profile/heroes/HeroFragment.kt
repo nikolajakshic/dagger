@@ -1,38 +1,29 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hero.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
+    private val viewModel: HeroViewModel by viewModels()
     private var id: Long = -1
-    private lateinit var viewModel: HeroViewModel
     private lateinit var adapter: HeroAdapter
-
-    override fun onAttach(context: Context) {
-        (activity?.application as DaggerApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +35,6 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, factory)[HeroViewModel::class.java]
 
         id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
 

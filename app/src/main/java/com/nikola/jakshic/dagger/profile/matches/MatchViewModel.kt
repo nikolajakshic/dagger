@@ -1,14 +1,16 @@
 package com.nikola.jakshic.dagger.profile.matches
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class MatchViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {
+class MatchViewModel @ViewModelInject constructor(
+    private val repository: MatchRepository
+) : ScopedViewModel() {
 
     private lateinit var response: Response
 

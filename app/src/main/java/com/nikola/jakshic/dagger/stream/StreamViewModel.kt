@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.stream
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class StreamViewModel @Inject constructor(
+class StreamViewModel @ViewModelInject constructor(
     private val repository: StreamRepository
 ) : ScopedViewModel() {
 

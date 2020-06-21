@@ -7,18 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.spiderchart.SpiderData
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_comparison.*
 import java.util.concurrent.TimeUnit
 
+@AndroidEntryPoint
 class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener {
+    private val viewModel: MatchStatsViewModel by activityViewModels()
 
     private val MAX_HERO_DAMAGE_PER_MINUTE = 800F
     private val MAX_TOWER_DAMAGE_PER_MINUTE = 300F
@@ -46,8 +49,6 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
 
         if (savedInstanceState != null) {
             leftPlayerIndex = savedInstanceState.getInt("player1", 0)

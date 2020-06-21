@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.bookmark.player
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
@@ -11,9 +12,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class PlayerBookmarkViewModel @Inject constructor(
+class PlayerBookmarkViewModel @ViewModelInject constructor(
     playerBookmarkQueries: PlayerBookmarkQueries
 ) : ScopedViewModel() {
 

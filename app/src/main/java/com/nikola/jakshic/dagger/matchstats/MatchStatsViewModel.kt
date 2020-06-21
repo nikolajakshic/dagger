@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.matchstats
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
@@ -13,9 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class MatchStatsViewModel @Inject constructor(
+class MatchStatsViewModel @ViewModelInject constructor(
     private val repository: MatchRepository,
     private val matchBookmarkQueries: MatchBookmarkQueries
 ) : ScopedViewModel() {
