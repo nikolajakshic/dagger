@@ -6,7 +6,6 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
 import com.nikola.jakshic.dagger.bookmark.player.mapToUi
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.common.sqldelight.Bookmark
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -79,8 +78,7 @@ class ProfileViewModel @Inject constructor(
 
     fun addToBookmark(id: Long) {
         launch {
-            // TODO -1 is irrelevant, never gonna make it in database, create new model that receives only account id and then mapToDb()
-            withContext(Dispatchers.IO) { playerBookmarkQueries.insert(Bookmark(-1, id)) }
+            withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
         }
     }
 

@@ -9,14 +9,7 @@ CREATE TABLE IF NOT EXISTS peers (
 );
 
 insert:
-INSERT OR REPLACE INTO peers (
-    account_id,
-    peer_id,
-    persona_name,
-    avatar_url,
-    games,
-    wins)
-VALUES ?;
+INSERT OR REPLACE INTO peers VALUES ?;
 
 selectAllByGames:
 SELECT * FROM peers

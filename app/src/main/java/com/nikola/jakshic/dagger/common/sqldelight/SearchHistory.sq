@@ -10,7 +10,7 @@ selectAllByQuery:
 SELECT * FROM search_history WHERE search_history.query LIKE :startsWith || '%' ORDER BY id DESC;
 
 insert:
-INSERT OR REPLACE INTO search_history (query) VALUES ?;
+INSERT OR REPLACE INTO search_history (query) VALUES (:query);
 
 deleteAll:
 DELETE FROM search_history;

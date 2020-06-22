@@ -8,7 +8,7 @@ selectAll:
 SELECT * FROM leaderboards WHERE region = :region;
 
 insert:
-INSERT INTO leaderboards (name, region) VALUES ?;
+INSERT INTO leaderboards (name, region) VALUES (:name, :region);
 
 deleteAllByRegion:
 DELETE FROM leaderboards WHERE region = :region;

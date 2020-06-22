@@ -64,10 +64,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun saveQuery(item: SearchHistoryUI) {
+    fun saveQuery(query: String) {
         launch {
             withContext(Dispatchers.IO) {
-                searchHistoryQueries.insert(item.mapToDb())
+                searchHistoryQueries.insert(query)
             }
         }
     }

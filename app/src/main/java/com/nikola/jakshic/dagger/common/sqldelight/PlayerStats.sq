@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS player_stats (
     xpm INTEGER NOT NULL,
     observers INTEGER NOT NULL,
     sentries INTEGER NOT NULL,
-    PRIMARY KEY(match_id, account_id, player_slot),
+    PRIMARY KEY(match_id, player_slot), -- player_slot is unique, account_id is not because private profiles have id = 0
     FOREIGN KEY(match_id) REFERENCES match_stats(match_id) ON DELETE CASCADE
 );
 

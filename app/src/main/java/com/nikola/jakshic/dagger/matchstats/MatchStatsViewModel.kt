@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.common.sqldelight.Bookmark_match
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -63,9 +62,7 @@ class MatchStatsViewModel @Inject constructor(
 
     fun addToBookmark(matchId: Long) {
         launch {
-            // ID -1 and empty note are not relevant, they will not be picked by query
-            // TODO refactor to MatchBookmarkUI.mapToDb() something like that, the model that will have only matchId variable
-            withContext(Dispatchers.IO) { matchBookmarkQueries.insert(Bookmark_match(-1, "", matchId)) }
+            withContext(Dispatchers.IO) { matchBookmarkQueries.insert(matchId) }
         }
     }
 

@@ -3,7 +3,6 @@ package com.nikola.jakshic.dagger.leaderboard
 import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Leaderboards
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
@@ -56,8 +55,7 @@ class LeaderboardRepository @Inject constructor(
                     leaderboardQueries.transaction {
                         leaderboardQueries.deleteAllByRegion(region)
                         list.forEach {
-                            // ID is auto-incrementing, the value we passed here is irrelevant.
-                            leaderboardQueries.insert(Leaderboards(-1, it.name, it.region))
+                            leaderboardQueries.insert(it.name, it.region)
                         }
                     }
                 }
