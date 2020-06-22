@@ -2,12 +2,11 @@
 
 buildscript {
     ext.kotlin_version = '1.3.72'
-    ext.sqldelight_version = '1.4.0-SNAPSHOT'
+    ext.sqldelight_version = '1.4.0'
     repositories {
         google()
         mavenCentral()
         jcenter()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'

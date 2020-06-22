@@ -27,10 +27,6 @@ android {
     }
 }
 
-repositories {
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
-}
-
 configurations {
     ktlint
 }
@@ -45,8 +41,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
     // Networking
-    implementation 'com.squareup.retrofit2:retrofit:2.5.1-SNAPSHOT'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.4'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.6.4'
     implementation 'com.squareup.moshi:moshi:1.8.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
