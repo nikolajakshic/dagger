@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.leaderboard
 
-import com.nikola.jakshic.dagger.common.sqldelight.Leaderboards
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAll
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -20,16 +20,15 @@ enum class Region {
 }
 
 data class LeaderboardUI(
-    val name: String?,
-    val region: String?
+    val name: String?
 )
 
-fun List<Leaderboards>.mapToUi(): List<LeaderboardUI> {
+fun List<SelectAll>.mapToUi(): List<LeaderboardUI> {
     if (this.isEmpty()) return emptyList()
 
     val list = mutableListOf<LeaderboardUI>()
     for (item in this) {
-        list.add(LeaderboardUI(item.name, item.region))
+        list.add(LeaderboardUI(item.name))
     }
     return list
 }
