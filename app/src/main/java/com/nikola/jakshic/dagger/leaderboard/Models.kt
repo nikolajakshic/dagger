@@ -10,7 +10,7 @@ class _Leaderboard(@Json(name = "leaderboard") val leaderboard: List<Leaderboard
 @JsonClass(generateAdapter = true)
 data class LeaderboardJson(
     var id: Int = 0,
-    @Json(name = "name") var name: String?,
+    @Json(name = "name") val name: String?,
     var region: String?
 )
 
