@@ -6,7 +6,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class PeerJson(
-    var accountId: Long = 0,
     @Json(name = "account_id") val peerId: Long,
     @Json(name = "personaname") val personaname: String?,
     @Json(name = "avatarfull") val avatarfull: String?,
@@ -22,9 +21,9 @@ data class PeerUI(
     val withWin: Long
 )
 
-fun PeerJson.mapToDb(): Peers {
+fun PeerJson.mapToDb(accountId: Long): Peers {
     return Peers(
-        account_id = this.accountId,
+        account_id = accountId,
         peer_id = this.peerId,
         persona_name = this.personaname,
         avatar_url = this.avatarfull,

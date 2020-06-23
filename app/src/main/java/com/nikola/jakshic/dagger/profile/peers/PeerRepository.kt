@@ -50,12 +50,8 @@ class PeerRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val peers = service.getPeers(id)
                 val list = peers.filter { it.withGames != 0L } // filter opponents from the peer list
-                list.map {
-                    it.accountId = id // response from the network doesn't contain any information
-                    it // about whose this peers are, so we need to set this manually
-                }
                 peerQueries.transaction {
-                    list.forEach { peerQueries.insert(it.mapToDb()) }
+                    list.forEach { peerQueries.insert(it.mapToDb(accountId = id)) }
                 }
             }
             onSuccess()

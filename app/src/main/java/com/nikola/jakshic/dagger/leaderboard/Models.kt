@@ -9,9 +9,7 @@ class _Leaderboard(@Json(name = "leaderboard") val leaderboard: List<Leaderboard
 
 @JsonClass(generateAdapter = true)
 data class LeaderboardJson(
-    var id: Int = 0,
-    @Json(name = "name") val name: String?,
-    var region: String?
+    @Json(name = "name") val name: String?
 )
 
 enum class Region {

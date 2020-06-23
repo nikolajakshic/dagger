@@ -42,10 +42,6 @@ class LeaderboardRepository @Inject constructor(
                 val leaderboard = service.getLeaderboard(region).leaderboard
                     ?: throw Exception()
                 val list = leaderboard.take(100)
-                list.map {
-                    it.region = region // response from the network doesn't contain any information
-                    it // about the region, so we need to set this manually
-                }
                 if (list.isNotEmpty()) {
                     // We don't have players ids, we only have their names,
                     // if the player has changed his name in the meantime,
@@ -55,7 +51,7 @@ class LeaderboardRepository @Inject constructor(
                     leaderboardQueries.transaction {
                         leaderboardQueries.deleteAllByRegion(region)
                         list.forEach {
-                            leaderboardQueries.insert(it.name, it.region)
+                            leaderboardQueries.insert(it.name, region)
                         }
                     }
                 }
