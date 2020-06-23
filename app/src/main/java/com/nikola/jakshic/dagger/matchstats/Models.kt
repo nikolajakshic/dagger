@@ -8,57 +8,57 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 class MatchStatsJson {
-    @Json(name = "match_id") var matchId: Long = 0
-    @Json(name = "radiant_win") var isRadiantWin = false
-    @Json(name = "dire_score") var direScore: Long = 0
-    @Json(name = "radiant_score") var radiantScore: Long = 0
-    @Json(name = "skill") var skill: Long = 0
-    @Json(name = "game_mode") var mode: Long = 0
-    @Json(name = "duration") var duration: Long = 0
-    @Json(name = "start_time") var startTime: Long = 0
-    @Json(name = "barracks_status_radiant") var radiantBarracks: Long = 0
-    @Json(name = "barracks_status_dire") var direBarracks: Long = 0
-    @Json(name = "tower_status_radiant") var radiantTowers: Long = 0
-    @Json(name = "tower_status_dire") var direTowers: Long = 0
-    @Json(name = "radiant_team") var radiantTeam: Team? = null
-    @Json(name = "dire_team") var direTeam: Team? = null
-    @Json(name = "players") var players: List<PlayerStatsJson>? = null
+    @Json(name = "match_id") val matchId: Long = 0
+    @Json(name = "radiant_win") val isRadiantWin = false
+    @Json(name = "dire_score") val direScore: Long = 0
+    @Json(name = "radiant_score") val radiantScore: Long = 0
+    @Json(name = "skill") val skill: Long = 0
+    @Json(name = "game_mode") val mode: Long = 0
+    @Json(name = "duration") val duration: Long = 0
+    @Json(name = "start_time") val startTime: Long = 0
+    @Json(name = "barracks_status_radiant") val radiantBarracks: Long = 0
+    @Json(name = "barracks_status_dire") val direBarracks: Long = 0
+    @Json(name = "tower_status_radiant") val radiantTowers: Long = 0
+    @Json(name = "tower_status_dire") val direTowers: Long = 0
+    @Json(name = "radiant_team") val radiantTeam: Team? = null
+    @Json(name = "dire_team") val direTeam: Team? = null
+    @Json(name = "players") val players: List<PlayerStatsJson>? = null
 }
 
 @JsonClass(generateAdapter = true)
-data class Team(@Json(name = "name") var name: String?)
+data class Team(@Json(name = "name") val name: String?)
 
 @JsonClass(generateAdapter = true)
 data class PlayerStatsJson(
-    @Json(name = "account_id") var id: Long,
-    @Json(name = "match_id") var matchId: Long,
-    @Json(name = "name") var name: String?,
-    @Json(name = "personaname") var personaName: String?,
-    @Json(name = "player_slot") var playerSlot: Long,
-    @Json(name = "assists") var assists: Long,
-    @Json(name = "backpack_0") var backpack0: Long,
-    @Json(name = "backpack_1") var backpack1: Long,
-    @Json(name = "backpack_2") var backpack2: Long,
-    @Json(name = "deaths") var deaths: Long,
-    @Json(name = "denies") var denies: Long,
-    @Json(name = "gold_per_min") var goldPerMin: Long,
-    @Json(name = "hero_damage") var heroDamage: Long,
-    @Json(name = "hero_healing") var heroHealing: Long,
-    @Json(name = "hero_id") var heroId: Long,
-    @Json(name = "item_0") var item0: Long,
-    @Json(name = "item_1") var item1: Long,
-    @Json(name = "item_2") var item2: Long,
-    @Json(name = "item_3") var item3: Long,
-    @Json(name = "item_4") var item4: Long,
-    @Json(name = "item_5") var item5: Long,
-    @Json(name = "item_neutral") var itemNeutral: Long,
-    @Json(name = "kills") var kills: Long,
-    @Json(name = "last_hits") var lastHits: Long,
-    @Json(name = "level") var level: Long,
-    @Json(name = "tower_damage") var towerDamage: Long,
-    @Json(name = "xp_per_min") var xpPerMin: Long,
-    @Json(name = "purchase_ward_observer") var purchaseWardObserver: Long = 0,
-    @Json(name = "purchase_ward_sentry") var purchaseWardSentry: Long = 0
+    @Json(name = "account_id") val id: Long,
+    @Json(name = "match_id") val matchId: Long,
+    @Json(name = "name") val name: String?,
+    @Json(name = "personaname") val personaName: String?,
+    @Json(name = "player_slot") val playerSlot: Long,
+    @Json(name = "assists") val assists: Long,
+    @Json(name = "backpack_0") val backpack0: Long,
+    @Json(name = "backpack_1") val backpack1: Long,
+    @Json(name = "backpack_2") val backpack2: Long,
+    @Json(name = "deaths") val deaths: Long,
+    @Json(name = "denies") val denies: Long,
+    @Json(name = "gold_per_min") val goldPerMin: Long,
+    @Json(name = "hero_damage") val heroDamage: Long,
+    @Json(name = "hero_healing") val heroHealing: Long,
+    @Json(name = "hero_id") val heroId: Long,
+    @Json(name = "item_0") val item0: Long,
+    @Json(name = "item_1") val item1: Long,
+    @Json(name = "item_2") val item2: Long,
+    @Json(name = "item_3") val item3: Long,
+    @Json(name = "item_4") val item4: Long,
+    @Json(name = "item_5") val item5: Long,
+    @Json(name = "item_neutral") val itemNeutral: Long,
+    @Json(name = "kills") val kills: Long,
+    @Json(name = "last_hits") val lastHits: Long,
+    @Json(name = "level") val level: Long,
+    @Json(name = "tower_damage") val towerDamage: Long,
+    @Json(name = "xp_per_min") val xpPerMin: Long,
+    @Json(name = "purchase_ward_observer") val purchaseWardObserver: Long = 0,
+    @Json(name = "purchase_ward_sentry") val purchaseWardSentry: Long = 0
 )
 
 data class MatchStatsUI(

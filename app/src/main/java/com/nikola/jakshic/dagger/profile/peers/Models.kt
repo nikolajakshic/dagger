@@ -7,11 +7,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class PeerJson(
     var accountId: Long = 0,
-    @Json(name = "account_id") var peerId: Long,
-    @Json(name = "personaname") var personaname: String?,
-    @Json(name = "avatarfull") var avatarfull: String?,
-    @Json(name = "with_games") var withGames: Long,
-    @Json(name = "with_win") var withWin: Long
+    @Json(name = "account_id") val peerId: Long,
+    @Json(name = "personaname") val personaname: String?,
+    @Json(name = "avatarfull") val avatarfull: String?,
+    @Json(name = "with_games") val withGames: Long,
+    @Json(name = "with_win") val withWin: Long
 )
 
 data class PeerUI(

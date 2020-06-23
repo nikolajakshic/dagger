@@ -7,15 +7,15 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class MatchJson(
     var accountId: Long = 0,
-    @Json(name = "match_id") var matchId: Long,
-    @Json(name = "hero_id") var heroId: Long,
-    @Json(name = "player_slot") var playerSlot: Long,
-    @Json(name = "skill") var skill: Long,
-    @Json(name = "duration") var duration: Long,
-    @Json(name = "game_mode") var gameMode: Long,
-    @Json(name = "lobby_type") var lobbyType: Long,
-    @Json(name = "radiant_win") var isRadiantWin: Boolean,
-    @Json(name = "start_time") var startTime: Long
+    @Json(name = "match_id") val matchId: Long,
+    @Json(name = "hero_id") val heroId: Long,
+    @Json(name = "player_slot") val playerSlot: Long,
+    @Json(name = "skill") val skill: Long,
+    @Json(name = "duration") val duration: Long,
+    @Json(name = "game_mode") val gameMode: Long,
+    @Json(name = "lobby_type") val lobbyType: Long,
+    @Json(name = "radiant_win") val isRadiantWin: Boolean,
+    @Json(name = "start_time") val startTime: Long
 )
 
 data class MatchUI(
