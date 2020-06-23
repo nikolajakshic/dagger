@@ -19,6 +19,7 @@ class StreamPlayerActivity : AppCompatActivity() {
         // so we can show the "loading" background before the WebView starts.
         webView.setBackgroundColor(Color.TRANSPARENT)
         webView.settings.javaScriptEnabled = true
-        webView.loadUrl("https://player.twitch.tv/?channel=$userName")
+        webView.settings.domStorageEnabled = true
+        webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
     }
 }
