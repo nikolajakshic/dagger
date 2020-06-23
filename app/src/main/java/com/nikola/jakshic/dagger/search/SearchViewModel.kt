@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Search_history
 import com.nikola.jakshic.dagger.profile.PlayerRepository
 import com.nikola.jakshic.dagger.profile.PlayerUI
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +46,7 @@ class SearchViewModel @Inject constructor(
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAll()
                     .executeAsList()
-                    .map(Search_history::mapToUi)
+                    .map { SearchHistoryUI(it) }
             }
             _historyList.value = list
         }
@@ -58,7 +57,7 @@ class SearchViewModel @Inject constructor(
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAllByQuery(query)
                     .executeAsList()
-                    .map(Search_history::mapToUi)
+                    .map { SearchHistoryUI(it) }
             }
             _historyList.value = list
         }
