@@ -28,8 +28,6 @@ fun Select.mapToUi(): PlayerBookmarkUI {
 }
 
 fun List<SelectAllPlayerBookmark>.mapToUi(): List<PlayerBookmarkUI> {
-    if (this.isEmpty()) return emptyList()
-
     val list = mutableListOf<PlayerBookmarkUI>()
     for (item in this) {
         list.add(

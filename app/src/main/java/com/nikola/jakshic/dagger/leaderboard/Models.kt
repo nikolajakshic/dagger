@@ -24,8 +24,6 @@ data class LeaderboardUI(
 )
 
 fun List<SelectAll>.mapToUi(): List<LeaderboardUI> {
-    if (this.isEmpty()) return emptyList()
-
     val list = mutableListOf<LeaderboardUI>()
     for (item in this) {
         list.add(LeaderboardUI(item.name))
