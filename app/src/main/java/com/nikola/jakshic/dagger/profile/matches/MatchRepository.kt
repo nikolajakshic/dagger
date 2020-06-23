@@ -85,14 +85,11 @@ class MatchRepository @Inject constructor(
                 // There are no matches in the database,
                 // we want to fetch only 20 from the network
                     service.getMatches(id, 20, 0)
-                list.map {
-                    it.accountId = id // response from the network doesn't contain any information
-                    it // about who played this matches, so we need to set this manually
-                }
+
                 if (list.isNotEmpty()) {
                     matchQueries.transaction {
                         matchQueries.deleteAll(id)
-                        list.forEach { matchQueries.insert(it.mapToDb()) }
+                        list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
                     }
                 }
             }

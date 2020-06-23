@@ -40,12 +40,8 @@ class MatchBoundaryCallback(
                 withContext(Dispatchers.IO) {
                     val count = matchQueries.countMatches(id).executeAsOne()
                     val list = service.getMatches(id, 20, count.toInt())
-                        .map {
-                            it.accountId = id // response from the network doesn't contain any information
-                            it // about who played this matches, so we need to set this manually
-                        }
                     matchQueries.transaction {
-                        list.forEach { matchQueries.insert(it.mapToDb()) }
+                        list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
                     }
                 }
                 _status.value = Status.SUCCESS
