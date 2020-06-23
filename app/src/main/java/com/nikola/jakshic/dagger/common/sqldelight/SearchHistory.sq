@@ -4,10 +4,10 @@ CREATE TABLE IF NOT EXISTS search_history (
 );
 
 selectAll:
-SELECT * FROM search_history ORDER BY id DESC;
+SELECT query FROM search_history ORDER BY id DESC;
 
 selectAllByQuery:
-SELECT * FROM search_history WHERE search_history.query LIKE :startsWith || '%' ORDER BY id DESC;
+SELECT query FROM search_history WHERE search_history.query LIKE :startsWith || '%' ORDER BY id DESC;
 
 insert:
 INSERT OR REPLACE INTO search_history (query) VALUES (:query);
