@@ -7,23 +7,23 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class MatchStatsJson {
-    @Json(name = "match_id") val matchId: Long = 0
-    @Json(name = "radiant_win") val isRadiantWin = false
-    @Json(name = "dire_score") val direScore: Long = 0
-    @Json(name = "radiant_score") val radiantScore: Long = 0
-    @Json(name = "skill") val skill: Long = 0
-    @Json(name = "game_mode") val mode: Long = 0
-    @Json(name = "duration") val duration: Long = 0
-    @Json(name = "start_time") val startTime: Long = 0
-    @Json(name = "barracks_status_radiant") val radiantBarracks: Long = 0
-    @Json(name = "barracks_status_dire") val direBarracks: Long = 0
-    @Json(name = "tower_status_radiant") val radiantTowers: Long = 0
-    @Json(name = "tower_status_dire") val direTowers: Long = 0
-    @Json(name = "radiant_team") val radiantTeam: Team? = null
-    @Json(name = "dire_team") val direTeam: Team? = null
+data class MatchStatsJson(
+    @Json(name = "match_id") val matchId: Long = 0,
+    @Json(name = "radiant_win") val isRadiantWin: Boolean = false,
+    @Json(name = "dire_score") val direScore: Long = 0,
+    @Json(name = "radiant_score") val radiantScore: Long = 0,
+    @Json(name = "skill") val skill: Long = 0,
+    @Json(name = "game_mode") val mode: Long = 0,
+    @Json(name = "duration") val duration: Long = 0,
+    @Json(name = "start_time") val startTime: Long = 0,
+    @Json(name = "barracks_status_radiant") val radiantBarracks: Long = 0,
+    @Json(name = "barracks_status_dire") val direBarracks: Long = 0,
+    @Json(name = "tower_status_radiant") val radiantTowers: Long = 0,
+    @Json(name = "tower_status_dire") val direTowers: Long = 0,
+    @Json(name = "radiant_team") val radiantTeam: Team? = null,
+    @Json(name = "dire_team") val direTeam: Team? = null,
     @Json(name = "players") val players: List<PlayerStatsJson>? = null
-}
+)
 
 @JsonClass(generateAdapter = true)
 data class Team(@Json(name = "name") val name: String?)
