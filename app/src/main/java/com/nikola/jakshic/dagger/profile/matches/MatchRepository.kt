@@ -15,6 +15,7 @@ import com.nikola.jakshic.dagger.matchstats.mapToDb
 import com.nikola.jakshic.dagger.matchstats.mapToUi
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
+import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
@@ -29,6 +30,7 @@ import javax.inject.Singleton
 @Singleton
 class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
+    private val sqlDriver: SqlDriver,
     private val matchQueries: MatchQueries,
     private val matchStatsQueries: MatchStatsQueries,
     private val playerStatsQueries: PlayerStatsQueries
@@ -140,7 +142,10 @@ class MatchRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId)
                 matchStatsQueries.transaction {
+                    // TODO THIS IS TEMPORARY - DO THIS IN GROUPED QUERY
+                    sqlDriver.execute(0, "PRAGMA foreign_keys = OFF;", 0)
                     matchStatsQueries.insert(match.mapToDb())
+                    sqlDriver.execute(0, "PRAGMA foreign_keys = ON;", 0)
                     match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
                 }
             }
