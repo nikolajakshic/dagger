@@ -38,6 +38,7 @@
     <string name="match_dire_victory">Dire Victory</string>
     <string name="match_mode">Mode: %1$s</string>
     <string name="match_skill">Skill: %1$s</string>
+    <string name="match_ended">Ended: %1$s</string>
     <string name="match_duration">%1$1d:%2$02d:%3$02d</string>
     <string name="match_duration_zero_hours">%1$02d:%2$02d</string>
     <string name="match_duration_with_prefix">Duration: %1$1d:%2$02d:%3$02d</string>

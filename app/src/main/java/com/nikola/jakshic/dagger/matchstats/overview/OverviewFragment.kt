@@ -137,6 +137,8 @@ class OverviewFragment : Fragment() {
         tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
         tvMatchDuration.text = getDuration(item)
         tvMatchTimeElapsed.text = timeElapsed(requireContext(), item.startTime + item.duration)
+        val timeElapsed = timeElapsed(requireContext(), item.startTime + item.duration)
+        tvMatchTimeElapsed.text = resources.getString(R.string.match_ended, timeElapsed)
     }
 
     private fun bindMinimap(item: MatchStatsUI) {
