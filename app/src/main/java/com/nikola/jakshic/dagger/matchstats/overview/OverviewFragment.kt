@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.getDuration
 import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
@@ -135,7 +136,8 @@ class OverviewFragment : Fragment() {
         tvDireScore.text = item.direScore.toString()
         tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
         tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
-        tvMatchDuration.text = getDuration(item)
+        val duration = getDuration(requireContext(), item.duration)
+        tvMatchDuration.text = resources.getString(R.string.duration, duration)
         val timeElapsed = timeElapsed(requireContext(), item.startTime + item.duration)
         tvMatchTimeElapsed.text = resources.getString(R.string.match_ended, timeElapsed)
     }
@@ -197,13 +199,5 @@ class OverviewFragment : Fragment() {
         !TextUtils.isEmpty(item.name) -> item.name
         !TextUtils.isEmpty(item.personaName) -> item.personaName
         else -> "Unknown"
-    }
-
-    private fun getDuration(item: MatchStatsUI): String {
-        val hours = item.duration / (60 * 60)
-        val minutes = (item.duration / 60) % 60
-        val seconds = item.duration % 60
-        if (hours != 0L) return resources.getString(R.string.match_duration_with_prefix, hours, minutes, seconds)
-        return resources.getString(R.string.match_duration_zero_hours_with_prefix, minutes, seconds)
     }
 }

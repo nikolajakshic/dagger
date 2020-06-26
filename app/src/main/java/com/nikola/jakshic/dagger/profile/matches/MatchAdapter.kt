@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.profile.matches
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.common.getDuration
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.util.DotaUtil
@@ -44,7 +44,7 @@ class MatchAdapter(
                 tvMatchSkill.text = DotaUtil.skill[item.skill.toInt(), context.getString(R.string.unknown)]
                 tvMatchMode.text = DotaUtil.mode[item.gameMode.toInt(), context.getString(R.string.unknown)]
                 tvMatchLobby.text = DotaUtil.lobby[item.lobbyType.toInt(), context.getString(R.string.unknown)]
-                tvMatchDuration.text = getDuration(context, item)
+                tvMatchDuration.text = getDuration(context, item.duration)
                 tvMatchTimeElapsed.text = timeElapsed(context, item.startTime + item.duration)
             }
         }
@@ -53,14 +53,6 @@ class MatchAdapter(
             if (item.isRadiantWin && item.playerSlot <= 4) return true
             if (!item.isRadiantWin && item.playerSlot > 4) return true
             return false
-        }
-
-        private fun getDuration(context: Context, item: MatchUI): String {
-            val hours = item.duration / (60 * 60)
-            val minutes = (item.duration / 60) % 60
-            val seconds = item.duration % 60
-            if (hours != 0L) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
-            return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
         }
     }
 

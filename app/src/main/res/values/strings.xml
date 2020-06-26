@@ -41,8 +41,6 @@
     <string name="match_ended">Ended: %1$s</string>
     <string name="match_duration">%1$1d:%2$02d:%3$02d</string>
     <string name="match_duration_zero_hours">%1$02d:%2$02d</string>
-    <string name="match_duration_with_prefix">Duration: %1$1d:%2$02d:%3$02d</string>
-    <string name="match_duration_zero_hours_with_prefix">Duration: %1$02d:%2$02d</string>
 
     <string name="match_stats_overview">Overview</string>
     <string name="match_stats_comparison">Comparison</string>
@@ -64,6 +62,7 @@
     <string name="won">Won</string>
     <string name="lost">Lost</string>
 
+    <string name="duration">Duration: %1$s</string>
     <string name="sort_by">Sort by</string>
     <string name="medals">Medals</string>
     <string name="close">Close</string>
