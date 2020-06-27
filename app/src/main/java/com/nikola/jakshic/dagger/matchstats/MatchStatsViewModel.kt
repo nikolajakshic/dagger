@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.matchstats
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
@@ -60,9 +61,14 @@ class MatchStatsViewModel @Inject constructor(
         }
     }
 
-    fun addToBookmark(matchId: Long) {
+    fun addToBookmark(matchId: Long, onSuccess: () -> Unit) {
         launch {
-            withContext(Dispatchers.IO) { matchBookmarkQueries.insert(matchId) }
+            try {
+                withContext(Dispatchers.IO) { matchBookmarkQueries.insert(matchId) }
+                onSuccess()
+            } catch (e: SQLiteConstraintException) {
+                // Trying to add to the bookmark but match_stats is not yet added to the database.
+            }
         }
     }
 

@@ -61,8 +61,9 @@ class MatchStatsActivity : AppCompatActivity() {
             if (viewModel.isBookmarked.value != 0L) {
                 viewModel.removeFromBookmark(id)
             } else {
-                viewModel.addToBookmark(id)
-                toast("Bookmarked!")
+                viewModel.addToBookmark(id, onSuccess = {
+                    toast("Bookmarked!")
+                })
             }
         }
 

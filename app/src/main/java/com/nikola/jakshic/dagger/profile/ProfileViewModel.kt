@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.profile
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
@@ -78,7 +79,11 @@ class ProfileViewModel @Inject constructor(
 
     fun addToBookmark(id: Long) {
         launch {
-            withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
+            try {
+                withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
+            } catch (e: SQLiteConstraintException) {
+                // Trying to add to the bookmark but player is not yet added to the database.
+            }
         }
     }
 
