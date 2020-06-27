@@ -21,5 +21,52 @@ INNER JOIN player_stats ON match_stats.match_id = player_stats.match_id
 WHERE match_stats.match_id = :id
 ORDER BY player_stats.player_slot ASC;
 
+update:
+UPDATE match_stats
+SET radiant_win = :radiantWin,
+    dire_score = :direScore,
+    radiant_score = :radiantScore,
+    skill = :skill,
+    game_mode = :gameMode,
+    duration = :duration,
+    start_time = :startTime,
+    radiant_barracks = :radiantBarracks,
+    dire_barracks = :direBarracks,
+    radiant_towers = :radiantTowers,
+    dire_towers = :direTowers,
+    radiant_name = :radiantName,
+    dire_name = :direName
+WHERE match_id = :matchId;
+
 insert:
-INSERT OR REPLACE INTO match_stats VALUES ?;
+INSERT OR IGNORE INTO match_stats (
+    match_id,
+    radiant_win,
+    dire_score,
+    radiant_score,
+    skill,
+    game_mode,
+    duration,
+    start_time,
+    radiant_barracks,
+    dire_barracks,
+    radiant_towers,
+    dire_towers,
+    radiant_name,
+    dire_name
+) VALUES (
+    :matchId,
+    :radiantWin,
+    :direScore,
+    :radiantScore,
+    :skill,
+    :gameMode,
+    :duration,
+    :startTime,
+    :radiantBarracks,
+    :direBarracks,
+    :radiantTowers,
+    :direTowers,
+    :radiantName,
+    :direName
+);

@@ -8,6 +8,7 @@ import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Match_stats
 import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
@@ -15,7 +16,6 @@ import com.nikola.jakshic.dagger.matchstats.mapToDb
 import com.nikola.jakshic.dagger.matchstats.mapToUi
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
-import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +30,6 @@ import javax.inject.Singleton
 @Singleton
 class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
-    private val sqlDriver: SqlDriver,
     private val matchQueries: MatchQueries,
     private val matchStatsQueries: MatchStatsQueries,
     private val playerStatsQueries: PlayerStatsQueries
@@ -142,10 +141,7 @@ class MatchRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId)
                 matchStatsQueries.transaction {
-                    // TODO THIS IS TEMPORARY - DO THIS IN GROUPED QUERY
-                    sqlDriver.execute(0, "PRAGMA foreign_keys = OFF;", 0)
-                    matchStatsQueries.insert(match.mapToDb())
-                    sqlDriver.execute(0, "PRAGMA foreign_keys = ON;", 0)
+                    matchStatsQueries.upsert(match.mapToDb())
                     match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
                 }
             }
@@ -153,5 +149,40 @@ class MatchRepository @Inject constructor(
         } catch (e: Exception) {
             onError()
         }
+    }
+
+    private fun MatchStatsQueries.upsert(item: Match_stats) {
+        update(
+            radiantWin = item.radiant_win,
+            direScore = item.dire_score,
+            radiantScore = item.radiant_score,
+            skill = item.skill,
+            gameMode = item.game_mode,
+            duration = item.duration,
+            startTime = item.start_time,
+            radiantBarracks = item.radiant_barracks,
+            direBarracks = item.dire_barracks,
+            radiantTowers = item.radiant_towers,
+            direTowers = item.dire_towers,
+            radiantName = item.radiant_name,
+            direName = item.dire_name,
+            matchId = item.match_id
+        )
+        insert(
+            matchId = item.match_id,
+            radiantWin = item.radiant_win,
+            direScore = item.dire_score,
+            radiantScore = item.radiant_score,
+            skill = item.skill,
+            gameMode = item.game_mode,
+            duration = item.duration,
+            startTime = item.start_time,
+            radiantBarracks = item.radiant_barracks,
+            direBarracks = item.dire_barracks,
+            radiantTowers = item.radiant_towers,
+            direTowers = item.dire_towers,
+            radiantName = item.radiant_name,
+            direName = item.dire_name
+        )
     }
 }

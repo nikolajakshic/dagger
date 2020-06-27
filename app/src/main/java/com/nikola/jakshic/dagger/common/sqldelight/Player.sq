@@ -12,8 +12,19 @@ CREATE TABLE IF NOT EXISTS players (
 select:
 SELECT * FROM players WHERE players.account_id = :id;
 
+update:
+UPDATE players
+SET name = :name,
+    persona_name = :personaName,
+    avatar_url = :avatarUrl,
+    rank_tier = :rankTier,
+    leaderboard_rank = :leaderboardRank,
+    wins = :wins,
+    losses = :losses
+WHERE account_id = :accountId;
+
 insert:
-INSERT OR REPLACE INTO players VALUES ?;
+INSERT OR IGNORE INTO players VALUES ?;
 
 delete:
 DELETE FROM players WHERE account_id = :id;

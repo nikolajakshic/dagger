@@ -3,7 +3,6 @@ package com.nikola.jakshic.dagger.profile
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.nikola.jakshic.dagger.common.sqldelight.Players
-import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -13,7 +12,6 @@ import javax.inject.Singleton
 
 @Singleton
 class PlayerRepository @Inject constructor(
-    private val sqlDriver: SqlDriver,
     private val service: OpenDotaService,
     private val playerQueries: PlayerQueries
 ) {
@@ -27,8 +25,17 @@ class PlayerRepository @Inject constructor(
 
         withContext(Dispatchers.IO) {
             playerQueries.transaction {
-                // TODO THIS IS TEMPORARY - DO THIS IN GROUPED QUERY
-                sqlDriver.execute(0, "PRAGMA foreign_keys = OFF;", 0)
+                // start upsert
+                playerQueries.update(
+                    name = profile.player!!.name,
+                    personaName = profile.player.personaName,
+                    avatarUrl = profile.player.avatarUrl,
+                    rankTier = profile.rankTier,
+                    leaderboardRank = profile.leaderboardRank,
+                    wins = winsLosses.wins,
+                    losses = winsLosses.losses,
+                    accountId = profile.player.id
+                )
                 playerQueries.insert(
                     Players(
                         account_id = profile.player!!.id,
@@ -41,7 +48,7 @@ class PlayerRepository @Inject constructor(
                         losses = winsLosses.losses
                     )
                 )
-                sqlDriver.execute(0, "PRAGMA foreign_keys = ON;", 0)
+                // end upsert
             }
         }
     }
