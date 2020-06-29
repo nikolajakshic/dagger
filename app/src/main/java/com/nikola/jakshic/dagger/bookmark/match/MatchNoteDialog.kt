@@ -12,19 +12,6 @@ import com.nikola.jakshic.dagger.R
 import kotlinx.android.synthetic.main.dialog_note_match.*
 
 class MatchNoteDialog : DialogFragment() {
-    private val noteWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val totalCharacters = s?.length ?: 0
-            tvCharacterCounter.text = "$totalCharacters/140"
-        }
-    }
-
     companion object {
         fun newInstance(note: String, matchId: Long): MatchNoteDialog {
             val bundle = Bundle().apply {
@@ -57,9 +44,21 @@ class MatchNoteDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val note = requireArguments().getString("note")
         val matchId = requireArguments().getLong("match_id")
+        val characterLimit = resources.getInteger(R.integer.match_note_character_limit)
         etMatchNote.setText(note)
-        tvCharacterCounter.text = "${etMatchNote.text.length}/140" // TODO 140 should be 3rd argument in bundle taken from resources
-        etMatchNote.addTextChangedListener(noteWatcher)
+        tvCharacterCounter.text = "${etMatchNote.text.length}/$characterLimit"
+        etMatchNote.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val totalCharacters = s?.length ?: 0
+                tvCharacterCounter.text = "$totalCharacters/$characterLimit"
+            }
+        })
 
         btnSaveNote.setOnClickListener {
             (targetFragment as OnNoteSavedListener).onNoteSaved(etMatchNote.text.toString(), matchId)
