@@ -10,8 +10,14 @@ class QueryDataSourceFactory<RowType : Any>(
     private val countQuery: Query<Long>,
     private val transacter: Transacter
 ) : DataSource.Factory<Int, RowType>() {
-    override fun create(): PositionalDataSource<RowType> =
-        QueryDataSource(queryProvider, countQuery, transacter)
+    private var dataSource: QueryDataSource<RowType>? = null
+
+    override fun create(): PositionalDataSource<RowType> {
+        dataSource = QueryDataSource(queryProvider, countQuery, transacter)
+        return dataSource!!
+    }
+
+    fun invalidate() = dataSource?.invalidate()
 }
 
 private class QueryDataSource<RowType : Any>(

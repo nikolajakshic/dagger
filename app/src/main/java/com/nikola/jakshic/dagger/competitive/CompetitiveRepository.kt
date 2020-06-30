@@ -1,10 +1,10 @@
 package com.nikola.jakshic.dagger.competitive
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
-import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import kotlinx.coroutines.Dispatchers
@@ -22,12 +22,9 @@ class CompetitiveRepository @Inject constructor(
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
-    fun getCompetitiveLiveData(): LiveData<PagedList<CompetitiveUI>> {
-        val factory = QueryDataSourceFactory(
-            queryProvider = competitiveQueries::getMatches,
-            countQuery = competitiveQueries.countMatches(),
-            transacter = competitiveQueries
-        ).map(Competitive::mapToUi)
+    fun getCompetitiveLiveData(
+        factory: DataSource.Factory<Int, CompetitiveUI>
+    ): LiveData<PagedList<CompetitiveUI>> {
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(80)
             .setPageSize(40)

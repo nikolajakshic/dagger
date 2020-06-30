@@ -2,14 +2,13 @@ package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
-import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
 import com.nikola.jakshic.dagger.common.sqldelight.Match_stats
-import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
@@ -39,16 +38,11 @@ class MatchRepository @Inject constructor(
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
-    fun getMatchesLiveData(scope: CoroutineScope, id: Long): Response {
-        val queryProvider = { limit: Long, offset: Long ->
-            matchQueries.selectAll(id, limit, offset)
-        }
-        val factory = QueryDataSourceFactory(
-            queryProvider = queryProvider,
-            countQuery = matchQueries.countMatches(id),
-            transacter = matchQueries
-        ).map(Matches::mapToUi)
-
+    fun getMatchesLiveData(
+        scope: CoroutineScope,
+        factory: DataSource.Factory<Int, MatchUI>,
+        id: Long
+    ): Response {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(40)
