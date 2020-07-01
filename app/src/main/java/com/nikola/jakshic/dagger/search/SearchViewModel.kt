@@ -86,6 +86,12 @@ class SearchViewModel @Inject constructor(
         _playerList.value = ArrayList()
     }
 
+    fun deleteSearchHistory() {
+        launch {
+            withContext(Dispatchers.IO) { searchHistoryQueries.deleteAll() }
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
         job.cancel()

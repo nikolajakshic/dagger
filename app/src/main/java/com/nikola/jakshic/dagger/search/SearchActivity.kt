@@ -69,7 +69,12 @@ class SearchActivity : AppCompatActivity() {
 
         viewModel.playerList.observe(this, Observer(playerAdapter::addData))
         viewModel.historyList.observe(this, Observer {
-            recViewHistory.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+            searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+            if (it?.size ?: 0 != 0) {
+                tvClearAll.visibility = View.VISIBLE
+            } else {
+                tvClearAll.visibility = View.INVISIBLE
+            }
             historyAdapter.addData(it)
         })
         viewModel.status.observe(this, Observer {
@@ -78,6 +83,11 @@ class SearchActivity : AppCompatActivity() {
                 else -> progressBar.visibility = View.GONE
             }
         })
+
+        tvClearAll.setOnClickListener {
+            viewModel.deleteSearchHistory()
+            viewModel.getAllQueries()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -106,7 +116,7 @@ class SearchActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             this.hasFocus = hasFocus
-            recViewHistory.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+            searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

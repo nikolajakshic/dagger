@@ -58,6 +58,8 @@
     <string name="error_network_try_again">NETWORK ERROR\nTRY AGAIN LATER</string>
     <string name="info_search_history_cleared">Search history cleared!</string>
 
+    <string name="search_history_clear_all">CLEAR ALL</string>
+
     <string name="unknown">Unknown</string>
     <string name="won">Won</string>
     <string name="lost">Lost</string>
