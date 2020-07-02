@@ -1,5 +1,4 @@
 <b>FEATURES</b>
-
 <ul>
 <li>Ad-Free</li>
 <li>Offline support</li>
@@ -14,5 +13,4 @@
 <li>Search history</li>
 ... and much more to come!
 </ul>
-
 Dota 2 is a registered trademark of Valve Corporation.
