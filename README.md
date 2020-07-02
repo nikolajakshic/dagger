@@ -38,7 +38,7 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 ## License
     MIT License
 
-    Copyright (c) 2018 Nikola Jakšić
+    Copyright (c) 2020 Nikola Jakšić
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
