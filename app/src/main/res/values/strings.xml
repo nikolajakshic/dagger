@@ -45,6 +45,9 @@
     <string name="match_stats_overview">Overview</string>
     <string name="match_stats_comparison">Comparison</string>
 
+    <string name="match_bookmark_empty">No matches to show, yet.</string>
+    <string name="player_bookmark_empty">No players to show, yet.</string>
+
     <string name="region_europe">Europe</string>
     <string name="region_america">America</string>
     <string name="region_china">China</string>
