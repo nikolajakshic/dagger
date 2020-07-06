@@ -9,13 +9,12 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class])
 class CoilModule {
-
     @Provides
     @Singleton
     fun provideImageLoader(context: Context, client: OkHttpClient): ImageLoader {
-        return ImageLoader(context) {
-            okHttpClient(client)
-            crossfade(300)
-        }
+        return ImageLoader.Builder(context)
+            .okHttpClient(client)
+            .crossfade(300)
+            .build()
     }
 }

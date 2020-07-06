@@ -23,6 +23,6 @@ class DaggerApp : Application() {
             .build()
         appComponent.inject(this)
 
-        Coil.setDefaultImageLoader(imageLoader)
+        Coil.setImageLoader(imageLoader)
     }
 }
