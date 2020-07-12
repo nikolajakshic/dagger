@@ -16,5 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/match_bookmark_empty"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        android:visibility="invisible" />
 </FrameLayout>
