@@ -1,0 +1,10 @@
+New features:
+ - Bookmark matches
+ - Add notes to bookmarked matches
+
+Bug fixes:
+ - Fixed issue with live stream
+ - Fixed issue where not all item/hero images would show on older devices
+
+Note:
+ - Updating to this version will delete all previously saved data

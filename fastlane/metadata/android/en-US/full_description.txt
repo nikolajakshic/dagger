@@ -4,6 +4,8 @@
 <li>Offline support</li>
 <li>Search players</li>
 <li>Bookmark players</li>
+<li>Bookmark matches</li>
+<li>Add notes to bookmarked matches</li>
 <li>Match history for any player</li>
 <li>Match summary</li>
 <li>Player performance comparison</li>
