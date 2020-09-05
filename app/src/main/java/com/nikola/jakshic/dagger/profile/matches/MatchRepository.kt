@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Match_stats
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
@@ -135,7 +134,23 @@ class MatchRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId)
                 matchStatsQueries.transaction {
-                    matchStatsQueries.upsert(match.mapToDb())
+                    val matchDb = match.mapToDb()
+                    matchStatsQueries.upsert(
+                        radiantWin = matchDb.radiant_win,
+                        direScore = matchDb.dire_score,
+                        radiantScore = matchDb.radiant_score,
+                        skill = matchDb.skill,
+                        gameMode = matchDb.game_mode,
+                        duration = matchDb.duration,
+                        startTime = matchDb.start_time,
+                        radiantBarracks = matchDb.radiant_barracks,
+                        direBarracks = matchDb.dire_barracks,
+                        radiantTowers = matchDb.radiant_towers,
+                        direTowers = matchDb.dire_towers,
+                        radiantName = matchDb.radiant_name,
+                        direName = matchDb.dire_name,
+                        matchId = matchDb.match_id
+                    )
                     match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
                 }
             }
@@ -143,40 +158,5 @@ class MatchRepository @Inject constructor(
         } catch (e: Exception) {
             onError()
         }
-    }
-
-    private fun MatchStatsQueries.upsert(item: Match_stats) {
-        update(
-            radiantWin = item.radiant_win,
-            direScore = item.dire_score,
-            radiantScore = item.radiant_score,
-            skill = item.skill,
-            gameMode = item.game_mode,
-            duration = item.duration,
-            startTime = item.start_time,
-            radiantBarracks = item.radiant_barracks,
-            direBarracks = item.dire_barracks,
-            radiantTowers = item.radiant_towers,
-            direTowers = item.dire_towers,
-            radiantName = item.radiant_name,
-            direName = item.dire_name,
-            matchId = item.match_id
-        )
-        insert(
-            matchId = item.match_id,
-            radiantWin = item.radiant_win,
-            direScore = item.dire_score,
-            radiantScore = item.radiant_score,
-            skill = item.skill,
-            gameMode = item.game_mode,
-            duration = item.duration,
-            startTime = item.start_time,
-            radiantBarracks = item.radiant_barracks,
-            direBarracks = item.dire_barracks,
-            radiantTowers = item.radiant_towers,
-            direTowers = item.dire_towers,
-            radiantName = item.radiant_name,
-            direName = item.dire_name
-        )
     }
 }
