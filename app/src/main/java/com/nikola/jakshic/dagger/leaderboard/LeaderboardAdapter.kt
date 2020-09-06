@@ -26,7 +26,7 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH
         notifyDataSetChanged()
     }
 
-    inner class LeaderboardVH(view: View) : RecyclerView.ViewHolder(view) {
+    class LeaderboardVH(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: LeaderboardUI) {
             with(itemView) {
