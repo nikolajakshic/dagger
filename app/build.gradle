@@ -52,8 +52,8 @@ dependencies {
     // ImageLoading
     implementation 'io.coil-kt:coil:0.11.0'
     // Dependency Injection
-    implementation 'com.google.dagger:dagger:2.22.1'
-    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    implementation 'com.google.dagger:dagger:2.28.3'
+    kapt 'com.google.dagger:dagger-compiler:2.28.3'
     // LiveData & ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
