@@ -1,21 +1,21 @@
-CREATE TABLE IF NOT EXISTS bookmark (
-    count INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+CREATE TABLE IF NOT EXISTS bookmark_player (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     account_id INTEGER UNIQUE NOT NULL,
     FOREIGN KEY (account_id) REFERENCES players(account_id) ON DELETE CASCADE
 );
 
 insert:
-INSERT OR REPLACE INTO bookmark (account_id) VALUES :accountId;
+INSERT OR REPLACE INTO bookmark_player (account_id) VALUES (:accountId);
 
 select:
-SELECT * FROM bookmark
-INNER JOIN players ON bookmark.account_id = players.account_id
-WHERE bookmark.account_id = :accountId;
+SELECT * FROM bookmark_player
+INNER JOIN players ON bookmark_player.account_id = players.account_id
+WHERE bookmark_player.account_id = :accountId;
 
 selectAllPlayerBookmark:
-SELECT * FROM bookmark
-INNER JOIN players ON bookmark.account_id = players.account_id
-ORDER BY bookmark.count DESC;
+SELECT * FROM bookmark_player
+INNER JOIN players ON bookmark_player.account_id = players.account_id
+ORDER BY bookmark_player.id DESC;
 
 delete:
-DELETE FROM bookmark WHERE bookmark.account_id = :accountId;
+DELETE FROM bookmark_player WHERE bookmark_player.account_id = :accountId;

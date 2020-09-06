@@ -6,15 +6,15 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class CompetitiveJson(
-    @Json(name = "match_id") var matchId: Long,
-    @Json(name = "start_time") var startTime: Long,
-    @Json(name = "duration") var duration: Long,
-    @Json(name = "radiant_name") var radiantName: String?,
-    @Json(name = "dire_name") var direName: String?,
-    @Json(name = "league_name") var leagueName: String?,
-    @Json(name = "radiant_score") var radiantScore: Long,
-    @Json(name = "dire_score") var direScore: Long,
-    @Json(name = "radiant_win") var isRadiantWin: Boolean
+    @Json(name = "match_id") val matchId: Long,
+    @Json(name = "start_time") val startTime: Long,
+    @Json(name = "duration") val duration: Long,
+    @Json(name = "radiant_name") val radiantName: String?,
+    @Json(name = "dire_name") val direName: String?,
+    @Json(name = "league_name") val leagueName: String?,
+    @Json(name = "radiant_score") val radiantScore: Long,
+    @Json(name = "dire_score") val direScore: Long,
+    @Json(name = "radiant_win") val isRadiantWin: Boolean
 )
 
 data class CompetitiveUI(

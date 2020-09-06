@@ -43,7 +43,16 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer {
+            adapter.addData(it)
+            if (it?.size ?: 0 != 0) {
+                tvEmptyPlayerBookmark.visibility = View.INVISIBLE
+                recView.visibility = View.VISIBLE
+            } else {
+                tvEmptyPlayerBookmark.visibility = View.VISIBLE
+                recView.visibility = View.INVISIBLE
+            }
+        })
     }
 
     override fun onItemReselected() {

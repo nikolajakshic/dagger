@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS heroes (
 );
 
 insert:
-INSERT OR REPLACE INTO heroes (account_id,hero_id,games,wins) VALUES ?;
+INSERT OR REPLACE INTO heroes VALUES ?;
 
 selectAllByGames:
 SELECT * FROM heroes

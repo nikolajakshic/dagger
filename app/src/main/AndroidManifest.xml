@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
-            android:label="Settings" />
-        <activity
             android:name=".search.SearchActivity"
             android:theme="@style/SearchTheme" />
         <activity

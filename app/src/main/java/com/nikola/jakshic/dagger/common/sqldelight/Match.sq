@@ -23,18 +23,7 @@ countMatches:
 SELECT COUNT(matches.account_id) FROM matches WHERE matches.account_id = :acountId;
 
 insert:
-INSERT OR REPLACE INTO matches (
-    account_id,
-    match_id,
-    hero_id,
-    player_slot,
-    skill,
-    duration,
-    mode,
-    lobby,
-    radiant_win,
-    start_time
-) VALUES ?;
+INSERT OR REPLACE INTO matches VALUES ?;
 
 deleteAll:
 DELETE FROM matches WHERE matches.account_id = :id;

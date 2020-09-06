@@ -5,10 +5,13 @@ CREATE TABLE IF NOT EXISTS leaderboards (
 );
 
 selectAll:
-SELECT * FROM leaderboards WHERE region = :region;
+SELECT name
+FROM leaderboards
+WHERE region = :region
+ORDER BY id ASC;
 
 insert:
-INSERT INTO leaderboards (name, region) VALUES ?;
+INSERT INTO leaderboards (name, region) VALUES (:name, :region);
 
 deleteAllByRegion:
 DELETE FROM leaderboards WHERE region = :region;

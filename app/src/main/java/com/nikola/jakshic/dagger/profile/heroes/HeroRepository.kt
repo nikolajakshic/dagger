@@ -72,12 +72,8 @@ class HeroRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val heroes = service.getHeroes(id)
-                heroes.map {
-                    it.accountId = id // response from the network doesn't contain any information
-                    it // about who played this heroes, so we need to set this manually
-                }
                 heroQueries.transaction {
-                    heroes.forEach { heroQueries.insert(it.mapToDb()) }
+                    heroes.forEach { heroQueries.insert(it.mapToDb(accountId = id)) }
                 }
             }
             onSuccess()

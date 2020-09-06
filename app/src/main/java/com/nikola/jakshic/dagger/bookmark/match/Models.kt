@@ -10,8 +10,6 @@ class MatchBookmarkUI(
 )
 
 fun List<SelectAllMatchBookmark>.mapToUi(): List<MatchBookmarkUI> {
-    if (this.isEmpty()) return emptyList()
-
     val map = this.groupBy(SelectAllMatchBookmark::match_id)
     val matchBookmarkList = mutableListOf<MatchBookmarkUI>()
 

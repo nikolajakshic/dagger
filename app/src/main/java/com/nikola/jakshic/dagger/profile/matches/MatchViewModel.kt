@@ -6,10 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
+import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
+import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import kotlinx.coroutines.launch
 
 class MatchViewModel @ViewModelInject constructor(
-    private val repository: MatchRepository
+    private val repository: MatchRepository,
+    private val matchQueries: MatchQueries
 ) : ScopedViewModel() {
 
     private lateinit var response: Response
@@ -29,10 +33,22 @@ class MatchViewModel @ViewModelInject constructor(
     private val onSuccess: () -> Unit = { _refreshStatus.value = Status.SUCCESS }
     private val onError: () -> Unit = { _refreshStatus.value = Status.ERROR }
 
+    // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
+    private var factory: QueryDataSourceFactory<Matches>? = null
+
     fun initialFetch(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            response = repository.getMatchesLiveData(this, id)
+
+            val queryProvider = { limit: Long, offset: Long ->
+                matchQueries.selectAll(id, limit, offset)
+            }
+            factory = QueryDataSourceFactory(
+                queryProvider = queryProvider,
+                countQuery = matchQueries.countMatches(id),
+                transacter = matchQueries
+            )
+            response = repository.getMatchesLiveData(this, factory!!.map(Matches::mapToUi), id)
             fetchMatches(id)
         }
     }
@@ -45,4 +61,9 @@ class MatchViewModel @ViewModelInject constructor(
     }
 
     fun retry() = response.retry()
+
+    override fun onCleared() {
+        super.onCleared()
+        factory?.invalidate()
+    }
 }

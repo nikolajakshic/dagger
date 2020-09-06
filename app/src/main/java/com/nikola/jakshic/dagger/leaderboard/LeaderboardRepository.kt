@@ -3,7 +3,6 @@ package com.nikola.jakshic.dagger.leaderboard
 import androidx.lifecycle.LiveData
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.LeaderboardQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Leaderboards
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
@@ -43,10 +42,6 @@ class LeaderboardRepository @Inject constructor(
                 val leaderboard = service.getLeaderboard(region).leaderboard
                     ?: throw Exception()
                 val list = leaderboard.take(100)
-                list.map {
-                    it.region = region // response from the network doesn't contain any information
-                    it // about the region, so we need to set this manually
-                }
                 if (list.isNotEmpty()) {
                     // We don't have players ids, we only have their names,
                     // if the player has changed his name in the meantime,
@@ -56,8 +51,7 @@ class LeaderboardRepository @Inject constructor(
                     leaderboardQueries.transaction {
                         leaderboardQueries.deleteAllByRegion(region)
                         list.forEach {
-                            // ID is auto-incrementing, the value we passed here is irrelevant.
-                            leaderboardQueries.insert(Leaderboards(-1, it.name, it.region))
+                            leaderboardQueries.insert(it.name, region)
                         }
                     }
                 }

@@ -1,11 +1,11 @@
 package com.nikola.jakshic.dagger.matchstats
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.common.sqldelight.Bookmark_match
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -61,11 +61,14 @@ class MatchStatsViewModel @ViewModelInject constructor(
         }
     }
 
-    fun addToBookmark(matchId: Long) {
+    fun addToBookmark(matchId: Long, onSuccess: () -> Unit) {
         launch {
-            // ID -1 and empty note are not relevant, they will not be picked by query
-            // TODO refactor to MatchBookmarkUI.mapToDb() something like that, the model that will have only matchId variable
-            withContext(Dispatchers.IO) { matchBookmarkQueries.insert(Bookmark_match(-1, "", matchId)) }
+            try {
+                withContext(Dispatchers.IO) { matchBookmarkQueries.insert(matchId) }
+                onSuccess()
+            } catch (e: SQLiteConstraintException) {
+                // Trying to add to the bookmark but match_stats is not yet added to the database.
+            }
         }
     }
 

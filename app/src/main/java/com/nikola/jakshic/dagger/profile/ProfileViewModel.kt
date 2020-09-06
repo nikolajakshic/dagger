@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.profile
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +8,6 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
 import com.nikola.jakshic.dagger.bookmark.player.mapToUi
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.common.sqldelight.Bookmark
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -79,8 +79,11 @@ class ProfileViewModel @ViewModelInject constructor(
 
     fun addToBookmark(id: Long) {
         launch {
-            // TODO -1 is irrelevant, never gonna make it in database, create new model that receives only account id and then mapToDb()
-            withContext(Dispatchers.IO) { playerBookmarkQueries.insert(Bookmark(-1, id)) }
+            try {
+                withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
+            } catch (e: SQLiteConstraintException) {
+                // Trying to add to the bookmark but player is not yet added to the database.
+            }
         }
     }
 

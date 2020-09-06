@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Search_history
 import com.nikola.jakshic.dagger.profile.PlayerRepository
 import com.nikola.jakshic.dagger.profile.PlayerUI
 import kotlinx.coroutines.CoroutineScope
@@ -47,7 +46,7 @@ class SearchViewModel @ViewModelInject constructor(
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAll()
                     .executeAsList()
-                    .map(Search_history::mapToUi)
+                    .map { SearchHistoryUI(it) }
             }
             _historyList.value = list
         }
@@ -58,16 +57,16 @@ class SearchViewModel @ViewModelInject constructor(
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAllByQuery(query)
                     .executeAsList()
-                    .map(Search_history::mapToUi)
+                    .map { SearchHistoryUI(it) }
             }
             _historyList.value = list
         }
     }
 
-    fun saveQuery(item: SearchHistoryUI) {
+    fun saveQuery(query: String) {
         launch {
             withContext(Dispatchers.IO) {
-                searchHistoryQueries.insert(item.mapToDb())
+                searchHistoryQueries.insert(query)
             }
         }
     }
@@ -85,6 +84,12 @@ class SearchViewModel @ViewModelInject constructor(
 
     fun clearList() {
         _playerList.value = ArrayList()
+    }
+
+    fun deleteSearchHistory() {
+        launch {
+            withContext(Dispatchers.IO) { searchHistoryQueries.deleteAll() }
+        }
     }
 
     override fun onCleared() {

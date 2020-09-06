@@ -6,10 +6,9 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class HeroJson(
-    var accountId: Long = 0,
-    @Json(name = "hero_id") var heroId: Long,
-    @Json(name = "games") var gamesPlayed: Long,
-    @Json(name = "win") var gamesWon: Long
+    @Json(name = "hero_id") val heroId: Long,
+    @Json(name = "games") val gamesPlayed: Long,
+    @Json(name = "win") val gamesWon: Long
 )
 
 data class HeroUI(
@@ -18,9 +17,9 @@ data class HeroUI(
     val gamesWon: Long
 )
 
-fun HeroJson.mapToDb(): Heroes {
+fun HeroJson.mapToDb(accountId: Long): Heroes {
     return Heroes(
-        account_id = this.accountId,
+        account_id = accountId,
         hero_id = this.heroId,
         games = this.gamesPlayed,
         wins = this.gamesWon

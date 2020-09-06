@@ -13,6 +13,8 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 - Offline support
 - Search players
 - Bookmark players
+- Bookmark matches
+- Add notes to bookmarked matches
 - Match history for any player
 - Match summary
 - Player performance comparison
@@ -27,9 +29,9 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines.html) for writing asynchronous code
 - [Coil](https://github.com/coil-kt/coil) for image loading
 - [Dagger 2](https://github.com/google/dagger) for dependency injection
+- [SQLDelight](https://github.com/cashapp/sqldelight) for database access
 
 ## Notes
-- The app is in development, there are plans to add more useful features.
 - Dota 2 is a registered trademark of Valve Corporation.
 
 ## Download
@@ -38,7 +40,7 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 ## License
     MIT License
 
-    Copyright (c) 2018 Nikola Jakšić
+    Copyright (c) 2020 Nikola Jakšić
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

@@ -2,7 +2,6 @@ package com.nikola.jakshic.dagger.profile
 
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Players
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -23,23 +22,16 @@ class PlayerRepository @Inject constructor(
         val profile = profileDef.await()
         val winsLosses = winsLossesDef.await()
 
-        profile.player!!.rankTier = profile.rankTier
-        profile.player.leaderboardRank = profile.leaderboardRank
-        profile.player.wins = winsLosses.wins
-        profile.player.losses = winsLosses.losses
-
         withContext(Dispatchers.IO) {
-            playerQueries.insert(
-                Players(
-                    account_id = profile.player.id,
-                    name = profile.player.name,
-                    persona_name = profile.player.personaName,
-                    avatar_url = profile.player.avatarUrl,
-                    rank_tier = profile.player.rankTier,
-                    leaderboard_rank = profile.player.leaderboardRank,
-                    wins = profile.player.wins,
-                    losses = profile.player.losses
-                )
+            playerQueries.upsert(
+                name = profile.player!!.name,
+                personaName = profile.player.personaName,
+                avatarUrl = profile.player.avatarUrl,
+                rankTier = profile.rankTier,
+                leaderboardRank = profile.leaderboardRank,
+                wins = winsLosses.wins,
+                losses = winsLosses.losses,
+                accountId = profile.player.id
             )
         }
     }

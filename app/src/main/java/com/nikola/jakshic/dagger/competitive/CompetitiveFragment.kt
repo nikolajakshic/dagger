@@ -18,7 +18,6 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
 import com.nikola.jakshic.dagger.search.SearchActivity
-import com.nikola.jakshic.dagger.settings.SettingsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_competitive.*
 
@@ -69,10 +68,6 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
             when (it.itemId) {
                 R.id.menu_home_search -> {
                     startActivity(Intent(activity, SearchActivity::class.java))
-                    true
-                }
-                R.id.menu_home_settings -> {
-                    startActivity(Intent(activity, SettingsActivity::class.java))
                     true
                 }
                 else -> false

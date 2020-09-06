@@ -1,0 +1,1 @@
+- Support for Dota 7.27 changes

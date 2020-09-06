@@ -50,7 +50,16 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer {
+            adapter.addData(it)
+            if (it?.size ?: 0 != 0) {
+                tvEmptyMatchBookmark.visibility = View.INVISIBLE
+                recView.visibility = View.VISIBLE
+            } else {
+                tvEmptyMatchBookmark.visibility = View.VISIBLE
+                recView.visibility = View.INVISIBLE
+            }
+        })
     }
 
     override fun onItemReselected() {

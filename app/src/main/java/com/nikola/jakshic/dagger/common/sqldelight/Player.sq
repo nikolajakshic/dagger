@@ -1,29 +1,48 @@
 CREATE TABLE IF NOT EXISTS players (
-    account_id INTEGER NOT NULL,
+    account_id INTEGER PRIMARY KEY NOT NULL,
     name TEXT,
     persona_name TEXT,
     avatar_url TEXT,
     rank_tier INTEGER NOT NULL,
     leaderboard_rank INTEGER NOT NULL,
     wins INTEGER NOT NULL,
-    losses INTEGER NOT NULL,
-    PRIMARY KEY(account_id)
+    losses INTEGER NOT NULL
 );
 
 select:
 SELECT * FROM players WHERE players.account_id = :id;
 
-insert:
-INSERT OR REPLACE INTO players (
-    account_id,
-    name,
-    persona_name,
-    avatar_url,
-    rank_tier,
-    leaderboard_rank,
-    wins,
-    losses)
-VALUES ?;
+upsert {
+    UPDATE players
+    SET name = :name,
+        persona_name = :personaName,
+        avatar_url = :avatarUrl,
+        rank_tier = :rankTier,
+        leaderboard_rank = :leaderboardRank,
+        wins = :wins,
+        losses = :losses
+    WHERE account_id = :accountId;
+
+    INSERT OR IGNORE INTO players (
+        account_id,
+        name,
+        persona_name,
+        avatar_url,
+        rank_tier,
+        leaderboard_rank,
+        wins,
+        losses
+    ) VALUES (
+        :accountId,
+        :name,
+        :personaName,
+        :avatarUrl,
+        :rankTier,
+        :leaderboardRank,
+        :wins,
+        :losses
+    );
+}
 
 delete:
 DELETE FROM players WHERE account_id = :id;

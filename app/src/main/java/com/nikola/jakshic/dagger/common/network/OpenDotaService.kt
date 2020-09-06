@@ -4,7 +4,8 @@ import com.nikola.jakshic.dagger.competitive.CompetitiveJson
 import com.nikola.jakshic.dagger.leaderboard._Leaderboard
 import com.nikola.jakshic.dagger.matchstats.MatchStatsJson
 import com.nikola.jakshic.dagger.profile.PlayerJson
-import com.nikola.jakshic.dagger.profile._Player
+import com.nikola.jakshic.dagger.profile.PlayerWinLossJson
+import com.nikola.jakshic.dagger.profile._PlayerJson
 import com.nikola.jakshic.dagger.profile.heroes.HeroJson
 import com.nikola.jakshic.dagger.profile.matches.MatchJson
 import com.nikola.jakshic.dagger.profile.peers.PeerJson
@@ -22,10 +23,10 @@ interface OpenDotaService {
     suspend fun searchPlayers(@Query("q") name: String): List<PlayerJson>
 
     @GET("players/{account_id}")
-    suspend fun getPlayerProfile(@Path("account_id") id: Long): _Player
+    suspend fun getPlayerProfile(@Path("account_id") id: Long): _PlayerJson
 
     @GET("players/{account_id}/wl")
-    suspend fun getPlayerWinLoss(@Path("account_id") playerId: Long): PlayerJson
+    suspend fun getPlayerWinLoss(@Path("account_id") playerId: Long): PlayerWinLossJson
 
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatches(

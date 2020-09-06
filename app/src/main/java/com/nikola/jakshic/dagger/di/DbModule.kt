@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.di
 
 import android.content.Context
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.nikola.jakshic.dagger.Database
 import com.nikola.jakshic.dagger.common.sqldelight.DaggerSchema
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -51,7 +52,15 @@ object DbModule {
     @Provides
     @Singleton
     fun provideSqlDriver(@ApplicationContext context: Context): SqlDriver {
-        return AndroidSqliteDriver(DaggerSchema, context, "dagger.db")
+        return AndroidSqliteDriver(
+            schema = DaggerSchema,
+            context = context,
+            name = "dagger.db",
+            callback = object : AndroidSqliteDriver.Callback(DaggerSchema) {
+                override fun onOpen(db: SupportSQLiteDatabase) {
+                    db.execSQL("PRAGMA foreign_keys = ON;")
+                }
+            })
     }
 
     @Provides

@@ -2,13 +2,12 @@ package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
-import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
@@ -38,16 +37,11 @@ class MatchRepository @Inject constructor(
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
-    fun getMatchesLiveData(scope: CoroutineScope, id: Long): Response {
-        val queryProvider = { limit: Long, offset: Long ->
-            matchQueries.selectAll(id, limit, offset)
-        }
-        val factory = QueryDataSourceFactory(
-            queryProvider = queryProvider,
-            countQuery = matchQueries.countMatches(id),
-            transacter = matchQueries
-        ).map(Matches::mapToUi)
-
+    fun getMatchesLiveData(
+        scope: CoroutineScope,
+        factory: DataSource.Factory<Int, MatchUI>,
+        id: Long
+    ): Response {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(40)
@@ -85,14 +79,11 @@ class MatchRepository @Inject constructor(
                 // There are no matches in the database,
                 // we want to fetch only 20 from the network
                     service.getMatches(id, 20, 0)
-                list.map {
-                    it.accountId = id // response from the network doesn't contain any information
-                    it // about who played this matches, so we need to set this manually
-                }
+
                 if (list.isNotEmpty()) {
                     matchQueries.transaction {
                         matchQueries.deleteAll(id)
-                        list.forEach { matchQueries.insert(it.mapToDb()) }
+                        list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
                     }
                 }
             }
@@ -143,7 +134,23 @@ class MatchRepository @Inject constructor(
             withContext(Dispatchers.IO) {
                 val match = service.getMatch(matchId)
                 matchStatsQueries.transaction {
-                    matchStatsQueries.insert(match.mapToDb())
+                    val matchDb = match.mapToDb()
+                    matchStatsQueries.upsert(
+                        radiantWin = matchDb.radiant_win,
+                        direScore = matchDb.dire_score,
+                        radiantScore = matchDb.radiant_score,
+                        skill = matchDb.skill,
+                        gameMode = matchDb.game_mode,
+                        duration = matchDb.duration,
+                        startTime = matchDb.start_time,
+                        radiantBarracks = matchDb.radiant_barracks,
+                        direBarracks = matchDb.dire_barracks,
+                        radiantTowers = matchDb.radiant_towers,
+                        direTowers = matchDb.dire_towers,
+                        radiantName = matchDb.radiant_name,
+                        direName = matchDb.dire_name,
+                        matchId = matchDb.match_id
+                    )
                     match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
                 }
             }

@@ -5,13 +5,24 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
+import com.nikola.jakshic.dagger.common.sqldelight.Competitive
+import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import kotlinx.coroutines.launch
 
 class CompetitiveViewModel @ViewModelInject constructor(
-    private val repo: CompetitiveRepository
+    private val repo: CompetitiveRepository,
+    competitiveQueries: CompetitiveQueries
 ) : ScopedViewModel() {
 
-    val list = repo.getCompetitiveLiveData()
+    // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
+    private val factory = QueryDataSourceFactory(
+        queryProvider = competitiveQueries::getMatches,
+        countQuery = competitiveQueries.countMatches(),
+        transacter = competitiveQueries
+    )
+
+    val list = repo.getCompetitiveLiveData(factory.map(Competitive::mapToUi))
 
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
@@ -29,5 +40,10 @@ class CompetitiveViewModel @ViewModelInject constructor(
             _status.value = Status.LOADING
             repo.fetchCompetitive(onSuccess, onError)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        factory.invalidate()
     }
 }

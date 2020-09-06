@@ -38,13 +38,15 @@
     <string name="match_dire_victory">Dire Victory</string>
     <string name="match_mode">Mode: %1$s</string>
     <string name="match_skill">Skill: %1$s</string>
+    <string name="match_ended">Ended: %1$s</string>
     <string name="match_duration">%1$1d:%2$02d:%3$02d</string>
     <string name="match_duration_zero_hours">%1$02d:%2$02d</string>
-    <string name="match_duration_with_prefix">Duration: %1$1d:%2$02d:%3$02d</string>
-    <string name="match_duration_zero_hours_with_prefix">Duration: %1$02d:%2$02d</string>
 
     <string name="match_stats_overview">Overview</string>
     <string name="match_stats_comparison">Comparison</string>
+
+    <string name="match_bookmark_empty">No matches to show, yet.</string>
+    <string name="player_bookmark_empty">No players to show, yet.</string>
 
     <string name="region_europe">Europe</string>
     <string name="region_america">America</string>
@@ -59,10 +61,13 @@
     <string name="error_network_try_again">NETWORK ERROR\nTRY AGAIN LATER</string>
     <string name="info_search_history_cleared">Search history cleared!</string>
 
+    <string name="search_history_clear_all">CLEAR ALL</string>
+
     <string name="unknown">Unknown</string>
     <string name="won">Won</string>
     <string name="lost">Lost</string>
 
+    <string name="duration">Duration: %1$s</string>
     <string name="sort_by">Sort by</string>
     <string name="medals">Medals</string>
     <string name="close">Close</string>

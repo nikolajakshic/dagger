@@ -16,9 +16,9 @@ object CoilModule {
     @Provides
     @Singleton
     fun provideImageLoader(@ApplicationContext context: Context, client: OkHttpClient): ImageLoader {
-        return ImageLoader(context) {
-            okHttpClient(client)
-            crossfade(300)
-        }
+        return ImageLoader.Builder(context)
+            .okHttpClient(client)
+            .crossfade(300)
+            .build()
     }
 }
