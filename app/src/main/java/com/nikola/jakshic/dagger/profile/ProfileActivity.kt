@@ -58,12 +58,12 @@ class ProfileActivity : AppCompatActivity() {
 
                 tvLeaderboardRank.text = if (it.leaderboardRank != 0L) it.leaderboardRank.toString() else null
                 tvPlayerId.text = it.id.toString()
-                tvPlayerGames.text = resources.getString(R.string.player_games, it.wins + it.losses)
-                tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins)
-                tvPlayerLosses.text = resources.getString(R.string.player_losses, it.losses)
+                tvPlayerGames.text = resources.getString(R.string.player_games, (it.wins + it.losses) as Long) // lint is throwing `wrong argument type for formatting argument` error
+                tvPlayerWins.text = resources.getString(R.string.player_wins, it.wins as Long) // lint is throwing `wrong argument type for formatting argument` error
+                tvPlayerLosses.text = resources.getString(R.string.player_losses, it.losses as Long) // lint is throwing `wrong argument type for formatting argument` error
 
                 val winRate = (it.wins.toDouble() / (it.wins + it.losses)) * 100
-                tvPlayerWinRate.text = resources.getString(R.string.player_winrate, winRate)
+                tvPlayerWinRate.text = resources.getString(R.string.player_winrate, winRate as Double) // lint is throwing `wrong argument type for formatting argument` error
             }
         }
 
