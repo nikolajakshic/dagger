@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,15 +45,15 @@ class MatchesByHeroActivity : AppCompatActivity() {
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.matches.observe(this, Observer {
+        viewModel.matches.observe(this) {
             // If we submit empty or null list, previous data will be deleted,
             // and there will be nothing to show to the user
             if (it != null && it.size > 0) adapter.submitList(it)
-        })
+        }
 
         var snackBar: Snackbar? = null
 
-        viewModel.status.observe(this, Observer { status ->
+        viewModel.status.observe(this) { status ->
             when (status) {
                 Status.LOADING -> {
                     swipeRefresh.isRefreshing = true
@@ -74,7 +73,7 @@ class MatchesByHeroActivity : AppCompatActivity() {
                     snackBar?.show()
                 }
             }
-        })
+        }
 
         swipeRefresh.setOnRefreshListener {
             viewModel.refresh()

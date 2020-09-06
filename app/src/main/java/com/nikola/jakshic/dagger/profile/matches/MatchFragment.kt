@@ -62,16 +62,16 @@ class MatchFragment : Fragment() {
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
-        viewModel.refreshStatus.observe(viewLifecycleOwner, Observer {
+        viewModel.refreshStatus.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
-        })
+        }
 
         var snackbar: Snackbar? = null
 
-        viewModel.loadMoreStatus.observe(viewLifecycleOwner, Observer { status ->
+        viewModel.loadMoreStatus.observe(viewLifecycleOwner) { status ->
             when (status) {
                 Status.LOADING -> {
                     swipeRefresh.isRefreshing = true
@@ -91,7 +91,7 @@ class MatchFragment : Fragment() {
                     snackbar?.show()
                 }
             }
-        })
+        }
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.fetchMatches(id)

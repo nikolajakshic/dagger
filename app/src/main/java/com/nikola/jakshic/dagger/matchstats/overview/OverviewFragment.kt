@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
@@ -56,11 +55,11 @@ class OverviewFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
 
-        viewModel.match.observe(viewLifecycleOwner, Observer {
+        viewModel.match.observe(viewLifecycleOwner) {
             if (it?.players?.size == 10) {
                 bind(it)
             }
-        })
+        }
     }
 
     private fun bind(stats: MatchStatsUI) {

@@ -9,7 +9,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import coil.transform.CircleCropTransformation
@@ -42,7 +41,7 @@ class ProfileActivity : AppCompatActivity() {
 
         viewModel.getProfile(id)
 
-        viewModel.profile.observe(this, Observer {
+        viewModel.profile.observe(this) {
             if (it != null) {
                 imgPlayerAvatar.load(it.avatarUrl) {
                     transformations(CircleCropTransformation())
@@ -66,9 +65,9 @@ class ProfileActivity : AppCompatActivity() {
                 val winRate = (it.wins.toDouble() / (it.wins + it.losses)) * 100
                 tvPlayerWinRate.text = resources.getString(R.string.player_winrate, winRate)
             }
-        })
+        }
 
-        viewModel.bookmark.observe(this, Observer {
+        viewModel.bookmark.observe(this) {
             with(btnFollow) {
                 if (it == null) {
                     text = getString(R.string.follow)
@@ -80,9 +79,9 @@ class ProfileActivity : AppCompatActivity() {
                     background = ContextCompat.getDrawable(this@ProfileActivity, R.drawable.button_toolbar_follow_active)
                 }
             }
-        })
+        }
 
-        viewModel.status.observe(this, Observer {
+        viewModel.status.observe(this) {
             when (it) {
                 Status.LOADING -> {
                     btnRefresh.isEnabled = false
@@ -95,7 +94,7 @@ class ProfileActivity : AppCompatActivity() {
                     btnRefresh.isEnabled = true
                 }
             }
-        })
+        }
 
         btnRefresh.setOnClickListener { viewModel.fetchProfile(id) }
 

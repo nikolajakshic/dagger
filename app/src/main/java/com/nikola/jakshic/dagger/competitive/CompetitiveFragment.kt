@@ -59,12 +59,12 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
-        })
+        }
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.refreshData()

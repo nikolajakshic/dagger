@@ -65,12 +65,12 @@ class RegionFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
 
         viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
 
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
-        })
+        }
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.fetchLeaderboard(region)

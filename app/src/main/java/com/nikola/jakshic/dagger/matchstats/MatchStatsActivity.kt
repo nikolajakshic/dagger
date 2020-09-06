@@ -5,7 +5,6 @@ import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
@@ -34,7 +33,7 @@ class MatchStatsActivity : AppCompatActivity() {
 
         viewModel.initialFetch(id)
 
-        viewModel.status.observe(this, Observer {
+        viewModel.status.observe(this) {
             when (it) {
                 Status.LOADING -> {
                     btnRefresh.isEnabled = false
@@ -47,15 +46,15 @@ class MatchStatsActivity : AppCompatActivity() {
                     btnRefresh.isEnabled = true
                 }
             }
-        })
+        }
 
-        viewModel.isBookmarked.observe(this, Observer {
+        viewModel.isBookmarked.observe(this) {
             if (it != 0L) {
                 imgBookmark.setImageResource(R.drawable.ic_match_note_bookmark_active)
             } else {
                 imgBookmark.setImageResource(R.drawable.ic_match_note_bookmark_inactive)
             }
-        })
+        }
 
         imgBookmark.setOnClickListener {
             if (viewModel.isBookmarked.value != 0L) {

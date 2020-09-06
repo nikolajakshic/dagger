@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.nikola.jakshic.dagger.R
@@ -55,7 +54,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
             SELECTED_PLAYER = savedInstanceState.getInt("selectedPlayer", -1)
         }
 
-        viewModel.match.observe(viewLifecycleOwner, Observer { stats ->
+        viewModel.match.observe(viewLifecycleOwner) { stats ->
             if (stats?.players?.size == 10) {
                 this.stats = stats
                 setData(stats)
@@ -83,7 +82,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
                     setupDialog()
                 }
             }
-        })
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

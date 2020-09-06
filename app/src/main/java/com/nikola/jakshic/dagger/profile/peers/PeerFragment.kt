@@ -63,12 +63,12 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         recView.setHasFixedSize(true)
 
         viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
                 else -> swipeRefresh.isRefreshing = false
             }
-        })
+        }
 
         val sortDialog = PeerSortDialog()
         sortDialog.setTargetFragment(this, 300)
