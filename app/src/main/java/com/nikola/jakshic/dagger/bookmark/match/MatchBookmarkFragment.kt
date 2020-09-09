@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.HomeActivity
@@ -50,7 +49,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer {
+        viewModel.list.observe(viewLifecycleOwner) {
             adapter.addData(it)
             if (it?.size ?: 0 != 0) {
                 tvEmptyMatchBookmark.visibility = View.INVISIBLE
@@ -59,7 +58,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
                 tvEmptyMatchBookmark.visibility = View.VISIBLE
                 recView.visibility = View.INVISIBLE
             }
-        })
+        }
     }
 
     override fun onItemReselected() {

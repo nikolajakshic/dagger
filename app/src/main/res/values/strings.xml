@@ -77,6 +77,7 @@
     <string name="retry">Retry</string>
     <string name="save">SAVE</string>
 
+    <string name="note">Note</string>
     <string name="note_touch_and_hold">Touch and hold to add a note.</string>
 
     <string-array name="sort_hero_options">

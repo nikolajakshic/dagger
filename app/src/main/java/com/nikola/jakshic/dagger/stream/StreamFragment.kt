@@ -48,7 +48,7 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
         recView.setHasFixedSize(true)
 
         viewModel.initialFetch()
-        viewModel.status.observe(viewLifecycleOwner, Observer {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> {
                     tvNetworkError.visibility = View.GONE
@@ -67,7 +67,7 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
                     swipeRefresh.isRefreshing = false
                 }
             }
-        })
+        }
         viewModel.streams.observe(viewLifecycleOwner, Observer(adapter::addData))
 
         swipeRefresh.setOnRefreshListener {

@@ -62,7 +62,7 @@ class SearchActivity : AppCompatActivity() {
         recViewHistory.setHasFixedSize(true)
 
         viewModel.playerList.observe(this, Observer(playerAdapter::addData))
-        viewModel.historyList.observe(this, Observer {
+        viewModel.historyList.observe(this) {
             searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
             if (it?.size ?: 0 != 0) {
                 tvClearAll.visibility = View.VISIBLE
@@ -70,13 +70,13 @@ class SearchActivity : AppCompatActivity() {
                 tvClearAll.visibility = View.INVISIBLE
             }
             historyAdapter.addData(it)
-        })
-        viewModel.status.observe(this, Observer {
+        }
+        viewModel.status.observe(this) {
             when (it) {
                 Status.LOADING -> progressBar.visibility = View.VISIBLE
                 else -> progressBar.visibility = View.GONE
             }
-        })
+        }
 
         tvClearAll.setOnClickListener {
             viewModel.deleteSearchHistory()
