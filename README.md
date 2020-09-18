@@ -35,7 +35,13 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 - Dota 2 is a registered trademark of Valve Corporation.
 
 ## Download
-<a href='https://play.google.com/store/apps/details?id=com.nikola.jakshic.dagger'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="180"/></a>
+
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/com.urbandroid.dontkillmyapp/)
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=com.nikola.jakshic.dagger)
 
 ## License
     MIT License
