@@ -38,7 +38,7 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
      alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/com.urbandroid.dontkillmyapp/)
+     height="80">](https://f-droid.org/packages/com.nikola.jakshic.dagger/)
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
      alt="Get it on Google Play"
      height="80">](https://play.google.com/store/apps/details?id=com.nikola.jakshic.dagger)
