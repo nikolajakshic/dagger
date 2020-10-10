@@ -36,8 +36,11 @@
             android:theme="@style/MatchesByHeroTheme" />
         <activity
             android:name=".stream.StreamPlayerActivity"
-            android:configChanges="orientation|screenSize"
+            android:autoRemoveFromRecents="true"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:launchMode="singleTask"
+            android:supportsPictureInPicture="true"
+            android:taskAffinity=".StreamPlayerActivity"
             android:theme="@style/StreamPlayerTheme" />
     </application>
-
 </manifest>
