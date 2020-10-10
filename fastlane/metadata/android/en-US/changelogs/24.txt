@@ -1,0 +1,2 @@
+Android 8.0 and higher:
+ - Watch live streams in a floating window so you can keep an eye on a game while browsing content, or navigating between other applications.
