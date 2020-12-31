@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginStart="16dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="vertical">
 
@@ -14,12 +11,12 @@
         android:orientation="horizontal">
 
         <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
             android:id="@+id/tvRadiantScore"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="0"
             android:textColor="@color/color_green"
             android:textSize="18sp" />
@@ -28,20 +25,20 @@
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
             android:text=":"
             android:textSize="18sp" />
 
         <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
             android:id="@+id/tvDireScore"
             style="@style/TextAppearance.AppCompat.Body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
             android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="0"
             android:textColor="@color/color_red"
             android:textSize="18sp" />
@@ -49,43 +46,42 @@
     </LinearLayout>
 
     <TextView
-        android:maxLines="1"
-        android:ellipsize="end"
         android:id="@+id/tvMatchMode"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Mode:" />
 
     <TextView
-        android:maxLines="1"
-        android:ellipsize="end"
         android:id="@+id/tvMatchSkill"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Skill:" />
 
     <TextView
-        android:maxLines="1"
-        android:ellipsize="end"
         android:id="@+id/tvMatchDuration"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Duration:" />
 
     <TextView
-        android:maxLines="1"
-        android:ellipsize="end"
         android:id="@+id/tvMatchTimeElapsed"
         style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Ended:" />
-
 </LinearLayout>
