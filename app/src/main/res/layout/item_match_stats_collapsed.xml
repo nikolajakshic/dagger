@@ -5,12 +5,12 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingEnd="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="8dp">
+    android:paddingLeft="16dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="8dp">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -19,10 +19,10 @@
 
         <ImageView
             android:id="@+id/imgHero"
-            android:scaleType="centerCrop"
             android:layout_width="60dp"
             android:layout_height="45dp"
             android:background="#d3d3d3"
+            android:scaleType="centerCrop"
             tools:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -38,22 +38,21 @@
             tools:text="22" />
     </FrameLayout>
 
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tvPlayerName"
             style="@style/TextAppearance.AppCompat.Body2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:ellipsize="end"
             android:maxLines="1"
             android:textSize="15sp"
@@ -149,6 +148,5 @@
                 android:scaleType="centerCrop"
                 tools:src="@mipmap/ic_launcher" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>
