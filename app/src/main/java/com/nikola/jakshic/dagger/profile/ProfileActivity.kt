@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
-import coil.api.load
+import coil.load
 import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R

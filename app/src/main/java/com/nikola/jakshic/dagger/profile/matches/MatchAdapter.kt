@@ -6,7 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.getDuration
 import com.nikola.jakshic.dagger.common.inflate

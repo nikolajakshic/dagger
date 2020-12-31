@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import coil.api.load
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.util.DotaUtil
