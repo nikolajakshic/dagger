@@ -1,0 +1,4 @@
+- Support for Dota 7.28 changes
+- Improved support for larger display/font sizes
+- Fixed issue where matches by hero wouldn't show up
+- Added some missing items
