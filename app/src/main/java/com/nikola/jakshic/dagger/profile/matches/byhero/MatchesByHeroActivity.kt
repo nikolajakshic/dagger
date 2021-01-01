@@ -27,7 +27,7 @@ class MatchesByHeroActivity : AppCompatActivity() {
         setContentView(R.layout.activity_matches_per_hero)
 
         val accountId = intent.getLongExtra("account_id", -1)
-        val heroId = intent.getIntExtra("hero_id", -1)
+        val heroId = intent.getLongExtra("hero_id", -1)
 
         val viewModel = ViewModelProviders.of(this, factory)[MatchesByHeroViewModel::class.java]
 

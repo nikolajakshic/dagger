@@ -38,7 +38,7 @@ interface OpenDotaService {
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatchesByHero(
         @Path("account_id") playerId: Long,
-        @Query("hero_id") heroId: Int,
+        @Query("hero_id") heroId: Long,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int
     ): List<MatchJson>

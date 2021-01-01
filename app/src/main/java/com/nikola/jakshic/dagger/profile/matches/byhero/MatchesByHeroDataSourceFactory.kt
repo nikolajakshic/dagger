@@ -8,7 +8,7 @@ import com.nikola.jakshic.dagger.profile.matches.MatchUI
 
 class MatchesByHeroDataSourceFactory(
     private val accountId: Long,
-    private val heroId: Int,
+    private val heroId: Long,
     private val service: OpenDotaService
 ) : DataSource.Factory<Int, MatchUI>() {
 

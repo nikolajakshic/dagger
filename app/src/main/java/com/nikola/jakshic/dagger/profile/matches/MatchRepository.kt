@@ -93,7 +93,7 @@ class MatchRepository @Inject constructor(
         }
     }
 
-    fun fetchMatchesByHero(accountId: Long, heroId: Int): PagedResponse<MatchUI> {
+    fun fetchMatchesByHero(accountId: Long, heroId: Long): PagedResponse<MatchUI> {
         val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service)
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)

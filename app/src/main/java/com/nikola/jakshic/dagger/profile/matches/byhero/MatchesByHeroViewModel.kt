@@ -21,7 +21,7 @@ class MatchesByHeroViewModel @Inject constructor(private val repository: MatchRe
 
     private var initialFetch = false
 
-    fun initialFetch(accountId: Long, heroId: Int) {
+    fun initialFetch(accountId: Long, heroId: Long) {
         if (!initialFetch) {
             initialFetch = true
             response = repository.fetchMatchesByHero(accountId, heroId)

@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 
 class MatchesByHeroDataSource(
     private val accountId: Long,
-    private val heroId: Int,
+    private val heroId: Long,
     private val service: OpenDotaService
 ) : PositionalDataSource<MatchUI>() {
 
