@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_competitive.view.*
 
 class CompetitiveAdapter(
     val context: Context,
-    val listener: (matchId: Long?) -> Unit
+    val listener: (matchId: Long) -> Unit
 ) : PagedListAdapter<CompetitiveUI, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {

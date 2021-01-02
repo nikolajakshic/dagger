@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -19,7 +20,6 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import com.nikola.jakshic.dagger.search.SearchActivity
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
@@ -49,9 +49,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
         val adapter = CompetitiveAdapter(requireContext()) {
-            val intent = Intent(activity, MatchStatsFragment::class.java)
-            intent.putExtra("match_id", it)
-            startActivity(intent)
+            findNavController().navigate(CompetitiveFragmentDirections.matchStatsAction(matchId = it))
         }
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
