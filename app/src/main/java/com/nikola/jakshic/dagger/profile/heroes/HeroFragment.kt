@@ -18,6 +18,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
 import kotlinx.android.synthetic.main.fragment_hero.*
 import javax.inject.Inject
@@ -47,7 +48,7 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
 
         viewModel = ViewModelProviders.of(this, factory)[HeroViewModel::class.java]
 
-        id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
+        id = ProfileFragmentArgs.fromBundle(requireParentFragment().requireArguments()).accountId
 
         viewModel.initialFetch(id)
 

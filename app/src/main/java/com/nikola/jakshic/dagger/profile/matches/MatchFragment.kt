@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.profile.matches
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -20,7 +20,8 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
+import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
 import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
 
@@ -46,14 +47,12 @@ class MatchFragment : Fragment() {
 
         val viewModel = ViewModelProviders.of(this, factory)[MatchViewModel::class.java]
 
-        val id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
+        val id = ProfileFragmentArgs.fromBundle(requireParentFragment().requireArguments()).accountId
 
         viewModel.initialFetch(id)
 
         val adapter = MatchAdapter {
-            val intent = Intent(context, MatchStatsFragment::class.java)
-            intent.putExtra("match_id", it)
-            startActivity(intent)
+            findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
 
         recView.layoutManager = LinearLayoutManager(context)

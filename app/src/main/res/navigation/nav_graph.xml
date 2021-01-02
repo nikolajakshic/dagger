@@ -9,11 +9,7 @@
         android:id="@+id/competitiveFragment"
         android:name="com.nikola.jakshic.dagger.competitive.CompetitiveFragment"
         android:label="CompetitiveFragment"
-        tools:layout="@layout/fragment_competitive">
-        <action
-            android:id="@+id/matchStatsAction"
-            app:destination="@id/matchStatsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_competitive" />
     <fragment
         android:id="@+id/matchStatsFragment"
         android:name="com.nikola.jakshic.dagger.matchstats.MatchStatsFragment"
@@ -46,4 +42,18 @@
     <action
         android:id="@+id/searchAction"
         app:destination="@id/searchFragment" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.nikola.jakshic.dagger.profile.ProfileFragment"
+        android:label="ProfileFragment">
+        <argument
+            android:name="accountId"
+            app:argType="long" />
+    </fragment>
+    <action
+        android:id="@+id/profileAction"
+        app:destination="@id/profileFragment" />
+    <action
+        android:id="@+id/matchStatsAction"
+        app:destination="@id/matchStatsFragment" />
 </navigation>

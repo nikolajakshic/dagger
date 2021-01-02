@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.matchstats.overview
 
 import android.animation.LayoutTransition
-import android.content.Intent
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
@@ -12,6 +11,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.getDuration
@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import com.nikola.jakshic.dagger.util.DotaUtil
 import kotlinx.android.synthetic.main.fragment_overview.*
 import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
@@ -113,9 +113,7 @@ class OverviewFragment : Fragment() {
             // Having personaName = null means the player has not exposed his data to public,
             // so we don't need to set onClickListener
             if (!TextUtils.isEmpty(item.personaName)) tvPlayerName.setOnClickListener {
-                val intent = Intent(activity, ProfileActivity::class.java)
-                intent.putExtra("account_id", item.id)
-                startActivity(intent)
+                findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = item.id))
             }
         }
     }

@@ -1,15 +1,17 @@
 package com.nikola.jakshic.dagger.profile
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.DaggerApp
@@ -21,34 +23,36 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.toolbar_profile.*
 import javax.inject.Inject
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileFragment : Fragment(R.layout.activity_profile) {
+    private val args by navArgs<ProfileFragmentArgs>()
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+    override fun onAttach(context: Context) {
+        (requireActivity().application as DaggerApp).appComponent.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProviders.of(this, factory)[ProfileViewModel::class.java]
 
-        setSupportActionBar(toolbar)
-
-        val id = intent.getLongExtra("account_id", -1)
+        val id = args.accountId
 
         // Change the color of the progress bar
         progressBar.indeterminateDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY)
 
         viewModel.getProfile(id)
 
-        viewModel.profile.observe(this) {
+        viewModel.profile.observe(viewLifecycleOwner) {
             if (it != null) {
                 imgPlayerAvatar.load(it.avatarUrl) {
                     transformations(CircleCropTransformation())
                 }
 
-                val medal = DotaUtil.getMedal(this, it.rankTier, it.leaderboardRank)
-                val stars = DotaUtil.getStars(this, it.rankTier, it.leaderboardRank)
+                val medal = DotaUtil.getMedal(requireContext(), it.rankTier, it.leaderboardRank)
+                val stars = DotaUtil.getStars(requireContext(), it.rankTier, it.leaderboardRank)
                 imgRankMedal.load(medal)
                 imgRankStars.load(stars)
 
@@ -67,21 +71,21 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.bookmark.observe(this) {
+        viewModel.bookmark.observe(viewLifecycleOwner) {
             with(btnFollow) {
                 if (it == null) {
                     text = getString(R.string.follow)
-                    setTextColor(ContextCompat.getColor(this@ProfileActivity, android.R.color.white))
-                    background = ContextCompat.getDrawable(this@ProfileActivity, R.drawable.button_toolbar_follow_inactive)
+                    setTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.button_toolbar_follow_inactive)
                 } else {
                     text = getString(R.string.unfollow)
-                    setTextColor(ContextCompat.getColor(this@ProfileActivity, R.color.colorAccent))
-                    background = ContextCompat.getDrawable(this@ProfileActivity, R.drawable.button_toolbar_follow_active)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.button_toolbar_follow_active)
                 }
             }
         }
 
-        viewModel.status.observe(this) {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> {
                     btnRefresh.isEnabled = false
@@ -99,7 +103,7 @@ class ProfileActivity : AppCompatActivity() {
         btnRefresh.setOnClickListener { viewModel.fetchProfile(id) }
 
         val medalDialog = MedalDialog()
-        imgRankMedal.setOnClickListener { if (!medalDialog.isAdded) medalDialog.show(supportFragmentManager, null) }
+        imgRankMedal.setOnClickListener { if (!medalDialog.isAdded) medalDialog.show(childFragmentManager, null) }
 
         // Toolbar is drawn over the medal and refresh button, so we need to register clicks
         // on the toolbar and then pass them to the proper views.
@@ -125,7 +129,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         viewPager.offscreenPageLimit = 2
-        viewPager.adapter = ProfilePagerAdapter(this, supportFragmentManager)
+        viewPager.adapter = ProfilePagerAdapter(requireContext(), childFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 }

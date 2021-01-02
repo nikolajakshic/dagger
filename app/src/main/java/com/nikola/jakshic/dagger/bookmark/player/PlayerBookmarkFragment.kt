@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.bookmark.player
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -15,7 +15,7 @@ import com.nikola.jakshic.dagger.HomeActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.inflate
-import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark_player.*
 import javax.inject.Inject
 
@@ -42,9 +42,7 @@ class PlayerBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselect
         val viewModel = ViewModelProviders.of(this, factory)[PlayerBookmarkViewModel::class.java]
 
         val adapter = PlayerBookmarkAdapter {
-            val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("account_id", it.id)
-            startActivity(intent)
+            findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = it.id))
         }
 
         recView.layoutManager = LinearLayoutManager(activity)

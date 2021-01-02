@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.search
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -19,7 +18,6 @@ import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
@@ -54,9 +52,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
         }
 
         val playerAdapter = PlayerAdapter {
-            val intent = Intent(requireContext(), ProfileActivity::class.java)
-            intent.putExtra("account_id", it.id)
-            startActivity(intent)
+            findNavController().navigate(SearchFragmentDirections.profileAction(accountId = it.id))
         }
 
         val historyAdapter = HistoryAdapter {

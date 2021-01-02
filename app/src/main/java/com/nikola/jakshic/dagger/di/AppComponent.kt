@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.leaderboard.RegionFragment
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
-import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.profile.ProfileFragment
 import com.nikola.jakshic.dagger.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.profile.matches.MatchFragment
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
@@ -39,7 +39,7 @@ interface AppComponent {
 
     fun inject(fragment: RegionFragment)
 
-    fun inject(activity: ProfileActivity)
+    fun inject(fragment: ProfileFragment)
 
     fun inject(activity: MatchesByHeroActivity)
 

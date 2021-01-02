@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".profile.ProfileActivity"
-            android:theme="@style/ProfileTheme" />
-        <activity
             android:name=".profile.matches.byhero.MatchesByHeroActivity"
             android:theme="@style/MatchesByHeroTheme" />
         <activity

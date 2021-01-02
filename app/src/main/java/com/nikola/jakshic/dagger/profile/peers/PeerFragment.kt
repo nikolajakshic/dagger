@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.profile.peers
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -18,7 +18,8 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.profile.ProfileActivity
+import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
+import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import kotlinx.android.synthetic.main.fragment_peer.*
 import javax.inject.Inject
 
@@ -45,16 +46,14 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        id = activity?.intent?.getLongExtra("account_id", -1) ?: -1
+        id = ProfileFragmentArgs.fromBundle(requireParentFragment().requireArguments()).accountId
 
         viewModel = ViewModelProviders.of(this, factory)[PeerViewModel::class.java]
 
         viewModel.initialFetch(id)
 
         adapter = PeerAdapter {
-            val intent = Intent(context, ProfileActivity::class.java)
-            intent.putExtra("account_id", it)
-            startActivity(intent)
+            findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = it))
         }
 
         recView.layoutManager = LinearLayoutManager(context)
