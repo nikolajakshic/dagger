@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.competitive
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +19,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.search.SearchActivity
+import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 
@@ -75,7 +74,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
-                    startActivity(Intent(activity, SearchActivity::class.java))
+                    findNavController().navigate(SearchFragmentDirections.searchAction())
                     true
                 }
                 else -> false

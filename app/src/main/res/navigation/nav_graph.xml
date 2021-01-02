@@ -38,4 +38,12 @@
         android:name="com.nikola.jakshic.dagger.bookmark.BookmarkFragment"
         android:label="fragment_bookmark"
         tools:layout="@layout/fragment_bookmark" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.nikola.jakshic.dagger.search.SearchFragment"
+        android:label="activity_search"
+        tools:layout="@layout/activity_search" />
+    <action
+        android:id="@+id/searchAction"
+        app:destination="@id/searchFragment" />
 </navigation>

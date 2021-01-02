@@ -11,7 +11,7 @@ import com.nikola.jakshic.dagger.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.profile.matches.MatchFragment
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
 import com.nikola.jakshic.dagger.profile.peers.PeerFragment
-import com.nikola.jakshic.dagger.search.SearchActivity
+import com.nikola.jakshic.dagger.search.SearchFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(application: DaggerApp)
 
-    fun inject(activity: SearchActivity)
+    fun inject(fragment: SearchFragment)
 
     fun inject(fragment: MatchFragment)
 

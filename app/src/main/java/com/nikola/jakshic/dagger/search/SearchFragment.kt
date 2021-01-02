@@ -1,14 +1,15 @@
 package com.nikola.jakshic.dagger.search
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -22,7 +23,7 @@ import com.nikola.jakshic.dagger.profile.ProfileActivity
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment(R.layout.activity_search) {
 
     @Inject lateinit var factory: DaggerViewModelFactory
     private lateinit var viewModel: SearchViewModel
@@ -32,13 +33,17 @@ class SearchActivity : AppCompatActivity() {
     private val STATE_QUERY = "query"
     private val STATE_FOCUS = "focus"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        (application as DaggerApp).appComponent.inject(this)
-        super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
-        setContentView(R.layout.activity_search)
+    override fun onAttach(context: Context) {
+        (requireActivity().application as DaggerApp).appComponent.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
+
+        setupToolbar()
 
         if (savedInstanceState != null) {
             hasFocus = savedInstanceState.getBoolean(STATE_FOCUS)
@@ -49,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         val playerAdapter = PlayerAdapter {
-            val intent = Intent(this, ProfileActivity::class.java)
+            val intent = Intent(requireContext(), ProfileActivity::class.java)
             intent.putExtra("account_id", it.id)
             startActivity(intent)
         }
@@ -58,17 +63,17 @@ class SearchActivity : AppCompatActivity() {
             searchView.setQuery(it, true)
         }
 
-        recViewPlayers.layoutManager = LinearLayoutManager(this)
-        recViewPlayers.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
+        recViewPlayers.layoutManager = LinearLayoutManager(requireContext())
+        recViewPlayers.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
         recViewPlayers.adapter = playerAdapter
         recViewPlayers.setHasFixedSize(true)
 
-        recViewHistory.layoutManager = LinearLayoutManager(this)
+        recViewHistory.layoutManager = LinearLayoutManager(requireContext())
         recViewHistory.adapter = historyAdapter
         recViewHistory.setHasFixedSize(true)
 
-        viewModel.playerList.observe(this, Observer(playerAdapter::addData))
-        viewModel.historyList.observe(this) {
+        viewModel.playerList.observe(viewLifecycleOwner, Observer(playerAdapter::addData))
+        viewModel.historyList.observe(viewLifecycleOwner) {
             searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
             if (it?.size ?: 0 != 0) {
                 tvClearAll.visibility = View.VISIBLE
@@ -77,7 +82,7 @@ class SearchActivity : AppCompatActivity() {
             }
             historyAdapter.addData(it)
         }
-        viewModel.status.observe(this) {
+        viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> progressBar.visibility = View.VISIBLE
                 else -> progressBar.visibility = View.GONE
@@ -90,12 +95,11 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
-
-        val searchItem = menu?.findItem(R.id.menu_search_search)
-        searchItem?.expandActionView()
-        searchView = searchItem?.actionView as SearchView
+    private fun setupToolbar() {
+        toolbar.inflateMenu(R.menu.menu_search)
+        val searchItem = toolbar.menu.findItem(R.id.menu_search_search)
+        searchItem.expandActionView()
+        searchView = searchItem.actionView as SearchView
 
         searchView.queryHint = getString(R.string.search_players)
         searchView.setQuery(query, false)
@@ -108,8 +112,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onMenuItemActionExpand(item: MenuItem?) = true
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                finish()
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                findNavController().navigateUp()
                 return false
             }
         })
@@ -139,7 +142,6 @@ class SearchActivity : AppCompatActivity() {
                 return true
             }
         })
-        return true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -19,7 +20,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.search.SearchActivity
+import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_stream.*
 import javax.inject.Inject
 
@@ -92,7 +93,7 @@ class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListen
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
-                    startActivity(Intent(activity, SearchActivity::class.java))
+                    findNavController().navigate(SearchFragmentDirections.searchAction())
                     true
                 }
                 else -> false

@@ -24,8 +24,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SearchTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:windowBackground">@color/color_background_default</item>
+    <style name="SearchToolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">#FF2196F3</item>
         <item name="colorAccent">@color/colorAccent</item>
