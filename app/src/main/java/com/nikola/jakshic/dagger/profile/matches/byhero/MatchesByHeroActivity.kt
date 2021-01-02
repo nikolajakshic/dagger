@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import kotlinx.android.synthetic.main.activity_matches_per_hero.*
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class MatchesByHeroActivity : AppCompatActivity() {
         viewModel.initialFetch(accountId, heroId)
 
         val adapter = MatchAdapter {
-            val intent = Intent(this, MatchStatsActivity::class.java).apply {
+            val intent = Intent(this, MatchStatsFragment::class.java).apply {
                 putExtra("match_id", it)
             }
             startActivity(intent)

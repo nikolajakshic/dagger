@@ -14,7 +14,7 @@ import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.HomeActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
-import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import kotlinx.android.synthetic.main.fragment_bookmark_match.*
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
 
         val adapter = MatchBookmarkAdapter(
             onClick = {
-                val intent = Intent(context, MatchStatsActivity::class.java)
+                val intent = Intent(context, MatchStatsFragment::class.java)
                 intent.putExtra("match_id", it)
                 startActivity(intent)
             },

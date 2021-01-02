@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import com.nikola.jakshic.dagger.search.SearchActivity
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
@@ -49,7 +49,7 @@ class CompetitiveFragment : Fragment(), HomeActivity.OnNavigationItemReselectedL
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
         val adapter = CompetitiveAdapter(requireContext()) {
-            val intent = Intent(activity, MatchStatsActivity::class.java)
+            val intent = Intent(activity, MatchStatsFragment::class.java)
             intent.putExtra("match_id", it)
             startActivity(intent)
         }

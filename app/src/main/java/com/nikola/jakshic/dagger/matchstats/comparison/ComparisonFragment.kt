@@ -46,7 +46,7 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
+        val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
 
         if (savedInstanceState != null) {
             leftPlayerIndex = savedInstanceState.getInt("player1", 0)

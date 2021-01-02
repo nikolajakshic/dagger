@@ -29,9 +29,6 @@
             android:name=".profile.ProfileActivity"
             android:theme="@style/ProfileTheme" />
         <activity
-            android:name=".matchstats.MatchStatsActivity"
-            android:theme="@style/MatchStatsTheme" />
-        <activity
             android:name=".profile.matches.byhero.MatchesByHeroActivity"
             android:theme="@style/MatchesByHeroTheme" />
         <activity

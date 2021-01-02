@@ -53,7 +53,7 @@ class OverviewFragment : Fragment() {
             }
         }
 
-        val viewModel = ViewModelProviders.of(requireActivity())[MatchStatsViewModel::class.java]
+        val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
 
         viewModel.match.observe(viewLifecycleOwner) {
             if (it?.players?.size == 10) {

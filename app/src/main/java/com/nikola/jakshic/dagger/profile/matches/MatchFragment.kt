@@ -20,7 +20,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.matchstats.MatchStatsActivity
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
 
@@ -51,7 +51,7 @@ class MatchFragment : Fragment() {
         viewModel.initialFetch(id)
 
         val adapter = MatchAdapter {
-            val intent = Intent(context, MatchStatsActivity::class.java)
+            val intent = Intent(context, MatchStatsFragment::class.java)
             intent.putExtra("match_id", it)
             startActivity(intent)
         }
