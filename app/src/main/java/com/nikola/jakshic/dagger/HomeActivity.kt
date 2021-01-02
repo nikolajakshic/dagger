@@ -2,101 +2,21 @@ package com.nikola.jakshic.dagger
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
-import com.nikola.jakshic.dagger.common.hide
-import com.nikola.jakshic.dagger.common.show
-import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
-import com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment
-import com.nikola.jakshic.dagger.stream.StreamFragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val competitive: Fragment
-        val leaderboard: Fragment
-        val bookmark: Fragment
-        val stream: Fragment
-
-        if (savedInstanceState == null) {
-            competitive = CompetitiveFragment()
-            leaderboard = LeaderboardFragment()
-            bookmark = BookmarkFragment()
-            stream = StreamFragment()
-
-            supportFragmentManager.beginTransaction()
-                .add(R.id.home_fragment_container, competitive, "competitive-tag")
-                .add(R.id.home_fragment_container, leaderboard, "leaderboard-tag")
-                .add(R.id.home_fragment_container, bookmark, "bookmark-tag")
-                .add(R.id.home_fragment_container, stream, "stream-tag")
-                .hide(leaderboard)
-                .hide(bookmark)
-                .hide(stream)
-                .commit()
-        } else {
-            competitive = supportFragmentManager.findFragmentByTag("competitive-tag")!!
-            leaderboard = supportFragmentManager.findFragmentByTag("leaderboard-tag")!!
-            bookmark = supportFragmentManager.findFragmentByTag("bookmark-tag")!!
-            stream = supportFragmentManager.findFragmentByTag("stream-tag")!!
-        }
-
-        btmNavigation.setOnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.action_competitive -> {
-                    competitive.show()
-                    leaderboard.hide()
-                    bookmark.hide()
-                    stream.hide()
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.action_leaderboard -> {
-                    competitive.hide()
-                    leaderboard.show()
-                    bookmark.hide()
-                    stream.hide()
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.action_bookmark -> {
-                    competitive.hide()
-                    leaderboard.hide()
-                    bookmark.show()
-                    stream.hide()
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.action_stream -> {
-                    competitive.hide()
-                    leaderboard.hide()
-                    bookmark.hide()
-                    stream.show()
-                    return@setOnNavigationItemSelectedListener true
-                }
-                else -> return@setOnNavigationItemSelectedListener false
-            }
-        }
-
-        btmNavigation.setOnNavigationItemReselectedListener {
-            when (it.itemId) {
-                R.id.action_competitive -> (competitive as CompetitiveFragment).onItemReselected()
-                R.id.action_leaderboard -> (leaderboard as LeaderboardFragment).onItemReselected()
-                R.id.action_bookmark -> (bookmark as BookmarkFragment).onItemReselected()
-                R.id.action_stream -> (stream as StreamFragment).onItemReselected()
-            }
-        }
-    }
-
-    override fun onBackPressed() {
-        if (btmNavigation.selectedItemId != R.id.action_competitive)
-            btmNavigation.selectedItemId = R.id.action_competitive
-        else
-            super.onBackPressed()
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        btmNavigation.setupWithNavController(navController)
     }
 
     interface OnNavigationItemReselectedListener {
-
         fun onItemReselected()
     }
 }

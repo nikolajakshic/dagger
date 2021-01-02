@@ -8,17 +8,20 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/btmNavigation"
-        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="#fff"
         app:itemHorizontalTranslationEnabled="false"
         app:labelVisibilityMode="unlabeled"
         app:menu="@menu/menu_home_btm" />
 
-    <FrameLayout
-        android:id="@+id/home_fragment_container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/navHostFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btmNavigation" />
+        android:layout_above="@id/btmNavigation"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 </RelativeLayout>
