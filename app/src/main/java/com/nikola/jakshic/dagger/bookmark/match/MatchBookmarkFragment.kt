@@ -1,20 +1,20 @@
 package com.nikola.jakshic.dagger.bookmark.match
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.HomeActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
-import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark_match.*
 import javax.inject.Inject
 
@@ -43,9 +43,7 @@ class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselecte
 
         val adapter = MatchBookmarkAdapter(
             onClick = {
-                val intent = Intent(context, MatchStatsFragment::class.java)
-                intent.putExtra("match_id", it)
-                startActivity(intent)
+                findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
             },
             onHold = { note, matchId ->
                 val dialog = MatchNoteDialog.newInstance(note, matchId)
