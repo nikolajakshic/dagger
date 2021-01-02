@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.squareup.sqldelight'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 30
@@ -62,6 +63,9 @@ dependencies {
     implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqldelight_version"
     // Paging
     implementation 'androidx.paging:paging-runtime:2.0.0'
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     // SpiderChart
     implementation 'com.github.nikolajakshic:spiderchart:1.0.2'
     // KtLint
