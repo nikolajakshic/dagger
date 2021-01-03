@@ -11,14 +11,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.HomeActivity
+import com.nikola.jakshic.dagger.MainActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark_match.*
 import javax.inject.Inject
 
-class MatchBookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener, MatchNoteDialog.OnNoteSavedListener {
+class MatchBookmarkFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener, MatchNoteDialog.OnNoteSavedListener {
     @Inject lateinit var factory: DaggerViewModelFactory
     private lateinit var viewModel: MatchBookmarkViewModel
 

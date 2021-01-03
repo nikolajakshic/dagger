@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.HomeActivity
+import com.nikola.jakshic.dagger.MainActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
@@ -24,7 +24,7 @@ import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_stream.*
 import javax.inject.Inject
 
-class StreamFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
+class StreamFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 

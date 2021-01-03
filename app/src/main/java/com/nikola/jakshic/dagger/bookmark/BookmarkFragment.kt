@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.nikola.jakshic.dagger.HomeActivity
+import com.nikola.jakshic.dagger.MainActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
-class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
+class BookmarkFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
     private lateinit var adapter: BookmarkPagerAdapter
 
     override fun onCreateView(
@@ -49,6 +49,6 @@ class BookmarkFragment : Fragment(), HomeActivity.OnNavigationItemReselectedList
         // otherwise creates the new one
         val currentFragment = (adapter.instantiateItem(viewPager, position))
 
-        (currentFragment as HomeActivity.OnNavigationItemReselectedListener).onItemReselected()
+        (currentFragment as MainActivity.OnNavigationItemReselectedListener).onItemReselected()
     }
 }

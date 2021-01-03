@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.HomeActivity
+import com.nikola.jakshic.dagger.MainActivity
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
@@ -21,7 +21,7 @@ import com.nikola.jakshic.dagger.common.toast
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
-class RegionFragment : Fragment(), HomeActivity.OnNavigationItemReselectedListener {
+class RegionFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
