@@ -12,18 +12,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.MainActivity
+import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_competitive.*
 import javax.inject.Inject
 
-class CompetitiveFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
+class CompetitiveFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -48,7 +49,7 @@ class CompetitiveFragment : Fragment(), MainActivity.OnNavigationItemReselectedL
         val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
         val adapter = CompetitiveAdapter(requireContext()) {
-            findNavController().navigate(CompetitiveFragmentDirections.matchStatsAction(matchId = it))
+            findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
         recView.layoutManager = LinearLayoutManager(context)
         recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))

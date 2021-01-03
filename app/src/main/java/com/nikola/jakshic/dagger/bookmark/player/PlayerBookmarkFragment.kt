@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
-import com.nikola.jakshic.dagger.MainActivity
+import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.inflate
@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark_player.*
 import javax.inject.Inject
 
-class PlayerBookmarkFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
+class PlayerBookmarkFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 

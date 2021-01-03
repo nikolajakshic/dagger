@@ -3,13 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/competitiveFragment">
-
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/competitiveFragment"
-        android:name="com.nikola.jakshic.dagger.competitive.CompetitiveFragment"
-        android:label="CompetitiveFragment"
-        tools:layout="@layout/fragment_competitive" />
+        android:id="@+id/homeFragment"
+        android:name="com.nikola.jakshic.dagger.HomeFragment"
+        android:label="HomeFragment" />
     <fragment
         android:id="@+id/matchStatsFragment"
         android:name="com.nikola.jakshic.dagger.matchstats.MatchStatsFragment"
@@ -19,21 +17,6 @@
             android:name="matchId"
             app:argType="long" />
     </fragment>
-    <fragment
-        android:id="@+id/leaderboardFragment"
-        android:name="com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment"
-        android:label="LeaderboardFragment"
-        tools:layout="@layout/fragment_leaderboard" />
-    <fragment
-        android:id="@+id/streamFragment"
-        android:name="com.nikola.jakshic.dagger.stream.StreamFragment"
-        android:label="fragment_stream"
-        tools:layout="@layout/fragment_stream" />
-    <fragment
-        android:id="@+id/bookmarkFragment"
-        android:name="com.nikola.jakshic.dagger.bookmark.BookmarkFragment"
-        android:label="fragment_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.nikola.jakshic.dagger.search.SearchFragment"

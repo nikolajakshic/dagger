@@ -2,25 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/competitiveFragment"
+        android:id="@+id/action_competitive"
         android:enabled="true"
         android:icon="@drawable/ic_competitive"
         android:title="Competitive"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/leaderboardFragment"
+        android:id="@+id/action_leaderboard"
         android:enabled="true"
         android:icon="@drawable/ic_leaderboard"
         android:title="Leaderboard"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/bookmarkFragment"
+        android:id="@+id/action_bookmark"
         android:enabled="true"
         android:icon="@drawable/ic_bookmark"
         android:title="Bookmark"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/streamFragment"
+        android:id="@+id/action_stream"
         android:enabled="true"
         android:icon="@drawable/ic_stream"
         android:title="Stream"

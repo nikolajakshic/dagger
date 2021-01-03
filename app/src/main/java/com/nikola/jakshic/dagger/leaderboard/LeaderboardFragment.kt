@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.nikola.jakshic.dagger.MainActivity
+import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
 
-class LeaderboardFragment : Fragment(), MainActivity.OnNavigationItemReselectedListener {
+class LeaderboardFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
 
     private lateinit var adapter: RegionPagerAdapter
 
