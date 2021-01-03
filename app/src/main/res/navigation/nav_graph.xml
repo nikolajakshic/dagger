@@ -49,6 +49,9 @@
         <argument
             android:name="accountId"
             app:argType="long" />
+        <action
+            android:id="@+id/matchesByHeroAction"
+            app:destination="@id/matchesByHeroFragment" />
     </fragment>
     <action
         android:id="@+id/profileAction"
@@ -56,4 +59,16 @@
     <action
         android:id="@+id/matchStatsAction"
         app:destination="@id/matchStatsFragment" />
+    <fragment
+        android:id="@+id/matchesByHeroFragment"
+        android:name="com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroFragment"
+        android:label="activity_matches_per_hero"
+        tools:layout="@layout/activity_matches_per_hero">
+        <argument
+            android:name="accountId"
+            app:argType="long" />
+        <argument
+            android:name="heroId"
+            app:argType="long" />
+    </fragment>
 </navigation>

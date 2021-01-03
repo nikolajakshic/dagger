@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.DaggerApp
@@ -19,7 +19,7 @@ import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
-import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
+import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import kotlinx.android.synthetic.main.fragment_hero.*
 import javax.inject.Inject
 
@@ -53,11 +53,11 @@ class HeroFragment : Fragment(), HeroSortDialog.OnSortListener {
         viewModel.initialFetch(id)
 
         adapter = HeroAdapter {
-            val intent = Intent(context, MatchesByHeroActivity::class.java).apply {
-                putExtra("account_id", id)
-                putExtra("hero_id", it)
-            }
-            startActivity(intent)
+            findNavController().navigate(
+                ProfileFragmentDirections.matchesByHeroAction(
+                    accountId = id, heroId = it
+                )
+            )
         }
 
         recView.layoutManager = LinearLayoutManager(context)

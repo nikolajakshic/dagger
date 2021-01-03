@@ -9,7 +9,7 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsFragment
 import com.nikola.jakshic.dagger.profile.ProfileFragment
 import com.nikola.jakshic.dagger.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.profile.matches.MatchFragment
-import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroActivity
+import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroFragment
 import com.nikola.jakshic.dagger.profile.peers.PeerFragment
 import com.nikola.jakshic.dagger.search.SearchFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
@@ -41,7 +41,7 @@ interface AppComponent {
 
     fun inject(fragment: ProfileFragment)
 
-    fun inject(activity: MatchesByHeroActivity)
+    fun inject(fragment: MatchesByHeroFragment)
 
     fun inject(fragment: StreamFragment)
 }

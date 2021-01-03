@@ -23,9 +23,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".profile.matches.byhero.MatchesByHeroActivity"
-            android:theme="@style/MatchesByHeroTheme" />
-        <activity
             android:name=".stream.StreamPlayerActivity"
             android:autoRemoveFromRecents="true"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
