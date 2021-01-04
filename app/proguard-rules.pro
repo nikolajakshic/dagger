@@ -116,3 +116,6 @@
 
 # APP
 -keep @interface com.nikola.jakshic.dagger.common.network.Nullable
+
+# TODO WORKAROUND UNTIL THEY UPDATE THEIR PROGUARD RULES
+-keepnames class androidx.navigation.fragment.NavHostFragment
