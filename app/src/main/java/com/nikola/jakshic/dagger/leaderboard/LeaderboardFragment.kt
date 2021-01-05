@@ -13,8 +13,7 @@ import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_leaderboard.*
 
 class LeaderboardFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
-
-    private lateinit var adapter: RegionPagerAdapter
+    private var adapter: RegionPagerAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +45,14 @@ class LeaderboardFragment : Fragment(), HomeFragment.OnNavigationItemReselectedL
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+    }
+
     override fun onItemReselected() {
+        val adapter = adapter ?: return // make it non-null
+
         val position = viewPager.currentItem
         // If the fragment is already instantiated, it returns that instance,
         // otherwise creates the new one

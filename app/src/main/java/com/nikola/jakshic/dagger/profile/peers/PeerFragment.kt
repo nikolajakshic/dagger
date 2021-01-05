@@ -28,7 +28,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
     @Inject lateinit var factory: DaggerViewModelFactory
     private var id: Long = -1
     private lateinit var viewModel: PeerViewModel
-    private lateinit var adapter: PeerAdapter
+    private var adapter: PeerAdapter? = null
 
     override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
@@ -61,7 +61,7 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
+        viewModel.list.observe(viewLifecycleOwner, Observer(adapter!!::addData))
         viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
                 Status.LOADING -> swipeRefresh.isRefreshing = true
@@ -86,7 +86,14 @@ class PeerFragment : Fragment(), PeerSortDialog.OnSortListener {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+    }
+
     override fun onSort(sort: Int) {
+        val adapter = adapter ?: return // make it non-null
+
         // Remove previous observers b/c we are attaching new LiveData
         viewModel.list.removeObservers(viewLifecycleOwner)
 

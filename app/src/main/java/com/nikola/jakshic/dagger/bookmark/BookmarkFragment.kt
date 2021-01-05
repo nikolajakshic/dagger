@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark.*
 
 class BookmarkFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
-    private lateinit var adapter: BookmarkPagerAdapter
+    private var adapter: BookmarkPagerAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +43,14 @@ class BookmarkFragment : Fragment(), HomeFragment.OnNavigationItemReselectedList
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+    }
+
     override fun onItemReselected() {
+        val adapter = adapter ?: return // make it non-null
+
         val position = viewPager.currentItem
         // If the fragment is already instantiated, it returns that instance,
         // otherwise creates the new one
