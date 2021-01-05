@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,183 +9,182 @@
         android:id="@+id/imgMinimap"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_minimap"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_minimap" />
 
     <ImageView
         android:id="@+id/imgRadiantTopRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.76"
+        tools:src="@drawable/ic_radiant_rax" />
 
     <ImageView
         android:id="@+id/imgRadiantTopMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.105"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.76"
+        tools:src="@drawable/ic_radiant_rax" />
 
     <ImageView
         android:id="@+id/imgRadiantTopTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.72" />
+        app:layout_constraintVertical_bias="0.72"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantTopTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.55" />
+        app:layout_constraintVertical_bias="0.55"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantTopTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.375" />
+        app:layout_constraintVertical_bias="0.375"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantMidRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.155"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.78" />
+        app:layout_constraintVertical_bias="0.78"
+        tools:src="@drawable/ic_radiant_rax_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantMidMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.81" />
+        app:layout_constraintVertical_bias="0.81"
+        tools:src="@drawable/ic_radiant_rax_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantMidTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.77" />
+        app:layout_constraintVertical_bias="0.77"
+        tools:src="@drawable/ic_radiant_tower_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantMidTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.29"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.68" />
+        app:layout_constraintVertical_bias="0.68"
+        tools:src="@drawable/ic_radiant_tower_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantMidTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.57"
+        tools:src="@drawable/ic_radiant_tower_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantBotRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87" />
+        app:layout_constraintVertical_bias="0.87"
+        tools:src="@drawable/ic_radiant_rax" />
 
     <ImageView
         android:id="@+id/imgRadiantBotMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.215"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintVertical_bias="0.91"
+        tools:src="@drawable/ic_radiant_rax" />
 
     <ImageView
         android:id="@+id/imgRadiantBotTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89" />
+        app:layout_constraintVertical_bias="0.89"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantBotTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        app:layout_constraintVertical_bias="0.9"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantBotTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.81"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.88"
+        tools:src="@drawable/ic_radiant_tower" />
 
     <ImageView
         android:id="@+id/imgRadiantThrone"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_radiant_throne"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
@@ -194,200 +194,200 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.91"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.08" />
+        app:layout_constraintWidth_percent="0.08"
+        tools:src="@drawable/ic_radiant_throne" />
 
     <ImageView
         android:id="@+id/imgRadiantTopTier4Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.85"
+        tools:src="@drawable/ic_radiant_tower_angle" />
 
     <ImageView
         android:id="@+id/imgRadiantBotTier4Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_radiant_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.88" />
+        app:layout_constraintVertical_bias="0.88"
+        tools:src="@drawable/ic_radiant_tower_angle" />
 
     <ImageView
         android:id="@+id/imgDireTopRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.762"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.09" />
+        app:layout_constraintVertical_bias="0.09"
+        tools:src="@drawable/ic_dire_rax" />
 
     <ImageView
         android:id="@+id/imgDireTopMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.762"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintVertical_bias="0.13"
+        tools:src="@drawable/ic_dire_rax" />
 
     <ImageView
         android:id="@+id/imgDireTopTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.725"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11" />
+        app:layout_constraintVertical_bias="0.11"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireTopTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11" />
+        app:layout_constraintVertical_bias="0.11"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireTopTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11" />
+        app:layout_constraintVertical_bias="0.11"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireMidRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.78"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.215" />
+        app:layout_constraintVertical_bias="0.215"
+        tools:src="@drawable/ic_dire_rax_angle" />
 
     <ImageView
         android:id="@+id/imgDireMidMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.815"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24" />
+        app:layout_constraintVertical_bias="0.24"
+        tools:src="@drawable/ic_dire_rax_angle" />
 
     <ImageView
         android:id="@+id/imgDireMidTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.775"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.255" />
+        app:layout_constraintVertical_bias="0.255"
+        tools:src="@drawable/ic_dire_tower_angle" />
 
     <ImageView
         android:id="@+id/imgDireMidTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.671"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintVertical_bias="0.355"
+        tools:src="@drawable/ic_dire_tower_angle" />
 
     <ImageView
         android:id="@+id/imgDireMidTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45" />
+        app:layout_constraintVertical_bias="0.45"
+        tools:src="@drawable/ic_dire_tower_angle" />
 
     <ImageView
         android:id="@+id/imgDireBotRangedRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.26"
+        tools:src="@drawable/ic_dire_rax" />
 
     <ImageView
         android:id="@+id/imgDireBotMeleeRax"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_rax"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.93"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.26" />
+        app:layout_constraintVertical_bias="0.26"
+        tools:src="@drawable/ic_dire_rax" />
 
     <ImageView
         android:id="@+id/imgDireBotTier3Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.3"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireBotTier2Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
+        app:layout_constraintVertical_bias="0.48"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireBotTier1Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63" />
+        app:layout_constraintVertical_bias="0.63"
+        tools:src="@drawable/ic_dire_tower" />
 
     <ImageView
         android:id="@+id/imgDireThrone"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/ic_dire_throne"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="percent"
@@ -397,27 +397,28 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.1"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.08" />
+        app:layout_constraintWidth_percent="0.08"
+        tools:src="@drawable/ic_dire_throne" />
 
     <ImageView
         android:id="@+id/imgDireTopTier4Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.865"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135" />
+        app:layout_constraintVertical_bias="0.135"
+        tools:src="@drawable/ic_dire_tower_angle" />
 
     <ImageView
         android:id="@+id/imgDireBotTier4Tower"
         style="@style/MinimapBuilding"
-        android:src="@drawable/ic_dire_tower_angle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.895"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+        app:layout_constraintVertical_bias="0.155"
+        tools:src="@drawable/ic_dire_tower_angle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

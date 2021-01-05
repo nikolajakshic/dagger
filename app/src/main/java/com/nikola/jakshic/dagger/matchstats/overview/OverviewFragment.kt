@@ -54,7 +54,7 @@ class OverviewFragment : Fragment() {
         }
 
         val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
-
+        loadMinimap()
         viewModel.match.observe(viewLifecycleOwner) {
             if (it?.players?.size == 10) {
                 bind(it)
@@ -190,6 +190,48 @@ class OverviewFragment : Fragment() {
         if (direBarracks[3] == '0') with(imgDireMidMeleeRax) { colorFilter = filter; imageAlpha = alpha }
         if (direBarracks[0] == '0') with(imgDireBotRangedRax) { colorFilter = filter; imageAlpha = alpha }
         if (direBarracks[1] == '0') with(imgDireBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+    }
+
+    private fun loadMinimap() {
+        imgMinimap.load(R.drawable.ic_minimap)
+
+        imgRadiantTopRangedRax.load(R.drawable.ic_radiant_rax)
+        imgRadiantTopMeleeRax.load(R.drawable.ic_radiant_rax)
+        imgRadiantTopTier3Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantTopTier2Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantTopTier1Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantMidRangedRax.load(R.drawable.ic_radiant_rax_angle)
+        imgRadiantMidMeleeRax.load(R.drawable.ic_radiant_rax_angle)
+        imgRadiantMidTier3Tower.load(R.drawable.ic_radiant_tower_angle)
+        imgRadiantMidTier2Tower.load(R.drawable.ic_radiant_tower_angle)
+        imgRadiantMidTier1Tower.load(R.drawable.ic_radiant_tower_angle)
+        imgRadiantBotRangedRax.load(R.drawable.ic_radiant_rax)
+        imgRadiantBotMeleeRax.load(R.drawable.ic_radiant_rax)
+        imgRadiantBotTier3Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantBotTier2Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantBotTier1Tower.load(R.drawable.ic_radiant_tower)
+        imgRadiantThrone.load(R.drawable.ic_radiant_throne)
+        imgRadiantTopTier4Tower.load(R.drawable.ic_radiant_tower_angle)
+        imgRadiantBotTier4Tower.load(R.drawable.ic_radiant_tower_angle)
+
+        imgDireTopRangedRax.load(R.drawable.ic_dire_rax)
+        imgDireTopMeleeRax.load(R.drawable.ic_dire_rax)
+        imgDireTopTier3Tower.load(R.drawable.ic_dire_tower)
+        imgDireTopTier2Tower.load(R.drawable.ic_dire_tower)
+        imgDireTopTier1Tower.load(R.drawable.ic_dire_tower)
+        imgDireMidRangedRax.load(R.drawable.ic_dire_rax_angle)
+        imgDireMidMeleeRax.load(R.drawable.ic_dire_rax_angle)
+        imgDireMidTier3Tower.load(R.drawable.ic_dire_tower_angle)
+        imgDireMidTier2Tower.load(R.drawable.ic_dire_tower_angle)
+        imgDireMidTier1Tower.load(R.drawable.ic_dire_tower_angle)
+        imgDireBotRangedRax.load(R.drawable.ic_dire_rax)
+        imgDireBotMeleeRax.load(R.drawable.ic_dire_rax)
+        imgDireBotTier3Tower.load(R.drawable.ic_dire_tower)
+        imgDireBotTier2Tower.load(R.drawable.ic_dire_tower)
+        imgDireBotTier1Tower.load(R.drawable.ic_dire_tower)
+        imgDireThrone.load(R.drawable.ic_dire_throne)
+        imgDireTopTier4Tower.load(R.drawable.ic_dire_tower_angle)
+        imgDireBotTier4Tower.load(R.drawable.ic_dire_tower_angle)
     }
 
     private fun getPlayerName(item: MatchStatsUI.PlayerStatsUI) = when {
