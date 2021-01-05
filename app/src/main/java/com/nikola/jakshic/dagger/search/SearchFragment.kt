@@ -27,7 +27,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
     private lateinit var viewModel: SearchViewModel
     private var hasFocus = true
     private var query: String? = null
-    private lateinit var searchView: SearchView
+    private var searchView: SearchView? = null
     private val STATE_QUERY = "query"
     private val STATE_FOCUS = "focus"
 
@@ -41,8 +41,6 @@ class SearchFragment : Fragment(R.layout.activity_search) {
 
         viewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
 
-        setupToolbar()
-
         if (savedInstanceState != null) {
             hasFocus = savedInstanceState.getBoolean(STATE_FOCUS)
             query = savedInstanceState.getString(STATE_QUERY)
@@ -51,12 +49,14 @@ class SearchFragment : Fragment(R.layout.activity_search) {
             viewModel.getAllQueries()
         }
 
+        setupToolbar()
+
         val playerAdapter = PlayerAdapter {
             findNavController().navigate(SearchFragmentDirections.profileAction(accountId = it.id))
         }
 
         val historyAdapter = HistoryAdapter {
-            searchView.setQuery(it, true)
+            searchView!!.setQuery(it, true)
         }
 
         recViewPlayers.layoutManager = LinearLayoutManager(requireContext())
@@ -91,11 +91,17 @@ class SearchFragment : Fragment(R.layout.activity_search) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView = null
+    }
+
     private fun setupToolbar() {
         toolbar.inflateMenu(R.menu.menu_search)
         val searchItem = toolbar.menu.findItem(R.id.menu_search_search)
         searchItem.expandActionView()
         searchView = searchItem.actionView as SearchView
+        val searchView = searchView ?: return // make it non-null
 
         searchView.queryHint = getString(R.string.search_players)
         searchView.setQuery(query, false)
@@ -141,6 +147,10 @@ class SearchFragment : Fragment(R.layout.activity_search) {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        // Note: Views might be null when onSaveInstanceState is called!
+        // Example: Fragment is in the back-stack, a configuration change occurs, onViewCreated is
+        // not called on the back-stack, so the views are not initialized.
+        val searchView = searchView ?: return // make it non-null
         outState.putString(STATE_QUERY, searchView.query.toString())
         outState.putBoolean(STATE_FOCUS, searchView.hasFocus())
         super.onSaveInstanceState(outState)
