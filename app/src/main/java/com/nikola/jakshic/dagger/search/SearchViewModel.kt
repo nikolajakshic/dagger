@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// TODO Inject SavedStateHandle to handle system-initiated process death.
 class SearchViewModel @Inject constructor(
     private val searchHistoryQueries: SearchHistoryQueries,
     private val repository: PlayerRepository
