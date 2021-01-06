@@ -43,17 +43,17 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
         return inflater.inflate(R.layout.fragment_comparison, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        leftPlayerIndex = savedInstanceState?.getInt("player1", 0) ?: 0
+        rightPlayerIndex = savedInstanceState?.getInt("player2", 5) ?: 5
+        SELECTED_PLAYER = savedInstanceState?.getInt("selectedPlayer", -1) ?: -1
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
-
-        if (savedInstanceState != null) {
-            leftPlayerIndex = savedInstanceState.getInt("player1", 0)
-            rightPlayerIndex = savedInstanceState.getInt("player2", 5)
-            SELECTED_PLAYER = savedInstanceState.getInt("selectedPlayer", -1)
-        }
-
         viewModel.match.observe(viewLifecycleOwner) { stats ->
             if (stats?.players?.size == 10) {
                 this.stats = stats
@@ -86,10 +86,10 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putInt("player1", leftPlayerIndex)
         outState.putInt("player2", rightPlayerIndex)
         outState.putInt("selectedPlayer", SELECTED_PLAYER)
-        super.onSaveInstanceState(outState)
     }
 
     private fun setData(stats: MatchStatsUI) {
