@@ -28,6 +28,8 @@ import kotlinx.android.synthetic.main.item_match_stats_match_info.*
 import kotlinx.android.synthetic.main.item_match_stats_minimap.*
 
 class OverviewFragment : Fragment() {
+    private val STATE_INITIAL = "initial"
+    private var initialState = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +39,17 @@ class OverviewFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_overview, container, false)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        initialState = savedInstanceState?.getBoolean(STATE_INITIAL) ?: true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         container.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
-        if (savedInstanceState == null) {
+        if (initialState) {
             // Expand the first item
             for (i in 0 until container.childCount) {
                 val child = container.getChildAt(i) as? MatchStatsLayout
@@ -51,6 +58,7 @@ class OverviewFragment : Fragment() {
                     break
                 }
             }
+            initialState = false
         }
 
         val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
@@ -60,6 +68,11 @@ class OverviewFragment : Fragment() {
                 bind(it)
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_INITIAL, initialState)
     }
 
     private fun bind(stats: MatchStatsUI) {
