@@ -22,31 +22,36 @@ import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
 class SearchFragment : Fragment(R.layout.activity_search) {
+    private val STATE_QUERY = "query"
+    private val STATE_FOCUS = "focus"
+    private val STATE_INITIAL = "initial"
 
     @Inject lateinit var factory: DaggerViewModelFactory
     private lateinit var viewModel: SearchViewModel
     private var hasFocus = true
-    private var query: String? = null
+    private var query: String = ""
+    private var initialState = true
     private var searchView: SearchView? = null
-    private val STATE_QUERY = "query"
-    private val STATE_FOCUS = "focus"
 
     override fun onAttach(context: Context) {
         (requireActivity().application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        hasFocus = savedInstanceState?.getBoolean(STATE_FOCUS) ?: true
+        query = savedInstanceState?.getString(STATE_QUERY) ?: ""
+        initialState = savedInstanceState?.getBoolean(STATE_INITIAL) ?: true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
-
-        if (savedInstanceState != null) {
-            hasFocus = savedInstanceState.getBoolean(STATE_FOCUS)
-            query = savedInstanceState.getString(STATE_QUERY)
-        } else {
-            // Show search history when activity starts
+        if (initialState) {
             viewModel.getAllQueries()
+            initialState = false
         }
 
         setupToolbar()
@@ -125,34 +130,32 @@ class SearchFragment : Fragment(R.layout.activity_search) {
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
+            override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.clearList()
 
                 if (hasNetworkConnection())
-                    viewModel.fetchPlayers(query!!)
+                    viewModel.fetchPlayers(query)
                 else
                     toast(getString(R.string.error_network_connection))
 
-                viewModel.saveQuery(query!!)
+                viewModel.saveQuery(query)
                 searchView.clearFocus()
 
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.getQueries(newText!!)
+            override fun onQueryTextChange(newText: String): Boolean {
+                query = newText
+                viewModel.getQueries(query)
                 return true
             }
         })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        // Note: Views might be null when onSaveInstanceState is called!
-        // Example: Fragment is in the back-stack, a configuration change occurs, onViewCreated is
-        // not called on the back-stack, so the views are not initialized.
-        val searchView = searchView ?: return // make it non-null
-        outState.putString(STATE_QUERY, searchView.query.toString())
-        outState.putBoolean(STATE_FOCUS, searchView.hasFocus())
         super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_INITIAL, initialState)
+        outState.putString(STATE_QUERY, query)
+        outState.putBoolean(STATE_FOCUS, hasFocus)
     }
 }
