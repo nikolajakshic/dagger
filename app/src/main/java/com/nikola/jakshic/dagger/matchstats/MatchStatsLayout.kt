@@ -33,21 +33,23 @@ class MatchStatsLayout @JvmOverloads constructor(
     }
 
     override fun onSaveInstanceState(): Parcelable {
-        val superState = super.onSaveInstanceState()
-        val ss = State(superState!!)
-        ss.expanded = if (expanded) 1 else 0
-        return ss
+        val superState = super.onSaveInstanceState()!!
+        val state = State(superState)
+        state.expanded = if (expanded) 1 else 0
+        return state
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
-        val s = state as State
-        super.onRestoreInstanceState(s.superState)
-        expanded = s.expanded != 0
+        if (state !is State) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+        super.onRestoreInstanceState(state.superState)
+        expanded = state.expanded != 0
         if (expanded) getChildAt(1).visibility = View.VISIBLE else View.GONE
     }
 
     private class State : BaseSavedState {
-
         var expanded = 0
 
         constructor(superState: Parcelable) : super(superState)
