@@ -2,9 +2,7 @@ package com.nikola.jakshic.dagger.leaderboard
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,12 +14,11 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
-import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.toast
 import kotlinx.android.synthetic.main.fragment_region.*
 import javax.inject.Inject
 
-class RegionFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener {
+class RegionFragment : Fragment(R.layout.fragment_region), HomeFragment.OnNavigationItemReselectedListener {
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -38,14 +35,6 @@ class RegionFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListen
     override fun onAttach(context: Context) {
         (activity?.application as? DaggerApp)?.appComponent?.inject(this)
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return container?.inflate(R.layout.fragment_region)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

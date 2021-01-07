@@ -2,9 +2,7 @@ package com.nikola.jakshic.dagger.matchstats.comparison
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -17,7 +15,7 @@ import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.android.synthetic.main.fragment_comparison.*
 import java.util.concurrent.TimeUnit
 
-class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener {
+class ComparisonFragment : Fragment(R.layout.fragment_comparison), ComparisonDialog.ComparisonClickListener {
 
     private val MAX_HERO_DAMAGE_PER_MINUTE = 800F
     private val MAX_TOWER_DAMAGE_PER_MINUTE = 300F
@@ -34,14 +32,6 @@ class ComparisonFragment : Fragment(), ComparisonDialog.ComparisonClickListener 
     private val SELECTED_PLAYER_RIGHT = 1
 
     private var stats: MatchStatsUI? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_comparison, container, false)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

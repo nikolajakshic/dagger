@@ -2,9 +2,7 @@ package com.nikola.jakshic.dagger.bookmark.match
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -18,22 +16,13 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import kotlinx.android.synthetic.main.fragment_bookmark_match.*
 import javax.inject.Inject
 
-class MatchBookmarkFragment : Fragment(), HomeFragment.OnNavigationItemReselectedListener, MatchNoteDialog.OnNoteSavedListener {
+class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match), HomeFragment.OnNavigationItemReselectedListener, MatchNoteDialog.OnNoteSavedListener {
     @Inject lateinit var factory: DaggerViewModelFactory
     private lateinit var viewModel: MatchBookmarkViewModel
 
     override fun onAttach(context: Context) {
         (activity?.application as DaggerApp).appComponent.inject(this)
         super.onAttach(context)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark_match, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
