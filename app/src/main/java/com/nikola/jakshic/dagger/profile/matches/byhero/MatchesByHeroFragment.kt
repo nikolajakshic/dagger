@@ -22,6 +22,7 @@ import javax.inject.Inject
 
 class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
     private val args by navArgs<MatchesByHeroFragmentArgs>()
+    private var snackBar: Snackbar? = null
 
     @Inject lateinit var factory: DaggerViewModelFactory
 
@@ -54,8 +55,6 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
             if (it != null && it.size > 0) adapter.submitList(it)
         }
 
-        var snackBar: Snackbar? = null
-
         viewModel.status.observe(viewLifecycleOwner) { status ->
             when (status) {
                 Status.LOADING -> {
@@ -81,5 +80,11 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
         swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        snackBar?.dismiss()
+        snackBar = null
     }
 }

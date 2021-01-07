@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_match.*
 import javax.inject.Inject
 
 class MatchFragment : Fragment() {
-
+    private var snackbar: Snackbar? = null
     @Inject lateinit var factory: DaggerViewModelFactory
 
     override fun onAttach(context: Context) {
@@ -68,8 +68,6 @@ class MatchFragment : Fragment() {
             }
         }
 
-        var snackbar: Snackbar? = null
-
         viewModel.loadMoreStatus.observe(viewLifecycleOwner) { status ->
             when (status) {
                 Status.LOADING -> {
@@ -99,5 +97,11 @@ class MatchFragment : Fragment() {
                 swipeRefresh.isRefreshing = false
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        snackbar?.dismiss()
+        snackbar = null
     }
 }
