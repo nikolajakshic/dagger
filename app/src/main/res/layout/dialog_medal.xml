@@ -22,7 +22,7 @@
                 android:layout_height="56dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_rank_1" />
+                tools:srcCompat="@drawable/ic_rank_1" />
 
             <TextView
                 android:id="@+id/tvHerald"
@@ -39,11 +39,11 @@
                 android:id="@+id/imgGuardian"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 app:layout_constraintStart_toEndOf="@id/imgHerald"
                 app:layout_constraintTop_toTopOf="@id/imgHerald"
-                app:srcCompat="@drawable/ic_rank_2" />
+                tools:srcCompat="@drawable/ic_rank_2" />
 
             <TextView
                 android:id="@+id/tvGuardian"
@@ -60,11 +60,11 @@
                 android:id="@+id/imgCrusader"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 app:layout_constraintStart_toEndOf="@id/imgGuardian"
                 app:layout_constraintTop_toTopOf="@id/imgGuardian"
-                app:srcCompat="@drawable/ic_rank_3" />
+                tools:srcCompat="@drawable/ic_rank_3" />
 
             <TextView
                 android:id="@+id/tvCrusader"
@@ -81,11 +81,11 @@
                 android:id="@+id/imgArchon"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
                 app:layout_constraintStart_toEndOf="@id/imgCrusader"
                 app:layout_constraintTop_toTopOf="@id/imgCrusader"
-                app:srcCompat="@drawable/ic_rank_4" />
+                tools:srcCompat="@drawable/ic_rank_4" />
 
             <TextView
                 android:id="@+id/tvArchon"
@@ -106,7 +106,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgGuardian"
                 app:layout_constraintStart_toStartOf="@id/imgHerald"
                 app:layout_constraintTop_toBottomOf="@id/tvHerald"
-                app:srcCompat="@drawable/ic_rank_5" />
+                tools:srcCompat="@drawable/ic_rank_5" />
 
             <TextView
                 android:id="@+id/tvLegend"
@@ -126,7 +126,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgCrusader"
                 app:layout_constraintStart_toStartOf="@id/imgGuardian"
                 app:layout_constraintTop_toTopOf="@id/imgLegend"
-                app:srcCompat="@drawable/ic_rank_6" />
+                tools:srcCompat="@drawable/ic_rank_6" />
 
             <TextView
                 android:id="@+id/tvAncient"
@@ -146,7 +146,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgArchon"
                 app:layout_constraintStart_toStartOf="@id/imgCrusader"
                 app:layout_constraintTop_toTopOf="@id/imgLegend"
-                app:srcCompat="@drawable/ic_rank_7" />
+                tools:srcCompat="@drawable/ic_rank_7" />
 
             <TextView
                 android:id="@+id/tvDivine"
@@ -167,7 +167,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgAncient"
                 app:layout_constraintStart_toStartOf="@id/imgLegend"
                 app:layout_constraintTop_toBottomOf="@id/tvLegend"
-                app:srcCompat="@drawable/ic_rank_8" />
+                tools:srcCompat="@drawable/ic_rank_8" />
 
             <TextView
                 android:id="@+id/tvImmortal"
@@ -187,7 +187,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgDivine"
                 app:layout_constraintStart_toStartOf="@id/imgAncient"
                 app:layout_constraintTop_toTopOf="@id/imgImmortal"
-                app:srcCompat="@drawable/ic_rank_7a" />
+                tools:srcCompat="@drawable/ic_rank_7a" />
 
             <TextView
                 android:id="@+id/tvImmortalTop100"
@@ -208,7 +208,7 @@
                 app:layout_constraintEnd_toEndOf="@id/imgImmortalTop100"
                 app:layout_constraintStart_toStartOf="@id/tvImmortal"
                 app:layout_constraintTop_toBottomOf="@id/tvImmortal"
-                app:srcCompat="@drawable/ic_rank_7b" />
+                tools:srcCompat="@drawable/ic_rank_7b" />
 
             <TextView
                 android:id="@+id/tvImmortalTop10"
@@ -220,7 +220,6 @@
                 app:layout_constraintEnd_toEndOf="@id/imgImmortalTop10"
                 app:layout_constraintStart_toStartOf="@id/imgImmortalTop10"
                 app:layout_constraintTop_toBottomOf="@id/imgImmortalTop10" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>
