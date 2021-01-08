@@ -119,6 +119,11 @@ class SearchFragment : Fragment(R.layout.activity_search) {
             override fun onMenuItemActionExpand(item: MenuItem?) = true
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                // SearchView.clearFocus() triggers QueryTextFocusChangeListener which toggles
+                // search-history visibility, that doesn't look nice when we want to quit SearchFragment,
+                // so we remove listener to prevent that.
+                searchView.setOnQueryTextFocusChangeListener(null)
+                searchView.clearFocus()
                 findNavController().navigateUp()
                 return false
             }
