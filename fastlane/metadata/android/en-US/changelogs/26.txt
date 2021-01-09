@@ -1,0 +1,2 @@
+- Memory usage optimizations
+- Added missing item (Giant's Ring)
