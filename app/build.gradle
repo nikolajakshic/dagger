@@ -49,8 +49,8 @@ dependencies {
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.0'
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
     // ImageLoading
     implementation 'io.coil-kt:coil:1.1.0'
     // Dependency Injection
