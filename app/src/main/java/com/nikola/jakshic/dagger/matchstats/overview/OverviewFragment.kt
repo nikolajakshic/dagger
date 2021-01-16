@@ -8,7 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.nikola.jakshic.dagger.R
@@ -25,7 +25,12 @@ import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
 import kotlinx.android.synthetic.main.item_match_stats_match_info.*
 import kotlinx.android.synthetic.main.item_match_stats_minimap.*
 
+// Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
+    private val viewModel by viewModels<MatchStatsViewModel>(
+        ownerProducer = { requireParentFragment() }
+    )
+
     private val STATE_INITIAL = "initial"
     private var initialState = true
 
@@ -51,7 +56,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             initialState = false
         }
 
-        val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
         loadMinimap()
         viewModel.match.observe(viewLifecycleOwner) {
             if (it?.players?.size == 10) {

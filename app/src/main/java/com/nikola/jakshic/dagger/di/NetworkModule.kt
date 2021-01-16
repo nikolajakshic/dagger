@@ -11,6 +11,9 @@ import com.nikola.jakshic.dagger.common.network.TwitchService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.CipherSuite
 import okhttp3.ConnectionSpec
@@ -29,12 +32,8 @@ import javax.net.ssl.TrustManagerFactory
 import javax.net.ssl.X509TrustManager
 
 @Module
-class NetworkModule(private val context: Context) {
-
-    @Provides
-    @Singleton
-    fun provideContext() = context
-
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
     @Provides
     @Singleton
     fun provideMoshi(): Moshi {
@@ -67,7 +66,7 @@ class NetworkModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
         val cacheDir = File(context.cacheDir, "okhttp-cache")
         if (!cacheDir.exists()) {
             cacheDir.mkdirs()

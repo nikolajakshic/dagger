@@ -5,7 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.fragment.app.viewModels
 import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
@@ -15,7 +15,11 @@ import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.android.synthetic.main.fragment_comparison.*
 import java.util.concurrent.TimeUnit
 
+// Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
 class ComparisonFragment : Fragment(R.layout.fragment_comparison), ComparisonDialog.ComparisonClickListener {
+    private val viewModel by viewModels<MatchStatsViewModel>(
+        ownerProducer = { requireParentFragment() }
+    )
 
     private val MAX_HERO_DAMAGE_PER_MINUTE = 800F
     private val MAX_TOWER_DAMAGE_PER_MINUTE = 300F
@@ -43,7 +47,6 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison), ComparisonDia
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val viewModel = ViewModelProviders.of(requireParentFragment())[MatchStatsViewModel::class.java]
         viewModel.match.observe(viewLifecycleOwner) { stats ->
             if (stats?.players?.size == 10) {
                 this.stats = stats

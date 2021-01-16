@@ -4,11 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PeerViewModel @Inject constructor(private val repository: PeerRepository) : ScopedViewModel() {
+@HiltViewModel
+class PeerViewModel @Inject constructor(
+    private val repository: PeerRepository
+) : ScopedViewModel() {
     private val _list = MutableLiveData<List<PeerUI>>()
     val list: LiveData<List<PeerUI>>
         get() = _list

@@ -8,9 +8,11 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.Matches
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MatchViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchQueries: MatchQueries

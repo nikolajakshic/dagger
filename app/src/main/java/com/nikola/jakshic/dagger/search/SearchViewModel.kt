@@ -7,6 +7,7 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.profile.PlayerRepository
 import com.nikola.jakshic.dagger.profile.PlayerUI
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,6 +17,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 // TODO Inject SavedStateHandle to handle system-initiated process death.
+@HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchHistoryQueries: SearchHistoryQueries,
     private val repository: PlayerRepository

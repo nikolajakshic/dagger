@@ -1,42 +1,35 @@
 package com.nikola.jakshic.dagger.search
 
-import android.content.Context
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.bookmark.player.PlayerAdapter
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_search.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.activity_search) {
+    private val viewModel by viewModels<SearchViewModel>()
+
     private val STATE_QUERY = "query"
     private val STATE_FOCUS = "focus"
     private val STATE_INITIAL = "initial"
 
-    @Inject lateinit var factory: DaggerViewModelFactory
-    private lateinit var viewModel: SearchViewModel
     private var hasFocus = true
     private var query: String = ""
     private var initialState = true
     private var searchView: SearchView? = null
-
-    override fun onAttach(context: Context) {
-        (requireActivity().application as DaggerApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +41,6 @@ class SearchFragment : Fragment(R.layout.activity_search) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this, factory)[SearchViewModel::class.java]
         if (initialState) {
             viewModel.getAllQueries()
             initialState = false

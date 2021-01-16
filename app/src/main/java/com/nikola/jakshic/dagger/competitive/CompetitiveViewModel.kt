@@ -7,9 +7,11 @@ import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CompetitiveViewModel @Inject constructor(
     private val repo: CompetitiveRepository,
     competitiveQueries: CompetitiveQueries

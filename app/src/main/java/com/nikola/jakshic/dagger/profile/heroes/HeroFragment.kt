@@ -1,41 +1,30 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
 import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_hero.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class HeroFragment : Fragment(R.layout.fragment_hero), HeroSortDialog.OnSortListener {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
-    private var id: Long = -1
-    private lateinit var viewModel: HeroViewModel
+    private val viewModel by viewModels<HeroViewModel>()
     private var adapter: HeroAdapter? = null
-
-    override fun onAttach(context: Context) {
-        (activity?.application as DaggerApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
+    private var id: Long = -1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this, factory)[HeroViewModel::class.java]
 
         id = ProfileFragmentArgs.fromBundle(requireParentFragment().requireArguments()).accountId
 

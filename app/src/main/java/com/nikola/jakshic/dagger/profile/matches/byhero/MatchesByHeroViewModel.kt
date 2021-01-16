@@ -6,10 +6,14 @@ import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.nikola.jakshic.dagger.profile.matches.MatchUI
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MatchesByHeroViewModel @Inject constructor(private val repository: MatchRepository) : ScopedViewModel() {
+@HiltViewModel
+class MatchesByHeroViewModel @Inject constructor(
+    private val repository: MatchRepository
+) : ScopedViewModel() {
 
     val matches: LiveData<PagedList<MatchUI>>
         get() = response.pagedList

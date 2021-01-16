@@ -8,10 +8,14 @@ import com.squareup.sqldelight.android.AndroidSqliteDriver
 import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Module(includes = [NetworkModule::class])
-class DbModule {
+@Module
+@InstallIn(SingletonComponent::class)
+object DbModule {
     @Provides
     fun providePlayerBookmarkQueries(database: Database) = database.playerBookmarkQueries
 
@@ -47,7 +51,7 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun provideSqlDriver(context: Context): SqlDriver {
+    fun provideSqlDriver(@ApplicationContext context: Context): SqlDriver {
         return AndroidSqliteDriver(
             schema = DaggerSchema,
             context = context,

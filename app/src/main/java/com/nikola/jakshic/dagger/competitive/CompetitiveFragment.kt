@@ -1,41 +1,31 @@
 package com.nikola.jakshic.dagger.competitive
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.DaggerApp
 import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.DaggerViewModelFactory
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_competitive.*
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class CompetitiveFragment : Fragment(R.layout.fragment_competitive), HomeFragment.OnNavigationItemReselectedListener {
-
-    @Inject lateinit var factory: DaggerViewModelFactory
-
-    override fun onAttach(context: Context) {
-        (activity?.application as DaggerApp).appComponent.inject(this)
-        super.onAttach(context)
-    }
+    private val viewModel by viewModels<CompetitiveViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         toolbar.inflateMenu(R.menu.menu_home)
-
-        val viewModel = ViewModelProviders.of(this, factory)[CompetitiveViewModel::class.java]
 
         val adapter = CompetitiveAdapter(requireContext()) {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
