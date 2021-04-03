@@ -10,8 +10,9 @@ object DaggerSchema : SqlDriver.Schema by Database.Schema {
             driver.execute(null, "PRAGMA foreign_keys = OFF;", 0)
             while (cursor.next()) {
                 val table = cursor.getString(0)!!
+                // https://www.sqlite.org/fileformat.html#internal_schema_objects
                 if (!table.equals("android_metadata", ignoreCase = true) &&
-                    !table.equals("sqlite_sequence", ignoreCase = true)) {
+                    !table.startsWith("sqlite_", ignoreCase = true)) {
                     driver.execute(null, "DROP TABLE IF EXISTS $table;", 0)
                 }
             }
