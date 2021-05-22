@@ -66,6 +66,8 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    // RecyclerView
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
     // SpiderChart
     implementation 'com.github.nikolajakshic:spiderchart:1.0.2'
     // KtLint
