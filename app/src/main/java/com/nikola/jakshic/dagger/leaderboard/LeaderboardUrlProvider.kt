@@ -26,7 +26,7 @@ class LeaderboardUrlProvider @Inject constructor(
     applicationScope: CoroutineScope,
     dispatchers: DaggerDispatchers,
     private val sharedPreferences: SharedPreferences,
-    private val service: OpenDotaService,
+    private val service: OpenDotaService
 ) {
     val url = flow {
         var lastUrl: String? = null

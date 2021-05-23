@@ -17,7 +17,7 @@ import javax.inject.Singleton
 class LeaderboardRepository @Inject constructor(
     private val leaderboardQueries: LeaderboardQueries,
     private val service: OpenDotaService,
-    private val leaderboardUrlProvider: LeaderboardUrlProvider,
+    private val leaderboardUrlProvider: LeaderboardUrlProvider
 ) {
 
     /**
