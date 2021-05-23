@@ -7,6 +7,7 @@ import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -15,7 +16,8 @@ import javax.inject.Singleton
 @Singleton
 class LeaderboardRepository @Inject constructor(
     private val leaderboardQueries: LeaderboardQueries,
-    private val service: OpenDotaService
+    private val service: OpenDotaService,
+    private val leaderboardUrlProvider: LeaderboardUrlProvider,
 ) {
 
     /**
@@ -39,7 +41,9 @@ class LeaderboardRepository @Inject constructor(
     suspend fun fetchLeaderboard(region: String, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
             withContext(Dispatchers.IO) {
-                val leaderboard = service.getLeaderboard(region).leaderboard
+                val url = leaderboardUrlProvider.url.first()
+                    ?: throw RuntimeException("Leaderboard url is null")
+                val leaderboard = service.getLeaderboard(url, region).leaderboard
                     ?: throw Exception()
                 val list = leaderboard.take(100)
                 if (list.isNotEmpty()) {

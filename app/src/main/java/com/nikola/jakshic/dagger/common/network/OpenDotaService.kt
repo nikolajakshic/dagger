@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.common.network
 
 import com.nikola.jakshic.dagger.competitive.CompetitiveJson
+import com.nikola.jakshic.dagger.leaderboard.LeaderboardUrlJson
 import com.nikola.jakshic.dagger.leaderboard._Leaderboard
 import com.nikola.jakshic.dagger.matchstats.MatchStatsJson
 import com.nikola.jakshic.dagger.profile.PlayerJson
@@ -12,6 +13,7 @@ import com.nikola.jakshic.dagger.profile.peers.PeerJson
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface OpenDotaService {
 
@@ -55,6 +57,9 @@ interface OpenDotaService {
     @GET("proMatches")
     suspend fun getCompetitiveMatches(): List<CompetitiveJson>
 
-    @GET("https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001")
-    suspend fun getLeaderboard(@Query("division") region: String): _Leaderboard
+    @GET("https://nikolajakshic.github.io/dagger/remote-config.json")
+    suspend fun getLeaderboardUrl(): LeaderboardUrlJson
+
+    @GET
+    suspend fun getLeaderboard(@Url url: String, @Query("division") region: String): _Leaderboard
 }

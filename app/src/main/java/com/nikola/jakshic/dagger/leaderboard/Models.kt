@@ -12,6 +12,9 @@ data class LeaderboardJson(
     @Json(name = "name") val name: String?
 )
 
+@JsonClass(generateAdapter = true)
+data class LeaderboardUrlJson(@Json(name = "leaderboard_url") val url: String)
+
 enum class Region {
     AMERICAS,
     CHINA,
