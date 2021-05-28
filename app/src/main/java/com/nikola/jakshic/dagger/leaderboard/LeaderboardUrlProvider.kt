@@ -6,6 +6,7 @@ import com.nikola.jakshic.dagger.common.DaggerDispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.shareIn
@@ -28,7 +29,7 @@ class LeaderboardUrlProvider @Inject constructor(
     private val sharedPreferences: SharedPreferences,
     private val service: OpenDotaService
 ) {
-    val url = flow {
+    private val url = flow {
         var lastUrl: String? = null
         try {
             lastUrl = sharedPreferences.getString(KEY_LAST_URL, null)
@@ -52,4 +53,6 @@ class LeaderboardUrlProvider @Inject constructor(
             ),
             replay = 1
         )
+
+    suspend fun get() = url.first()
 }
