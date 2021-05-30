@@ -2,7 +2,7 @@ package com.nikola.jakshic.dagger.leaderboard
 
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.nikola.jakshic.dagger.common.DaggerDispatchers
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,7 +25,7 @@ private const val KEY_LAST_CHECKED = "last_checked"
 @Singleton
 class LeaderboardUrlProvider @Inject constructor(
     applicationScope: CoroutineScope,
-    dispatchers: DaggerDispatchers,
+    dispatchers: Dispatchers,
     private val sharedPreferences: SharedPreferences,
     private val service: OpenDotaService
 ) {

@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.common.network
 
-import com.nikola.jakshic.dagger.stream.StreamBox
+import com.nikola.jakshic.dagger.stream.StreamWrapperJson
 import retrofit2.http.GET
 import retrofit2.http.Headers
 
@@ -12,5 +12,5 @@ interface TwitchService {
 
     @GET("streams")
     @Headers("Client-DPT: dagger")
-    suspend fun getStreams(): StreamBox
+    suspend fun getStreams(): StreamWrapperJson
 }

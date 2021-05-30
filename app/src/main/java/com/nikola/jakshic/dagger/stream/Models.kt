@@ -4,10 +4,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class StreamBox(@Json(name = "data") val stream: List<Stream>)
+class StreamWrapperJson(@Json(name = "data") val stream: List<StreamJson>)
 
 @JsonClass(generateAdapter = true)
-data class Stream(
+data class StreamJson(
     @Json(name = "user_name") val userName: String,
     @Json(name = "title") val title: String,
     @Json(name = "viewer_count") val viewerCount: Long,
@@ -21,7 +21,7 @@ data class StreamUI(
     val thumbnailUrl: String
 )
 
-fun Stream.mapToUi(): StreamUI {
+fun StreamJson.mapToUi(): StreamUI {
     return StreamUI(
         userName = userName,
         title = title,

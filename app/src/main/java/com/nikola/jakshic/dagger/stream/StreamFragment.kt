@@ -1,11 +1,11 @@
 package com.nikola.jakshic.dagger.stream
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,62 +14,63 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.databinding.FragmentStreamBinding
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_stream.*
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class StreamFragment : Fragment(R.layout.fragment_stream), HomeFragment.OnNavigationItemReselectedListener {
+class StreamFragment : Fragment(R.layout.fragment_stream),
+    HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<StreamViewModel>()
+
+    private var _binding: FragmentStreamBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        toolbar.inflateMenu(R.menu.menu_home)
+        _binding = FragmentStreamBinding.bind(view)
+        binding.toolbar.inflateMenu(R.menu.menu_home)
 
-        val adapter = StreamAdapter {
-            val intent = Intent(context, StreamPlayerActivity::class.java)
-            intent.putExtra("user-name", it)
-            startActivity(intent)
+        val adapter = StreamAdapter { userName ->
+            startActivity(StreamPlayerActivity.createIntent(requireContext(), userName))
         }
 
-        recView.layoutManager = LinearLayoutManager(context)
-        recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        recView.adapter = adapter
-        recView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        )
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = adapter
 
         viewModel.initialFetch()
-        viewModel.status.observe(viewLifecycleOwner) {
-            when (it) {
-                Status.LOADING -> {
-                    tvNetworkError.visibility = View.GONE
-                    swipeRefresh.isRefreshing = true
-                }
-                Status.ERROR -> {
-                    swipeRefresh.isRefreshing = false
-                    tvNetworkError.visibility = View.VISIBLE
-                }
-                Status.SUCCESS -> {
-                    tvNetworkError.visibility = View.GONE
-                    swipeRefresh.isRefreshing = false
-                }
-                else -> {
-                    tvNetworkError.visibility = View.GONE
-                    swipeRefresh.isRefreshing = false
+        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.status.collectLatest {
+                if (it == Status.ERROR) {
+                    binding.tvNetworkError.visibility = View.VISIBLE
+                } else {
+                    binding.tvNetworkError.visibility = View.GONE
                 }
             }
         }
-        viewModel.streams.observe(viewLifecycleOwner, Observer(adapter::addData))
+        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.streams.collectLatest { adapter.setData(it) }
+        }
 
-        swipeRefresh.setOnRefreshListener {
+        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.getStreams()
             else {
                 toast(getString(R.string.error_network_connection))
-                swipeRefresh.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
                     findNavController().navigate(SearchFragmentDirections.searchAction())
@@ -80,7 +81,12 @@ class StreamFragment : Fragment(R.layout.fragment_stream), HomeFragment.OnNaviga
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onItemReselected() {
-        recView.smoothScrollToPosition(0)
+        binding.recyclerView.smoothScrollToPosition(0)
     }
 }

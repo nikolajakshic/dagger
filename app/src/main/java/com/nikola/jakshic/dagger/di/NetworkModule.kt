@@ -94,12 +94,15 @@ object NetworkModule {
 
         if (Build.VERSION.SDK_INT in 16..21) {
             try {
-                val trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
+                val trustManagerFactory =
+                    TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm())
                 trustManagerFactory.init(null as KeyStore?)
 
                 val trustManagers = trustManagerFactory.trustManagers
                 if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
-                    throw IllegalStateException("Unexpected default trust managers:" + Arrays.toString(trustManagers))
+                    throw IllegalStateException(
+                        "Unexpected default trust managers:" + Arrays.toString(trustManagers)
+                    )
                 }
 
                 val trustManager = trustManagers[0] as X509TrustManager
@@ -108,7 +111,9 @@ object NetworkModule {
                 sslContext.init(null, null, null)
 
                 // Enable TLS 1.2 for older devices
-                clientBuilder.sslSocketFactory(Tls12SocketFactory(sslContext.socketFactory), trustManager)
+                clientBuilder.sslSocketFactory(
+                    Tls12SocketFactory(sslContext.socketFactory), trustManager
+                )
             } catch (e: Exception) {
                 Log.e("NetworkModule", "Error while setting TLS 1.2: ", e)
             }

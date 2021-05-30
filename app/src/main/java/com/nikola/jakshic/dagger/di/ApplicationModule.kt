@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.di
 
-import com.nikola.jakshic.dagger.common.DaggerDispatchers
+import com.nikola.jakshic.dagger.common.Dispatchers
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 object ApplicationModule {
     @Provides
     @Singleton
-    fun provideApplicationScope(dispatchers: DaggerDispatchers): CoroutineScope {
+    fun provideApplicationScope(dispatchers: Dispatchers): CoroutineScope {
         return CoroutineScope(dispatchers.main + SupervisorJob())
     }
 }

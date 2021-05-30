@@ -1,45 +1,48 @@
 package com.nikola.jakshic.dagger.stream
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 @HiltViewModel
 class StreamViewModel @Inject constructor(
     private val repository: StreamRepository
 ) : ScopedViewModel() {
+    private val isInitial = AtomicBoolean(true)
 
-    private val _streams = MutableLiveData<List<StreamUI>>()
-    val streams: LiveData<List<StreamUI>>
-        get() = _streams
+    private val _streams = MutableStateFlow<List<StreamUI>>(emptyList())
+    val streams: StateFlow<List<StreamUI>> = _streams
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    private val _status = MutableStateFlow(Status.LOADING)
+    val status: StateFlow<Status> = _status
 
-    private val onSuccess: (List<StreamUI>) -> Unit = {
-        _status.value = Status.SUCCESS
-        _streams.value = it
-    }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
-
-    private var initialFetch = false
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun initialFetch() {
-        if (!initialFetch) {
-            initialFetch = true
+        if (isInitial.compareAndSet(true, false)) {
             getStreams()
         }
     }
 
     fun getStreams() {
-        _status.value = Status.LOADING
         launch {
-            repository.getStreams(onSuccess, onError)
+            try {
+                _isLoading.value = true
+                _status.value = Status.LOADING
+                val items = repository.getStreams()
+                _streams.value = items
+                _status.value = Status.SUCCESS
+            } catch (e: Exception) {
+                _status.value = Status.ERROR
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }

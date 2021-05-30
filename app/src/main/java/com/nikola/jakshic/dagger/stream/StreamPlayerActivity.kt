@@ -1,35 +1,47 @@
 package com.nikola.jakshic.dagger.stream
 
 import android.app.PictureInPictureParams
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.nikola.jakshic.dagger.R
-import kotlinx.android.synthetic.main.activity_stream_player.*
+import com.nikola.jakshic.dagger.databinding.ActivityStreamPlayerBinding
+
+private const val EXTRA_USER_NAME = "user-name"
 
 class StreamPlayerActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityStreamPlayerBinding
+
+    companion object {
+        fun createIntent(context: Context, userName: String): Intent {
+            val intent = Intent(context, StreamPlayerActivity::class.java)
+            intent.putExtra(EXTRA_USER_NAME, userName)
+            return intent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_stream_player)
+        binding = ActivityStreamPlayerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val userName = intent.getStringExtra("user-name")
+        val userName = intent.getStringExtra(EXTRA_USER_NAME)
 
         // WebView's layout_width & layout_height is set to match_parent
         // and it's blocking the background, we made it transparent
         // so we can show the "loading" background before the WebView starts.
-        webView.setBackgroundColor(Color.TRANSPARENT)
-        webView.settings.javaScriptEnabled = true
-        webView.settings.domStorageEnabled = true
-        webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
+        binding.webView.setBackgroundColor(Color.TRANSPARENT)
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.domStorageEnabled = true
+        binding.webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        val userName = intent?.getStringExtra("user-name")
+        val userName = intent?.getStringExtra(EXTRA_USER_NAME)
             ?: throw IllegalArgumentException("Intent with user-name extra must be passed.")
-        webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
+        binding.webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
     }
 
     override fun onUserLeaveHint() {
@@ -41,7 +53,8 @@ class StreamPlayerActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val isInPictureInPictureMode = enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+            val isInPictureInPictureMode =
+                enterPictureInPictureMode(PictureInPictureParams.Builder().build())
             if (isInPictureInPictureMode) {
                 return
             }
