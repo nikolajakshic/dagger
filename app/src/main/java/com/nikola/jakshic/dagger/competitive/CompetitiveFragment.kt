@@ -4,54 +4,63 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.addRepeatingJob
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.databinding.FragmentCompetitiveBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_competitive.*
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class CompetitiveFragment : Fragment(R.layout.fragment_competitive), HomeFragment.OnNavigationItemReselectedListener {
+class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
+    HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<CompetitiveViewModel>()
+
+    private var _binding: FragmentCompetitiveBinding? = null
+    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentCompetitiveBinding.bind(view)
 
-        toolbar.inflateMenu(R.menu.menu_home)
+        binding.toolbar.inflateMenu(R.menu.menu_home)
 
-        val adapter = CompetitiveAdapter(requireContext()) {
+        val adapter = CompetitiveAdapter {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
-        recView.layoutManager = LinearLayoutManager(context)
-        recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        recView.adapter = adapter
-        recView.setHasFixedSize(true)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+        )
+        binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.adapter = adapter
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
-        viewModel.status.observe(viewLifecycleOwner) {
-            when (it) {
-                Status.LOADING -> swipeRefresh.isRefreshing = true
-                else -> swipeRefresh.isRefreshing = false
-            }
+        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.list.collectLatest { adapter.submitList(it) }
         }
-        swipeRefresh.setOnRefreshListener {
+
+        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
+            viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
+        }
+
+        binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
-                viewModel.refreshData()
+                viewModel.fetchCompetitiveMatches()
             else {
                 toast(getString(R.string.error_network_connection))
-                swipeRefresh.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_home_search -> {
                     findNavController().navigate(SearchFragmentDirections.searchAction())
@@ -62,7 +71,12 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive), HomeFragmen
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onItemReselected() {
-        recView.smoothScrollToPosition(0)
+        binding.recyclerView.smoothScrollToPosition(0)
     }
 }

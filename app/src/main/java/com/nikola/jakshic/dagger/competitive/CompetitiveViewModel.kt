@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.competitive
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
 import com.nikola.jakshic.dagger.common.ScopedViewModel
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,23 +24,25 @@ class CompetitiveViewModel @Inject constructor(
         transacter = competitiveQueries
     )
 
-    val list = repo.getCompetitiveLiveData(factory.map(Competitive::mapToUi))
+    val list = repo.getCompetitiveLiveData(factory.map(Competitive::mapToUi)).asFlow()
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
-
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     init {
-        refreshData()
+        fetchCompetitiveMatches()
     }
 
-    fun refreshData() {
+    fun fetchCompetitiveMatches() {
         launch {
-            _status.value = Status.LOADING
-            repo.fetchCompetitive(onSuccess, onError)
+            try {
+                _isLoading.value = true
+                repo.fetchCompetitive()
+            } catch (ignored: Exception) {
+
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
