@@ -39,7 +39,6 @@ class CompetitiveViewModel @Inject constructor(
                 _isLoading.value = true
                 repo.fetchCompetitive()
             } catch (ignored: Exception) {
-
             } finally {
                 _isLoading.value = false
             }
