@@ -1,0 +1,2 @@
+- Added missing hero & items
+- Fixed broken leaderboard
