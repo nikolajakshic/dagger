@@ -5,7 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
@@ -43,14 +45,6 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.adapter = adapter
 
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.list.collectLatest { adapter.submitList(it) }
-        }
-
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.fetchCompetitiveMatches()
@@ -67,6 +61,16 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
                     true
                 }
                 else -> false
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.list.collectLatest { adapter.submitList(it) }
+                }
+                launch {
+                    viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
+                }
             }
         }
     }

@@ -5,7 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.addRepeatingJob
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.nikola.jakshic.dagger.databinding.FragmentStreamBinding
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class StreamFragment : Fragment(R.layout.fragment_stream),
@@ -44,22 +46,6 @@ class StreamFragment : Fragment(R.layout.fragment_stream),
         binding.recyclerView.adapter = adapter
 
         viewModel.initialFetch()
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.status.collectLatest {
-                if (it == Status.ERROR) {
-                    binding.tvNetworkError.visibility = View.VISIBLE
-                } else {
-                    binding.tvNetworkError.visibility = View.GONE
-                }
-            }
-        }
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.streams.collectLatest { adapter.setData(it) }
-        }
-
-        viewLifecycleOwner.addRepeatingJob(Lifecycle.State.STARTED) {
-            viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
-        }
 
         binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
@@ -77,6 +63,26 @@ class StreamFragment : Fragment(R.layout.fragment_stream),
                     true
                 }
                 else -> false
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.status.collectLatest {
+                        if (it == Status.ERROR) {
+                            binding.tvNetworkError.visibility = View.VISIBLE
+                        } else {
+                            binding.tvNetworkError.visibility = View.GONE
+                        }
+                    }
+                }
+                launch {
+                    viewModel.streams.collectLatest { adapter.setData(it) }
+                }
+                launch {
+                    viewModel.isLoading.collectLatest { binding.swipeRefresh.isRefreshing = it }
+                }
             }
         }
     }
