@@ -37,7 +37,6 @@ class RegionViewModel @Inject constructor(
                 _isLoading.value = true
                 repository.fetchLeaderboard(region)
             } catch (ignored: Exception) {
-
             } finally {
                 _isLoading.value = false
             }
