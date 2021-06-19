@@ -4,26 +4,36 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.databinding.FragmentRegionBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_region.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+private const val EXTRA_REGION = "region"
 
 @AndroidEntryPoint
-class RegionFragment : Fragment(R.layout.fragment_region), HomeFragment.OnNavigationItemReselectedListener {
+class RegionFragment : Fragment(R.layout.fragment_region),
+    HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<RegionViewModel>()
+
+    private var _binding: FragmentRegionBinding? = null
+    private val binding get() = _binding!!
 
     companion object {
         fun newInstance(region: Region): RegionFragment {
             val fragment = RegionFragment()
             val args = Bundle()
-            args.putString("region", region.name.toLowerCase())
+            args.putString(EXTRA_REGION, region.name.lowercase())
             fragment.arguments = args
             return fragment
         }
@@ -31,8 +41,9 @@ class RegionFragment : Fragment(R.layout.fragment_region), HomeFragment.OnNaviga
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentRegionBinding.bind(view)
 
-        val region = arguments?.getString("region")
+        val region = requireArguments().getString(EXTRA_REGION)
 
         viewModel.initialFetch(region!!)
 
@@ -42,14 +53,6 @@ class RegionFragment : Fragment(R.layout.fragment_region), HomeFragment.OnNaviga
         recView.adapter = adapter
         recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
-
-        viewModel.status.observe(viewLifecycleOwner) {
-            when (it) {
-                Status.LOADING -> swipeRefresh.isRefreshing = true
-                else -> swipeRefresh.isRefreshing = false
-            }
-        }
         swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.fetchLeaderboard(region)
@@ -58,6 +61,22 @@ class RegionFragment : Fragment(R.layout.fragment_region), HomeFragment.OnNaviga
                 swipeRefresh.isRefreshing = false
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.list.collectLatest(adapter::setData)
+                }
+                launch {
+                    viewModel.isLoading.collectLatest(binding.swipeRefresh::setRefreshing)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onItemReselected() {

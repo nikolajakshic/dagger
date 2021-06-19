@@ -5,10 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import kotlinx.android.synthetic.main.item_leaderboard.view.*
+import com.nikola.jakshic.dagger.databinding.ItemLeaderboardBinding
 
 class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH>() {
-
     private var list: List<LeaderboardUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaderboardVH {
@@ -16,23 +15,22 @@ class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH
     }
 
     override fun onBindViewHolder(holder: LeaderboardVH, position: Int) {
-        holder.bind(list!![position])
+        holder.bind(list!![position], position)
     }
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(data: List<LeaderboardUI>?) {
-        list = data
+    fun setData(list: List<LeaderboardUI>?) {
+        this.list = list
         notifyDataSetChanged()
     }
 
     class LeaderboardVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemLeaderboardBinding.bind(view)
 
-        fun bind(item: LeaderboardUI) {
-            with(itemView) {
-                tvRank.text = "${adapterPosition + 1}."
-                tvPlayerName.text = item.name
-            }
+        fun bind(item: LeaderboardUI, position: Int) {
+            binding.tvRank.text = "${position + 1}."
+            binding.tvPlayerName.text = item.name
         }
     }
 }

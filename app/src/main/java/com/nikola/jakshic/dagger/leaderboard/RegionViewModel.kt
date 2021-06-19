@@ -1,35 +1,28 @@
 package com.nikola.jakshic.dagger.leaderboard
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
-import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 
 @HiltViewModel
 class RegionViewModel @Inject constructor(
     private val repository: LeaderboardRepository
 ) : ScopedViewModel() {
+    private val isInitial = AtomicBoolean(true)
 
-    private val _list = MutableLiveData<List<LeaderboardUI>>()
-    val list: LiveData<List<LeaderboardUI>>
-        get() = _list
+    private val _list = MutableStateFlow<List<LeaderboardUI>>(emptyList())
+    val list: StateFlow<List<LeaderboardUI>> = _list
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
-
-    private var initialFetch = false
-
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun initialFetch(region: String) {
-        if (!initialFetch) {
-            initialFetch = true
+        if (isInitial.compareAndSet(true, false)) {
             launch {
                 repository.getLeaderboardFlow(region)
                     .collect { _list.value = it }
@@ -40,8 +33,14 @@ class RegionViewModel @Inject constructor(
 
     fun fetchLeaderboard(region: String) {
         launch {
-            _status.value = Status.LOADING
-            repository.fetchLeaderboard(region, onSuccess, onError)
+            try {
+                _isLoading.value = true
+                repository.fetchLeaderboard(region)
+            } catch (ignored: Exception) {
+
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 }
