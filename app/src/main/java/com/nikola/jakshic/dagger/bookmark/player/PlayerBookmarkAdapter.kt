@@ -1,6 +1,5 @@
 package com.nikola.jakshic.dagger.bookmark.player
 
-import android.text.TextUtils
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,12 +7,11 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import kotlinx.android.synthetic.main.item_player.view.*
+import com.nikola.jakshic.dagger.databinding.ItemPlayerBinding
 
 class PlayerBookmarkAdapter(
     private val listener: (PlayerBookmarkUI) -> Unit
 ) : RecyclerView.Adapter<PlayerBookmarkAdapter.PlayerVH>() {
-
     private var list: List<PlayerBookmarkUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerVH {
@@ -26,24 +24,30 @@ class PlayerBookmarkAdapter(
 
     override fun getItemCount() = list?.size ?: 0
 
-    fun addData(newList: List<PlayerBookmarkUI>?) {
-        list = newList
+    fun setData(list: List<PlayerBookmarkUI>?) {
+        this.list = list
         notifyDataSetChanged()
     }
 
     inner class PlayerVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemPlayerBinding.bind(view)
 
         init {
-            itemView.setOnClickListener { listener(list!![adapterPosition]) }
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) {
+                    return@setOnClickListener
+                }
+                listener(list!![position])
+            }
         }
 
         fun bind(item: PlayerBookmarkUI) {
-            with(itemView) {
-                tvPlayerName.text = if (TextUtils.isEmpty(item.name)) item.personaName else item.name
-                tvPlayerId.text = item.id.toString()
-                imgAvatar.load(item.avatarUrl) {
-                    transformations(CircleCropTransformation())
-                }
+            binding.tvPlayerName.text =
+                if (item.name.isNullOrEmpty()) item.personaName else item.name
+            binding.tvPlayerId.text = item.id.toString()
+            binding.imgAvatar.load(item.avatarUrl) {
+                transformations(CircleCropTransformation())
             }
         }
     }

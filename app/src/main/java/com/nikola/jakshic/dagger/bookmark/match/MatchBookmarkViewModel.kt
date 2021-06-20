@@ -1,13 +1,13 @@
 package com.nikola.jakshic.dagger.bookmark.match
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -19,10 +19,8 @@ import javax.inject.Inject
 class MatchBookmarkViewModel @Inject constructor(
     private val matchBookmarkQueries: MatchBookmarkQueries
 ) : ScopedViewModel() {
-
-    private val _list = MutableLiveData<List<MatchBookmarkUI>>()
-    val list: LiveData<List<MatchBookmarkUI>>
-        get() = _list
+    private val _list = MutableStateFlow<List<MatchBookmarkUI>>(emptyList())
+    val list: StateFlow<List<MatchBookmarkUI>> = _list
 
     init {
         launch {

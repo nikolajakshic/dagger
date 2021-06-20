@@ -65,7 +65,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
         recViewHistory.adapter = historyAdapter
         recViewHistory.setHasFixedSize(true)
 
-        viewModel.playerList.observe(viewLifecycleOwner, Observer(playerAdapter::addData))
+        viewModel.playerList.observe(viewLifecycleOwner, Observer(playerAdapter::setData))
         viewModel.historyList.observe(viewLifecycleOwner) {
             searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
             if (it?.size ?: 0 != 0) {
