@@ -7,11 +7,14 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
+import com.nikola.jakshic.dagger.databinding.FragmentHomeBinding
 import com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private lateinit var competitive: CompetitiveFragment
@@ -44,14 +47,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-            btmNavigation.selectedItemId = R.id.action_competitive
+            binding.btmNavigation.selectedItemId = R.id.action_competitive
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentHomeBinding.bind(view)
 
-        btmNavigation.setOnNavigationItemSelectedListener {
+        binding.btmNavigation.setOnNavigationItemSelectedListener {
             onBackPressedCallback.isEnabled = it.itemId != R.id.action_competitive
             if (it.itemId == R.id.action_competitive) selectFragment(competitive)
             if (it.itemId == R.id.action_leaderboard) selectFragment(leaderboard)
@@ -60,7 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             return@setOnNavigationItemSelectedListener true
         }
 
-        btmNavigation.setOnNavigationItemReselectedListener {
+        binding.btmNavigation.setOnNavigationItemReselectedListener {
             when (it.itemId) {
                 R.id.action_competitive -> competitive.onItemReselected()
                 R.id.action_leaderboard -> leaderboard.onItemReselected()
@@ -70,10 +74,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         // Get BottomNavigationView's selectedItemId up-to-date value
-        onBackPressedCallback.isEnabled = btmNavigation.selectedItemId != R.id.action_competitive
+        onBackPressedCallback.isEnabled =
+            binding.btmNavigation.selectedItemId != R.id.action_competitive
     }
 
     private fun selectFragment(selectedFragment: Fragment) {
