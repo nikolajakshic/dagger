@@ -15,7 +15,6 @@ import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.databinding.FragmentRegionBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_region.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -48,17 +47,22 @@ class RegionFragment : Fragment(R.layout.fragment_region),
         viewModel.initialFetch(region!!)
 
         val adapter = LeaderboardAdapter()
-        recView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        recView.layoutManager = LinearLayoutManager(context)
-        recView.adapter = adapter
-        recView.setHasFixedSize(true)
+        binding.recView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.recView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recView.adapter = adapter
+        binding.recView.setHasFixedSize(true)
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection())
                 viewModel.fetchLeaderboard(region)
             else {
                 toast(getString(R.string.error_network_connection))
-                swipeRefresh.isRefreshing = false
+                binding.swipeRefresh.isRefreshing = false
             }
         }
 
@@ -80,6 +84,6 @@ class RegionFragment : Fragment(R.layout.fragment_region),
     }
 
     override fun onItemReselected() {
-        recView.smoothScrollToPosition(0)
+        binding.recView.smoothScrollToPosition(0)
     }
 }
