@@ -59,7 +59,6 @@ class MatchAdapter(
             binding.tvMatchDuration.text = getDuration(itemView.context, item.duration)
             binding.tvMatchTimeElapsed.text =
                 timeElapsed(itemView.context, item.startTime + item.duration)
-
         }
 
         private fun isWin(item: MatchUI): Boolean {
