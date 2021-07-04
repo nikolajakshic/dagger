@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.databinding.ActivityMatchesPerHeroBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_matches_per_hero.*
 
 @AndroidEntryPoint
 class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
@@ -23,8 +23,13 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
     private val args by navArgs<MatchesByHeroFragmentArgs>()
     private var snackBar: Snackbar? = null
 
+    private var _binding: ActivityMatchesPerHeroBinding? = null
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = ActivityMatchesPerHeroBinding.bind(view)
+
         val accountId = args.accountId
         val heroId = args.heroId
 
@@ -34,10 +39,15 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
 
-        recView.layoutManager = LinearLayoutManager(requireContext())
-        recView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        recView.adapter = adapter
-        recView.setHasFixedSize(true)
+        binding.recView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recView.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.recView.adapter = adapter
+        binding.recView.setHasFixedSize(true)
 
         viewModel.matches.observe(viewLifecycleOwner) {
             // If we submit empty or null list, previous data will be deleted,
@@ -48,17 +58,26 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
         viewModel.status.observe(viewLifecycleOwner) { status ->
             when (status) {
                 Status.LOADING -> {
-                    swipeRefresh.isRefreshing = true
+                    binding.swipeRefresh.isRefreshing = true
                     snackBar?.dismiss()
                 }
                 Status.SUCCESS -> {
-                    swipeRefresh.isRefreshing = false
+                    binding.swipeRefresh.isRefreshing = false
                     snackBar?.dismiss()
                 }
                 else -> {
-                    swipeRefresh.isRefreshing = false
-                    snackBar = Snackbar.make(swipeRefresh, getString(R.string.error_network), Snackbar.LENGTH_INDEFINITE)
-                    snackBar?.setActionTextColor(ContextCompat.getColor(requireContext(), android.R.color.white))
+                    binding.swipeRefresh.isRefreshing = false
+                    snackBar = Snackbar.make(
+                        binding.swipeRefresh,
+                        getString(R.string.error_network),
+                        Snackbar.LENGTH_INDEFINITE
+                    )
+                    snackBar?.setActionTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            android.R.color.white
+                        )
+                    )
                     snackBar?.setAction(getString(R.string.retry)) {
                         viewModel.retry()
                     }
@@ -67,13 +86,14 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
             }
         }
 
-        swipeRefresh.setOnRefreshListener {
+        binding.swipeRefresh.setOnRefreshListener {
             viewModel.refresh()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         snackBar?.dismiss()
         snackBar = null
     }
