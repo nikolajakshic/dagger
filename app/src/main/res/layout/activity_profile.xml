@@ -20,7 +20,9 @@
             app:expandedTitleTextAppearance="@style/TransparentTitle"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/toolbar_profile" />
+            <include
+                android:id="@+id/container_header"
+                layout="@layout/toolbar_profile" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
