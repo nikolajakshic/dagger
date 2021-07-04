@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
+import com.nikola.jakshic.dagger.databinding.ItemHeroBinding
 import com.nikola.jakshic.dagger.util.DotaUtil
-import kotlinx.android.synthetic.main.item_hero.view.*
 
-class HeroAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
-
+class HeroAdapter(
+    private val listener: (Long) -> Unit
+) : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
     private var list: List<HeroUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
@@ -29,21 +30,30 @@ class HeroAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<HeroAdapt
     override fun getItemCount() = list?.size ?: 0
 
     inner class HeroVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemHeroBinding.bind(view)
 
         init {
-            itemView.setOnClickListener { listener(list!![adapterPosition].heroId) }
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) {
+                    return@setOnClickListener
+                }
+                listener(list!![position].heroId)
+            }
         }
 
         fun bind(item: HeroUI) {
-            with(itemView) {
-                imgHero.load(DotaUtil.getHero(context, item.heroId))
-                tvGamesPlayed.text = item.gamesPlayed.toString()
-                val winRate = if (item.gamesPlayed != 0L) (item.gamesWon.toFloat() / item.gamesPlayed) * 100 else 0f
-                tvHeroWinRate.text = context.resources.getString(R.string.hero_winrate, winRate)
-                setPercentageBar(viewHeroWinRateBar, winRate)
-                tvHeroWinLose.text = context.resources.getString(R.string.hero_win_loss,
-                    item.gamesWon, item.gamesPlayed - item.gamesWon)
-            }
+            binding.imgHero.load(DotaUtil.getHero(itemView.context, item.heroId))
+            binding.tvGamesPlayed.text = item.gamesPlayed.toString()
+            val winRate =
+                if (item.gamesPlayed != 0L) (item.gamesWon.toFloat() / item.gamesPlayed) * 100 else 0f
+            binding.tvHeroWinRate.text =
+                itemView.context.resources.getString(R.string.hero_winrate, winRate)
+            setPercentageBar(binding.viewHeroWinRateBar, winRate)
+            binding.tvHeroWinLose.text = itemView.context.resources.getString(
+                R.string.hero_win_loss,
+                item.gamesWon, item.gamesPlayed - item.gamesWon
+            )
         }
 
         private fun setPercentageBar(view: View, winRate: Float) {
