@@ -7,10 +7,11 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import kotlinx.android.synthetic.main.item_peer.view.*
+import com.nikola.jakshic.dagger.databinding.ItemPeerBinding
 
-class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapter.PeerVH>() {
-
+class PeerAdapter(
+    private val listener: (Long) -> Unit
+) : RecyclerView.Adapter<PeerAdapter.PeerVH>() {
     private var list: List<PeerUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeerVH {
@@ -29,21 +30,27 @@ class PeerAdapter(val listener: (Long) -> Unit) : RecyclerView.Adapter<PeerAdapt
     }
 
     inner class PeerVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemPeerBinding.bind(view)
 
         init {
-            itemView.setOnClickListener { listener(list!![adapterPosition].peerId) }
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) {
+                    return@setOnClickListener
+                }
+                listener(list!![position].peerId)
+            }
         }
 
         fun bind(item: PeerUI) {
-            with(itemView) {
-                imgPeerAvatar.load(item.avatarfull) {
-                    transformations(CircleCropTransformation())
-                }
-                tvPeerName.text = item.personaname
-                tvPeerGamesWith.text = item.withGames.toString()
-                val winRate = (item.withWin.toDouble() / item.withGames) * 100
-                tvPeerWinRate.text = context.resources.getString(R.string.peer_winrate, winRate)
+            binding.imgPeerAvatar.load(item.avatarfull) {
+                transformations(CircleCropTransformation())
             }
+            binding.tvPeerName.text = item.personaname
+            binding.tvPeerGamesWith.text = item.withGames.toString()
+            val winRate = (item.withWin.toDouble() / item.withGames) * 100
+            binding.tvPeerWinRate.text =
+                itemView.context.resources.getString(R.string.peer_winrate, winRate)
         }
     }
 }
