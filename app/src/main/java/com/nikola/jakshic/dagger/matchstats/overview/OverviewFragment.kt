@@ -6,6 +6,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,22 +15,23 @@ import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.getDuration
 import com.nikola.jakshic.dagger.common.timeElapsed
+import com.nikola.jakshic.dagger.databinding.FragmentOverviewBinding
+import com.nikola.jakshic.dagger.databinding.ItemMatchStatsCollapsedBinding
+import com.nikola.jakshic.dagger.databinding.ItemMatchStatsExpandedBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsLayout
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import com.nikola.jakshic.dagger.util.DotaUtil
-import kotlinx.android.synthetic.main.fragment_overview.*
-import kotlinx.android.synthetic.main.item_match_stats_collapsed.view.*
-import kotlinx.android.synthetic.main.item_match_stats_expanded.view.*
-import kotlinx.android.synthetic.main.item_match_stats_match_info.*
-import kotlinx.android.synthetic.main.item_match_stats_minimap.*
 
 // Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
     private val viewModel by viewModels<MatchStatsViewModel>(
         ownerProducer = { requireParentFragment() }
     )
+
+    private var _binding: FragmentOverviewBinding? = null
+    private val binding get() = _binding!!
 
     private val STATE_INITIAL = "initial"
     private var initialState = true
@@ -41,13 +43,14 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentOverviewBinding.bind(view)
 
-        container.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        binding.container.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
 
         if (initialState) {
             // Expand the first item
-            for (i in 0 until container.childCount) {
-                val child = container.getChildAt(i) as? MatchStatsLayout
+            for (i in 0 until binding.container.childCount) {
+                val child = binding.container.getChildAt(i) as? MatchStatsLayout
                 if (child != null) {
                     child.expand()
                     break
@@ -64,6 +67,11 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBoolean(STATE_INITIAL, initialState)
@@ -75,10 +83,10 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         bindMatchStats(stats)
         bindMinimap(stats)
 
-        for (i in 0 until container.childCount) {
+        for (i in 0 until binding.container.childCount) {
             // Player stats data can be bound only on MatchStatsLayout,
             // so we need to ignore other layouts
-            val view = container.getChildAt(i) as? MatchStatsLayout ?: continue
+            val view = binding.container.getChildAt(i) as? MatchStatsLayout ?: continue
 
             val player = stats.players[playerPosition]
             bindPlayerStats(view, player)
@@ -87,63 +95,86 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
     }
 
-    private fun bindPlayerStats(view: View, item: MatchStatsUI.PlayerStatsUI) {
-        with(view) {
-            imgHero.load(DotaUtil.getHero(context, item.heroId))
-            tvPlayerName.text = getPlayerName(item)
-            val playerColor = ContextCompat.getColor(context, if (item.playerSlot <= 4) R.color.color_green else R.color.color_red)
-            tvPlayerName.setTextColor(playerColor)
-            tvKda.text = getString(R.string.match_kda, item.kills, item.deaths, item.assists)
-            tvHeroLevel.text = item.level.toString()
-            tvHeroDamage.text = getString(R.string.match_hero_damage, item.heroDamage)
-            tvTowerDamage.text = getString(R.string.match_tower_damage, item.towerDamage)
-            tvHeroHealing.text = getString(R.string.match_hero_healing, item.heroHealing)
-            tvLastHits.text = getString(R.string.match_last_hits, item.lastHits)
-            tvDenies.text = getString(R.string.match_denies, item.denies)
-            tvObserver.text = item.purchaseWardObserver.toString() + "x"
-            tvSentry.text = item.purchaseWardSentry.toString() + "x"
-            tvGpm.text = getString(R.string.match_gpm, item.goldPerMin)
-            tvXpm.text = getString(R.string.match_xpm, item.xpPerMin)
+    private fun bindPlayerStats(view: ViewGroup, item: MatchStatsUI.PlayerStatsUI) {
+        val collapsedBinding = ItemMatchStatsCollapsedBinding.bind(view.getChildAt(0))
+        val expandedBinding = ItemMatchStatsExpandedBinding.bind(view.getChildAt(1))
 
-            imgItem0.load(DotaUtil.getItem(context, item.item0))
-            imgItem1.load(DotaUtil.getItem(context, item.item1))
-            imgItem2.load(DotaUtil.getItem(context, item.item2))
-            imgItem3.load(DotaUtil.getItem(context, item.item3))
-            imgItem4.load(DotaUtil.getItem(context, item.item4))
-            imgItem5.load(DotaUtil.getItem(context, item.item5))
+        collapsedBinding.imgHero.load(DotaUtil.getHero(requireContext(), item.heroId))
+        collapsedBinding.tvPlayerName.text = getPlayerName(item)
+        val playerColor = ContextCompat.getColor(
+            requireContext(),
+            if (item.playerSlot <= 4) R.color.color_green else R.color.color_red
+        )
+        collapsedBinding.tvPlayerName.setTextColor(playerColor)
+        collapsedBinding.tvKda.text =
+            getString(R.string.match_kda, item.kills, item.deaths, item.assists)
+        collapsedBinding.tvHeroLevel.text = item.level.toString()
+        expandedBinding.tvHeroDamage.text =
+            getString(R.string.match_hero_damage, item.heroDamage)
+        expandedBinding.tvTowerDamage.text =
+            getString(R.string.match_tower_damage, item.towerDamage)
+        expandedBinding.tvHeroHealing.text =
+            getString(R.string.match_hero_healing, item.heroHealing)
+        expandedBinding.tvLastHits.text = getString(R.string.match_last_hits, item.lastHits)
+        expandedBinding.tvDenies.text = getString(R.string.match_denies, item.denies)
+        expandedBinding.tvObserver.text = item.purchaseWardObserver.toString() + "x"
+        expandedBinding.tvSentry.text = item.purchaseWardSentry.toString() + "x"
+        expandedBinding.tvGpm.text = getString(R.string.match_gpm, item.goldPerMin)
+        expandedBinding.tvXpm.text = getString(R.string.match_xpm, item.xpPerMin)
 
-            imgBackpack0.load(DotaUtil.getItem(context, item.backpack0))
-            imgBackpack1.load(DotaUtil.getItem(context, item.backpack1))
-            imgBackpack2.load(DotaUtil.getItem(context, item.backpack2))
-            imgItemNeutral.load(DotaUtil.getItem(context, item.itemNeutral))
+        collapsedBinding.imgItem0.load(DotaUtil.getItem(requireContext(), item.item0))
+        collapsedBinding.imgItem1.load(DotaUtil.getItem(requireContext(), item.item1))
+        collapsedBinding.imgItem2.load(DotaUtil.getItem(requireContext(), item.item2))
+        collapsedBinding.imgItem3.load(DotaUtil.getItem(requireContext(), item.item3))
+        collapsedBinding.imgItem4.load(DotaUtil.getItem(requireContext(), item.item4))
+        collapsedBinding.imgItem5.load(DotaUtil.getItem(requireContext(), item.item5))
 
-            // Having personaName = null means the player has not exposed his data to public,
-            // so we don't need to set onClickListener
-            if (!TextUtils.isEmpty(item.personaName)) tvPlayerName.setOnClickListener {
-                findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = item.id))
-            }
+        expandedBinding.imgBackpack0.load(DotaUtil.getItem(requireContext(), item.backpack0))
+        expandedBinding.imgBackpack1.load(DotaUtil.getItem(requireContext(), item.backpack1))
+        expandedBinding.imgBackpack2.load(DotaUtil.getItem(requireContext(), item.backpack2))
+        expandedBinding.imgItemNeutral.load(DotaUtil.getItem(requireContext(), item.itemNeutral))
+
+        // Having personaName = null means the player has not exposed his data to public,
+        // so we don't need to set onClickListener
+        if (!TextUtils.isEmpty(item.personaName)) collapsedBinding.tvPlayerName.setOnClickListener {
+            findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = item.id))
         }
     }
 
     private fun bindMatchStats(item: MatchStatsUI) {
         if (item.isRadiantWin)
-            tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_trophy, 0)
+            binding.tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_trophy,
+                0
+            )
         else
-            tvDireName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_trophy, 0)
+            binding.tvDireName.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_trophy,
+                0
+            )
 
-        val radiantName = if (TextUtils.isEmpty(item.radiantName)) getString(R.string.team_radiant) else item.radiantName
-        val direName = if (TextUtils.isEmpty(item.direName)) getString(R.string.team_dire) else item.direName
-        tvRadiantName.text = radiantName
-        tvDireName.text = direName
-
-        tvRadiantScore.text = item.radiantScore.toString()
-        tvDireScore.text = item.direScore.toString()
-        tvMatchMode.text = resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
-        tvMatchSkill.text = resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
+        val radiantName =
+            if (TextUtils.isEmpty(item.radiantName)) getString(R.string.team_radiant) else item.radiantName
+        val direName =
+            if (TextUtils.isEmpty(item.direName)) getString(R.string.team_dire) else item.direName
+        binding.tvRadiantName.text = radiantName
+        binding.tvDireName.text = direName
+        binding.containerMatchStatsInfo.tvRadiantScore.text = item.radiantScore.toString()
+        binding.containerMatchStatsInfo.tvDireScore.text = item.direScore.toString()
+        binding.containerMatchStatsInfo.tvMatchMode.text =
+            resources.getString(R.string.match_mode, DotaUtil.mode[item.mode.toInt(), "Unknown"])
+        binding.containerMatchStatsInfo.tvMatchSkill.text =
+            resources.getString(R.string.match_skill, DotaUtil.skill[item.skill.toInt(), "Unknown"])
         val duration = getDuration(requireContext(), item.duration)
-        tvMatchDuration.text = resources.getString(R.string.duration, duration)
+        binding.containerMatchStatsInfo.tvMatchDuration.text =
+            resources.getString(R.string.duration, duration)
         val timeElapsed = timeElapsed(requireContext(), item.startTime + item.duration)
-        tvMatchTimeElapsed.text = resources.getString(R.string.match_ended, timeElapsed)
+        binding.containerMatchStatsInfo.tvMatchTimeElapsed.text =
+            resources.getString(R.string.match_ended, timeElapsed)
     }
 
     private fun bindMinimap(item: MatchStatsUI) {
@@ -158,87 +189,159 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         val filter = ColorMatrixColorFilter(matrix)
         val alpha = 128
 
-        if (item.isRadiantWin) with(imgDireThrone) { colorFilter = filter; imageAlpha = alpha } else with(imgRadiantThrone) { colorFilter = filter; imageAlpha = alpha }
+        if (item.isRadiantWin) with(binding.containerMinimap.imgDireThrone) {
+            colorFilter = filter; imageAlpha = alpha
+        } else with(binding.containerMinimap.imgRadiantThrone) {
+            colorFilter = filter; imageAlpha = alpha
+        }
 
-        if (radiantTowers[10] == '0') with(imgRadiantTopTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[9] == '0') with(imgRadiantTopTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[8] == '0') with(imgRadiantTopTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[1] == '0') with(imgRadiantTopTier4Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[7] == '0') with(imgRadiantMidTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[6] == '0') with(imgRadiantMidTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[5] == '0') with(imgRadiantMidTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[4] == '0') with(imgRadiantBotTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[3] == '0') with(imgRadiantBotTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[2] == '0') with(imgRadiantBotTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantTowers[0] == '0') with(imgRadiantBotTier4Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantTowers[10] == '0') with(binding.containerMinimap.imgRadiantTopTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[9] == '0') with(binding.containerMinimap.imgRadiantTopTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[8] == '0') with(binding.containerMinimap.imgRadiantTopTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[1] == '0') with(binding.containerMinimap.imgRadiantTopTier4Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[7] == '0') with(binding.containerMinimap.imgRadiantMidTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[6] == '0') with(binding.containerMinimap.imgRadiantMidTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[5] == '0') with(binding.containerMinimap.imgRadiantMidTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[4] == '0') with(binding.containerMinimap.imgRadiantBotTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[3] == '0') with(binding.containerMinimap.imgRadiantBotTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[2] == '0') with(binding.containerMinimap.imgRadiantBotTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantTowers[0] == '0') with(binding.containerMinimap.imgRadiantBotTier4Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
 
-        if (radiantBarracks[4] == '0') with(imgRadiantTopRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantBarracks[5] == '0') with(imgRadiantTopMeleeRax) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantBarracks[2] == '0') with(imgRadiantMidRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantBarracks[3] == '0') with(imgRadiantMidMeleeRax) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantBarracks[0] == '0') with(imgRadiantBotRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (radiantBarracks[1] == '0') with(imgRadiantBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (radiantBarracks[4] == '0') with(binding.containerMinimap.imgRadiantTopRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantBarracks[5] == '0') with(binding.containerMinimap.imgRadiantTopMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantBarracks[2] == '0') with(binding.containerMinimap.imgRadiantMidRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantBarracks[3] == '0') with(binding.containerMinimap.imgRadiantMidMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantBarracks[0] == '0') with(binding.containerMinimap.imgRadiantBotRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (radiantBarracks[1] == '0') with(binding.containerMinimap.imgRadiantBotMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
 
-        if (direTowers[10] == '0') with(imgDireTopTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[9] == '0') with(imgDireTopTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[8] == '0') with(imgDireTopTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[1] == '0') with(imgDireTopTier4Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[7] == '0') with(imgDireMidTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[6] == '0') with(imgDireMidTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[5] == '0') with(imgDireMidTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[4] == '0') with(imgDireBotTier1Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[3] == '0') with(imgDireBotTier2Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[2] == '0') with(imgDireBotTier3Tower) { colorFilter = filter; imageAlpha = alpha }
-        if (direTowers[0] == '0') with(imgDireBotTier4Tower) { colorFilter = filter; imageAlpha = alpha }
+        if (direTowers[10] == '0') with(binding.containerMinimap.imgDireTopTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[9] == '0') with(binding.containerMinimap.imgDireTopTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[8] == '0') with(binding.containerMinimap.imgDireTopTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[1] == '0') with(binding.containerMinimap.imgDireTopTier4Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[7] == '0') with(binding.containerMinimap.imgDireMidTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[6] == '0') with(binding.containerMinimap.imgDireMidTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[5] == '0') with(binding.containerMinimap.imgDireMidTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[4] == '0') with(binding.containerMinimap.imgDireBotTier1Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[3] == '0') with(binding.containerMinimap.imgDireBotTier2Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[2] == '0') with(binding.containerMinimap.imgDireBotTier3Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direTowers[0] == '0') with(binding.containerMinimap.imgDireBotTier4Tower) {
+            colorFilter = filter; imageAlpha = alpha
+        }
 
-        if (direBarracks[4] == '0') with(imgDireTopRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (direBarracks[5] == '0') with(imgDireTopMeleeRax) { colorFilter = filter; imageAlpha = alpha }
-        if (direBarracks[2] == '0') with(imgDireMidRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (direBarracks[3] == '0') with(imgDireMidMeleeRax) { colorFilter = filter; imageAlpha = alpha }
-        if (direBarracks[0] == '0') with(imgDireBotRangedRax) { colorFilter = filter; imageAlpha = alpha }
-        if (direBarracks[1] == '0') with(imgDireBotMeleeRax) { colorFilter = filter; imageAlpha = alpha }
+        if (direBarracks[4] == '0') with(binding.containerMinimap.imgDireTopRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direBarracks[5] == '0') with(binding.containerMinimap.imgDireTopMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direBarracks[2] == '0') with(binding.containerMinimap.imgDireMidRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direBarracks[3] == '0') with(binding.containerMinimap.imgDireMidMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direBarracks[0] == '0') with(binding.containerMinimap.imgDireBotRangedRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
+        if (direBarracks[1] == '0') with(binding.containerMinimap.imgDireBotMeleeRax) {
+            colorFilter = filter; imageAlpha = alpha
+        }
     }
 
     private fun loadMinimap() {
-        imgMinimap.load(R.drawable.ic_minimap)
+        binding.containerMinimap.imgMinimap.load(R.drawable.ic_minimap)
 
-        imgRadiantTopRangedRax.load(R.drawable.ic_radiant_rax)
-        imgRadiantTopMeleeRax.load(R.drawable.ic_radiant_rax)
-        imgRadiantTopTier3Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantTopTier2Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantTopTier1Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantMidRangedRax.load(R.drawable.ic_radiant_rax_angle)
-        imgRadiantMidMeleeRax.load(R.drawable.ic_radiant_rax_angle)
-        imgRadiantMidTier3Tower.load(R.drawable.ic_radiant_tower_angle)
-        imgRadiantMidTier2Tower.load(R.drawable.ic_radiant_tower_angle)
-        imgRadiantMidTier1Tower.load(R.drawable.ic_radiant_tower_angle)
-        imgRadiantBotRangedRax.load(R.drawable.ic_radiant_rax)
-        imgRadiantBotMeleeRax.load(R.drawable.ic_radiant_rax)
-        imgRadiantBotTier3Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantBotTier2Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantBotTier1Tower.load(R.drawable.ic_radiant_tower)
-        imgRadiantThrone.load(R.drawable.ic_radiant_throne)
-        imgRadiantTopTier4Tower.load(R.drawable.ic_radiant_tower_angle)
-        imgRadiantBotTier4Tower.load(R.drawable.ic_radiant_tower_angle)
+        binding.containerMinimap.imgRadiantTopRangedRax.load(R.drawable.ic_radiant_rax)
+        binding.containerMinimap.imgRadiantTopMeleeRax.load(R.drawable.ic_radiant_rax)
+        binding.containerMinimap.imgRadiantTopTier3Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantTopTier2Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantTopTier1Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantMidRangedRax.load(R.drawable.ic_radiant_rax_angle)
+        binding.containerMinimap.imgRadiantMidMeleeRax.load(R.drawable.ic_radiant_rax_angle)
+        binding.containerMinimap.imgRadiantMidTier3Tower.load(R.drawable.ic_radiant_tower_angle)
+        binding.containerMinimap.imgRadiantMidTier2Tower.load(R.drawable.ic_radiant_tower_angle)
+        binding.containerMinimap.imgRadiantMidTier1Tower.load(R.drawable.ic_radiant_tower_angle)
+        binding.containerMinimap.imgRadiantBotRangedRax.load(R.drawable.ic_radiant_rax)
+        binding.containerMinimap.imgRadiantBotMeleeRax.load(R.drawable.ic_radiant_rax)
+        binding.containerMinimap.imgRadiantBotTier3Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantBotTier2Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantBotTier1Tower.load(R.drawable.ic_radiant_tower)
+        binding.containerMinimap.imgRadiantThrone.load(R.drawable.ic_radiant_throne)
+        binding.containerMinimap.imgRadiantTopTier4Tower.load(R.drawable.ic_radiant_tower_angle)
+        binding.containerMinimap.imgRadiantBotTier4Tower.load(R.drawable.ic_radiant_tower_angle)
 
-        imgDireTopRangedRax.load(R.drawable.ic_dire_rax)
-        imgDireTopMeleeRax.load(R.drawable.ic_dire_rax)
-        imgDireTopTier3Tower.load(R.drawable.ic_dire_tower)
-        imgDireTopTier2Tower.load(R.drawable.ic_dire_tower)
-        imgDireTopTier1Tower.load(R.drawable.ic_dire_tower)
-        imgDireMidRangedRax.load(R.drawable.ic_dire_rax_angle)
-        imgDireMidMeleeRax.load(R.drawable.ic_dire_rax_angle)
-        imgDireMidTier3Tower.load(R.drawable.ic_dire_tower_angle)
-        imgDireMidTier2Tower.load(R.drawable.ic_dire_tower_angle)
-        imgDireMidTier1Tower.load(R.drawable.ic_dire_tower_angle)
-        imgDireBotRangedRax.load(R.drawable.ic_dire_rax)
-        imgDireBotMeleeRax.load(R.drawable.ic_dire_rax)
-        imgDireBotTier3Tower.load(R.drawable.ic_dire_tower)
-        imgDireBotTier2Tower.load(R.drawable.ic_dire_tower)
-        imgDireBotTier1Tower.load(R.drawable.ic_dire_tower)
-        imgDireThrone.load(R.drawable.ic_dire_throne)
-        imgDireTopTier4Tower.load(R.drawable.ic_dire_tower_angle)
-        imgDireBotTier4Tower.load(R.drawable.ic_dire_tower_angle)
+        binding.containerMinimap.imgDireTopRangedRax.load(R.drawable.ic_dire_rax)
+        binding.containerMinimap.imgDireTopMeleeRax.load(R.drawable.ic_dire_rax)
+        binding.containerMinimap.imgDireTopTier3Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireTopTier2Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireTopTier1Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireMidRangedRax.load(R.drawable.ic_dire_rax_angle)
+        binding.containerMinimap.imgDireMidMeleeRax.load(R.drawable.ic_dire_rax_angle)
+        binding.containerMinimap.imgDireMidTier3Tower.load(R.drawable.ic_dire_tower_angle)
+        binding.containerMinimap.imgDireMidTier2Tower.load(R.drawable.ic_dire_tower_angle)
+        binding.containerMinimap.imgDireMidTier1Tower.load(R.drawable.ic_dire_tower_angle)
+        binding.containerMinimap.imgDireBotRangedRax.load(R.drawable.ic_dire_rax)
+        binding.containerMinimap.imgDireBotMeleeRax.load(R.drawable.ic_dire_rax)
+        binding.containerMinimap.imgDireBotTier3Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireBotTier2Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireBotTier1Tower.load(R.drawable.ic_dire_tower)
+        binding.containerMinimap.imgDireThrone.load(R.drawable.ic_dire_throne)
+        binding.containerMinimap.imgDireTopTier4Tower.load(R.drawable.ic_dire_tower_angle)
+        binding.containerMinimap.imgDireBotTier4Tower.load(R.drawable.ic_dire_tower_angle)
     }
 
     private fun getPlayerName(item: MatchStatsUI.PlayerStatsUI) = when {
