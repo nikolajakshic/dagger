@@ -11,11 +11,11 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.getDuration
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.timeElapsed
+import com.nikola.jakshic.dagger.databinding.ItemMatchBinding
 import com.nikola.jakshic.dagger.util.DotaUtil
-import kotlinx.android.synthetic.main.item_match.view.*
 
 class MatchAdapter(
-    val listener: (Long) -> Unit
+    private val listener: (Long) -> Unit
 ) : PagedListAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
@@ -27,26 +27,39 @@ class MatchAdapter(
     }
 
     inner class MatchVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemMatchBinding.bind(view)
 
         init {
-            itemView.setOnClickListener { listener(getItem(adapterPosition)!!.matchId) }
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) {
+                    return@setOnClickListener
+                }
+                listener(getItem(position)!!.matchId)
+            }
         }
 
         fun bind(item: MatchUI) {
-            with(itemView) {
-                imgHero.load(DotaUtil.getHero(context, item.heroId))
-                tvMatchResult.text = if (isWin(item)) context.getString(R.string.won) else context.getString(R.string.lost)
-                val resultColor = if (isWin(item))
-                    ContextCompat.getColor(context, R.color.color_green)
-                else
-                    ContextCompat.getColor(context, R.color.color_red)
-                tvMatchResult.setTextColor(resultColor)
-                tvMatchSkill.text = DotaUtil.skill[item.skill.toInt(), context.getString(R.string.unknown)]
-                tvMatchMode.text = DotaUtil.mode[item.gameMode.toInt(), context.getString(R.string.unknown)]
-                tvMatchLobby.text = DotaUtil.lobby[item.lobbyType.toInt(), context.getString(R.string.unknown)]
-                tvMatchDuration.text = getDuration(context, item.duration)
-                tvMatchTimeElapsed.text = timeElapsed(context, item.startTime + item.duration)
-            }
+            binding.imgHero.load(DotaUtil.getHero(itemView.context, item.heroId))
+            binding.tvMatchResult.text =
+                if (isWin(item)) itemView.context.getString(R.string.won) else itemView.context.getString(
+                    R.string.lost
+                )
+            val resultColor = if (isWin(item))
+                ContextCompat.getColor(itemView.context, R.color.color_green)
+            else
+                ContextCompat.getColor(itemView.context, R.color.color_red)
+            binding.tvMatchResult.setTextColor(resultColor)
+            binding.tvMatchSkill.text =
+                DotaUtil.skill[item.skill.toInt(), itemView.context.getString(R.string.unknown)]
+            binding.tvMatchMode.text =
+                DotaUtil.mode[item.gameMode.toInt(), itemView.context.getString(R.string.unknown)]
+            binding.tvMatchLobby.text =
+                DotaUtil.lobby[item.lobbyType.toInt(), itemView.context.getString(R.string.unknown)]
+            binding.tvMatchDuration.text = getDuration(itemView.context, item.duration)
+            binding.tvMatchTimeElapsed.text =
+                timeElapsed(itemView.context, item.startTime + item.duration)
+
         }
 
         private fun isWin(item: MatchUI): Boolean {
