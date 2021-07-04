@@ -15,12 +15,15 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerAdapter
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
+import com.nikola.jakshic.dagger.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_search.*
 
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.activity_search) {
     private val viewModel by viewModels<SearchViewModel>()
+
+    private var _binding: ActivitySearchBinding? = null
+    private val binding get() = _binding!!
 
     private val STATE_QUERY = "query"
     private val STATE_FOCUS = "focus"
@@ -40,6 +43,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = ActivitySearchBinding.bind(view)
 
         if (initialState) {
             viewModel.getAllQueries()
@@ -56,33 +60,39 @@ class SearchFragment : Fragment(R.layout.activity_search) {
             searchView!!.setQuery(it, true)
         }
 
-        recViewPlayers.layoutManager = LinearLayoutManager(requireContext())
-        recViewPlayers.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        recViewPlayers.adapter = playerAdapter
-        recViewPlayers.setHasFixedSize(true)
+        binding.recViewPlayers.layoutManager = LinearLayoutManager(requireContext())
+        binding.recViewPlayers.addItemDecoration(
+            DividerItemDecoration(
+                requireContext(),
+                DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.recViewPlayers.adapter = playerAdapter
+        binding.recViewPlayers.setHasFixedSize(true)
 
-        recViewHistory.layoutManager = LinearLayoutManager(requireContext())
-        recViewHistory.adapter = historyAdapter
-        recViewHistory.setHasFixedSize(true)
+        binding.recViewHistory.layoutManager = LinearLayoutManager(requireContext())
+        binding.recViewHistory.adapter = historyAdapter
+        binding.recViewHistory.setHasFixedSize(true)
 
         viewModel.playerList.observe(viewLifecycleOwner, Observer(playerAdapter::setData))
         viewModel.historyList.observe(viewLifecycleOwner) {
-            searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+            binding.searchHistoryContainer.visibility =
+                if (hasFocus) View.VISIBLE else View.INVISIBLE
             if (it?.size ?: 0 != 0) {
-                tvClearAll.visibility = View.VISIBLE
+                binding.tvClearAll.visibility = View.VISIBLE
             } else {
-                tvClearAll.visibility = View.INVISIBLE
+                binding.tvClearAll.visibility = View.INVISIBLE
             }
             historyAdapter.addData(it)
         }
         viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
-                Status.LOADING -> progressBar.visibility = View.VISIBLE
-                else -> progressBar.visibility = View.GONE
+                Status.LOADING -> binding.progressBar.visibility = View.VISIBLE
+                else -> binding.progressBar.visibility = View.GONE
             }
         }
 
-        tvClearAll.setOnClickListener {
+        binding.tvClearAll.setOnClickListener {
             viewModel.deleteSearchHistory()
             viewModel.getAllQueries()
         }
@@ -90,12 +100,13 @@ class SearchFragment : Fragment(R.layout.activity_search) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
         searchView = null
     }
 
     private fun setupToolbar() {
-        toolbar.inflateMenu(R.menu.menu_search)
-        val searchItem = toolbar.menu.findItem(R.id.menu_search_search)
+        binding.toolbar.inflateMenu(R.menu.menu_search)
+        val searchItem = binding.toolbar.menu.findItem(R.id.menu_search_search)
         searchItem.expandActionView()
         searchView = searchItem.actionView as SearchView
         val searchView = searchView ?: return // make it non-null
@@ -123,7 +134,8 @@ class SearchFragment : Fragment(R.layout.activity_search) {
 
         searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             this.hasFocus = hasFocus
-            searchHistoryContainer.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+            binding.searchHistoryContainer.visibility =
+                if (hasFocus) View.VISIBLE else View.INVISIBLE
         }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
-import kotlinx.android.synthetic.main.item_search_history.view.*
+import com.nikola.jakshic.dagger.databinding.ItemSearchHistoryBinding
 
-class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<HistoryAdapter.HistoryVH>() {
-
+class HistoryAdapter(
+    private val listener: (String) -> Unit
+) : RecyclerView.Adapter<HistoryAdapter.HistoryVH>() {
     private var list: List<SearchHistoryUI>? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryVH {
@@ -27,15 +28,20 @@ class HistoryAdapter(val listener: (String) -> Unit) : RecyclerView.Adapter<Hist
     }
 
     inner class HistoryVH(view: View) : RecyclerView.ViewHolder(view) {
+        private val binding = ItemSearchHistoryBinding.bind(view)
 
         init {
-            itemView.setOnClickListener { listener(list!![adapterPosition].query) }
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position == RecyclerView.NO_POSITION) {
+                    return@setOnClickListener
+                }
+                listener(list!![position].query)
+            }
         }
 
         fun bind(item: SearchHistoryUI) {
-            with(itemView) {
-                tvQuery.text = item.query
-            }
+            binding.tvQuery.text = item.query
         }
     }
 }
