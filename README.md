@@ -5,9 +5,9 @@ Dagger is an Android app that keeps you up-to-date with the latest Dota 2 matche
 Data is collected through the [OpenDota's](https://www.opendota.com) API and [Dota 2](https://www.dota2.com) web API.
 
 ## Screenshots
-<img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen1.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen2.png" width="150" > <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen3.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen4.png" width="150">   
+<img src="assets/screen1.png" width="150"> <img src="assets/screen2.png" width="150" > <img src="assets/screen3.png" width="150"> <img src="assets/screen4.png" width="150">   
 
-<img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen5.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen6.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen7.png" width="150"> <img src="https://github.com/nikolajakshic/dagger/blob/master/assets/screen8.png" width="150">
+<img src="assets/screen5.png" width="150"> <img src="assets/screen6.png" width="150"> <img src="assets/screen7.png" width="150"> <img src="assets/screen8.png" width="150">
 
 ## Features
 - Offline support
@@ -46,7 +46,7 @@ Data is collected through the [OpenDota's](https://www.opendota.com) API and [Do
 ## License
     MIT License
 
-    Copyright (c) 2020 Nikola Jakšić
+    Copyright (c) 2022 Nikola Jakšić
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
