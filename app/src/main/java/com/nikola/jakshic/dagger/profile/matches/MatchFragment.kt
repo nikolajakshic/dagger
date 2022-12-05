@@ -89,9 +89,9 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
             }
         }
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.fetchMatches(id)
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

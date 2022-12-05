@@ -119,10 +119,12 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
 
         val medalDialog = MedalDialog()
         binding.containerHeader.imgRankMedal.setOnClickListener {
-            if (!medalDialog.isAdded) medalDialog.show(
-                childFragmentManager,
-                null
-            )
+            if (!medalDialog.isAdded) {
+                medalDialog.show(
+                    childFragmentManager,
+                    null
+                )
+            }
         }
 
         // Toolbar is drawn over the medal and refresh button, so we need to register clicks
@@ -143,9 +145,9 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         }
 
         binding.containerHeader.btnFollow.setOnClickListener {
-            if (viewModel.bookmark.value == null)
+            if (viewModel.bookmark.value == null) {
                 viewModel.addToBookmark(id)
-            else {
+            } else {
                 viewModel.removeFromBookmark(id)
             }
         }

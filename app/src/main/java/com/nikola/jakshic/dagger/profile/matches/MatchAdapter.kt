@@ -42,13 +42,18 @@ class MatchAdapter(
         fun bind(item: MatchUI) {
             binding.imgHero.load(DotaUtil.getHero(itemView.context, item.heroId))
             binding.tvMatchResult.text =
-                if (isWin(item)) itemView.context.getString(R.string.won) else itemView.context.getString(
-                    R.string.lost
-                )
-            val resultColor = if (isWin(item))
+                if (isWin(item)) {
+                    itemView.context.getString(R.string.won)
+                } else {
+                    itemView.context.getString(
+                        R.string.lost
+                    )
+                }
+            val resultColor = if (isWin(item)) {
                 ContextCompat.getColor(itemView.context, R.color.color_green)
-            else
+            } else {
                 ContextCompat.getColor(itemView.context, R.color.color_red)
+            }
             binding.tvMatchResult.setTextColor(resultColor)
             binding.tvMatchSkill.text =
                 DotaUtil.skill[item.skill.toInt(), itemView.context.getString(R.string.unknown)]

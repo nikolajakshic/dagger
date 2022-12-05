@@ -22,7 +22,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
+class CompetitiveFragment :
+    Fragment(R.layout.fragment_competitive),
     HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<CompetitiveViewModel>()
 
@@ -46,9 +47,9 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive),
         binding.recyclerView.adapter = adapter
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.fetchCompetitiveMatches()
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

@@ -17,8 +17,10 @@ fun ViewGroup.inflate(resource: Int, attachToRoot: Boolean = false): View {
 }
 
 fun Fragment.hasNetworkConnection(): Boolean {
-    val connectivityManager: ConnectivityManager? = (context?.applicationContext
-        ?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)
+    val connectivityManager: ConnectivityManager? = (
+        context?.applicationContext
+            ?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        )
 
     val activeNetwork = connectivityManager?.activeNetworkInfo
     return (activeNetwork?.isConnected == true)

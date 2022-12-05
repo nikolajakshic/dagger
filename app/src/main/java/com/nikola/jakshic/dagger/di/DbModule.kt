@@ -60,7 +60,8 @@ object DbModule {
                 override fun onOpen(db: SupportSQLiteDatabase) {
                     db.execSQL("PRAGMA foreign_keys = ON;")
                 }
-            })
+            }
+        )
     }
 
     @Provides

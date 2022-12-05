@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.squareup.sqldelight'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.diffplug.spotless'
 
 android {
     compileSdkVersion 30
@@ -32,8 +33,13 @@ android {
     }
 }
 
-configurations {
-    ktlint
+spotless {
+    kotlin {
+        target 'src/**/*.kt'
+        ktlint '0.47.1'
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 dependencies {
@@ -74,8 +80,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     // SpiderChart
     implementation 'com.github.nikolajakshic:spiderchart:1.0.2'
-    // KtLint
-    ktlint 'com.pinterest:ktlint:0.32.0'
     // LeakCanary
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.6'
     // Test
@@ -96,19 +100,4 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-}
-
-task ktlint(type: JavaExec, group: "verification") {
-    description = "Check Kotlin code style."
-    classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "src/**/*.kt"
-}
-check.dependsOn ktlint
-
-task ktlintFormat(type: JavaExec, group: "formatting") {
-    description = "Fix Kotlin code style deviations."
-    classpath = configurations.ktlint
-    main = "com.pinterest.ktlint.Main"
-    args "-F", "src/**/*.kt"
 }

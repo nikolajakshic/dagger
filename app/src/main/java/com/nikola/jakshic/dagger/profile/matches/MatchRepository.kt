@@ -58,7 +58,8 @@ class MatchRepository @Inject constructor(
         return Response(
             pagedList = pagedList,
             status = boundaryCallback.status,
-            retry = { boundaryCallback.retry() })
+            retry = { boundaryCallback.retry() }
+        )
     }
 
     /**
@@ -71,14 +72,15 @@ class MatchRepository @Inject constructor(
         try {
             withContext(Dispatchers.IO) {
                 val count = matchQueries.countMatches(id).executeAsOne()
-                val list = if (count != 0L)
-                // There are already some matches in the database
-                // we want to refresh all of them
+                val list = if (count != 0L) {
+                    // There are already some matches in the database
+                    // we want to refresh all of them
                     service.getMatches(id, count.toInt(), 0)
-                else
-                // There are no matches in the database,
-                // we want to fetch only 20 from the network
+                } else {
+                    // There are no matches in the database,
+                    // we want to fetch only 20 from the network
                     service.getMatches(id, 20, 0)
+                }
 
                 if (list.isNotEmpty()) {
                     matchQueries.transaction {
@@ -108,7 +110,8 @@ class MatchRepository @Inject constructor(
             pagedList = livePagedList,
             status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
             refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
-            retry = { sourceFactory.sourceLiveData.value?.retry() })
+            retry = { sourceFactory.sourceLiveData.value?.retry() }
+        )
     }
 
     /**

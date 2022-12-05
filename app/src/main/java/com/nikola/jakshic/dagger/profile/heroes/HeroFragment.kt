@@ -37,7 +37,8 @@ class HeroFragment : Fragment(R.layout.fragment_hero), HeroSortDialog.OnSortList
         adapter = HeroAdapter {
             findNavController().navigate(
                 ProfileFragmentDirections.matchesByHeroAction(
-                    accountId = id, heroId = it
+                    accountId = id,
+                    heroId = it
                 )
             )
         }
@@ -68,9 +69,9 @@ class HeroFragment : Fragment(R.layout.fragment_hero), HeroSortDialog.OnSortList
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.fetchHeroes(id)
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

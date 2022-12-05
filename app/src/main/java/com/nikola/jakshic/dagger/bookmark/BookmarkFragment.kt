@@ -9,7 +9,8 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.databinding.FragmentBookmarkBinding
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 
-class BookmarkFragment : Fragment(R.layout.fragment_bookmark),
+class BookmarkFragment :
+    Fragment(R.layout.fragment_bookmark),
     HomeFragment.OnNavigationItemReselectedListener {
     private var _binding: FragmentBookmarkBinding? = null
     private val binding get() = _binding!!

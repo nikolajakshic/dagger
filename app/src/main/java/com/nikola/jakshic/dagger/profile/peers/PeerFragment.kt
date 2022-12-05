@@ -64,9 +64,9 @@ class PeerFragment : Fragment(R.layout.fragment_peer), PeerSortDialog.OnSortList
         }
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.fetchPeers(id)
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

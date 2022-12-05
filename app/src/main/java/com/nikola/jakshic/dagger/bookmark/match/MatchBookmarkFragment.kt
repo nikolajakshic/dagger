@@ -19,8 +19,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match),
-    HomeFragment.OnNavigationItemReselectedListener, MatchNoteDialog.OnNoteSavedListener {
+class MatchBookmarkFragment :
+    Fragment(R.layout.fragment_bookmark_match),
+    HomeFragment.OnNavigationItemReselectedListener,
+    MatchNoteDialog.OnNoteSavedListener {
     private val viewModel by viewModels<MatchBookmarkViewModel>()
 
     private var _binding: FragmentBookmarkMatchBinding? = null

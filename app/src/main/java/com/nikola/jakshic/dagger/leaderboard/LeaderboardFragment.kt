@@ -9,7 +9,8 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.databinding.FragmentLeaderboardBinding
 import com.nikola.jakshic.dagger.search.SearchFragmentDirections
 
-class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard),
+class LeaderboardFragment :
+    Fragment(R.layout.fragment_leaderboard),
     HomeFragment.OnNavigationItemReselectedListener {
     private var _binding: FragmentLeaderboardBinding? = null
     private val binding get() = _binding!!

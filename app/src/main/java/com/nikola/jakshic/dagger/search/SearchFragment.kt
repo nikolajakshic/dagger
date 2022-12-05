@@ -142,10 +142,11 @@ class SearchFragment : Fragment(R.layout.activity_search) {
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.clearList()
 
-                if (hasNetworkConnection())
+                if (hasNetworkConnection()) {
                     viewModel.fetchPlayers(query)
-                else
+                } else {
                     toast(getString(R.string.error_network_connection))
+                }
 
                 viewModel.saveQuery(query)
                 searchView.clearFocus()

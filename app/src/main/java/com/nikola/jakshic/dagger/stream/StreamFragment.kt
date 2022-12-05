@@ -22,7 +22,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class StreamFragment : Fragment(R.layout.fragment_stream),
+class StreamFragment :
+    Fragment(R.layout.fragment_stream),
     HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<StreamViewModel>()
 
@@ -48,9 +49,9 @@ class StreamFragment : Fragment(R.layout.fragment_stream),
         viewModel.initialFetch()
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.getStreams()
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

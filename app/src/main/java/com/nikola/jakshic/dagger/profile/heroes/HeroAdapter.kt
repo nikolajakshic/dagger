@@ -52,7 +52,8 @@ class HeroAdapter(
             setPercentageBar(binding.viewHeroWinRateBar, winRate)
             binding.tvHeroWinLose.text = itemView.context.resources.getString(
                 R.string.hero_win_loss,
-                item.gamesWon, item.gamesPlayed - item.gamesWon
+                item.gamesWon,
+                item.gamesPlayed - item.gamesWon
             )
         }
 

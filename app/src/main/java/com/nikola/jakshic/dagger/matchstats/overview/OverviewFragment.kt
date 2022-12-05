@@ -136,26 +136,29 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         // Having personaName = null means the player has not exposed his data to public,
         // so we don't need to set onClickListener
-        if (!TextUtils.isEmpty(item.personaName)) collapsedBinding.tvPlayerName.setOnClickListener {
-            findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = item.id))
+        if (!TextUtils.isEmpty(item.personaName)) {
+            collapsedBinding.tvPlayerName.setOnClickListener {
+                findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = item.id))
+            }
         }
     }
 
     private fun bindMatchStats(item: MatchStatsUI) {
-        if (item.isRadiantWin)
+        if (item.isRadiantWin) {
             binding.tvRadiantName.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_trophy,
                 0
             )
-        else
+        } else {
             binding.tvDireName.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_trophy,
                 0
             )
+        }
 
         val radiantName =
             if (TextUtils.isEmpty(item.radiantName)) getString(R.string.team_radiant) else item.radiantName
@@ -189,116 +192,188 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         val filter = ColorMatrixColorFilter(matrix)
         val alpha = 128
 
-        if (item.isRadiantWin) with(binding.containerMinimap.imgDireThrone) {
-            colorFilter = filter; imageAlpha = alpha
-        } else with(binding.containerMinimap.imgRadiantThrone) {
-            colorFilter = filter; imageAlpha = alpha
+        if (item.isRadiantWin) {
+            with(binding.containerMinimap.imgDireThrone) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        } else {
+            with(binding.containerMinimap.imgRadiantThrone) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
 
-        if (radiantTowers[10] == '0') with(binding.containerMinimap.imgRadiantTopTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[10] == '0') {
+            with(binding.containerMinimap.imgRadiantTopTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[9] == '0') with(binding.containerMinimap.imgRadiantTopTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[9] == '0') {
+            with(binding.containerMinimap.imgRadiantTopTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[8] == '0') with(binding.containerMinimap.imgRadiantTopTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[8] == '0') {
+            with(binding.containerMinimap.imgRadiantTopTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[1] == '0') with(binding.containerMinimap.imgRadiantTopTier4Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[1] == '0') {
+            with(binding.containerMinimap.imgRadiantTopTier4Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[7] == '0') with(binding.containerMinimap.imgRadiantMidTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[7] == '0') {
+            with(binding.containerMinimap.imgRadiantMidTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[6] == '0') with(binding.containerMinimap.imgRadiantMidTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[6] == '0') {
+            with(binding.containerMinimap.imgRadiantMidTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[5] == '0') with(binding.containerMinimap.imgRadiantMidTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[5] == '0') {
+            with(binding.containerMinimap.imgRadiantMidTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[4] == '0') with(binding.containerMinimap.imgRadiantBotTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[4] == '0') {
+            with(binding.containerMinimap.imgRadiantBotTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[3] == '0') with(binding.containerMinimap.imgRadiantBotTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[3] == '0') {
+            with(binding.containerMinimap.imgRadiantBotTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[2] == '0') with(binding.containerMinimap.imgRadiantBotTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[2] == '0') {
+            with(binding.containerMinimap.imgRadiantBotTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (radiantTowers[0] == '0') with(binding.containerMinimap.imgRadiantBotTier4Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-
-        if (radiantBarracks[4] == '0') with(binding.containerMinimap.imgRadiantTopRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (radiantBarracks[5] == '0') with(binding.containerMinimap.imgRadiantTopMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (radiantBarracks[2] == '0') with(binding.containerMinimap.imgRadiantMidRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (radiantBarracks[3] == '0') with(binding.containerMinimap.imgRadiantMidMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (radiantBarracks[0] == '0') with(binding.containerMinimap.imgRadiantBotRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (radiantBarracks[1] == '0') with(binding.containerMinimap.imgRadiantBotMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-
-        if (direTowers[10] == '0') with(binding.containerMinimap.imgDireTopTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[9] == '0') with(binding.containerMinimap.imgDireTopTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[8] == '0') with(binding.containerMinimap.imgDireTopTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[1] == '0') with(binding.containerMinimap.imgDireTopTier4Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[7] == '0') with(binding.containerMinimap.imgDireMidTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[6] == '0') with(binding.containerMinimap.imgDireMidTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[5] == '0') with(binding.containerMinimap.imgDireMidTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[4] == '0') with(binding.containerMinimap.imgDireBotTier1Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[3] == '0') with(binding.containerMinimap.imgDireBotTier2Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[2] == '0') with(binding.containerMinimap.imgDireBotTier3Tower) {
-            colorFilter = filter; imageAlpha = alpha
-        }
-        if (direTowers[0] == '0') with(binding.containerMinimap.imgDireBotTier4Tower) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantTowers[0] == '0') {
+            with(binding.containerMinimap.imgRadiantBotTier4Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
 
-        if (direBarracks[4] == '0') with(binding.containerMinimap.imgDireTopRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[4] == '0') {
+            with(binding.containerMinimap.imgRadiantTopRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (direBarracks[5] == '0') with(binding.containerMinimap.imgDireTopMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[5] == '0') {
+            with(binding.containerMinimap.imgRadiantTopMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (direBarracks[2] == '0') with(binding.containerMinimap.imgDireMidRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[2] == '0') {
+            with(binding.containerMinimap.imgRadiantMidRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (direBarracks[3] == '0') with(binding.containerMinimap.imgDireMidMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[3] == '0') {
+            with(binding.containerMinimap.imgRadiantMidMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (direBarracks[0] == '0') with(binding.containerMinimap.imgDireBotRangedRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[0] == '0') {
+            with(binding.containerMinimap.imgRadiantBotRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
-        if (direBarracks[1] == '0') with(binding.containerMinimap.imgDireBotMeleeRax) {
-            colorFilter = filter; imageAlpha = alpha
+        if (radiantBarracks[1] == '0') {
+            with(binding.containerMinimap.imgRadiantBotMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+
+        if (direTowers[10] == '0') {
+            with(binding.containerMinimap.imgDireTopTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[9] == '0') {
+            with(binding.containerMinimap.imgDireTopTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[8] == '0') {
+            with(binding.containerMinimap.imgDireTopTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[1] == '0') {
+            with(binding.containerMinimap.imgDireTopTier4Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[7] == '0') {
+            with(binding.containerMinimap.imgDireMidTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[6] == '0') {
+            with(binding.containerMinimap.imgDireMidTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[5] == '0') {
+            with(binding.containerMinimap.imgDireMidTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[4] == '0') {
+            with(binding.containerMinimap.imgDireBotTier1Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[3] == '0') {
+            with(binding.containerMinimap.imgDireBotTier2Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[2] == '0') {
+            with(binding.containerMinimap.imgDireBotTier3Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direTowers[0] == '0') {
+            with(binding.containerMinimap.imgDireBotTier4Tower) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+
+        if (direBarracks[4] == '0') {
+            with(binding.containerMinimap.imgDireTopRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direBarracks[5] == '0') {
+            with(binding.containerMinimap.imgDireTopMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direBarracks[2] == '0') {
+            with(binding.containerMinimap.imgDireMidRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direBarracks[3] == '0') {
+            with(binding.containerMinimap.imgDireMidMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direBarracks[0] == '0') {
+            with(binding.containerMinimap.imgDireBotRangedRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
+        }
+        if (direBarracks[1] == '0') {
+            with(binding.containerMinimap.imgDireBotMeleeRax) {
+                colorFilter = filter; imageAlpha = alpha
+            }
         }
     }
 

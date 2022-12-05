@@ -16,7 +16,8 @@ import com.nikola.jakshic.spiderchart.SpiderData
 import java.util.concurrent.TimeUnit
 
 // Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
-class ComparisonFragment : Fragment(R.layout.fragment_comparison),
+class ComparisonFragment :
+    Fragment(R.layout.fragment_comparison),
     ComparisonDialog.ComparisonClickListener {
     private val viewModel by viewModels<MatchStatsViewModel>(
         ownerProducer = { requireParentFragment() }

@@ -19,7 +19,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PlayerBookmarkFragment : Fragment(R.layout.fragment_bookmark_player),
+class PlayerBookmarkFragment :
+    Fragment(R.layout.fragment_bookmark_player),
     HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<PlayerBookmarkViewModel>()
 

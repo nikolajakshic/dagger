@@ -21,7 +21,8 @@ import kotlinx.coroutines.launch
 private const val EXTRA_REGION = "region"
 
 @AndroidEntryPoint
-class RegionFragment : Fragment(R.layout.fragment_region),
+class RegionFragment :
+    Fragment(R.layout.fragment_region),
     HomeFragment.OnNavigationItemReselectedListener {
     private val viewModel by viewModels<RegionViewModel>()
 
@@ -58,9 +59,9 @@ class RegionFragment : Fragment(R.layout.fragment_region),
         binding.recView.setHasFixedSize(true)
 
         binding.swipeRefresh.setOnRefreshListener {
-            if (hasNetworkConnection())
+            if (hasNetworkConnection()) {
                 viewModel.fetchLeaderboard(region)
-            else {
+            } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }

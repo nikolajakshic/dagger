@@ -112,7 +112,8 @@ object NetworkModule {
 
                 // Enable TLS 1.2 for older devices
                 clientBuilder.sslSocketFactory(
-                    Tls12SocketFactory(sslContext.socketFactory), trustManager
+                    Tls12SocketFactory(sslContext.socketFactory),
+                    trustManager
                 )
             } catch (e: Exception) {
                 Log.e("NetworkModule", "Error while setting TLS 1.2: ", e)
