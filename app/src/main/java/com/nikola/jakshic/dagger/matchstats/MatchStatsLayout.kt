@@ -58,9 +58,9 @@ class MatchStatsLayout @JvmOverloads constructor(
             expanded = state.readInt()
         }
 
-        override fun writeToParcel(out: Parcel?, flags: Int) {
+        override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out?.writeInt(expanded)
+            out.writeInt(expanded)
         }
 
         companion object CREATOR : Parcelable.Creator<State> {

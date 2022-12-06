@@ -119,9 +119,9 @@ class SearchFragment : Fragment(R.layout.activity_search) {
         if (hasFocus) searchView.requestFocus() else searchView.clearFocus()
 
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-            override fun onMenuItemActionExpand(item: MenuItem?) = true
+            override fun onMenuItemActionExpand(item: MenuItem) = true
 
-            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+            override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                 // SearchView.clearFocus() triggers QueryTextFocusChangeListener which toggles
                 // search-history visibility, that doesn't look nice when we want to quit SearchFragment,
                 // so we remove listener to prevent that.
