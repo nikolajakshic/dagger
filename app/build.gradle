@@ -8,11 +8,11 @@ apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'com.diffplug.spotless'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.nikola.jakshic.dagger"
         minSdkVersion 16
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 28
         versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
