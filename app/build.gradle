@@ -1,18 +1,20 @@
-apply plugin: "com.android.application"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-kapt"
-apply plugin: "com.squareup.sqldelight"
-apply plugin: "androidx.navigation.safeargs.kotlin"
-apply plugin: "dagger.hilt.android.plugin"
-apply plugin: "com.diffplug.spotless"
+plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "org.jetbrains.kotlin.kapt"
+    id "com.squareup.sqldelight"
+    id "androidx.navigation.safeargs.kotlin"
+    id "com.google.dagger.hilt.android"
+    id "com.diffplug.spotless"
+}
 
 android {
     namespace "com.nikola.jakshic.dagger"
-    compileSdkVersion 33
+    compileSdk 33
     defaultConfig {
         applicationId "com.nikola.jakshic.dagger"
-        minSdkVersion 16
-        targetSdkVersion 31
+        minSdk 16
+        targetSdk 31
         versionCode 28
         versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -77,20 +79,20 @@ dependencies {
     // ImageLoading
     implementation "io.coil-kt:coil:1.4.0"
     // Dependency Injection
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$daggerVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$daggerVersion"
     // LifeCycle
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     // SQLDelight
-    implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
-    implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqldelight_version"
+    implementation "com.squareup.sqldelight:android-driver:$sqlDelightVersion"
+    implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqlDelightVersion"
     // Paging
     implementation "androidx.paging:paging-runtime:2.0.0"
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     // SwipeRefreshLayout
