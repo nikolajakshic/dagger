@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.bookmark.player
 
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
@@ -17,13 +18,12 @@ import javax.inject.Inject
 @HiltViewModel
 class PlayerBookmarkViewModel @Inject constructor(
     playerBookmarkQueries: PlayerBookmarkQueries
-) : ScopedViewModel() {
-
+) : ViewModel() {
     private val _list = MutableStateFlow<List<PlayerBookmarkUI>>(emptyList())
     val list: StateFlow<List<PlayerBookmarkUI>> = _list
 
     init {
-        launch {
+        viewModelScope.launch {
             playerBookmarkQueries.selectAllPlayerBookmark()
                 .asFlow()
                 .mapToList(Dispatchers.IO)

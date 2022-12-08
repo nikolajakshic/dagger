@@ -2,7 +2,8 @@ package com.nikola.jakshic.dagger.profile.heroes
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -10,10 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HeroViewModel @Inject constructor(
-    private val repository: HeroRepository
-) : ScopedViewModel() {
-
+class HeroViewModel @Inject constructor(private val repository: HeroRepository) : ViewModel() {
     private val _list = MutableLiveData<List<HeroUI>>()
     val list: LiveData<List<HeroUI>>
         get() = _list
@@ -36,35 +34,35 @@ class HeroViewModel @Inject constructor(
     }
 
     fun fetchHeroes(id: Long) {
-        launch {
+        viewModelScope.launch {
             _status.value = Status.LOADING
             repository.fetchHeroes(id, onSuccess, onError)
         }
     }
 
     fun sortByGames(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getHeroesFlowByGames(id)
                 .collectLatest { _list.value = it }
         }
     }
 
     fun sortByWinRate(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getHeroesFlowByWinrate(id)
                 .collectLatest { _list.value = it }
         }
     }
 
     fun sortByWins(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getHeroesFlowByWins(id)
                 .collectLatest { _list.value = it }
         }
     }
 
     fun sortByLosses(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getHeroesFlowByLosses(id)
                 .collectLatest { _list.value = it }
         }

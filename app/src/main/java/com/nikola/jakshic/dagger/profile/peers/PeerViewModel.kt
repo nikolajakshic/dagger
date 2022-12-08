@@ -2,7 +2,8 @@ package com.nikola.jakshic.dagger.profile.peers
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PeerViewModel @Inject constructor(
     private val repository: PeerRepository
-) : ScopedViewModel() {
+) : ViewModel() {
     private val _list = MutableLiveData<List<PeerUI>>()
     val list: LiveData<List<PeerUI>>
         get() = _list
@@ -35,21 +36,21 @@ class PeerViewModel @Inject constructor(
     }
 
     fun fetchPeers(id: Long) {
-        launch {
+        viewModelScope.launch {
             _status.value = Status.LOADING
             repository.fetchPeers(id, onSuccess, onError)
         }
     }
 
     fun sortByGames(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getPeersFlowByGames(id)
                 .collectLatest { _list.value = it }
         }
     }
 
     fun sortByWinRate(id: Long) {
-        launch {
+        viewModelScope.launch {
             repository.getPeersFlowByWinrate(id)
                 .collectLatest { _list.value = it }
         }

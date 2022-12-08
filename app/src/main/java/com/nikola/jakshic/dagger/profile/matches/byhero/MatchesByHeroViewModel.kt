@@ -1,8 +1,9 @@
 package com.nikola.jakshic.dagger.profile.matches.byhero
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.nikola.jakshic.dagger.profile.matches.MatchUI
@@ -13,8 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchesByHeroViewModel @Inject constructor(
     private val repository: MatchRepository
-) : ScopedViewModel() {
-
+) : ViewModel() {
     val matches: LiveData<PagedList<MatchUI>>
         get() = response.pagedList
 
@@ -33,7 +33,7 @@ class MatchesByHeroViewModel @Inject constructor(
     }
 
     fun retry() {
-        launch {
+        viewModelScope.launch {
             response.retry()
         }
     }

@@ -1,10 +1,10 @@
 package com.nikola.jakshic.dagger.leaderboard
 
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegionViewModel @Inject constructor(
     private val repository: LeaderboardRepository
-) : ScopedViewModel() {
+) : ViewModel() {
     private val isInitial = AtomicBoolean(true)
 
     private val _list = MutableStateFlow<List<LeaderboardUI>>(emptyList())
@@ -23,7 +23,7 @@ class RegionViewModel @Inject constructor(
 
     fun initialFetch(region: String) {
         if (isInitial.compareAndSet(true, false)) {
-            launch {
+            viewModelScope.launch {
                 repository.getLeaderboardFlow(region)
                     .collect { _list.value = it }
             }
@@ -32,7 +32,7 @@ class RegionViewModel @Inject constructor(
     }
 
     fun fetchLeaderboard(region: String) {
-        launch {
+        viewModelScope.launch {
             try {
                 _isLoading.value = true
                 repository.fetchLeaderboard(region)

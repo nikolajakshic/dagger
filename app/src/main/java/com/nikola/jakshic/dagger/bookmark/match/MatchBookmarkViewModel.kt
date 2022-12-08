@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.bookmark.match
 
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
@@ -18,12 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchBookmarkViewModel @Inject constructor(
     private val matchBookmarkQueries: MatchBookmarkQueries
-) : ScopedViewModel() {
+) : ViewModel() {
     private val _list = MutableStateFlow<List<MatchBookmarkUI>>(emptyList())
     val list: StateFlow<List<MatchBookmarkUI>> = _list
 
     init {
-        launch {
+        viewModelScope.launch {
             matchBookmarkQueries.selectAllMatchBookmark()
                 .asFlow()
                 .mapToList(Dispatchers.IO)
@@ -34,7 +35,7 @@ class MatchBookmarkViewModel @Inject constructor(
     }
 
     fun updateNote(note: String?, matchId: Long) {
-        launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) { matchBookmarkQueries.update(note, matchId) }
         }
     }

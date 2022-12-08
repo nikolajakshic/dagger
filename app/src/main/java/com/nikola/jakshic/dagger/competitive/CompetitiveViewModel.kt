@@ -1,7 +1,8 @@
 package com.nikola.jakshic.dagger.competitive
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.Competitive
 import com.nikola.jakshic.dagger.common.sqldelight.CompetitiveQueries
@@ -15,8 +16,7 @@ import javax.inject.Inject
 class CompetitiveViewModel @Inject constructor(
     private val repo: CompetitiveRepository,
     competitiveQueries: CompetitiveQueries
-) : ScopedViewModel() {
-
+) : ViewModel() {
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
     private val factory = QueryDataSourceFactory(
         queryProvider = competitiveQueries::getMatches,
@@ -34,7 +34,7 @@ class CompetitiveViewModel @Inject constructor(
     }
 
     fun fetchCompetitiveMatches() {
-        launch {
+        viewModelScope.launch {
             try {
                 _isLoading.value = true
                 repo.fetchCompetitive()

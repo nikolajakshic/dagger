@@ -3,9 +3,10 @@ package com.nikola.jakshic.dagger.profile
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
 import com.nikola.jakshic.dagger.bookmark.player.mapToUi
-import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
@@ -25,8 +26,7 @@ class ProfileViewModel @Inject constructor(
     private val playerQueries: PlayerQueries,
     private val playerBookmarkQueries: PlayerBookmarkQueries,
     private val repo: PlayerRepository
-) : ScopedViewModel() {
-
+) : ViewModel() {
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
@@ -47,7 +47,7 @@ class ProfileViewModel @Inject constructor(
     fun getProfile(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            launch {
+            viewModelScope.launch {
                 playerQueries.select(id)
                     .asFlow()
                     .mapToOneOrNull(Dispatchers.IO)
@@ -55,7 +55,7 @@ class ProfileViewModel @Inject constructor(
                     .flowOn(Dispatchers.IO)
                     .collectLatest { _profile.value = it }
             }
-            launch {
+            viewModelScope.launch {
                 playerBookmarkQueries.select(id)
                     .asFlow()
                     .mapToOneOrNull(Dispatchers.IO)
@@ -68,7 +68,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun fetchProfile(id: Long) {
-        launch {
+        viewModelScope.launch {
             try {
                 _status.value = Status.LOADING
                 repo.getProfile(id)
@@ -80,7 +80,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun addToBookmark(id: Long) {
-        launch {
+        viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
             } catch (e: SQLiteConstraintException) {
@@ -90,7 +90,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun removeFromBookmark(id: Long) {
-        launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) { playerBookmarkQueries.delete(id) }
         }
     }

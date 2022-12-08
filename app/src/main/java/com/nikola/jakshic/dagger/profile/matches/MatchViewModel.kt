@@ -2,8 +2,9 @@ package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.common.ScopedViewModel
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
@@ -16,8 +17,7 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchQueries: MatchQueries
-) : ScopedViewModel() {
-
+) : ViewModel() {
     private lateinit var response: Response
 
     val list: LiveData<PagedList<MatchUI>>
@@ -50,13 +50,14 @@ class MatchViewModel @Inject constructor(
                 countQuery = matchQueries.countMatches(id),
                 transacter = matchQueries
             )
-            response = repository.getMatchesLiveData(this, factory!!.map(Matches::mapToUi), id)
+            response =
+                repository.getMatchesLiveData(viewModelScope, factory!!.map(Matches::mapToUi), id)
             fetchMatches(id)
         }
     }
 
     fun fetchMatches(id: Long) {
-        launch {
+        viewModelScope.launch {
             _refreshStatus.value = Status.LOADING
             repository.fetchMatches(id, onSuccess, onError)
         }

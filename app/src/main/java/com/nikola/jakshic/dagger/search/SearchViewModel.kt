@@ -2,7 +2,8 @@ package com.nikola.jakshic.dagger.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.profile.PlayerRepository
@@ -21,8 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchHistoryQueries: SearchHistoryQueries,
     private val repository: PlayerRepository
-) : ScopedViewModel() {
-
+) : ViewModel() {
     private var job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -45,7 +45,7 @@ class SearchViewModel @Inject constructor(
     private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun getAllQueries() {
-        launch {
+        viewModelScope.launch {
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAll()
                     .executeAsList()
@@ -56,7 +56,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getQueries(query: String) {
-        launch {
+        viewModelScope.launch {
             val list = withContext(Dispatchers.IO) {
                 searchHistoryQueries.selectAllByQuery(query)
                     .executeAsList()
@@ -67,7 +67,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun saveQuery(query: String) {
-        launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 searchHistoryQueries.insert(query)
             }
@@ -90,7 +90,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun deleteSearchHistory() {
-        launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) { searchHistoryQueries.deleteAll() }
         }
     }

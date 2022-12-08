@@ -3,7 +3,8 @@ package com.nikola.jakshic.dagger.matchstats
 import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.nikola.jakshic.dagger.common.ScopedViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
@@ -20,8 +21,7 @@ import javax.inject.Inject
 class MatchStatsViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchBookmarkQueries: MatchBookmarkQueries
-) : ScopedViewModel() {
-
+) : ViewModel() {
     private val _match = MutableLiveData<MatchStatsUI>()
     val match: LiveData<MatchStatsUI>
         get() = _match
@@ -42,11 +42,11 @@ class MatchStatsViewModel @Inject constructor(
     fun initialFetch(id: Long) {
         if (!initialFetch) {
             initialFetch = true
-            launch {
+            viewModelScope.launch {
                 repository.getMatchStatsFlow(id)
                     .collectLatest { _match.value = it }
             }
-            launch {
+            viewModelScope.launch {
                 matchBookmarkQueries.isBookmarked(id)
                     .asFlow()
                     .mapToOne(Dispatchers.IO)
@@ -57,14 +57,14 @@ class MatchStatsViewModel @Inject constructor(
     }
 
     fun fetchMatchStats(id: Long) {
-        launch {
+        viewModelScope.launch {
             _status.value = Status.LOADING
             repository.fetchMatchStats(id, onSuccess, onError)
         }
     }
 
     fun addToBookmark(matchId: Long, onSuccess: () -> Unit) {
-        launch {
+        viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) { matchBookmarkQueries.insert(matchId) }
                 onSuccess()
@@ -75,7 +75,7 @@ class MatchStatsViewModel @Inject constructor(
     }
 
     fun removeFromBookmark(matchId: Long) {
-        launch {
+        viewModelScope.launch {
             withContext(Dispatchers.IO) { matchBookmarkQueries.delete(matchId) }
         }
     }
