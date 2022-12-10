@@ -100,6 +100,8 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     // SpiderChart
     implementation "com.github.nikolajakshic:spiderchart:1.0.2"
+    // Timber
+    implementation "com.jakewharton.timber:timber:5.0.1"
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.10"
     // Test

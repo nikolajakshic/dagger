@@ -4,6 +4,8 @@ import android.app.Application
 import coil.Coil
 import coil.ImageLoader
 import dagger.hilt.android.HiltAndroidApp
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -12,6 +14,9 @@ class DaggerApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
         Coil.setImageLoader(imageLoader)
     }
 }

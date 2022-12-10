@@ -2,7 +2,6 @@ package com.nikola.jakshic.dagger.di
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import com.nikola.jakshic.dagger.BuildConfig
 import com.nikola.jakshic.dagger.common.network.NullPrimitiveAdapter
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
@@ -21,9 +20,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import java.io.File
 import java.security.KeyStore
-import java.util.ArrayList
 import java.util.Arrays
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -116,7 +115,7 @@ object NetworkModule {
                     trustManager
                 )
             } catch (e: Exception) {
-                Log.e("NetworkModule", "Error while setting TLS 1.2: ", e)
+                Timber.e(e, "Error while setting TLS 1.2: ")
             }
         }
 
