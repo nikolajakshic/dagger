@@ -1,97 +1,113 @@
 package com.nikola.jakshic.dagger.profile
 
-import android.database.sqlite.SQLiteConstraintException
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkUI
-import com.nikola.jakshic.dagger.bookmark.player.mapToUi
-import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.retryWhen
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val playerQueries: PlayerQueries,
+    playerQueries: PlayerQueries,
     private val playerBookmarkQueries: PlayerBookmarkQueries,
-    private val repo: PlayerRepository
+    private val repo: PlayerRepository,
+    private val dispatchers: Dispatchers,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    private val accountId: Long
 
-    private val _profile = MutableLiveData<PlayerUI>()
-    val profile: LiveData<PlayerUI>
-        get() = _profile
+    val player: Flow<PlayerUI?>
+    val isBookmarked: Flow<Boolean>
 
-    private val _bookmark = MutableLiveData<PlayerBookmarkUI>()
-    val bookmark: LiveData<PlayerBookmarkUI>
-        get() = _bookmark
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: Flow<Boolean> = _isLoading
 
-    private var initialFetch = false
+    init {
+        accountId = ProfileFragmentArgs.fromSavedStateHandle(savedStateHandle).accountId
 
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
-
-    fun getProfile(id: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-            viewModelScope.launch {
-                playerQueries.select(id)
-                    .asFlow()
-                    .mapToOneOrNull(Dispatchers.IO)
-                    .map { it?.mapToUi() }
-                    .flowOn(Dispatchers.IO)
-                    .collectLatest { _profile.value = it }
+        player = playerQueries.select(accountId)
+            .asFlow()
+            .mapToOneOrNull(dispatchers.io)
+            .filterNotNull()
+            .map { it.mapToUi() }
+            .retryWhen { _, attempt ->
+                delay(100)
+                return@retryWhen attempt < 3
             }
-            viewModelScope.launch {
-                playerBookmarkQueries.select(id)
-                    .asFlow()
-                    .mapToOneOrNull(Dispatchers.IO)
-                    .map { it?.mapToUi() }
-                    .flowOn(Dispatchers.IO)
-                    .collectLatest { _bookmark.value = it }
+            .catch { Timber.e(it) }
+            .flowOn(dispatchers.io)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = null
+            )
+        isBookmarked = playerBookmarkQueries.select(accountId)
+            .asFlow()
+            .mapToOneOrNull(dispatchers.io)
+            .map { it != null }
+            .retryWhen { _, attempt ->
+                delay(100)
+                return@retryWhen attempt < 3
             }
-            fetchProfile(id)
-        }
+            .catch { Timber.e(it) }
+            .flowOn(dispatchers.io)
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = false
+            )
+
+        fetchProfile()
     }
 
-    fun fetchProfile(id: Long) {
+    fun fetchProfile() {
         viewModelScope.launch {
             try {
-                _status.value = Status.LOADING
-                repo.getProfile(id)
-                onSuccess()
+                _isLoading.value = true
+                repo.fetchProfile(accountId)
             } catch (e: Exception) {
-                onError()
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
-    fun addToBookmark(id: Long) {
+    fun addToBookmark() {
         viewModelScope.launch {
             try {
-                withContext(Dispatchers.IO) { playerBookmarkQueries.insert(id) }
-            } catch (e: SQLiteConstraintException) {
-                // Trying to add to the bookmark but player is not yet added to the database.
+                withContext(dispatchers.io) { playerBookmarkQueries.insert(accountId) }
+            } catch (e: Exception) { // SQLiteConstraintException - Bookmark before player is added to the database.
+                Timber.e(e)
             }
         }
     }
 
-    fun removeFromBookmark(id: Long) {
+    fun removeFromBookmark() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) { playerBookmarkQueries.delete(id) }
+            try {
+                withContext(dispatchers.io) { playerBookmarkQueries.delete(accountId) }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 }

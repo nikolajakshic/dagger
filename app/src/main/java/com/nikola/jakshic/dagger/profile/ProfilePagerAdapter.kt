@@ -1,28 +1,20 @@
 package com.nikola.jakshic.dagger.profile
 
-import android.content.Context
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.nikola.jakshic.dagger.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nikola.jakshic.dagger.profile.heroes.HeroFragment
 import com.nikola.jakshic.dagger.profile.matches.MatchFragment
 import com.nikola.jakshic.dagger.profile.peers.PeerFragment
 
-class ProfilePagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class ProfilePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    override fun getItemCount() = 3
 
-    override fun getItem(position: Int) =
-        when (position) {
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
             0 -> MatchFragment()
             1 -> HeroFragment()
-            else -> PeerFragment()
+            2 -> PeerFragment()
+            else -> throw IllegalStateException("Found more than 3 tabs.")
         }
-
-    override fun getPageTitle(position: Int) =
-        when (position) {
-            0 -> context.getString(R.string.matches)
-            1 -> context.getString(R.string.heroes)
-            else -> context.getString(R.string.peers)
-        }
-
-    override fun getCount() = 3
+    }
 }
