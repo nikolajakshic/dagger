@@ -1,58 +1,62 @@
 package com.nikola.jakshic.dagger.profile.peers
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
+
+private const val KEY_SORT_BY = "sort-by"
 
 @HiltViewModel
 class PeerViewModel @Inject constructor(
-    private val repository: PeerRepository
+    private val repository: PeerRepository,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _list = MutableLiveData<List<PeerUI>>()
-    val list: LiveData<List<PeerUI>>
-        get() = _list
+    private val accountId = PeerFragment.getAccountId(savedStateHandle)
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    private val _sortBy = savedStateHandle.getStateFlow(KEY_SORT_BY, SortBy.GAMES.name)
+    val sortBy get() = SortBy.valueOf(_sortBy.value)
 
-    private var initialFetch = false
+    val list: StateFlow<List<PeerUI>> = _sortBy.flatMapLatest {
+        when (SortBy.valueOf(it)) {
+            SortBy.GAMES -> repository.getPeersByGames(accountId)
+            SortBy.WINRATE -> repository.getPeersByWinrate(accountId)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun initialFetch(id: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-            fetchPeers(id)
-            sortByGames(id)
+    init {
+        fetchPeers()
+    }
+
+    fun fetchPeers() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                repository.fetchPeers(accountId)
+            } catch (e: Exception) {
+                Timber.e(e)
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
-    fun fetchPeers(id: Long) {
-        viewModelScope.launch {
-            _status.value = Status.LOADING
-            repository.fetchPeers(id, onSuccess, onError)
-        }
-    }
-
-    fun sortByGames(id: Long) {
-        viewModelScope.launch {
-            repository.getPeersFlowByGames(id)
-                .collectLatest { _list.value = it }
-        }
-    }
-
-    fun sortByWinRate(id: Long) {
-        viewModelScope.launch {
-            repository.getPeersFlowByWinrate(id)
-                .collectLatest { _list.value = it }
-        }
+    fun sortBy(sortBy: SortBy) {
+        savedStateHandle[KEY_SORT_BY] = sortBy.name
     }
 }

@@ -16,7 +16,7 @@ class ProfilePagerAdapter(
         return when (position) {
             0 -> MatchFragment()
             1 -> HeroFragment.newInstance(accountId)
-            2 -> PeerFragment()
+            2 -> PeerFragment.newInstance(accountId)
             else -> throw IllegalStateException("Found more than 3 tabs.")
         }
     }
