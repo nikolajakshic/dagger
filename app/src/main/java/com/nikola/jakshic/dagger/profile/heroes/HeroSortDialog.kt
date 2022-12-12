@@ -28,7 +28,7 @@ class HeroSortDialog : DialogFragment() {
                     1 -> SortBy.WINRATE
                     2 -> SortBy.WINS
                     3 -> SortBy.LOSSES
-                    else -> throw IllegalStateException()
+                    else -> throw IllegalArgumentException()
                 }
                 listener(sortBy)
             }
