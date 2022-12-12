@@ -1,10 +1,10 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -14,71 +14,66 @@ import javax.inject.Singleton
 @Singleton
 class HeroRepository @Inject constructor(
     private val heroQueries: HeroQueries,
-    private val service: OpenDotaService
+    private val service: OpenDotaService,
+    private val dispatchers: Dispatchers
 ) {
+    /**
+     * Constructs the [Flow] which emits every time
+     * the requested data in the database has changed
+     */
+    fun getHeroesByGames(accountId: Long) =
+        heroQueries.selectAllByGames(accountId)
+            .asFlow()
+            .mapToList(dispatchers.io)
+            .map { it.mapToUi() }
+            .flowOn(dispatchers.io)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getHeroesFlowByGames(id: Long) =
-        heroQueries.selectAllByGames(id)
+    fun getHeroesByWinrate(accountId: Long) =
+        heroQueries.selectAllByWinrate(accountId)
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(dispatchers.io)
             .map { it.mapToUi() }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getHeroesFlowByWinrate(id: Long) =
-        heroQueries.selectAllByWinrate(id)
+    fun getHeroesByWins(accountId: Long) =
+        heroQueries.selectAllByWins(accountId)
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(dispatchers.io)
             .map { it.mapToUi() }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
 
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed
      */
-    fun getHeroesFlowByWins(id: Long) =
-        heroQueries.selectAllByWins(id)
+    fun getHeroesByLosses(accountId: Long) =
+        heroQueries.selectAllByLosses(accountId)
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(dispatchers.io)
             .map { it.mapToUi() }
-            .flowOn(Dispatchers.IO)
-
-    /**
-     * Constructs the [Flow] which emits every time
-     * the requested data in the database has changed
-     */
-    fun getHeroesFlowByLosses(id: Long) =
-        heroQueries.selectAllByLosses(id)
-            .asFlow()
-            .mapToList(Dispatchers.IO)
-            .map { it.mapToUi() }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
 
     /**
      * Fetches the heroes from the network and inserts them into database.
      *
      * Whenever the database is updated, the observers of [Flow]
-     * returned by [getHeroesFlowByGames], [getHeroesFlowByWins],
-     * [getHeroesFlowByLosses] and [getHeroesFlowByWinrate] are notified.
+     * returned by [getHeroesByGames], [getHeroesByWins],
+     * [getHeroesByLosses] and [getHeroesByWinrate] are notified.
      */
-    suspend fun fetchHeroes(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
-        try {
-            withContext(Dispatchers.IO) {
-                val heroes = service.getHeroes(id)
-                heroQueries.transaction {
-                    heroes.forEach { heroQueries.insert(it.mapToDb(accountId = id)) }
-                }
+    suspend fun fetchHeroes(accountId: Long) {
+        val heroes = service.getHeroes(accountId)
+        withContext(dispatchers.io) {
+            heroQueries.transaction {
+                heroes.forEach { heroQueries.insert(it.mapToDb(accountId = accountId)) }
             }
-            onSuccess()
-        } catch (e: Exception) {
-            onError()
         }
     }
 }

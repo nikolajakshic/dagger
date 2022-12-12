@@ -1,70 +1,62 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val KEY_SORT_BY = "sort-by"
+
 @HiltViewModel
-class HeroViewModel @Inject constructor(private val repository: HeroRepository) : ViewModel() {
-    private val _list = MutableLiveData<List<HeroUI>>()
-    val list: LiveData<List<HeroUI>>
-        get() = _list
+class HeroViewModel @Inject constructor(
+    private val repository: HeroRepository,
+    private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    private val accountId = HeroFragment.getAccountId(savedStateHandle)
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    private val _sortBy = savedStateHandle.getStateFlow(KEY_SORT_BY, SortBy.GAMES.name)
+    val sortBy get() = SortBy.valueOf(_sortBy.value)
 
-    private var initialFetch = false
+    val list: StateFlow<List<HeroUI>> = _sortBy.flatMapLatest {
+        when (SortBy.valueOf(it)) {
+            SortBy.GAMES -> repository.getHeroesByGames(accountId)
+            SortBy.WINRATE -> repository.getHeroesByWinrate(accountId)
+            SortBy.WINS -> repository.getHeroesByWins(accountId)
+            SortBy.LOSSES -> repository.getHeroesByLosses(accountId)
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = emptyList()
+    )
 
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun initialFetch(id: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-            fetchHeroes(id)
-            sortByGames(id)
+    init {
+        fetchHeroes()
+    }
+
+    fun fetchHeroes() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                repository.fetchHeroes(accountId)
+            } catch (ignored: Exception) {
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
-    fun fetchHeroes(id: Long) {
-        viewModelScope.launch {
-            _status.value = Status.LOADING
-            repository.fetchHeroes(id, onSuccess, onError)
-        }
-    }
-
-    fun sortByGames(id: Long) {
-        viewModelScope.launch {
-            repository.getHeroesFlowByGames(id)
-                .collectLatest { _list.value = it }
-        }
-    }
-
-    fun sortByWinRate(id: Long) {
-        viewModelScope.launch {
-            repository.getHeroesFlowByWinrate(id)
-                .collectLatest { _list.value = it }
-        }
-    }
-
-    fun sortByWins(id: Long) {
-        viewModelScope.launch {
-            repository.getHeroesFlowByWins(id)
-                .collectLatest { _list.value = it }
-        }
-    }
-
-    fun sortByLosses(id: Long) {
-        viewModelScope.launch {
-            repository.getHeroesFlowByLosses(id)
-                .collectLatest { _list.value = it }
-        }
+    fun sortBy(sortBy: SortBy) {
+        savedStateHandle[KEY_SORT_BY] = sortBy.name
     }
 }

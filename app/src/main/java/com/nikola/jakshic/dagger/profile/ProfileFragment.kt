@@ -34,8 +34,10 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
         val binding = ActivityProfileBinding.bind(view)
         val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
+        val accountId = ProfileFragmentArgs.fromBundle(requireArguments()).accountId
+
         binding.viewPager.offscreenPageLimit = 2
-        binding.viewPager.adapter = ProfilePagerAdapter(this)
+        binding.viewPager.adapter = ProfilePagerAdapter(accountId, /* fragment */ this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             val title = when (position) {
                 0 -> getString(R.string.matches)

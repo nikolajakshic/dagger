@@ -2,103 +2,107 @@ package com.nikola.jakshic.dagger.profile.heroes
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.databinding.FragmentHeroBinding
-import com.nikola.jakshic.dagger.profile.ProfileFragmentArgs
 import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+private const val TAG_HERO_SORT_DIALOG = "hero-sort-dialog"
 
 @AndroidEntryPoint
-class HeroFragment : Fragment(R.layout.fragment_hero), HeroSortDialog.OnSortListener {
-    private val viewModel by viewModels<HeroViewModel>()
-    private var adapter: HeroAdapter? = null
-    private var id: Long = -1
+class HeroFragment : Fragment(R.layout.fragment_hero) {
+    companion object {
+        private const val EXTRA_ACCOUNT_ID = "account-id"
 
-    private var _binding: FragmentHeroBinding? = null
-    private val binding get() = _binding!!
+        fun newInstance(accountId: Long): HeroFragment {
+            return HeroFragment().apply {
+                arguments = bundleOf(EXTRA_ACCOUNT_ID to accountId)
+            }
+        }
+
+        fun getAccountId(bundle: Bundle): Long {
+            if (!bundle.containsKey(EXTRA_ACCOUNT_ID)) {
+                throw IllegalArgumentException("""Required argument "account-id" is missing.""")
+            }
+            return bundle.getLong(EXTRA_ACCOUNT_ID)
+        }
+
+        fun getAccountId(savedStateHandle: SavedStateHandle): Long {
+            return savedStateHandle[EXTRA_ACCOUNT_ID]
+                ?: throw IllegalArgumentException("""Required argument "account-id" is missing.""")
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentHeroBinding.bind(view)
 
-        id = ProfileFragmentArgs.fromBundle(requireParentFragment().requireArguments()).accountId
+        val binding = FragmentHeroBinding.bind(view)
+        val viewModel = ViewModelProvider(this)[HeroViewModel::class.java]
 
-        viewModel.initialFetch(id)
+        val accountId = getAccountId(requireArguments())
 
-        adapter = HeroAdapter {
+        val adapter = HeroAdapter {
             findNavController().navigate(
                 ProfileFragmentDirections.matchesByHeroAction(
-                    accountId = id,
+                    accountId = accountId,
                     heroId = it
                 )
             )
         }
 
-        binding.recView.layoutManager = LinearLayoutManager(context)
-        binding.recView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
+        binding.recView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
         binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter!!::addData))
-        viewModel.status.observe(viewLifecycleOwner) {
-            when (it) {
-                Status.LOADING -> binding.swipeRefresh.isRefreshing = true
-                else -> binding.swipeRefresh.isRefreshing = false
+        binding.btnSort.setOnClickListener {
+            if (childFragmentManager.findFragmentByTag(TAG_HERO_SORT_DIALOG) == null) {
+                HeroSortDialog().showNow(childFragmentManager, TAG_HERO_SORT_DIALOG)
             }
         }
-
-        val sortDialog = HeroSortDialog()
-        sortDialog.setTargetFragment(this, 301)
-
-        binding.btnSort.setOnClickListener {
-            if (!sortDialog.isAdded) sortDialog.show(parentFragmentManager, null)
-        }
-
         binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection()) {
-                viewModel.fetchHeroes(id)
+                viewModel.fetchHeroes()
             } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-        adapter = null
-    }
-
-    override fun onSort(sort: Int) {
-        val adapter = adapter ?: return // make it non-null
-
-        // Remove previous observers b/c we are attaching new LiveData
-        viewModel.list.removeObservers(viewLifecycleOwner)
-
-        when (sort) {
-            0 -> viewModel.sortByGames(id)
-            1 -> viewModel.sortByWinRate(id)
-            2 -> viewModel.sortByWins(id)
-            3 -> viewModel.sortByLosses(id)
+        HeroSortDialog.setOnSortListener(childFragmentManager, viewLifecycleOwner) { newSortBy ->
+            if (newSortBy == viewModel.sortBy) {
+                return@setOnSortListener
+            }
+            // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item.
+            adapter.addData(null)
+            viewModel.sortBy(newSortBy)
         }
-        // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item
-        adapter.addData(null)
-        // Attach the observer to the new LiveData
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::addData))
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.list.collectLatest(adapter::addData)
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isLoading.collectLatest {
+                    binding.swipeRefresh.isRefreshing = it
+                }
+            }
+        }
     }
 }
