@@ -37,14 +37,16 @@ class HeroFragment : Fragment(R.layout.fragment_hero) {
 
         fun getAccountId(bundle: Bundle): Long {
             if (!bundle.containsKey(EXTRA_ACCOUNT_ID)) {
-                throw IllegalArgumentException("""Required argument "account-id" is missing.""")
+                throw IllegalArgumentException("""Required argument "$EXTRA_ACCOUNT_ID" is missing.""")
             }
             return bundle.getLong(EXTRA_ACCOUNT_ID)
         }
 
         fun getAccountId(savedStateHandle: SavedStateHandle): Long {
-            return savedStateHandle[EXTRA_ACCOUNT_ID]
-                ?: throw IllegalArgumentException("""Required argument "account-id" is missing.""")
+            if (!savedStateHandle.contains(EXTRA_ACCOUNT_ID)) {
+                throw IllegalArgumentException("""Required argument "$EXTRA_ACCOUNT_ID" is missing.""")
+            }
+            return savedStateHandle[EXTRA_ACCOUNT_ID]!!
         }
     }
 
@@ -67,8 +69,8 @@ class HeroFragment : Fragment(R.layout.fragment_hero) {
 
         binding.recView.layoutManager = LinearLayoutManager(requireContext())
         binding.recView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
-        binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
+        binding.recView.adapter = adapter
 
         binding.btnSort.setOnClickListener {
             if (childFragmentManager.findFragmentByTag(TAG_HERO_SORT_DIALOG) == null) {
