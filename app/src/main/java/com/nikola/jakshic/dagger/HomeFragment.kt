@@ -6,10 +6,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
+import com.nikola.jakshic.dagger.common.extensions.getFragmentByTag
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
 import com.nikola.jakshic.dagger.databinding.FragmentHomeBinding
 import com.nikola.jakshic.dagger.leaderboard.LeaderboardFragment
 import com.nikola.jakshic.dagger.stream.StreamFragment
+
+private const val TAG_COMPETITIVE = "competitive"
+private const val TAG_LEADERBOARD = "leaderboard"
+private const val TAG_BOOKMARK = "bookmark"
+private const val TAG_STREAM = "stream"
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
@@ -31,19 +37,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             stream = StreamFragment()
 
             childFragmentManager.beginTransaction()
-                .add(R.id.fragment_container_view, competitive, "competitive")
-                .add(R.id.fragment_container_view, leaderboard, "leaderboard")
-                .add(R.id.fragment_container_view, bookmark, "bookmark")
-                .add(R.id.fragment_container_view, stream, "stream")
+                .add(R.id.fragment_container_view, competitive, TAG_COMPETITIVE)
+                .add(R.id.fragment_container_view, leaderboard, TAG_LEADERBOARD)
+                .add(R.id.fragment_container_view, bookmark, TAG_BOOKMARK)
+                .add(R.id.fragment_container_view, stream, TAG_STREAM)
                 .detach(leaderboard)
                 .detach(bookmark)
                 .detach(stream)
                 .commit()
         } else {
-            competitive = childFragmentManager.findFragmentByTag("competitive") as CompetitiveFragment
-            leaderboard = childFragmentManager.findFragmentByTag("leaderboard") as LeaderboardFragment
-            bookmark = childFragmentManager.findFragmentByTag("bookmark") as BookmarkFragment
-            stream = childFragmentManager.findFragmentByTag("stream") as StreamFragment
+            competitive = childFragmentManager.getFragmentByTag(TAG_COMPETITIVE)
+            leaderboard = childFragmentManager.getFragmentByTag(TAG_LEADERBOARD)
+            bookmark = childFragmentManager.getFragmentByTag(TAG_BOOKMARK)
+            stream = childFragmentManager.getFragmentByTag(TAG_STREAM)
         }
 
         onBackPressedCallback = requireActivity().onBackPressedDispatcher.addCallback(this) {
