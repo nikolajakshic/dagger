@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.common.extensions.getFragmentByTag
 import com.nikola.jakshic.dagger.competitive.CompetitiveFragment
@@ -27,6 +30,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var leaderboard: LeaderboardFragment
     private lateinit var bookmark: BookmarkFragment
     private lateinit var stream: StreamFragment
+
+    enum class Key { STREAM }
+
+    companion object {
+        fun setOnReselectListener(
+            fragmentManager: FragmentManager,
+            lifecycleOwner: LifecycleOwner,
+            key: Key,
+            listener: () -> Unit
+        ) {
+            fragmentManager.setFragmentResultListener(key.name, lifecycleOwner) { _, _ ->
+                listener.invoke()
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +93,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.id.action_competitive -> competitive.onItemReselected()
                 R.id.action_leaderboard -> leaderboard.onItemReselected()
                 R.id.action_bookmark -> bookmark.onItemReselected()
-                R.id.action_stream -> stream.onItemReselected()
+                R.id.action_stream -> {
+                    childFragmentManager.setFragmentResult(Key.STREAM.name, bundleOf())
+                }
             }
         }
     }

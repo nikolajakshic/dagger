@@ -2,45 +2,43 @@ package com.nikola.jakshic.dagger.stream
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nikola.jakshic.dagger.common.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class StreamViewModel @Inject constructor(private val repository: StreamRepository) : ViewModel() {
-    private val isInitial = AtomicBoolean(true)
+    private val streams = MutableStateFlow(emptyList<StreamUI>())
+    private val isLoading = MutableStateFlow(false)
+    private val error = MutableStateFlow(false)
 
-    private val _streams = MutableStateFlow<List<StreamUI>>(emptyList())
-    val streams: StateFlow<List<StreamUI>> = _streams
+    val streamUiState = combine(streams, isLoading, error, ::StreamUiState)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = StreamUiState.DEFAULT
+        )
 
-    private val _status = MutableStateFlow(Status.LOADING)
-    val status: StateFlow<Status> = _status
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading
-
-    fun initialFetch() {
-        if (isInitial.compareAndSet(true, false)) {
-            getStreams()
-        }
+    init {
+        fetchStreams()
     }
 
-    fun getStreams() {
+    fun fetchStreams() {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
-                _status.value = Status.LOADING
-                val items = repository.getStreams()
-                _streams.value = items
-                _status.value = Status.SUCCESS
+                error.value = false
+                isLoading.value = true
+                streams.value = repository.getStreams()
             } catch (e: Exception) {
-                _status.value = Status.ERROR
+                Timber.d(e)
+                error.value = true
             } finally {
-                _isLoading.value = false
+                isLoading.value = false
             }
         }
     }

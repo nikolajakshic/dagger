@@ -29,3 +29,13 @@ fun StreamJson.mapToUi(): StreamUI {
         thumbnailUrl = thumbnailUrl
     )
 }
+
+data class StreamUiState(
+    val streams: List<StreamUI> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: Boolean = false
+) {
+    companion object {
+        val DEFAULT = StreamUiState()
+    }
+}
