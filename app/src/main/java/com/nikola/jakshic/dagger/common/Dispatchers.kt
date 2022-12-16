@@ -8,6 +8,4 @@ import javax.inject.Singleton
 class Dispatchers @Inject constructor() {
     val io = Dispatchers.IO
     val main = Dispatchers.Main
-    val default = Dispatchers.Default
-    val unconfined = Dispatchers.Unconfined
 }

@@ -26,10 +26,9 @@ class LeaderboardRepository @Inject constructor(
     fun getLeaderboardFlow(region: String): Flow<List<LeaderboardUI>> {
         return leaderboardQueries.selectAll(region)
             .asFlow()
-            .flowOn(dispatchers.io)
-            .mapToList(dispatchers.default)
+            .mapToList(dispatchers.io)
             .map { it.mapToUi() }
-            .flowOn(dispatchers.default)
+            .flowOn(dispatchers.io)
     }
 
     /**
@@ -39,25 +38,21 @@ class LeaderboardRepository @Inject constructor(
      * Whenever the database is updated, the observers of [Flow]
      * returned by [getLeaderboardFlow] are notified.
      */
-    suspend fun fetchLeaderboard(region: String) {
-        withContext(dispatchers.io) {
-            val url = leaderboardUrlProvider.get()
-                ?: throw RuntimeException("Leaderboard url is null")
-            val leaderboard = service.getLeaderboard(url, region).leaderboard
-                ?: throw Exception()
-            val list = leaderboard.take(100)
-            if (list.isNotEmpty()) {
-                // We don't have players ids, we only have their names,
-                // if the player has changed his name in the meantime,
-                // that would result into 2 rows in the database for a single player.
-                // So we need to remove all players from the database and then insert
-                // the fresh ones.
-                leaderboardQueries.transaction {
-                    leaderboardQueries.deleteAllByRegion(region)
-                    list.forEach {
-                        leaderboardQueries.insert(it.name, region)
-                    }
-                }
+    suspend fun fetchLeaderboard(region: String): Unit = withContext(dispatchers.io) {
+        val url = leaderboardUrlProvider.get()
+            ?: throw RuntimeException("Leaderboard url is null")
+        val leaderboard = service.getLeaderboard(url, region).leaderboard
+            ?: throw Exception()
+        val list = leaderboard.take(100)
+        if (list.isNotEmpty()) {
+            // We don't have players ids, we only have their names,
+            // if the player has changed his name in the meantime,
+            // that would result into 2 rows in the database for a single player.
+            // So we need to remove all players from the database and then insert
+            // the fresh ones.
+            leaderboardQueries.transaction {
+                leaderboardQueries.deleteAllByRegion(region)
+                list.forEach { leaderboardQueries.insert(it.name, region) }
             }
         }
     }

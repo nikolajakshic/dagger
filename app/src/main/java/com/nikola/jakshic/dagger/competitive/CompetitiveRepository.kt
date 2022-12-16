@@ -18,7 +18,6 @@ class CompetitiveRepository @Inject constructor(
     private val competitiveQueries: CompetitiveQueries,
     private val service: OpenDotaService
 ) {
-
     /**
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
@@ -41,27 +40,23 @@ class CompetitiveRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getCompetitiveLiveData] are notified.
      */
-    suspend fun fetchCompetitive() {
-        val matchesJson = withContext(dispatchers.io) { service.getCompetitiveMatches() }
-        val matches = withContext(dispatchers.default) {
-            matchesJson.map {
-                Competitive(
-                    match_id = it.matchId,
-                    start_time = it.startTime,
-                    duration = it.duration,
-                    radiant_name = it.radiantName,
-                    dire_name = it.direName,
-                    league_name = it.leagueName,
-                    radiant_score = it.radiantScore,
-                    dire_score = it.direScore,
-                    radiant_win = it.isRadiantWin
-                )
-            }
+    suspend fun fetchCompetitive(): Unit = withContext(dispatchers.io) {
+        val matchesJson = service.getCompetitiveMatches()
+        val matches = matchesJson.map {
+            Competitive(
+                match_id = it.matchId,
+                start_time = it.startTime,
+                duration = it.duration,
+                radiant_name = it.radiantName,
+                dire_name = it.direName,
+                league_name = it.leagueName,
+                radiant_score = it.radiantScore,
+                dire_score = it.direScore,
+                radiant_win = it.isRadiantWin
+            )
         }
-        withContext(dispatchers.io) {
-            competitiveQueries.transaction {
-                matches.forEach(competitiveQueries::insert)
-            }
+        competitiveQueries.transaction {
+            matches.forEach(competitiveQueries::insert)
         }
     }
 }
