@@ -2,11 +2,11 @@ package com.nikola.jakshic.dagger.bookmark.player
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerBookmarkQueries
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayerBookmarkViewModel @Inject constructor(
-    playerBookmarkQueries: PlayerBookmarkQueries
+    playerBookmarkQueries: PlayerBookmarkQueries,
+    dispatchers: Dispatchers
 ) : ViewModel() {
     private val _list = MutableStateFlow<List<PlayerBookmarkUI>>(emptyList())
     val list: StateFlow<List<PlayerBookmarkUI>> = _list
@@ -26,9 +27,9 @@ class PlayerBookmarkViewModel @Inject constructor(
         viewModelScope.launch {
             playerBookmarkQueries.selectAllPlayerBookmark()
                 .asFlow()
-                .mapToList(Dispatchers.IO)
+                .mapToList(dispatchers.io)
                 .map { it.mapToUi() }
-                .flowOn(Dispatchers.IO)
+                .flowOn(dispatchers.io)
                 .collectLatest { _list.value = it }
         }
     }

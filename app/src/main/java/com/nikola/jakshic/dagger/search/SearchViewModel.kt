@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.SearchHistoryQueries
 import com.nikola.jakshic.dagger.profile.PlayerRepository
 import com.nikola.jakshic.dagger.profile.PlayerUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
@@ -21,10 +21,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchHistoryQueries: SearchHistoryQueries,
-    private val repository: PlayerRepository
+    private val repository: PlayerRepository,
+    private val dispatchers: Dispatchers
 ) : ViewModel() {
     private var job = Job()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+    private val scope = CoroutineScope(dispatchers.main + job)
 
     private val _playerList = MutableLiveData<List<PlayerUI>>()
     val playerList: LiveData<List<PlayerUI>>
@@ -46,7 +47,7 @@ class SearchViewModel @Inject constructor(
 
     fun getAllQueries() {
         viewModelScope.launch {
-            val list = withContext(Dispatchers.IO) {
+            val list = withContext(dispatchers.io) {
                 searchHistoryQueries.selectAll()
                     .executeAsList()
                     .map { SearchHistoryUI(it) }
@@ -57,7 +58,7 @@ class SearchViewModel @Inject constructor(
 
     fun getQueries(query: String) {
         viewModelScope.launch {
-            val list = withContext(Dispatchers.IO) {
+            val list = withContext(dispatchers.io) {
                 searchHistoryQueries.selectAllByQuery(query)
                     .executeAsList()
                     .map { SearchHistoryUI(it) }
@@ -68,7 +69,7 @@ class SearchViewModel @Inject constructor(
 
     fun saveQuery(query: String) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            withContext(dispatchers.io) {
                 searchHistoryQueries.insert(query)
             }
         }
@@ -91,7 +92,7 @@ class SearchViewModel @Inject constructor(
 
     fun deleteSearchHistory() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) { searchHistoryQueries.deleteAll() }
+            withContext(dispatchers.io) { searchHistoryQueries.deleteAll() }
         }
     }
 

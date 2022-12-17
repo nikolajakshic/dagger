@@ -3,19 +3,20 @@ package com.nikola.jakshic.dagger.profile.matches.byhero
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PositionalDataSource
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.profile.matches.MatchJson
 import com.nikola.jakshic.dagger.profile.matches.MatchUI
 import com.nikola.jakshic.dagger.profile.matches.mapToUi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class MatchesByHeroDataSource(
     private val accountId: Long,
     private val heroId: Long,
-    private val service: OpenDotaService
+    private val service: OpenDotaService,
+    private val dispatchers: Dispatchers
 ) : PositionalDataSource<MatchUI>() {
 
     private val _status = MutableLiveData<Status>()
@@ -30,7 +31,7 @@ class MatchesByHeroDataSource(
         }
 
     suspend fun retry() {
-        withContext(Dispatchers.IO) {
+        withContext(dispatchers.io) {
             retry?.invoke()
         }
     }
@@ -39,7 +40,7 @@ class MatchesByHeroDataSource(
         runBlocking {
             try {
                 _status.postValue(Status.LOADING)
-                val matches = withContext(Dispatchers.IO) {
+                val matches = withContext(dispatchers.io) {
                     service.getMatchesByHero(accountId, heroId, 60, 0).map(MatchJson::mapToUi)
                 }
                 callback.onResult(matches, 0)
@@ -57,7 +58,7 @@ class MatchesByHeroDataSource(
             try {
                 _status.postValue(Status.LOADING)
                 val offset = params.startPosition
-                val matches = withContext(Dispatchers.IO) {
+                val matches = withContext(dispatchers.io) {
                     service.getMatchesByHero(accountId, heroId, 20, offset).map(MatchJson::mapToUi)
                 }
                 callback.onResult(matches)

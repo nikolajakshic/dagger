@@ -5,6 +5,7 @@ import androidx.lifecycle.Transformations
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
@@ -17,7 +18,6 @@ import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -30,7 +30,8 @@ class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
     private val matchQueries: MatchQueries,
     private val matchStatsQueries: MatchStatsQueries,
-    private val playerStatsQueries: PlayerStatsQueries
+    private val playerStatsQueries: PlayerStatsQueries,
+    private val dispatchers: Dispatchers
 ) {
 
     /**
@@ -49,7 +50,7 @@ class MatchRepository @Inject constructor(
             .setPrefetchDistance(5)
             .build()
 
-        val boundaryCallback = MatchBoundaryCallback(scope, service, matchQueries, id)
+        val boundaryCallback = MatchBoundaryCallback(scope, service, matchQueries, dispatchers, id)
 
         val pagedList = LivePagedListBuilder(factory, config)
             .setBoundaryCallback(boundaryCallback)
@@ -70,7 +71,7 @@ class MatchRepository @Inject constructor(
      */
     suspend fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            withContext(Dispatchers.IO) {
+            withContext(dispatchers.io) {
                 val count = matchQueries.countMatches(id).executeAsOne()
                 val list = if (count != 0L) {
                     // There are already some matches in the database
@@ -96,7 +97,7 @@ class MatchRepository @Inject constructor(
     }
 
     fun fetchMatchesByHero(accountId: Long, heroId: Long): PagedResponse<MatchUI> {
-        val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service)
+        val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service, dispatchers)
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
             .setInitialLoadSizeHint(60)
@@ -121,9 +122,9 @@ class MatchRepository @Inject constructor(
     fun getMatchStatsFlow(id: Long): Flow<MatchStatsUI?> {
         return matchStatsQueries.selectAllMatchStats(id)
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(dispatchers.io)
             .map { it.mapToUi() }
-            .flowOn(Dispatchers.IO)
+            .flowOn(dispatchers.io)
     }
 
     /**
@@ -134,7 +135,7 @@ class MatchRepository @Inject constructor(
      */
     suspend fun fetchMatchStats(matchId: Long, onSuccess: () -> Unit, onError: () -> Unit) {
         try {
-            withContext(Dispatchers.IO) {
+            withContext(dispatchers.io) {
                 val match = service.getMatch(matchId)
                 matchStatsQueries.transaction {
                     val matchDb = match.mapToDb()

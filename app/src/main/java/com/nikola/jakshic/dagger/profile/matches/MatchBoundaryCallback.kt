@@ -3,11 +3,11 @@ package com.nikola.jakshic.dagger.profile.matches
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagedList
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -15,6 +15,7 @@ class MatchBoundaryCallback(
     private val scope: CoroutineScope,
     private val service: OpenDotaService,
     private val matchQueries: MatchQueries,
+    private val dispatchers: Dispatchers,
     private val id: Long
 ) : PagedList.BoundaryCallback<MatchUI>() {
 
@@ -37,7 +38,7 @@ class MatchBoundaryCallback(
         scope.launch {
             try {
                 _status.value = Status.LOADING
-                withContext(Dispatchers.IO) {
+                withContext(dispatchers.io) {
                     val count = matchQueries.countMatches(id).executeAsOne()
                     val list = service.getMatches(id, 20, count.toInt())
                     matchQueries.transaction {
