@@ -13,8 +13,8 @@ android {
     compileSdk 33
     defaultConfig {
         applicationId "com.nikola.jakshic.dagger"
-        minSdk 16
-        targetSdk 31
+        minSdk 24
+        targetSdk 33
         versionCode 28
         versionName "1.2.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
