@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchBookmarkViewModel @Inject constructor(
     private val matchBookmarkQueries: MatchBookmarkQueries,
-    private val dispatchers: Dispatchers,
+    private val dispatchers: Dispatchers
 ) : ViewModel() {
     private val _list = MutableStateFlow<List<MatchBookmarkUI>>(emptyList())
     val list: StateFlow<List<MatchBookmarkUI>> = _list
