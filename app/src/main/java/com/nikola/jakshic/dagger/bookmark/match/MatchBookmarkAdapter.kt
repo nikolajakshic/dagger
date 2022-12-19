@@ -2,6 +2,8 @@ package com.nikola.jakshic.dagger.bookmark.match
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.nikola.jakshic.dagger.R
@@ -12,26 +14,17 @@ import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchBookmarkAdapter(
     private val onClick: (matchId: Long) -> Unit,
-    private val onHold: (note: String, matchId: Long) -> Unit
-) : RecyclerView.Adapter<MatchBookmarkAdapter.MatchBookmarkVH>() {
-    private var list: List<MatchBookmarkUI>? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchBookmarkVH {
-        return MatchBookmarkVH(parent.inflate(R.layout.item_bookmark_match))
+    private val onHold: (note: String?, matchId: Long) -> Unit
+) : ListAdapter<MatchBookmarkUI, MatchBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent.inflate(R.layout.item_bookmark_match))
     }
 
-    override fun onBindViewHolder(holder: MatchBookmarkVH, position: Int) {
-        holder.bind(list!![position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = list?.size ?: 0
-
-    fun setData(list: List<MatchBookmarkUI>?) {
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    inner class MatchBookmarkVH(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemBookmarkMatchBinding.bind(view)
 
         init {
@@ -40,7 +33,7 @@ class MatchBookmarkAdapter(
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnClickListener
                 }
-                val matchId = list?.get(position)?.matchStats?.matchId ?: throw RuntimeException()
+                val matchId = getItem(position).matchId
                 onClick(matchId)
             }
             itemView.setOnLongClickListener {
@@ -48,14 +41,14 @@ class MatchBookmarkAdapter(
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnLongClickListener true
                 }
-                val matchId = list?.get(position)?.matchStats?.matchId ?: throw RuntimeException()
-                val note = list?.get(position)?.note ?: ""
-                onHold(note, matchId)
+                val item = getItem(position)
+                onHold(item.note, item.matchId)
                 true
             }
         }
 
         fun bind(item: MatchBookmarkUI) {
+            // TODO is this even possible?
             if (item.matchStats.players.size != 10) {
                 return
             }
@@ -84,6 +77,20 @@ class MatchBookmarkAdapter(
             binding.imgPlayer8.load(DotaUtil.getHero(context, item.matchStats.players[7].heroId))
             binding.imgPlayer9.load(DotaUtil.getHero(context, item.matchStats.players[8].heroId))
             binding.imgPlayer10.load(DotaUtil.getHero(context, item.matchStats.players[9].heroId))
+        }
+    }
+
+    @Suppress("ClassName")
+    private companion object DIFF_CALLBACK : DiffUtil.ItemCallback<MatchBookmarkUI>() {
+        override fun areItemsTheSame(oldItem: MatchBookmarkUI, newItem: MatchBookmarkUI): Boolean {
+            return oldItem.matchId == newItem.matchId
+        }
+
+        override fun areContentsTheSame(
+            oldItem: MatchBookmarkUI,
+            newItem: MatchBookmarkUI
+        ): Boolean {
+            return oldItem == newItem
         }
     }
 }

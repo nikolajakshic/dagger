@@ -56,7 +56,7 @@ class MatchBookmarkFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.list.collectLatest {
-                    adapter.setData(it)
+                    adapter.submitList(it)
                     if (it.isNotEmpty()) {
                         binding.tvEmptyMatchBookmark.visibility = View.INVISIBLE
                         binding.recView.visibility = View.VISIBLE

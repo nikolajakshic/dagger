@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.bookmark.match
 import com.nikola.jakshic.dagger.common.sqldelight.SelectAllMatchBookmark
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 
-class MatchBookmarkUI(
+data class MatchBookmarkUI(
     val matchId: Long,
     val note: String?,
     val matchStats: MatchStatsUI

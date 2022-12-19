@@ -16,7 +16,7 @@ class MatchNoteDialog : DialogFragment(R.layout.dialog_note_match) {
     private val binding get() = _binding!!
 
     companion object {
-        fun newInstance(note: String, matchId: Long): MatchNoteDialog {
+        fun newInstance(note: String?, matchId: Long): MatchNoteDialog {
             val bundle = Bundle().apply {
                 putString(EXTRA_NOTE, note)
                 putLong(EXTRA_MATCH_ID, matchId)
