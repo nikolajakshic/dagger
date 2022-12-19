@@ -10,8 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.databinding.FragmentBookmarkPlayerBinding
 import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,17 +19,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PlayerBookmarkFragment :
-    Fragment(R.layout.fragment_bookmark_player),
-    HomeFragment.OnNavigationItemReselectedListener {
+class PlayerBookmarkFragment : Fragment(R.layout.fragment_bookmark_player) {
     private val viewModel by viewModels<PlayerBookmarkViewModel>()
-
-    private var _binding: FragmentBookmarkPlayerBinding? = null
-    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentBookmarkPlayerBinding.bind(view)
+
+        val binding = FragmentBookmarkPlayerBinding.bind(view)
 
         val adapter = PlayerBookmarkAdapter {
             findNavController().navigate(ProfileFragmentDirections.profileAction(accountId = it.id))
@@ -45,6 +41,14 @@ class PlayerBookmarkFragment :
         binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
 
+        BookmarkFragment.setOnReselectListener(
+            parentFragmentManager,
+            viewLifecycleOwner,
+            BookmarkFragment.Key.PLAYERS
+        ) {
+            binding.recView.smoothScrollToPosition(0)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.list.collectLatest {
@@ -59,14 +63,5 @@ class PlayerBookmarkFragment :
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onItemReselected() {
-        binding.recView.smoothScrollToPosition(0)
     }
 }

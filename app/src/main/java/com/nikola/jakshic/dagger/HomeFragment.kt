@@ -119,7 +119,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun selectFragment(selectedFragment: Fragment) {
-        val fragments = arrayOf<Fragment>(competitive, leaderboard, bookmark, stream)
+        val fragments = arrayOf(competitive, leaderboard, bookmark, stream)
         val transaction = childFragmentManager.beginTransaction()
         fragments.forEach {
             if (selectedFragment == it) {
@@ -129,9 +129,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         transaction.commit()
-    }
-
-    interface OnNavigationItemReselectedListener {
-        fun onItemReselected()
     }
 }
