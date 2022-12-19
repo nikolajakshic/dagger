@@ -2,6 +2,8 @@ package com.nikola.jakshic.dagger.bookmark.player
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -11,25 +13,16 @@ import com.nikola.jakshic.dagger.databinding.ItemPlayerBinding
 
 class PlayerBookmarkAdapter(
     private val listener: (PlayerBookmarkUI) -> Unit
-) : RecyclerView.Adapter<PlayerBookmarkAdapter.PlayerVH>() {
-    private var list: List<PlayerBookmarkUI>? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerVH {
-        return PlayerVH(parent.inflate(R.layout.item_player))
+) : ListAdapter<PlayerBookmarkUI, PlayerBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent.inflate(R.layout.item_player))
     }
 
-    override fun onBindViewHolder(holder: PlayerVH, position: Int) {
-        holder.bind(list!![position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = list?.size ?: 0
-
-    fun setData(list: List<PlayerBookmarkUI>?) {
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    inner class PlayerVH(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemPlayerBinding.bind(view)
 
         init {
@@ -38,17 +31,37 @@ class PlayerBookmarkAdapter(
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnClickListener
                 }
-                listener(list!![position])
+                listener(getItem(position))
             }
         }
 
         fun bind(item: PlayerBookmarkUI) {
-            binding.tvPlayerName.text =
-                if (item.name.isNullOrEmpty()) item.personaName else item.name
+            binding.tvPlayerName.text = if (item.name.isNullOrEmpty()) {
+                item.personaName
+            } else {
+                item.name
+            }
             binding.tvPlayerId.text = item.id.toString()
             binding.imgAvatar.load(item.avatarUrl) {
                 transformations(CircleCropTransformation())
             }
+        }
+    }
+
+    @Suppress("ClassName")
+    private companion object DIFF_CALLBACK : DiffUtil.ItemCallback<PlayerBookmarkUI>() {
+        override fun areItemsTheSame(
+            oldItem: PlayerBookmarkUI,
+            newItem: PlayerBookmarkUI
+        ): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(
+            oldItem: PlayerBookmarkUI,
+            newItem: PlayerBookmarkUI
+        ): Boolean {
+            return oldItem == newItem
         }
     }
 }

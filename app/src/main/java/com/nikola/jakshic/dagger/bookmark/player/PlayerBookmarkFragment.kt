@@ -48,7 +48,7 @@ class PlayerBookmarkFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.list.collectLatest {
-                    adapter.setData(it)
+                    adapter.submitList(it)
                     if (it.isNotEmpty()) {
                         binding.tvEmptyPlayerBookmark.visibility = View.INVISIBLE
                         binding.recView.visibility = View.VISIBLE
