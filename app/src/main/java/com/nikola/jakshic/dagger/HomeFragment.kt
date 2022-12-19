@@ -31,7 +31,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var bookmark: BookmarkFragment
     private lateinit var stream: StreamFragment
 
-    enum class Key { COMPETITIVE, LEADERBOARD, STREAM }
+    enum class Key { COMPETITIVE, LEADERBOARD, BOOKMARK, STREAM }
 
     companion object {
         fun setOnReselectListener(
@@ -96,7 +96,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.id.action_leaderboard -> {
                     childFragmentManager.setFragmentResult(Key.LEADERBOARD.name, bundleOf())
                 }
-                R.id.action_bookmark -> bookmark.onItemReselected()
+                R.id.action_bookmark -> {
+                    childFragmentManager.setFragmentResult(Key.BOOKMARK.name, bundleOf())
+                }
                 R.id.action_stream -> {
                     childFragmentManager.setFragmentResult(Key.STREAM.name, bundleOf())
                 }

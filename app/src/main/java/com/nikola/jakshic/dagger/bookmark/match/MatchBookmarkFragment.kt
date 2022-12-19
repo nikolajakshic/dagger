@@ -10,8 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
+import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
 import com.nikola.jakshic.dagger.databinding.FragmentBookmarkMatchBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,16 +21,13 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MatchBookmarkFragment :
     Fragment(R.layout.fragment_bookmark_match),
-    HomeFragment.OnNavigationItemReselectedListener,
     MatchNoteDialog.OnNoteSavedListener {
     private val viewModel by viewModels<MatchBookmarkViewModel>()
 
-    private var _binding: FragmentBookmarkMatchBinding? = null
-    private val binding get() = _binding!!
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentBookmarkMatchBinding.bind(view)
+
+        val binding = FragmentBookmarkMatchBinding.bind(view)
 
         val adapter = MatchBookmarkAdapter(
             onClick = {
@@ -53,6 +50,14 @@ class MatchBookmarkFragment :
         binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
 
+        BookmarkFragment.setOnReselectListener(
+            parentFragmentManager,
+            viewLifecycleOwner,
+            BookmarkFragment.Key.MATCHES
+        ) {
+            binding.recView.smoothScrollToPosition(0)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.list.collectLatest {
@@ -67,15 +72,6 @@ class MatchBookmarkFragment :
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onItemReselected() {
-        binding.recView.smoothScrollToPosition(0)
     }
 
     override fun onNoteSaved(note: String?, matchId: Long) {
