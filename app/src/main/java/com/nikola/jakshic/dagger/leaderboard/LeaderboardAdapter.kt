@@ -2,35 +2,40 @@ package com.nikola.jakshic.dagger.leaderboard
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemLeaderboardBinding
+import com.nikola.jakshic.dagger.leaderboard.LeaderboardAdapter.ViewHolder
 
-class LeaderboardAdapter : RecyclerView.Adapter<LeaderboardAdapter.LeaderboardVH>() {
-    private var list: List<LeaderboardUI>? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LeaderboardVH {
-        return LeaderboardVH(parent.inflate(R.layout.item_leaderboard))
+class LeaderboardAdapter : ListAdapter<LeaderboardUI, ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent.inflate(R.layout.item_leaderboard))
     }
 
-    override fun onBindViewHolder(holder: LeaderboardVH, position: Int) {
-        holder.bind(list!![position], position)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = list?.size ?: 0
-
-    fun setData(list: List<LeaderboardUI>?) {
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    class LeaderboardVH(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemLeaderboardBinding.bind(view)
 
-        fun bind(item: LeaderboardUI, position: Int) {
-            binding.tvRank.text = "${position + 1}."
+        fun bind(item: LeaderboardUI) {
+            binding.tvRank.text = "${item.rank}"
             binding.tvPlayerName.text = item.name
+        }
+    }
+
+    @Suppress("ClassName")
+    private companion object DIFF_CALLBACK : DiffUtil.ItemCallback<LeaderboardUI>() {
+        override fun areItemsTheSame(oldItem: LeaderboardUI, newItem: LeaderboardUI): Boolean {
+            return false // there is nothing unique about players, so we have nothing to compare
+        }
+
+        override fun areContentsTheSame(oldItem: LeaderboardUI, newItem: LeaderboardUI): Boolean {
+            return false // there is nothing unique about players, so we have nothing to compare
         }
     }
 }

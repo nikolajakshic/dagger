@@ -7,11 +7,11 @@ CREATE TABLE IF NOT EXISTS leaderboards (
 selectAll:
 SELECT name
 FROM leaderboards
-WHERE region = :region
+WHERE region = :region COLLATE NOCASE
 ORDER BY id ASC;
 
 insert:
 INSERT INTO leaderboards (name, region) VALUES (:name, :region);
 
 deleteAllByRegion:
-DELETE FROM leaderboards WHERE region = :region;
+DELETE FROM leaderboards WHERE region = :region COLLATE NOCASE;

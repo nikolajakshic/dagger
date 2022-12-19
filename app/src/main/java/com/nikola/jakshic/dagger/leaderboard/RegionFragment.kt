@@ -2,14 +2,16 @@ package com.nikola.jakshic.dagger.leaderboard
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.nikola.jakshic.dagger.HomeFragment
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
@@ -18,49 +20,62 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-private const val EXTRA_REGION = "region"
-
 @AndroidEntryPoint
-class RegionFragment :
-    Fragment(R.layout.fragment_region),
-    HomeFragment.OnNavigationItemReselectedListener {
-    private val viewModel by viewModels<RegionViewModel>()
-
-    private var _binding: FragmentRegionBinding? = null
-    private val binding get() = _binding!!
-
+class RegionFragment : Fragment(R.layout.fragment_region) {
     companion object {
+        private const val EXTRA_REGION = "region"
+
         fun newInstance(region: Region): RegionFragment {
-            val fragment = RegionFragment()
-            val args = Bundle()
-            args.putString(EXTRA_REGION, region.name.lowercase())
-            fragment.arguments = args
-            return fragment
+            return RegionFragment().apply {
+                arguments = bundleOf(EXTRA_REGION to region.name)
+            }
+        }
+
+        fun getRegion(bundle: Bundle): Region {
+            if (!bundle.containsKey(EXTRA_REGION)) {
+                throw IllegalArgumentException("""Required argument "$EXTRA_REGION" is missing.""")
+            }
+            return Region.valueOf(bundle.getString(EXTRA_REGION)!!)
+        }
+
+        fun getRegion(savedStateHandle: SavedStateHandle): Region {
+            if (!savedStateHandle.contains(EXTRA_REGION)) {
+                throw IllegalArgumentException("""Required argument "$EXTRA_REGION" is missing.""")
+            }
+            return Region.valueOf(savedStateHandle[EXTRA_REGION]!!)
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentRegionBinding.bind(view)
 
-        val region = requireArguments().getString(EXTRA_REGION)
+        val binding = FragmentRegionBinding.bind(view)
+        val viewModel = ViewModelProvider(this)[RegionViewModel::class.java]
 
-        viewModel.initialFetch(region!!)
+        val region = getRegion(requireArguments())
 
         val adapter = LeaderboardAdapter()
-        binding.recView.addItemDecoration(
-            DividerItemDecoration(
-                requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
-        )
         binding.recView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recView.adapter = adapter
+        binding.recView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
         binding.recView.setHasFixedSize(true)
+        binding.recView.adapter = adapter
 
+        val key = when (region) {
+            Region.EUROPE -> LeaderboardFragment.Key.EUROPE
+            Region.AMERICAS -> LeaderboardFragment.Key.AMERICA
+            Region.CHINA -> LeaderboardFragment.Key.CHINA
+            Region.SE_ASIA -> LeaderboardFragment.Key.SEA
+        }
+        LeaderboardFragment.setOnReselectListener(
+            parentFragmentManager,
+            viewLifecycleOwner,
+            key
+        ) {
+            binding.recView.smoothScrollToPosition(0)
+        }
         binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection()) {
-                viewModel.fetchLeaderboard(region)
+                viewModel.fetchLeaderboard()
             } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
@@ -70,21 +85,12 @@ class RegionFragment :
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.list.collectLatest(adapter::setData)
+                    viewModel.list.collectLatest(adapter::submitList)
                 }
                 launch {
                     viewModel.isLoading.collectLatest(binding.swipeRefresh::setRefreshing)
                 }
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onItemReselected() {
-        binding.recView.smoothScrollToPosition(0)
     }
 }

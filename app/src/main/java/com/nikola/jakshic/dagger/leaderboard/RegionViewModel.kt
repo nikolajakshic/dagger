@@ -1,42 +1,45 @@
 package com.nikola.jakshic.dagger.leaderboard
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.util.concurrent.atomic.AtomicBoolean
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class RegionViewModel @Inject constructor(
-    private val repository: LeaderboardRepository
+    private val repository: LeaderboardRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val isInitial = AtomicBoolean(true)
+    private val region = RegionFragment.getRegion(savedStateHandle)
 
-    private val _list = MutableStateFlow<List<LeaderboardUI>>(emptyList())
-    val list: StateFlow<List<LeaderboardUI>> = _list
+    val list = repository.getLeaderboardFlow(region.name)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun initialFetch(region: String) {
-        if (isInitial.compareAndSet(true, false)) {
-            viewModelScope.launch {
-                repository.getLeaderboardFlow(region)
-                    .collect { _list.value = it }
-            }
-            fetchLeaderboard(region)
-        }
+    init {
+        fetchLeaderboard()
     }
 
-    fun fetchLeaderboard(region: String) {
+    fun fetchLeaderboard() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 repository.fetchLeaderboard(region)
-            } catch (ignored: Exception) {
+            } catch (e: Exception) {
+                Timber.e(e)
             } finally {
                 _isLoading.value = false
             }

@@ -23,13 +23,14 @@ enum class Region {
 }
 
 data class LeaderboardUI(
+    val rank: Long,
     val name: String?
 )
 
 fun List<SelectAll>.mapToUi(): List<LeaderboardUI> {
     val list = mutableListOf<LeaderboardUI>()
-    for (item in this) {
-        list.add(LeaderboardUI(item.name))
+    for ((index, item) in this.withIndex()) {
+        list.add(LeaderboardUI(index + 1L, item.name))
     }
     return list
 }

@@ -38,10 +38,10 @@ class LeaderboardRepository @Inject constructor(
      * Whenever the database is updated, the observers of [Flow]
      * returned by [getLeaderboardFlow] are notified.
      */
-    suspend fun fetchLeaderboard(region: String): Unit = withContext(dispatchers.io) {
+    suspend fun fetchLeaderboard(region: Region): Unit = withContext(dispatchers.io) {
         val url = leaderboardUrlProvider.get()
             ?: throw RuntimeException("Leaderboard url is null")
-        val leaderboard = service.getLeaderboard(url, region).leaderboard
+        val leaderboard = service.getLeaderboard(url, region.name.lowercase()).leaderboard
             ?: throw Exception()
         val list = leaderboard.take(100)
         if (list.isNotEmpty()) {
@@ -51,8 +51,8 @@ class LeaderboardRepository @Inject constructor(
             // So we need to remove all players from the database and then insert
             // the fresh ones.
             leaderboardQueries.transaction {
-                leaderboardQueries.deleteAllByRegion(region)
-                list.forEach { leaderboardQueries.insert(it.name, region) }
+                leaderboardQueries.deleteAllByRegion(region.name)
+                list.forEach { leaderboardQueries.insert(it.name, region.name) }
             }
         }
     }
