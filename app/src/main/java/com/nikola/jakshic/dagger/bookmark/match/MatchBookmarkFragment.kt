@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.DividerItemDecoration.VERTICAL
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.bookmark.BookmarkFragment
@@ -32,23 +33,17 @@ class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match) {
             onClick = {
                 findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
             },
-            onHold = { note, matchId ->
+            onHold = { matchId, note ->
                 if (childFragmentManager.findFragmentByTag(TAG_MATCH_NOTE_DIALOG) == null) {
                     MatchNoteDialog.newInstance(MatchNoteDialogArgs(matchId, note))
                         .showNow(childFragmentManager, TAG_MATCH_NOTE_DIALOG)
                 }
             }
         )
-
-        binding.recView.layoutManager = LinearLayoutManager(activity)
-        binding.recView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
-        binding.recView.adapter = adapter
+        binding.recView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
         binding.recView.setHasFixedSize(true)
+        binding.recView.adapter = adapter
 
         BookmarkFragment.setOnReselectListener(
             parentFragmentManager,
@@ -61,7 +56,7 @@ class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match) {
             childFragmentManager,
             viewLifecycleOwner
         ) { matchId, note ->
-            viewModel.updateNote(note, matchId)
+            viewModel.updateNote(matchId, note)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

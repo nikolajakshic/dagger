@@ -14,7 +14,7 @@ import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchBookmarkAdapter(
     private val onClick: (matchId: Long) -> Unit,
-    private val onHold: (note: String?, matchId: Long) -> Unit
+    private val onHold: (matchId: Long, note: String?) -> Unit
 ) : ListAdapter<MatchBookmarkUI, MatchBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_bookmark_match))
@@ -42,7 +42,7 @@ class MatchBookmarkAdapter(
                     return@setOnLongClickListener true
                 }
                 val item = getItem(position)
-                onHold(item.note, item.matchId)
+                onHold(item.matchId, item.note)
                 true
             }
         }
@@ -54,6 +54,7 @@ class MatchBookmarkAdapter(
             }
             val context = itemView.context
 
+            //noinspection SetTextI18n
             binding.tvMatchId.text = "ID ${item.matchStats.matchId}"
             binding.tvRadiantScore.text = "${item.matchStats.radiantScore}"
             binding.tvDireScore.text = "${item.matchStats.direScore}"
