@@ -15,7 +15,10 @@ import javax.inject.Singleton
 object CoilModule {
     @Provides
     @Singleton
-    fun provideImageLoader(@ApplicationContext context: Context, client: OkHttpClient): ImageLoader {
+    fun provideImageLoader(
+        @ApplicationContext context: Context,
+        client: OkHttpClient
+    ): ImageLoader {
         return ImageLoader.Builder(context)
             .okHttpClient(client)
             .crossfade(300)
