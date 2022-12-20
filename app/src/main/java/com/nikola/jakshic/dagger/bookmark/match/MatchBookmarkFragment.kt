@@ -3,8 +3,8 @@ package com.nikola.jakshic.dagger.bookmark.match
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
@@ -18,25 +18,25 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
-class MatchBookmarkFragment :
-    Fragment(R.layout.fragment_bookmark_match),
-    MatchNoteDialog.OnNoteSavedListener {
-    private val viewModel by viewModels<MatchBookmarkViewModel>()
+private const val TAG_MATCH_NOTE_DIALOG = "match-note-dialog"
 
+@AndroidEntryPoint
+class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val binding = FragmentBookmarkMatchBinding.bind(view)
+        val viewModel = ViewModelProvider(this)[MatchBookmarkViewModel::class.java]
 
         val adapter = MatchBookmarkAdapter(
             onClick = {
                 findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
             },
             onHold = { note, matchId ->
-                val dialog = MatchNoteDialog.newInstance(note, matchId)
-                dialog.setTargetFragment(this, 501)
-                dialog.show(parentFragmentManager, null)
+                if (childFragmentManager.findFragmentByTag(TAG_MATCH_NOTE_DIALOG) == null) {
+                    MatchNoteDialog.newInstance(MatchNoteDialogArgs(matchId, note))
+                        .showNow(childFragmentManager, TAG_MATCH_NOTE_DIALOG)
+                }
             }
         )
 
@@ -57,6 +57,12 @@ class MatchBookmarkFragment :
         ) {
             binding.recView.smoothScrollToPosition(0)
         }
+        MatchNoteDialog.setOnNoteSavedListener(
+            childFragmentManager,
+            viewLifecycleOwner
+        ) { matchId, note ->
+            viewModel.updateNote(note, matchId)
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -72,9 +78,5 @@ class MatchBookmarkFragment :
                 }
             }
         }
-    }
-
-    override fun onNoteSaved(note: String?, matchId: Long) {
-        viewModel.updateNote(note, matchId)
     }
 }
