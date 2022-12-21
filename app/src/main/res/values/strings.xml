@@ -80,6 +80,8 @@
     <string name="note">Note</string>
     <string name="note_touch_and_hold">Touch and hold to add a note.</string>
 
+    <string name="bookmarked">Bookmarked!</string>
+
     <string-array name="sort_hero_options">
         <item>Total games</item>
         <item>Win rate</item>

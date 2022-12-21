@@ -12,7 +12,9 @@ import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -37,6 +39,9 @@ class MatchStatsViewModel @Inject constructor(
         get() = _status
 
     private var initialFetch = false
+
+    private val _successfullyBookmarked = Channel<Unit>(Channel.CONFLATED)
+    val successfullyBookmarked = _successfullyBookmarked.receiveAsFlow()
 
     fun initialFetch(id: Long) {
         if (!initialFetch) {
@@ -68,11 +73,11 @@ class MatchStatsViewModel @Inject constructor(
         }
     }
 
-    fun addToBookmark(matchId: Long, onSuccess: () -> Unit) {
+    fun addToBookmark(matchId: Long) {
         viewModelScope.launch {
             try {
                 withContext(dispatchers.io) { matchBookmarkQueries.insert(matchId) }
-                onSuccess()
+                _successfullyBookmarked.send(Unit)
             } catch (e: SQLiteConstraintException) {
                 // Trying to add to the bookmark but match_stats is not yet added to the database.
             }

@@ -6,12 +6,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.databinding.ActivityMatchStatsBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchStatsFragment : Fragment(R.layout.activity_match_stats) {
@@ -58,14 +63,19 @@ class MatchStatsFragment : Fragment(R.layout.activity_match_stats) {
                 binding.imgBookmark.setImageResource(R.drawable.ic_match_note_bookmark_inactive)
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.successfullyBookmarked.collectLatest {
+                    toast(getString(R.string.bookmarked))
+                }
+            }
+        }
 
         binding.imgBookmark.setOnClickListener {
             if (viewModel.isBookmarked.value != 0L) {
                 viewModel.removeFromBookmark(id)
             } else {
-                viewModel.addToBookmark(id, onSuccess = {
-                    toast("Bookmarked!")
-                })
+                viewModel.addToBookmark(id)
             }
         }
 
