@@ -69,30 +69,23 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [LiveData]
      * returned by [getMatchesLiveData] are notified.
      */
-    suspend fun fetchMatches(id: Long, onSuccess: () -> Unit, onError: () -> Unit) {
-        try {
-            withContext(dispatchers.io) {
-                val count = matchQueries.countMatches(id).executeAsOne()
-                val list = if (count != 0L) {
-                    // There are already some matches in the database
-                    // we want to refresh all of them
-                    service.getMatches(id, count.toInt(), 0)
-                } else {
-                    // There are no matches in the database,
-                    // we want to fetch only 20 from the network
-                    service.getMatches(id, 20, 0)
-                }
+    suspend fun fetchMatches(id: Long): Unit = withContext(dispatchers.io) {
+        val count = matchQueries.countMatches(id).executeAsOne()
+        val list = if (count != 0L) {
+            // There are already some matches in the database
+            // we want to refresh all of them
+            service.getMatches(id, count.toInt(), 0)
+        } else {
+            // There are no matches in the database,
+            // we want to fetch only 20 from the network
+            service.getMatches(id, 20, 0)
+        }
 
-                if (list.isNotEmpty()) {
-                    matchQueries.transaction {
-                        matchQueries.deleteAll(id)
-                        list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
-                    }
-                }
+        if (list.isNotEmpty()) {
+            matchQueries.transaction {
+                matchQueries.deleteAll(id)
+                list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
             }
-            onSuccess()
-        } catch (e: Exception) {
-            onError()
         }
     }
 
@@ -133,34 +126,27 @@ class MatchRepository @Inject constructor(
      * Whenever the database is updated, the observers of [Flow]
      * returned by [getMatchStatsFlow] are notified.
      */
-    suspend fun fetchMatchStats(matchId: Long, onSuccess: () -> Unit, onError: () -> Unit) {
-        try {
-            withContext(dispatchers.io) {
-                val match = service.getMatch(matchId)
-                matchStatsQueries.transaction {
-                    val matchDb = match.mapToDb()
-                    matchStatsQueries.upsert(
-                        radiantWin = matchDb.radiant_win,
-                        direScore = matchDb.dire_score,
-                        radiantScore = matchDb.radiant_score,
-                        skill = matchDb.skill,
-                        gameMode = matchDb.game_mode,
-                        duration = matchDb.duration,
-                        startTime = matchDb.start_time,
-                        radiantBarracks = matchDb.radiant_barracks,
-                        direBarracks = matchDb.dire_barracks,
-                        radiantTowers = matchDb.radiant_towers,
-                        direTowers = matchDb.dire_towers,
-                        radiantName = matchDb.radiant_name,
-                        direName = matchDb.dire_name,
-                        matchId = matchDb.match_id
-                    )
-                    match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
-                }
-            }
-            onSuccess()
-        } catch (e: Exception) {
-            onError()
+    suspend fun fetchMatchStats(matchId: Long): Unit = withContext(dispatchers.io) {
+        val match = service.getMatch(matchId)
+        matchStatsQueries.transaction {
+            val matchDb = match.mapToDb()
+            matchStatsQueries.upsert(
+                radiantWin = matchDb.radiant_win,
+                direScore = matchDb.dire_score,
+                radiantScore = matchDb.radiant_score,
+                skill = matchDb.skill,
+                gameMode = matchDb.game_mode,
+                duration = matchDb.duration,
+                startTime = matchDb.start_time,
+                radiantBarracks = matchDb.radiant_barracks,
+                direBarracks = matchDb.dire_barracks,
+                radiantTowers = matchDb.radiant_towers,
+                direTowers = matchDb.dire_towers,
+                radiantName = matchDb.radiant_name,
+                direName = matchDb.dire_name,
+                matchId = matchDb.match_id
+            )
+            match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
         }
     }
 }

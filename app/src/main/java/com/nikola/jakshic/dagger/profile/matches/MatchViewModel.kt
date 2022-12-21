@@ -11,6 +11,7 @@ import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,9 +32,6 @@ class MatchViewModel @Inject constructor(
         get() = response.status
 
     private var initialFetch = false
-
-    private val onSuccess: () -> Unit = { _refreshStatus.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _refreshStatus.value = Status.ERROR }
 
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
     private var factory: QueryDataSourceFactory<Matches>? = null
@@ -58,8 +56,14 @@ class MatchViewModel @Inject constructor(
 
     fun fetchMatches(id: Long) {
         viewModelScope.launch {
-            _refreshStatus.value = Status.LOADING
-            repository.fetchMatches(id, onSuccess, onError)
+            try {
+                _refreshStatus.value = Status.LOADING
+                repository.fetchMatches(id)
+                _refreshStatus.value = Status.SUCCESS
+            } catch (e: Exception) {
+                Timber.e(e)
+                _refreshStatus.value = Status.ERROR
+            }
         }
     }
 

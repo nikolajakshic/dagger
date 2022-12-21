@@ -15,6 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,9 +38,6 @@ class MatchStatsViewModel @Inject constructor(
 
     private var initialFetch = false
 
-    private val onSuccess: () -> Unit = { _status.value = Status.SUCCESS }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
-
     fun initialFetch(id: Long) {
         if (!initialFetch) {
             initialFetch = true
@@ -59,8 +57,14 @@ class MatchStatsViewModel @Inject constructor(
 
     fun fetchMatchStats(id: Long) {
         viewModelScope.launch {
-            _status.value = Status.LOADING
-            repository.fetchMatchStats(id, onSuccess, onError)
+            try {
+                _status.value = Status.LOADING
+                repository.fetchMatchStats(id)
+                _status.value = Status.SUCCESS
+            } catch (e: Exception) {
+                Timber.e(e)
+                _status.value = Status.ERROR
+            }
         }
     }
 
