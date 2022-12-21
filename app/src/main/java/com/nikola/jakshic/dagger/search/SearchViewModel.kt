@@ -15,6 +15,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 // TODO Inject SavedStateHandle to handle system-initiated process death.
@@ -38,12 +39,6 @@ class SearchViewModel @Inject constructor(
     private val _status = MutableLiveData<Status>()
     val status: LiveData<Status>
         get() = _status
-
-    private val onSuccess: (List<PlayerUI>) -> Unit = {
-        _status.value = Status.SUCCESS
-        _playerList.value = it
-    }
-    private val onError: () -> Unit = { _status.value = Status.ERROR }
 
     fun getAllQueries() {
         viewModelScope.launch {
@@ -81,8 +76,14 @@ class SearchViewModel @Inject constructor(
         job.cancelChildren()
 
         scope.launch {
-            _status.value = Status.LOADING
-            repository.fetchPlayers(name, onSuccess, onError)
+            try {
+                _status.value = Status.LOADING
+                _playerList.value = repository.fetchPlayers(name)
+                _status.value = Status.SUCCESS
+            } catch (e: Exception) {
+                Timber.e(e)
+                _status.value = Status.ERROR
+            }
         }
     }
 
