@@ -1,20 +1,21 @@
 package com.nikola.jakshic.dagger.matchstats
 
 import android.database.sqlite.SQLiteConstraintException
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nikola.jakshic.dagger.common.Dispatchers
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.sqldelight.MatchBookmarkQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -24,56 +25,51 @@ import javax.inject.Inject
 class MatchStatsViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchBookmarkQueries: MatchBookmarkQueries,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _match = MutableLiveData<MatchStatsUI>()
-    val match: LiveData<MatchStatsUI>
-        get() = _match
+    private val matchId = MatchStatsFragmentArgs.fromSavedStateHandle(savedStateHandle).matchId
 
-    private val _isBookmarked = MutableLiveData<Long>()
-    val isBookmarked: LiveData<Long>
-        get() = _isBookmarked
+    val match = repository.getMatchStatsFlow(matchId)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
 
-    private val _status = MutableLiveData<Status>()
-    val status: LiveData<Status>
-        get() = _status
+    val isBookmarked = matchBookmarkQueries.isBookmarked(matchId)
+        .asFlow()
+        .mapToOne(dispatchers.io)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = 0L
+        )
 
-    private var initialFetch = false
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     private val _successfullyBookmarked = Channel<Unit>(Channel.CONFLATED)
     val successfullyBookmarked = _successfullyBookmarked.receiveAsFlow()
 
-    fun initialFetch(id: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-            viewModelScope.launch {
-                repository.getMatchStatsFlow(id)
-                    .collectLatest { _match.value = it }
-            }
-            viewModelScope.launch {
-                matchBookmarkQueries.isBookmarked(id)
-                    .asFlow()
-                    .mapToOne(dispatchers.io)
-                    .collectLatest { _isBookmarked.value = it }
-            }
-            fetchMatchStats(id)
-        }
+    init {
+        fetchMatchStats()
     }
 
-    fun fetchMatchStats(id: Long) {
+    fun fetchMatchStats() {
         viewModelScope.launch {
             try {
-                _status.value = Status.LOADING
-                repository.fetchMatchStats(id)
-                _status.value = Status.SUCCESS
+                _isLoading.value = true
+                repository.fetchMatchStats(matchId)
             } catch (e: Exception) {
                 Timber.e(e)
-                _status.value = Status.ERROR
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
-    fun addToBookmark(matchId: Long) {
+    fun addToBookmark() {
         viewModelScope.launch {
             try {
                 withContext(dispatchers.io) { matchBookmarkQueries.insert(matchId) }
@@ -84,7 +80,7 @@ class MatchStatsViewModel @Inject constructor(
         }
     }
 
-    fun removeFromBookmark(matchId: Long) {
+    fun removeFromBookmark() {
         viewModelScope.launch {
             withContext(dispatchers.io) { matchBookmarkQueries.delete(matchId) }
         }

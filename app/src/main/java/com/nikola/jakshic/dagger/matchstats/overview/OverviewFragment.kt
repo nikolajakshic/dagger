@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.nikola.jakshic.dagger.R
@@ -23,6 +26,8 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.profile.ProfileFragmentDirections
 import com.nikola.jakshic.dagger.util.DotaUtil
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 // Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
@@ -60,9 +65,13 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
 
         loadMinimap()
-        viewModel.match.observe(viewLifecycleOwner) {
-            if (it?.players?.size == 10) {
-                bind(it)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.match.collectLatest {
+                    if (it?.players?.size == 10) {
+                        bind(it)
+                    }
+                }
             }
         }
     }

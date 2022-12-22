@@ -6,6 +6,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.databinding.FragmentComparisonBinding
@@ -13,6 +16,8 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.spiderchart.SpiderData
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 // Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
@@ -53,33 +58,37 @@ class ComparisonFragment :
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentComparisonBinding.bind(view)
 
-        viewModel.match.observe(viewLifecycleOwner) { stats ->
-            if (stats?.players?.size == 10) {
-                this.stats = stats
-                setData(stats)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.match.collectLatest { stats ->
+                    if (stats?.players?.size == 10) {
+                        this@ComparisonFragment.stats = stats
+                        setData(stats)
 
-                var dialog: ComparisonDialog? = null
+                        var dialog: ComparisonDialog? = null
 
-                fun setupDialog() {
-                    if (dialog?.isAdded != true) {
-                        dialog = ComparisonDialog.newInstance(
-                            leftPlayerIndex,
-                            rightPlayerIndex,
-                            stats.players.map { it.heroId }.toList().toLongArray()
-                        )
-                        dialog?.setTargetFragment(this, 301)
-                        dialog?.show(parentFragmentManager, null)
+                        fun setupDialog() {
+                            if (dialog?.isAdded != true) {
+                                dialog = ComparisonDialog.newInstance(
+                                    leftPlayerIndex,
+                                    rightPlayerIndex,
+                                    stats.players.map { it.heroId }.toList().toLongArray()
+                                )
+                                dialog?.setTargetFragment(this@ComparisonFragment, 301)
+                                dialog?.show(parentFragmentManager, null)
+                            }
+                        }
+
+                        binding.player1.setOnClickListener {
+                            SELECTED_PLAYER = SELECTED_PLAYER_LEFT
+                            setupDialog()
+                        }
+
+                        binding.player2.setOnClickListener {
+                            SELECTED_PLAYER = SELECTED_PLAYER_RIGHT
+                            setupDialog()
+                        }
                     }
-                }
-
-                binding.player1.setOnClickListener {
-                    SELECTED_PLAYER = SELECTED_PLAYER_LEFT
-                    setupDialog()
-                }
-
-                binding.player2.setOnClickListener {
-                    SELECTED_PLAYER = SELECTED_PLAYER_RIGHT
-                    setupDialog()
                 }
             }
         }

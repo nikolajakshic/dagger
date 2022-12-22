@@ -1,25 +1,18 @@
 package com.nikola.jakshic.dagger.matchstats
 
-import android.content.Context
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
-import com.nikola.jakshic.dagger.R
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nikola.jakshic.dagger.matchstats.comparison.ComparisonFragment
 import com.nikola.jakshic.dagger.matchstats.overview.OverviewFragment
 
-class MatchStatsPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class MatchStatsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+    override fun getItemCount() = 2
 
-    override fun getItem(position: Int) =
-        when (position) {
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
             0 -> OverviewFragment()
-            else -> ComparisonFragment()
+            1 -> ComparisonFragment()
+            else -> throw IllegalStateException("Found more than 2 items.")
         }
-
-    override fun getPageTitle(position: Int) =
-        when (position) {
-            0 -> context.getString(R.string.match_stats_overview)
-            else -> context.getString(R.string.match_stats_comparison)
-        }
-
-    override fun getCount() = 2
+    }
 }
