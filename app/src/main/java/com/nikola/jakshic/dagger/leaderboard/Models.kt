@@ -13,7 +13,10 @@ data class LeaderboardJson(
 )
 
 @JsonClass(generateAdapter = true)
-data class LeaderboardUrlJson(@Json(name = "leaderboard_url") val url: String)
+data class RemoteConfig(
+    @Json(name = "leaderboard_url") val leaderboardUrl: String,
+    @Json(name = "items_version") val itemsVersion: Long
+)
 
 enum class Region {
     AMERICAS,

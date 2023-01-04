@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS local_config (
+  name TEXT UNIQUE NOT NULL,
+  version INTEGER NOT NULL,
+  PRIMARY KEY(name)
+);
+
+selectConfigVersion:
+SELECT local_config.version
+FROM local_config
+WHERE local_config.name = :configName;
+
+insert:
+INSERT OR REPLACE INTO local_config VALUES (:configName, :configVersion);

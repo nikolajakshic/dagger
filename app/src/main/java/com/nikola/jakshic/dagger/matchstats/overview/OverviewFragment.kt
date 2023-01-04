@@ -131,17 +131,17 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         expandedBinding.tvGpm.text = getString(R.string.match_gpm, item.goldPerMin)
         expandedBinding.tvXpm.text = getString(R.string.match_xpm, item.xpPerMin)
 
-        collapsedBinding.imgItem0.load(DotaUtil.getItem(requireContext(), item.item0))
-        collapsedBinding.imgItem1.load(DotaUtil.getItem(requireContext(), item.item1))
-        collapsedBinding.imgItem2.load(DotaUtil.getItem(requireContext(), item.item2))
-        collapsedBinding.imgItem3.load(DotaUtil.getItem(requireContext(), item.item3))
-        collapsedBinding.imgItem4.load(DotaUtil.getItem(requireContext(), item.item4))
-        collapsedBinding.imgItem5.load(DotaUtil.getItem(requireContext(), item.item5))
+        collapsedBinding.imgItem0.load(item.item0)
+        collapsedBinding.imgItem1.load(item.item1)
+        collapsedBinding.imgItem2.load(item.item2)
+        collapsedBinding.imgItem3.load(item.item3)
+        collapsedBinding.imgItem4.load(item.item4)
+        collapsedBinding.imgItem5.load(item.item5)
 
-        expandedBinding.imgBackpack0.load(DotaUtil.getItem(requireContext(), item.backpack0))
-        expandedBinding.imgBackpack1.load(DotaUtil.getItem(requireContext(), item.backpack1))
-        expandedBinding.imgBackpack2.load(DotaUtil.getItem(requireContext(), item.backpack2))
-        expandedBinding.imgItemNeutral.load(DotaUtil.getItem(requireContext(), item.itemNeutral))
+        expandedBinding.imgBackpack0.load(item.backpack0)
+        expandedBinding.imgBackpack1.load(item.backpack1)
+        expandedBinding.imgBackpack2.load(item.backpack2)
+        expandedBinding.imgItemNeutral.load(item.itemNeutral)
 
         // Having personaName = null means the player has not exposed his data to public,
         // so we don't need to set onClickListener

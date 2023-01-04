@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.common
 
 import android.content.Context
 import com.nikola.jakshic.dagger.R
+import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 
 /**
@@ -33,6 +34,28 @@ fun getDuration(context: Context, duration: Long): String {
     val hours = duration / (60 * 60)
     val minutes = (duration / 60) % 60
     val seconds = duration % 60
-    if (hours != 0L) return context.resources.getString(R.string.match_duration, hours, minutes, seconds)
+    if (hours != 0L) {
+        return context.resources.getString(
+            R.string.match_duration,
+            hours,
+            minutes,
+            seconds
+        )
+    }
     return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
+}
+
+suspend inline fun <T> withRetry(
+    times: Int = 2,
+    delayMillis: Long = 100,
+    block: () -> T
+): T {
+    repeat(times) {
+        try {
+            return block.invoke()
+        } catch (ignored: Exception) {
+        }
+        delay(delayMillis)
+    }
+    return block.invoke()
 }

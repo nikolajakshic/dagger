@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.leaderboard
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.nikola.jakshic.dagger.common.Dispatchers
-import com.nikola.jakshic.dagger.common.network.OpenDotaService
+import com.nikola.jakshic.dagger.common.network.DaggerService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
@@ -27,7 +27,7 @@ class LeaderboardUrlProvider @Inject constructor(
     applicationScope: CoroutineScope,
     dispatchers: Dispatchers,
     private val sharedPreferences: SharedPreferences,
-    private val service: OpenDotaService
+    private val service: DaggerService
 ) {
     private val url = flow {
         var lastUrl: String? = null
@@ -35,7 +35,7 @@ class LeaderboardUrlProvider @Inject constructor(
             lastUrl = sharedPreferences.getString(KEY_LAST_URL, null)
             val lastChecked = sharedPreferences.getLong(KEY_LAST_CHECKED, 0)
             if (System.currentTimeMillis() - lastChecked >= TimeUnit.HOURS.toMillis(3)) {
-                lastUrl = service.getLeaderboardUrl().url
+                lastUrl = service.getRemoteConfig().leaderboardUrl
                 sharedPreferences.edit(commit = true) {
                     putString(KEY_LAST_URL, lastUrl)
                     putLong(KEY_LAST_CHECKED, System.currentTimeMillis())

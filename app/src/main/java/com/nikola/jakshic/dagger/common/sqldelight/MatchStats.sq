@@ -16,7 +16,38 @@ CREATE TABLE IF NOT EXISTS match_stats (
 );
 
 selectAllMatchStats:
-SELECT * FROM match_stats
+SELECT
+  match_stats.*,
+  player_stats.account_id,
+  player_stats.match_id,
+  player_stats.name,
+  player_stats.persona_name,
+  player_stats.player_slot,
+  player_stats.assists,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.backpack_0) AS backpack_0,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.backpack_1) AS backpack_1,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.backpack_2) AS backpack_2,
+  player_stats.deaths,
+  player_stats.denies,
+  player_stats.gpm,
+  player_stats.hero_damage,
+  player_stats.hero_healing,
+  player_stats.hero_id,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_0) AS item_0,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_1) AS item_1,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_2) AS item_2,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_3) AS item_3,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_4) AS item_4,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_5) AS item_5,
+  (SELECT item.image_path FROM item WHERE item.id = player_stats.item_neutral) AS item_neutral,
+  player_stats.kills,
+  player_stats.last_hits,
+  player_stats.level,
+  player_stats.tower_damage,
+  player_stats.xpm,
+  player_stats.observers,
+  player_stats.sentries
+FROM match_stats
 INNER JOIN player_stats ON match_stats.match_id = player_stats.match_id
 WHERE match_stats.match_id = :id
 ORDER BY player_stats.player_slot ASC;

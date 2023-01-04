@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.common.network
 
 import com.nikola.jakshic.dagger.competitive.CompetitiveJson
-import com.nikola.jakshic.dagger.leaderboard.LeaderboardUrlJson
 import com.nikola.jakshic.dagger.leaderboard._Leaderboard
 import com.nikola.jakshic.dagger.matchstats.MatchStatsJson
 import com.nikola.jakshic.dagger.profile.PlayerJson
@@ -16,7 +15,6 @@ import retrofit2.http.Query
 import retrofit2.http.Url
 
 interface OpenDotaService {
-
     companion object {
         const val BASE_URL = "https://api.opendota.com/api/"
     }
@@ -56,9 +54,6 @@ interface OpenDotaService {
 
     @GET("proMatches")
     suspend fun getCompetitiveMatches(): List<CompetitiveJson>
-
-    @GET("https://nikolajakshic.github.io/dagger/remote-config.json")
-    suspend fun getLeaderboardUrl(): LeaderboardUrlJson
 
     @GET
     suspend fun getLeaderboard(@Url url: String, @Query("division") region: String): _Leaderboard

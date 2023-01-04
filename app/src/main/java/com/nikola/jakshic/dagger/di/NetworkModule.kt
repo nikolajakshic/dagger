@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.di
 
 import android.content.Context
 import com.nikola.jakshic.dagger.BuildConfig
+import com.nikola.jakshic.dagger.common.network.DaggerService
 import com.nikola.jakshic.dagger.common.network.NullPrimitiveAdapter
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.network.TwitchService
@@ -29,6 +30,17 @@ object NetworkModule {
         return Moshi.Builder()
             .add(NullPrimitiveAdapter())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDaggerService(okHttpClient: OkHttpClient, moshi: Moshi): DaggerService {
+        return Retrofit.Builder()
+            .baseUrl(DaggerService.BASE_URL)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .client(okHttpClient)
+            .build()
+            .create(DaggerService::class.java)
     }
 
     @Provides
