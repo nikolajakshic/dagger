@@ -13,6 +13,7 @@ import javax.inject.Inject
 @HiltAndroidApp
 class DaggerApp : Application(), Configuration.Provider {
     @Inject lateinit var imageLoader: ImageLoader
+
     @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
