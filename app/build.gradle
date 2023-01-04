@@ -72,9 +72,9 @@ dependencies {
     def retrofitVersion = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    implementation "com.squareup.moshi:moshi:1.14.0"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.14.0"
-    kaptTest "com.squareup.moshi:moshi-kotlin-codegen:1.14.0"
+    def moshiVersion = "1.14.0"
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation platform("com.squareup.okhttp3:okhttp-bom:4.10.0")
     implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor"
@@ -85,19 +85,20 @@ dependencies {
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerVersion"
-    // LifeCycle
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    // Lifecycle
+    def lifecycleVersion = "2.5.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     // SQLDelight
     implementation "com.squareup.sqldelight:android-driver:$sqlDelightVersion"
     implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqlDelightVersion"
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:2.7.1"
     // Hilt
-    def hilt_version = "1.0.0"
-    implementation "androidx.hilt:hilt-work:$hilt_version"
-    kapt "androidx.hilt:hilt-compiler:$hilt_version"
+    def hiltVersion = "1.0.0"
+    implementation "androidx.hilt:hilt-work:$hiltVersion"
+    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
     // Paging
     implementation "androidx.paging:paging-runtime:2.0.0"
     // Navigation
@@ -114,6 +115,7 @@ dependencies {
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.10"
     // Test
+    kaptTest "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test:runner:1.5.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
