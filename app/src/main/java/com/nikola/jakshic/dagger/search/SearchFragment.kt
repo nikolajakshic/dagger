@@ -83,7 +83,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
             } else {
                 binding.tvClearAll.visibility = View.INVISIBLE
             }
-            historyAdapter.addData(it)
+            historyAdapter.submitList(it)
         }
         viewModel.status.observe(viewLifecycleOwner) {
             when (it) {
