@@ -2,6 +2,8 @@ package com.nikola.jakshic.dagger.profile.heroes
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.nikola.jakshic.dagger.R
@@ -10,25 +12,16 @@ import com.nikola.jakshic.dagger.databinding.ItemHeroBinding
 
 class HeroAdapter(
     private val listener: (Long) -> Unit
-) : RecyclerView.Adapter<HeroAdapter.HeroVH>() {
-    private var list: List<HeroUI>? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroVH {
-        return HeroVH(parent.inflate(R.layout.item_hero))
+) : ListAdapter<HeroUI, HeroAdapter.ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent.inflate(R.layout.item_hero))
     }
 
-    override fun onBindViewHolder(holder: HeroVH, position: Int) {
-        holder.bind(list!![position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    fun addData(newList: List<HeroUI>?) {
-        list = newList
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount() = list?.size ?: 0
-
-    inner class HeroVH(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemHeroBinding.bind(view)
 
         init {
@@ -37,7 +30,7 @@ class HeroAdapter(
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnClickListener
                 }
-                listener(list!![position].heroId)
+                listener(getItem(position).heroId)
             }
         }
 
@@ -67,6 +60,18 @@ class HeroAdapter(
             params.width = (width * (winRate / 100)).toInt()
 
             view.layoutParams = params
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<HeroUI>() {
+            override fun areItemsTheSame(oldItem: HeroUI, newItem: HeroUI): Boolean {
+                return oldItem.heroId == newItem.heroId
+            }
+
+            override fun areContentsTheSame(oldItem: HeroUI, newItem: HeroUI): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }
