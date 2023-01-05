@@ -57,28 +57,22 @@ class AssetsWorker @AssistedInject constructor(
         val currentItemsDirectory = File(itemsDirectory, "items_${remoteConfig.itemsVersion}")
         currentItemsDirectory.mkdirs()
 
+        val items = mutableListOf<Pair<Long, String>>()
         ZipInputStream(network.getItemsAssets().byteStream()).use { zip ->
             while (isActive) {
                 val zipEntry = zip.nextEntry ?: break
-                File(currentItemsDirectory, zipEntry.name).sink().buffer().use { sink ->
+                val file = File(currentItemsDirectory, zipEntry.name)
+                file.sink().buffer().use { sink ->
                     sink.writeAll(zip.source().buffer())
                 }
+                items += Pair(file.nameWithoutExtension.toLong(), file.absolutePath)
             }
         }
 
-        val recipeIds = network.getRecipeIds()
         database.transaction {
             database.itemQueries.deleteAll()
-            for (item in currentItemsDirectory.listFiles()) {
-                val name = item.nameWithoutExtension // either 'recipe' or item id
-                if (name == "recipe") {
-                    continue
-                }
-                database.itemQueries.insert(name.toLong(), item.absolutePath)
-            }
-            val recipePath = File(currentItemsDirectory, "recipe.png").absolutePath
-            recipeIds.forEach { recipeId ->
-                database.itemQueries.insert(recipeId, recipePath)
+            items.forEach { (itemId, imagePath) ->
+                database.itemQueries.insert(itemId, imagePath)
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_ITEMS_VERSION,

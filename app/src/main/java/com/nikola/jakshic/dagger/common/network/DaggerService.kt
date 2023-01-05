@@ -16,7 +16,4 @@ interface DaggerService {
     @Streaming
     @GET("static/items.zip")
     suspend fun getItemsAssets(): ResponseBody
-
-    @GET("static/recipes.json")
-    suspend fun getRecipeIds(): List<Long>
 }
