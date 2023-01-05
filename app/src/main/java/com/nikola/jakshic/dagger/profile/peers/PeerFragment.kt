@@ -76,13 +76,13 @@ class PeerFragment : Fragment(R.layout.fragment_peer) {
                 return@setOnSortListener
             }
             // Set to null first, to delete all the items otherwise the list wont be scrolled to the first item.
-            adapter.addData(null)
+            adapter.submitList(null)
             viewModel.sortBy(newSortBy)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.list.collectLatest(adapter::addData)
+                viewModel.list.collectLatest(adapter::submitList)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
