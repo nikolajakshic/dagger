@@ -2,6 +2,8 @@ package com.nikola.jakshic.dagger.stream
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.nikola.jakshic.dagger.R
@@ -10,25 +12,16 @@ import com.nikola.jakshic.dagger.databinding.ItemStreamBinding
 
 class StreamAdapter(
     private val listener: (userName: String) -> Unit
-) : RecyclerView.Adapter<StreamAdapter.StreamViewHolder>() {
-    private var list: List<StreamUI>? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamViewHolder {
-        return StreamViewHolder(parent.inflate(R.layout.item_stream))
+) : ListAdapter<StreamUI, StreamAdapter.ViewHolder>(DIFF_CALLBACK) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(parent.inflate(R.layout.item_stream))
     }
 
-    override fun onBindViewHolder(holder: StreamViewHolder, position: Int) {
-        holder.bind(list!![position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = list?.size ?: 0
-
-    fun setData(list: List<StreamUI>?) {
-        this.list = list
-        notifyDataSetChanged()
-    }
-
-    inner class StreamViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val binding = ItemStreamBinding.bind(view)
 
         init {
@@ -37,7 +30,7 @@ class StreamAdapter(
                 if (position == RecyclerView.NO_POSITION) {
                     return@setOnClickListener
                 }
-                listener(list!![position].userName)
+                listener(getItem(position).userName)
             }
         }
 
@@ -50,6 +43,18 @@ class StreamAdapter(
                 .replace("{width}", "260")
                 .replace("{height}", "160")
             binding.imgThumbnail.load(thumbnailUrl)
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StreamUI>() {
+            override fun areItemsTheSame(oldItem: StreamUI, newItem: StreamUI): Boolean {
+                return oldItem.userName == newItem.userName
+            }
+
+            override fun areContentsTheSame(oldItem: StreamUI, newItem: StreamUI): Boolean {
+                return oldItem == newItem
+            }
         }
     }
 }

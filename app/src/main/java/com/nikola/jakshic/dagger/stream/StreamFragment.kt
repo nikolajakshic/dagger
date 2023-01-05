@@ -68,7 +68,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.streamUiState.collectLatest { streamUiState ->
-                    adapter.setData(streamUiState.streams)
+                    adapter.submitList(streamUiState.streams)
                     binding.swipeRefresh.isRefreshing = streamUiState.isLoading
                     binding.tvNetworkError.isVisible =
                         streamUiState.error && streamUiState.streams.isEmpty()
