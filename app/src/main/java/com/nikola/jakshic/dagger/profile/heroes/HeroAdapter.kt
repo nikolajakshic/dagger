@@ -7,7 +7,6 @@ import coil.load
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemHeroBinding
-import com.nikola.jakshic.dagger.util.DotaUtil
 
 class HeroAdapter(
     private val listener: (Long) -> Unit
@@ -43,7 +42,7 @@ class HeroAdapter(
         }
 
         fun bind(item: HeroUI) {
-            binding.imgHero.load(DotaUtil.getHero(itemView.context, item.heroId))
+            binding.imgHero.load(item.imagePath)
             binding.tvGamesPlayed.text = item.gamesPlayed.toString()
             val winRate =
                 if (item.gamesPlayed != 0L) (item.gamesWon.toFloat() / item.gamesPlayed) * 100 else 0f

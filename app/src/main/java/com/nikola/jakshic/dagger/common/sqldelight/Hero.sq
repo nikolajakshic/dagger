@@ -10,21 +10,41 @@ insert:
 INSERT OR REPLACE INTO heroes VALUES ?;
 
 selectAllByGames:
-SELECT * FROM heroes
+SELECT
+  heroes.hero_id,
+  (SELECT hero_asset.image_path FROM hero_asset WHERE hero_asset.id = heroes.hero_id) AS image_path,
+  heroes.games,
+  heroes.wins
+FROM heroes
 WHERE heroes.account_id = :id
 ORDER BY heroes.games DESC;
 
 selectAllByWinrate:
-SELECT * FROM heroes
+SELECT
+  heroes.hero_id,
+  (SELECT hero_asset.image_path FROM hero_asset WHERE hero_asset.id = heroes.hero_id) AS image_path,
+  heroes.games,
+  heroes.wins
+FROM heroes
 WHERE heroes.account_id = :id
 ORDER BY ((heroes.wins * 1.0 / heroes.games) * 100) DESC;
 
 selectAllByWins:
-SELECT * FROM heroes
+SELECT
+  heroes.hero_id,
+  (SELECT hero_asset.image_path FROM hero_asset WHERE hero_asset.id = heroes.hero_id) AS image_path,
+  heroes.games,
+  heroes.wins
+FROM heroes
 WHERE heroes.account_id = :id
 ORDER BY heroes.wins DESC;
 
 selectAllByLosses:
-SELECT * FROM heroes
+SELECT
+  heroes.hero_id,
+  (SELECT hero_asset.image_path FROM hero_asset WHERE hero_asset.id = heroes.hero_id) AS image_path,
+  heroes.games,
+  heroes.wins
+FROM heroes
 WHERE heroes.account_id = :id
 ORDER BY (heroes.games - heroes.wins) DESC;

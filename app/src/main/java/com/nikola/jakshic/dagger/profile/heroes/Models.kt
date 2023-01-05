@@ -1,6 +1,10 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
 import com.nikola.jakshic.dagger.common.sqldelight.Heroes
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByGames
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByLosses
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWinrate
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWins
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -13,6 +17,7 @@ data class HeroJson(
 
 data class HeroUI(
     val heroId: Long,
+    val imagePath: String?,
     val gamesPlayed: Long,
     val gamesWon: Long
 )
@@ -26,16 +31,38 @@ fun HeroJson.mapToDb(accountId: Long): Heroes {
     )
 }
 
-fun List<Heroes>.mapToUi(): List<HeroUI> {
-    val list = mutableListOf<HeroUI>()
-    for (item in this) {
-        list.add(
-            HeroUI(
-                heroId = item.hero_id,
-                gamesPlayed = item.games,
-                gamesWon = item.wins
-            )
-        )
-    }
-    return list
+fun SelectAllByGames.mapToUi(): HeroUI {
+    return HeroUI(
+        heroId = hero_id,
+        imagePath = image_path,
+        gamesPlayed = games,
+        gamesWon = wins
+    )
+}
+
+fun SelectAllByWinrate.mapToUi(): HeroUI {
+    return HeroUI(
+        heroId = hero_id,
+        imagePath = image_path,
+        gamesPlayed = games,
+        gamesWon = wins
+    )
+}
+
+fun SelectAllByWins.mapToUi(): HeroUI {
+    return HeroUI(
+        heroId = hero_id,
+        imagePath = image_path,
+        gamesPlayed = games,
+        gamesWon = wins
+    )
+}
+
+fun SelectAllByLosses.mapToUi(): HeroUI {
+    return HeroUI(
+        heroId = hero_id,
+        imagePath = image_path,
+        gamesPlayed = games,
+        gamesWon = wins
+    )
 }

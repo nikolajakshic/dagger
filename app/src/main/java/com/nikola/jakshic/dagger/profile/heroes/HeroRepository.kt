@@ -3,6 +3,10 @@ package com.nikola.jakshic.dagger.profile.heroes
 import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByGames
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByLosses
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWinrate
+import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWins
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.flowOn
@@ -25,7 +29,7 @@ class HeroRepository @Inject constructor(
         heroQueries.selectAllByGames(accountId)
             .asFlow()
             .mapToList(dispatchers.io)
-            .map { it.mapToUi() }
+            .map { it.map(SelectAllByGames::mapToUi) }
             .flowOn(dispatchers.io)
 
     /**
@@ -36,7 +40,7 @@ class HeroRepository @Inject constructor(
         heroQueries.selectAllByWinrate(accountId)
             .asFlow()
             .mapToList(dispatchers.io)
-            .map { it.mapToUi() }
+            .map { it.map(SelectAllByWinrate::mapToUi) }
             .flowOn(dispatchers.io)
 
     /**
@@ -47,7 +51,7 @@ class HeroRepository @Inject constructor(
         heroQueries.selectAllByWins(accountId)
             .asFlow()
             .mapToList(dispatchers.io)
-            .map { it.mapToUi() }
+            .map { it.map(SelectAllByWins::mapToUi) }
             .flowOn(dispatchers.io)
 
     /**
@@ -58,7 +62,7 @@ class HeroRepository @Inject constructor(
         heroQueries.selectAllByLosses(accountId)
             .asFlow()
             .mapToList(dispatchers.io)
-            .map { it.mapToUi() }
+            .map { it.map(SelectAllByLosses::mapToUi) }
             .flowOn(dispatchers.io)
 
     /**
