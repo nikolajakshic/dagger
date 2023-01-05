@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS hero_asset (
+  id INTEGER NOT NULL,
+  image_path TEXT,
+  PRIMARY KEY(id)
+);
+
+deleteAll:
+DELETE FROM hero_asset;
+
+insert:
+INSERT OR REPLACE INTO hero_asset VALUES (:id, :imagePath);

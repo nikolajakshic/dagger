@@ -16,4 +16,8 @@ interface DaggerService {
     @Streaming
     @GET("static/items.zip")
     suspend fun getItemsAssets(): ResponseBody
+
+    @Streaming
+    @GET("static/heroes.zip")
+    suspend fun getHeroesAssets(): ResponseBody
 }

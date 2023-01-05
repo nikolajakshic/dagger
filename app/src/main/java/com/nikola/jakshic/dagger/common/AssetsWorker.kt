@@ -19,6 +19,7 @@ import java.io.File
 import java.util.zip.ZipInputStream
 
 private const val CONFIG_ITEMS_VERSION = "items_version"
+private const val CONFIG_HEROES_VERSION = "heroes_version"
 
 @HiltWorker
 class AssetsWorker @AssistedInject constructor(
@@ -34,6 +35,11 @@ class AssetsWorker @AssistedInject constructor(
         var errorHappened = false
         try {
             withRetry { handleItemsAssets(remoteConfig) }
+        } catch (ignored: Exception) {
+            errorHappened = true
+        }
+        try {
+            withRetry { handleHeroesAssets(remoteConfig) }
         } catch (ignored: Exception) {
             errorHappened = true
         }
@@ -70,9 +76,9 @@ class AssetsWorker @AssistedInject constructor(
         }
 
         database.transaction {
-            database.itemQueries.deleteAll()
+            database.itemAssetQueries.deleteAll()
             items.forEach { (itemId, imagePath) ->
-                database.itemQueries.insert(itemId, imagePath)
+                database.itemAssetQueries.insert(itemId, imagePath)
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_ITEMS_VERSION,
@@ -82,6 +88,49 @@ class AssetsWorker @AssistedInject constructor(
 
         for (directory in itemsDirectory.listFiles()) {
             if (directory != currentItemsDirectory) {
+                directory.deleteRecursively()
+            }
+        }
+    }
+
+    private suspend fun handleHeroesAssets(remoteConfig: RemoteConfig) = coroutineScope {
+        val currentHeroesVersion = database.localConfigQueries
+            .selectConfigVersion(configName = CONFIG_HEROES_VERSION)
+            .executeAsOneOrNull() ?: 0
+        if (currentHeroesVersion == remoteConfig.heroesVersion) {
+            return@coroutineScope
+        }
+
+        val assetsDirectory = File(applicationContext.filesDir, "assets")
+        val heroesDirectory = File(assetsDirectory, "heroes")
+        val currentHeroesDirectory = File(heroesDirectory, "heroes_${remoteConfig.heroesVersion}")
+        currentHeroesDirectory.mkdirs()
+
+        val heroes = mutableListOf<Pair<Long, String>>()
+        ZipInputStream(network.getHeroesAssets().byteStream()).use { zip ->
+            while (isActive) {
+                val zipEntry = zip.nextEntry ?: break
+                val file = File(currentHeroesDirectory, zipEntry.name)
+                file.sink().buffer().use { sink ->
+                    sink.writeAll(zip.source().buffer())
+                }
+                heroes += Pair(file.nameWithoutExtension.toLong(), file.absolutePath)
+            }
+        }
+
+        database.transaction {
+            database.heroAssetQueries.deleteAll()
+            heroes.forEach { (heroId, imagePath) ->
+                database.heroAssetQueries.insert(heroId, imagePath)
+            }
+            database.localConfigQueries.insert(
+                configName = CONFIG_HEROES_VERSION,
+                configVersion = remoteConfig.heroesVersion
+            )
+        }
+
+        for (directory in heroesDirectory.listFiles()) {
+            if (directory != currentHeroesDirectory) {
                 directory.deleteRecursively()
             }
         }
