@@ -39,6 +39,6 @@ fun Competitive.mapToUi(): CompetitiveUI {
         leagueName = league_name,
         radiantScore = radiant_score,
         direScore = dire_score,
-        isRadiantWin = radiant_win
+        isRadiantWin = radiant_win == 1L
     )
 }

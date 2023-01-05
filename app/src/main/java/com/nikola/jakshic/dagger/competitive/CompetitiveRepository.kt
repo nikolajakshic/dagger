@@ -52,7 +52,7 @@ class CompetitiveRepository @Inject constructor(
                 league_name = it.leagueName,
                 radiant_score = it.radiantScore,
                 dire_score = it.direScore,
-                radiant_win = it.isRadiantWin
+                radiant_win = if (it.isRadiantWin) 1 else 0
             )
         }
         competitiveQueries.transaction {

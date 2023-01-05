@@ -1,23 +1,28 @@
-CREATE TABLE IF NOT EXISTS competitive (
-    match_id INTEGER PRIMARY KEY NOT NULL,
-    start_time INTEGER NOT NULL,
-    duration INTEGER NOT NULL,
-    radiant_name TEXT,
-    dire_name TEXT,
-    league_name TEXT,
+CREATE TABLE IF NOT EXISTS competitive
+(
+    match_id      INTEGER NOT NULL,
+    start_time    INTEGER NOT NULL,
+    duration      INTEGER NOT NULL,
+    radiant_name  TEXT,
+    dire_name     TEXT,
+    league_name   TEXT,
     radiant_score INTEGER NOT NULL,
-    dire_score INTEGER NOT NULL,
-    radiant_win INTEGER AS Boolean NOT NULL
+    dire_score    INTEGER NOT NULL,
+    radiant_win   INTEGER NOT NULL,
+    PRIMARY KEY (match_id)
 );
 
 countMatches:
-SELECT COUNT(*) FROM competitive;
+SELECT COUNT(*)
+FROM competitive;
 
 getMatches:
-SELECT * FROM competitive
+SELECT *
+FROM competitive
 ORDER BY start_time + duration DESC
-LIMIT :limit
-OFFSET :offset;
+LIMIT :limit OFFSET :offset;
 
 insert:
-INSERT OR REPLACE INTO competitive VALUES ?;
+INSERT OR REPLACE
+INTO competitive
+VALUES ?;
