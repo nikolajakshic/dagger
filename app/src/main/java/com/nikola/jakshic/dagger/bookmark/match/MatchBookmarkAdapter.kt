@@ -10,7 +10,6 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.databinding.ItemBookmarkMatchBinding
-import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchBookmarkAdapter(
     private val onClick: (matchId: Long) -> Unit,
@@ -68,16 +67,16 @@ class MatchBookmarkAdapter(
                 binding.imgWinnerDire.visibility = View.VISIBLE
                 binding.imgWinnerRadiant.visibility = View.INVISIBLE
             }
-            binding.imgPlayer1.load(DotaUtil.getHero(context, item.matchStats.players[0].heroId))
-            binding.imgPlayer2.load(DotaUtil.getHero(context, item.matchStats.players[1].heroId))
-            binding.imgPlayer3.load(DotaUtil.getHero(context, item.matchStats.players[2].heroId))
-            binding.imgPlayer4.load(DotaUtil.getHero(context, item.matchStats.players[3].heroId))
-            binding.imgPlayer5.load(DotaUtil.getHero(context, item.matchStats.players[4].heroId))
-            binding.imgPlayer6.load(DotaUtil.getHero(context, item.matchStats.players[5].heroId))
-            binding.imgPlayer7.load(DotaUtil.getHero(context, item.matchStats.players[6].heroId))
-            binding.imgPlayer8.load(DotaUtil.getHero(context, item.matchStats.players[7].heroId))
-            binding.imgPlayer9.load(DotaUtil.getHero(context, item.matchStats.players[8].heroId))
-            binding.imgPlayer10.load(DotaUtil.getHero(context, item.matchStats.players[9].heroId))
+            binding.imgPlayer1.load(item.matchStats.players[0].heroImage)
+            binding.imgPlayer2.load(item.matchStats.players[1].heroImage)
+            binding.imgPlayer3.load(item.matchStats.players[2].heroImage)
+            binding.imgPlayer4.load(item.matchStats.players[3].heroImage)
+            binding.imgPlayer5.load(item.matchStats.players[4].heroImage)
+            binding.imgPlayer6.load(item.matchStats.players[5].heroImage)
+            binding.imgPlayer7.load(item.matchStats.players[6].heroImage)
+            binding.imgPlayer8.load(item.matchStats.players[7].heroImage)
+            binding.imgPlayer9.load(item.matchStats.players[8].heroImage)
+            binding.imgPlayer10.load(item.matchStats.players[9].heroImage)
         }
     }
 

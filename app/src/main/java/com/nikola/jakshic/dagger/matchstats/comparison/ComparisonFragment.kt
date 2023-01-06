@@ -14,7 +14,6 @@ import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.databinding.FragmentComparisonBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
-import com.nikola.jakshic.dagger.util.DotaUtil
 import com.nikola.jakshic.spiderchart.SpiderData
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -145,8 +144,8 @@ class ComparisonFragment :
         binding.spiderChart.setRotationAngle(120f)
         binding.spiderChart.refresh()
 
-        binding.imgPlayer1Hero.load(DotaUtil.getHero(requireContext(), player1.heroId))
-        binding.imgPlayer2Hero.load(DotaUtil.getHero(requireContext(), player2.heroId))
+        binding.imgPlayer1Hero.load(player1.heroImage)
+        binding.imgPlayer2Hero.load(player2.heroImage)
 
         binding.tvPlayer1Name.text = getPlayerName(player1)
         binding.tvPlayer2Name.text = getPlayerName(player2)

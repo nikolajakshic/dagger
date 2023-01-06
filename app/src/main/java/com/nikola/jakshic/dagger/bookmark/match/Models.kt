@@ -63,6 +63,7 @@ private fun SelectAllMatchBookmark.mapToPlayerStatsUi(): MatchStatsUI.PlayerStat
         heroDamage = this.hero_damage,
         heroHealing = this.hero_healing,
         heroId = this.hero_id,
+        heroImage = this.hero_image,
         item0 = this.item_0,
         item1 = this.item_1,
         item2 = this.item_2,

@@ -108,7 +108,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         val collapsedBinding = ItemMatchStatsCollapsedBinding.bind(view.getChildAt(0))
         val expandedBinding = ItemMatchStatsExpandedBinding.bind(view.getChildAt(1))
 
-        collapsedBinding.imgHero.load(DotaUtil.getHero(requireContext(), item.heroId))
+        collapsedBinding.imgHero.load(item.heroImage)
         collapsedBinding.tvPlayerName.text = getPlayerName(item)
         val playerColor = ContextCompat.getColor(
             requireContext(),
