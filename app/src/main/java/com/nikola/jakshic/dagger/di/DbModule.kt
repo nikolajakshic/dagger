@@ -50,6 +50,9 @@ object DbModule {
     fun provideLeaderboardQueries(database: Database) = database.leaderboardQueries
 
     @Provides
+    fun provideHeroAssetsQueries(database: Database) = database.heroAssetQueries
+
+    @Provides
     @Singleton
     fun provideSqlDriver(@ApplicationContext context: Context): SqlDriver {
         return AndroidSqliteDriver(

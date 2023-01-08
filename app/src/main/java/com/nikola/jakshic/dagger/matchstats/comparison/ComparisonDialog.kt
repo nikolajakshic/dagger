@@ -1,57 +1,80 @@
 package com.nikola.jakshic.dagger.matchstats.comparison
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.os.bundleOf
+import androidx.core.view.get
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.util.DotaUtil
+import com.nikola.jakshic.dagger.databinding.DialogComparisonBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class ComparisonDialog : BottomSheetDialogFragment() {
-
-    interface ComparisonClickListener {
-        fun onClick(playerIndex: Int)
-    }
-
+@AndroidEntryPoint
+class ComparisonDialog : BottomSheetDialogFragment(R.layout.dialog_comparison) {
     companion object {
-        fun newInstance(player1: Int, player2: Int, heroes: LongArray): ComparisonDialog {
-            val dialog = ComparisonDialog()
-            val args = Bundle()
-            args.putInt("player1", player1)
-            args.putInt("player2", player2)
-            args.putLongArray("heroes", heroes)
-            dialog.arguments = args
-            return dialog
-        }
-    }
+        private const val KEY_RESULT = "result"
+        private const val EXTRA_PLAYER_INDEX = "player-index"
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_comparison, container)
+        fun newInstance(args: ComparisonDialogArgs): ComparisonDialog {
+            return ComparisonDialog().apply {
+                arguments = args.toBundle()
+            }
+        }
+
+        fun setOnClickListener(
+            childFragmentManager: FragmentManager,
+            lifecycleOwner: LifecycleOwner,
+            listener: (playerIndex: Int) -> Unit
+        ) {
+            childFragmentManager.setFragmentResultListener(
+                KEY_RESULT,
+                lifecycleOwner
+            ) { _, result ->
+                listener(result.getInt(EXTRA_PLAYER_INDEX))
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val player1 = requireArguments().getInt("player1", 0)
-        val player2 = requireArguments().getInt("player2", 5)
-        val heroes = requireArguments().getLongArray("heroes")!!
+        val binding = DialogComparisonBinding.bind(view)
+        val viewModel = ViewModelProvider(this)[ComparisonViewModel::class.java]
+        val args = ComparisonDialogArgs.fromBundle(requireArguments())
 
-        val root = view as ViewGroup
+        for (i in 0 until binding.root.childCount) {
+            val imgHero = binding.root[i] as ImageView
 
-        for (i in 0 until root.childCount) {
-            val imgHero = root.getChildAt(i) as ImageView
-            val heroId = heroes[i]
-            imgHero.load(DotaUtil.getHero(requireContext(), heroId))
-            if (player1 == i || player2 == i) {
+            if (args.leftPlayerIndex == i || args.rightPlayerIndex == i) {
                 imgHero.alpha = 0.5F
                 continue
             }
             imgHero.setOnClickListener {
-                (targetFragment as ComparisonClickListener).onClick(i)
+                parentFragmentManager.setFragmentResult(
+                    KEY_RESULT,
+                    bundleOf(EXTRA_PLAYER_INDEX to i)
+                )
                 dismiss()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.heroes.collectLatest {
+                    it.forEachIndexed { index, imagePath ->
+                        (binding.root[index] as ImageView).load(imagePath)
+                    }
+                }
             }
         }
     }

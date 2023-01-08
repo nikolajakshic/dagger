@@ -1,11 +1,26 @@
-CREATE TABLE IF NOT EXISTS hero_asset (
-  id INTEGER NOT NULL,
-  image_path TEXT,
-  PRIMARY KEY(id)
+CREATE TABLE IF NOT EXISTS hero_asset
+(
+    id         INTEGER PRIMARY KEY NOT NULL,
+    image_path TEXT
 );
 
+selectHeroImagesById:
+SELECT (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id0) AS heroImage0,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id1) AS heroImage1,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id2) AS heroImage2,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id3) AS heroImage3,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id4) AS heroImage4,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id5) AS heroImage5,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id6) AS heroImage6,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id7) AS heroImage7,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id8) AS heroImage8,
+       (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id9) AS heroImage9;
+
 deleteAll:
-DELETE FROM hero_asset;
+DELETE
+FROM hero_asset;
 
 insert:
-INSERT OR REPLACE INTO hero_asset VALUES (:id, :imagePath);
+INSERT OR REPLACE
+INTO hero_asset
+VALUES (:id, :imagePath);

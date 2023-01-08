@@ -15,14 +15,15 @@ import com.nikola.jakshic.dagger.databinding.FragmentComparisonBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.MatchStatsViewModel
 import com.nikola.jakshic.spiderchart.SpiderData
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
-// Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
-class ComparisonFragment :
-    Fragment(R.layout.fragment_comparison),
-    ComparisonDialog.ComparisonClickListener {
+private const val TAG_COMPARISON_DIALOG = "comparison-dialog"
+
+@AndroidEntryPoint
+class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
     private val viewModel by viewModels<MatchStatsViewModel>(
         ownerProducer = { requireParentFragment() }
     )
@@ -57,6 +58,19 @@ class ComparisonFragment :
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentComparisonBinding.bind(view)
 
+        ComparisonDialog.setOnClickListener(
+            childFragmentManager,
+            viewLifecycleOwner
+        ) { playerIndex ->
+            if (stats != null) {
+                when (SELECTED_PLAYER) {
+                    SELECTED_PLAYER_RIGHT -> rightPlayerIndex = playerIndex
+                    SELECTED_PLAYER_LEFT -> leftPlayerIndex = playerIndex
+                }
+                setData(stats!!)
+            }
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.match.collectLatest { stats ->
@@ -64,17 +78,15 @@ class ComparisonFragment :
                         this@ComparisonFragment.stats = stats
                         setData(stats)
 
-                        var dialog: ComparisonDialog? = null
-
                         fun setupDialog() {
-                            if (dialog?.isAdded != true) {
-                                dialog = ComparisonDialog.newInstance(
+                            if (childFragmentManager.findFragmentByTag(TAG_COMPARISON_DIALOG) == null) {
+                                val args = ComparisonDialogArgs(
                                     leftPlayerIndex,
                                     rightPlayerIndex,
-                                    stats.players.map { it.heroId }.toList().toLongArray()
+                                    stats.players.map { it.heroId }
                                 )
-                                dialog?.setTargetFragment(this@ComparisonFragment, 301)
-                                dialog?.show(parentFragmentManager, null)
+                                ComparisonDialog.newInstance(args)
+                                    .showNow(childFragmentManager, TAG_COMPARISON_DIALOG)
                             }
                         }
 
@@ -184,15 +196,5 @@ class ComparisonFragment :
         !TextUtils.isEmpty(item.name) -> item.name
         !TextUtils.isEmpty(item.personaName) -> item.personaName
         else -> "Unknown"
-    }
-
-    override fun onClick(playerIndex: Int) {
-        if (stats != null) {
-            when (SELECTED_PLAYER) {
-                SELECTED_PLAYER_RIGHT -> rightPlayerIndex = playerIndex
-                SELECTED_PLAYER_LEFT -> leftPlayerIndex = playerIndex
-            }
-            setData(stats!!)
-        }
     }
 }
