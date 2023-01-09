@@ -1,36 +1,50 @@
 package com.nikola.jakshic.dagger.profile.matches.byhero
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagedList
-import com.nikola.jakshic.dagger.common.Status
+import com.nikola.jakshic.dagger.common.Dispatchers
+import com.nikola.jakshic.dagger.common.sqldelight.HeroAssetQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
-import com.nikola.jakshic.dagger.profile.matches.MatchUI
+import com.squareup.sqldelight.runtime.coroutines.asFlow
+import com.squareup.sqldelight.runtime.coroutines.mapToOne
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.retryWhen
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchesByHeroViewModel @Inject constructor(
-    private val repository: MatchRepository
+    heroAssetQueries: HeroAssetQueries,
+    repository: MatchRepository,
+    dispatchers: Dispatchers,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    val matches: LiveData<PagedList<MatchUI>>
-        get() = response.pagedList
+    private val args = MatchesByHeroFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-    val status: LiveData<Status>
-        get() = response.status
+    private val response = repository.fetchMatchesByHero(args.accountId, args.heroId)
+    val matches = response.pagedList
+    val status = response.status
 
-    private lateinit var response: PagedResponse<MatchUI>
-
-    private var initialFetch = false
-
-    fun initialFetch(accountId: Long, heroId: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-            response = repository.fetchMatchesByHero(accountId, heroId)
+    val heroImage = heroAssetQueries.selectImagePath(args.heroId)
+        .asFlow()
+        .mapToOne(dispatchers.io)
+        .map { it.image_path }
+        .retryWhen { _, attempt ->
+            delay(100)
+            return@retryWhen attempt < 3
         }
-    }
+        .flowOn(dispatchers.io)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = null
+        )
 
     fun retry() {
         viewModelScope.launch {

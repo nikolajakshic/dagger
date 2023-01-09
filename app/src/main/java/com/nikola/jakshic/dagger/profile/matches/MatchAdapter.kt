@@ -15,8 +15,14 @@ import com.nikola.jakshic.dagger.databinding.ItemMatchBinding
 import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchAdapter(
+    private val isMatchesByHero: Boolean,
     private val listener: (Long) -> Unit
 ) : PagedListAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
+    var heroImage: String? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
         return MatchVH(parent.inflate(R.layout.item_match))
@@ -40,7 +46,11 @@ class MatchAdapter(
         }
 
         fun bind(item: MatchUI) {
-            binding.imgHero.load(DotaUtil.getHero(itemView.context, item.heroId))
+            if (isMatchesByHero) {
+                binding.imgHero.load(heroImage)
+            } else {
+                binding.imgHero.load(item.heroImage)
+            }
             binding.tvMatchResult.text =
                 if (isWin(item)) {
                     itemView.context.getString(R.string.won)

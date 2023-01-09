@@ -5,8 +5,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -16,11 +18,13 @@ import com.nikola.jakshic.dagger.databinding.ActivityMatchesPerHeroBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
     private val viewModel by viewModels<MatchesByHeroViewModel>()
-    private val args by navArgs<MatchesByHeroFragmentArgs>()
+
     private var snackBar: Snackbar? = null
 
     private var _binding: ActivityMatchesPerHeroBinding? = null
@@ -30,12 +34,7 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
         super.onViewCreated(view, savedInstanceState)
         _binding = ActivityMatchesPerHeroBinding.bind(view)
 
-        val accountId = args.accountId
-        val heroId = args.heroId
-
-        viewModel.initialFetch(accountId, heroId)
-
-        val adapter = MatchAdapter {
+        val adapter = MatchAdapter(isMatchesByHero = true) {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
 
@@ -53,6 +52,14 @@ class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
             // If we submit empty or null list, previous data will be deleted,
             // and there will be nothing to show to the user
             if (it != null && it.size > 0) adapter.submitList(it)
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.heroImage.collectLatest {
+                    adapter.heroImage = it
+                }
+            }
         }
 
         viewModel.status.observe(viewLifecycleOwner) { status ->

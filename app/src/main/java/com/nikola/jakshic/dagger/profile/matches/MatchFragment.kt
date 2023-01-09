@@ -36,7 +36,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
 
         viewModel.initialFetch(id)
 
-        val adapter = MatchAdapter {
+        val adapter = MatchAdapter(isMatchesByHero = false) {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
 

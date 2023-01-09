@@ -8,7 +8,7 @@ import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
-import com.nikola.jakshic.dagger.common.sqldelight.Matches
+import com.nikola.jakshic.dagger.common.sqldelight.match.SelectAll
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -34,7 +34,7 @@ class MatchViewModel @Inject constructor(
     private var initialFetch = false
 
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
-    private var factory: QueryDataSourceFactory<Matches>? = null
+    private var factory: QueryDataSourceFactory<SelectAll>? = null
 
     fun initialFetch(id: Long) {
         if (!initialFetch) {
@@ -49,7 +49,7 @@ class MatchViewModel @Inject constructor(
                 transacter = matchQueries
             )
             response =
-                repository.getMatchesLiveData(viewModelScope, factory!!.map(Matches::mapToUi), id)
+                repository.getMatchesLiveData(viewModelScope, factory!!.map(SelectAll::mapToUi), id)
             fetchMatches(id)
         }
     }

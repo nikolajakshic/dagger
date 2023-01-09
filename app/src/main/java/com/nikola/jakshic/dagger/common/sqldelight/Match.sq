@@ -1,29 +1,46 @@
-CREATE TABLE IF NOT EXISTS matches (
-    account_id INTEGER NOT NULL,
-    match_id INTEGER NOT NULL,
-    hero_id INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS matches
+(
+    account_id  INTEGER NOT NULL,
+    match_id    INTEGER NOT NULL,
+    hero_id     INTEGER NOT NULL,
     player_slot INTEGER NOT NULL,
-    skill INTEGER NOT NULL,
-    duration INTEGER NOT NULL,
-    mode INTEGER NOT NULL,
-    lobby INTEGER NOT NULL,
-    radiant_win INTEGER AS Boolean NOT NULL,
-    start_time INTEGER NOT NULL,
-    PRIMARY KEY(match_id, account_id)
+    skill       INTEGER NOT NULL,
+    duration    INTEGER NOT NULL,
+    mode        INTEGER NOT NULL,
+    lobby       INTEGER NOT NULL,
+    radiant_win INTEGER NOT NULL,
+    start_time  INTEGER NOT NULL,
+    PRIMARY KEY (match_id, account_id)
 );
 
 selectAll:
-SELECT * FROM matches
+SELECT matches.account_id,
+       matches.match_id,
+       hero_asset.image_path AS hero_image,
+       matches.player_slot,
+       matches.skill,
+       matches.duration,
+       matches.mode,
+       matches.lobby,
+       matches.radiant_win,
+       matches.start_time
+FROM matches
+         LEFT JOIN hero_asset ON hero_asset.id = matches.hero_id
 WHERE matches.account_id = :accountId
 ORDER BY matches.match_id DESC
-LIMIT :limit
-OFFSET :offset;
+LIMIT :limit OFFSET :offset;
 
 countMatches:
-SELECT COUNT(matches.account_id) FROM matches WHERE matches.account_id = :acountId;
+SELECT COUNT(matches.account_id)
+FROM matches
+WHERE matches.account_id = :acountId;
 
 insert:
-INSERT OR REPLACE INTO matches VALUES ?;
+INSERT OR REPLACE
+INTO matches
+VALUES ?;
 
 deleteAll:
-DELETE FROM matches WHERE matches.account_id = :id;
+DELETE
+FROM matches
+WHERE matches.account_id = :id;

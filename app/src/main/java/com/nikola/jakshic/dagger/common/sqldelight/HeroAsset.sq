@@ -4,6 +4,11 @@ CREATE TABLE IF NOT EXISTS hero_asset
     image_path TEXT
 );
 
+selectImagePath:
+SELECT hero_asset.image_path
+FROM hero_asset
+WHERE id = :heroId;
+
 selectHeroImagesById:
 SELECT (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id0) AS heroImage0,
        (SELECT hero_asset.image_path FROM hero_asset WHERE id = :id1) AS heroImage1,

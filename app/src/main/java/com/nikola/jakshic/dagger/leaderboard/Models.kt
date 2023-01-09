@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.leaderboard
 
-import com.nikola.jakshic.dagger.common.sqldelight.SelectAll
+import com.nikola.jakshic.dagger.common.sqldelight.leaderboard.SelectAll
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

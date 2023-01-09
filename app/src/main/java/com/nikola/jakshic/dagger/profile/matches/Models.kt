@@ -1,6 +1,7 @@
 package com.nikola.jakshic.dagger.profile.matches
 
 import com.nikola.jakshic.dagger.common.sqldelight.Matches
+import com.nikola.jakshic.dagger.common.sqldelight.match.SelectAll
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -19,7 +20,7 @@ data class MatchJson(
 
 data class MatchUI(
     val matchId: Long,
-    val heroId: Long,
+    val heroImage: String?,
     val playerSlot: Long,
     val skill: Long,
     val duration: Long,
@@ -32,7 +33,7 @@ data class MatchUI(
 fun MatchJson.mapToUi(): MatchUI {
     return MatchUI(
         matchId = this.matchId,
-        heroId = this.heroId,
+        heroImage = null,
         playerSlot = this.playerSlot,
         skill = this.skill,
         duration = this.duration,
@@ -53,29 +54,21 @@ fun MatchJson.mapToDb(accountId: Long): Matches {
         duration = this.duration,
         mode = this.gameMode,
         lobby = this.lobbyType,
-        radiant_win = this.isRadiantWin,
+        radiant_win = if (this.isRadiantWin) 1 else 0,
         start_time = this.startTime
     )
 }
 
-fun Matches.mapToUi(): MatchUI {
+fun SelectAll.mapToUi(): MatchUI {
     return MatchUI(
         matchId = this.match_id,
-        heroId = this.hero_id,
+        heroImage = this.hero_image,
         playerSlot = this.player_slot,
         skill = this.skill,
         duration = this.duration,
         gameMode = this.mode,
         lobbyType = this.lobby,
-        isRadiantWin = this.radiant_win,
+        isRadiantWin = this.radiant_win == 1L,
         startTime = this.start_time
     )
-}
-
-fun List<Matches>.mapToUi(): List<MatchUI> {
-    val list = mutableListOf<MatchUI>()
-    for (item in this) {
-        list.add(item.mapToUi())
-    }
-    return list
 }
