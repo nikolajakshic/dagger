@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.SparseArray
 
 object DotaUtil {
-    private const val hero = "ic_hero_"
     private const val medal = "ic_rank_"
     private const val stars = "ic_rank_star_"
 
@@ -57,13 +56,6 @@ object DotaUtil {
             append(2, "High")
             append(3, "Very High")
         }
-    }
-
-    fun getHero(context: Context, id: Long): Int {
-        val resource = context.resources
-        val packageName = context.packageName
-
-        return resource.getIdentifier(hero + id, "drawable", packageName)
     }
 
     fun getMedal(context: Context, rankTier: Long, leaderBoardRank: Long): Int {
