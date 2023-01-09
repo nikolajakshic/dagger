@@ -7,7 +7,7 @@ import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.sqldelight.HeroAssetQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
 import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToOne
+import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,8 +33,8 @@ class MatchesByHeroViewModel @Inject constructor(
 
     val heroImage = heroAssetQueries.selectImagePath(args.heroId)
         .asFlow()
-        .mapToOne(dispatchers.io)
-        .map { it.image_path }
+        .mapToOneOrNull(dispatchers.io)
+        .map { it?.image_path }
         .retryWhen { _, attempt ->
             delay(100)
             return@retryWhen attempt < 3
