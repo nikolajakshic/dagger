@@ -1,11 +1,14 @@
-CREATE TABLE IF NOT EXISTS item_asset (
-  id INTEGER NOT NULL,
-  image_path TEXT,
-  PRIMARY KEY(id)
+CREATE TABLE IF NOT EXISTS item_asset
+(
+    id         INTEGER PRIMARY KEY NOT NULL,
+    image_path TEXT
 );
 
 deleteAll:
-DELETE FROM item_asset;
+DELETE
+FROM item_asset;
 
 insert:
-INSERT OR REPLACE INTO item_asset VALUES (:id, :imagePath);
+INSERT OR REPLACE
+INTO item_asset
+VALUES (:id, :imagePath);
