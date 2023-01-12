@@ -1,6 +1,7 @@
-CREATE TABLE IF NOT EXISTS leaderboards (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    name TEXT,
+CREATE TABLE IF NOT EXISTS leaderboards
+(
+    id     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name   TEXT,
     region TEXT
 );
 
@@ -8,10 +9,13 @@ selectAll:
 SELECT name
 FROM leaderboards
 WHERE region = :region COLLATE NOCASE
-ORDER BY id ASC;
+ORDER BY id;
 
 insert:
-INSERT INTO leaderboards (name, region) VALUES (:name, :region);
+INSERT INTO leaderboards (name, region)
+VALUES (:name, :region);
 
 deleteAllByRegion:
-DELETE FROM leaderboards WHERE region = :region COLLATE NOCASE;
+DELETE
+FROM leaderboards
+WHERE region = :region COLLATE NOCASE;
