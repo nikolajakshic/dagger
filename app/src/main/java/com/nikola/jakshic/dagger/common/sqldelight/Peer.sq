@@ -1,22 +1,27 @@
-CREATE TABLE IF NOT EXISTS peers (
-    account_id INTEGER NOT NULL,
-    peer_id INTEGER NOT NULL,
+CREATE TABLE IF NOT EXISTS peers
+(
+    account_id   INTEGER NOT NULL,
+    peer_id      INTEGER NOT NULL,
     persona_name TEXT,
-    avatar_url TEXT,
-    games INTEGER NOT NULL,
-    wins INTEGER NOT NULL,
-    PRIMARY KEY(account_id, peer_id)
+    avatar_url   TEXT,
+    games        INTEGER NOT NULL,
+    wins         INTEGER NOT NULL,
+    PRIMARY KEY (account_id, peer_id)
 );
 
 insert:
-INSERT OR REPLACE INTO peers VALUES ?;
+INSERT OR REPLACE
+INTO peers
+VALUES ?;
 
 selectAllByGames:
-SELECT * FROM peers
+SELECT *
+FROM peers
 WHERE peers.account_id = :id
 ORDER BY games DESC;
 
 selectAllByWinrate:
-SELECT * FROM peers
+SELECT *
+FROM peers
 WHERE peers.account_id = :id
 ORDER BY ((peers.wins * 1.0 / peers.games) * 100) DESC;
