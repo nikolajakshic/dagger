@@ -5,9 +5,8 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 
 interface TwitchService {
-
     companion object {
-        const val BASE_URL = "https://dagger-proxy-twitch.herokuapp.com/"
+        const val BASE_URL = "https://dagger-proxy-twitch.nikolajaksic.com/"
     }
 
     @GET("streams")
