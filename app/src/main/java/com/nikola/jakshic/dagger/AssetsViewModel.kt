@@ -1,71 +1,70 @@
-package com.nikola.jakshic.dagger.common
+package com.nikola.jakshic.dagger
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
-import com.nikola.jakshic.dagger.Database
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.DaggerService
-import com.nikola.jakshic.dagger.leaderboard.RemoteConfig
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import kotlinx.coroutines.coroutineScope
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import okio.buffer
 import okio.sink
 import okio.source
+import timber.log.Timber
 import java.io.File
 import java.util.zip.ZipInputStream
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val CONFIG_ITEMS_VERSION = "items_version"
 private const val CONFIG_HEROES_VERSION = "heroes_version"
 
-@HiltWorker
-class AssetsWorker @AssistedInject constructor(
-    @Assisted appContext: Context,
-    @Assisted workerParameters: WorkerParameters,
+@Singleton
+class AssetsViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val network: DaggerService,
     private val database: Database,
-    private val dispatchers: Dispatchers
-) : CoroutineWorker(appContext, workerParameters) {
-    override suspend fun doWork(): Result = withContext(dispatchers.io) {
-        val remoteConfig = withRetry { network.getRemoteConfig() }
-
-        var errorHappened = false
-        try {
-            withRetry { handleItemsAssets(remoteConfig) }
-        } catch (ignored: Exception) {
-            errorHappened = true
+    dispatchers: Dispatchers
+) {
+    init {
+        val lifecycleOwner = ProcessLifecycleOwner.get()
+        lifecycleOwner.lifecycleScope.launch(dispatchers.io) {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                while (isActive) {
+                    try {
+                        val remoteConfig = network.getRemoteConfig()
+                        handleItemsAssets(remoteConfig.itemsVersion)
+                        handleHeroesAssets(remoteConfig.heroesVersion)
+                        break
+                    } catch (e: Exception) {
+                        Timber.e(e)
+                        delay(3000)
+                    }
+                }
+            }
         }
-        try {
-            withRetry { handleHeroesAssets(remoteConfig) }
-        } catch (ignored: Exception) {
-            errorHappened = true
-        }
-
-        if (errorHappened) {
-            return@withContext Result.retry()
-        }
-        return@withContext Result.success()
     }
 
-    private suspend fun handleItemsAssets(remoteConfig: RemoteConfig) = coroutineScope {
+    private suspend fun handleItemsAssets(itemsVersion: Long) {
         val currentItemsVersion = database.localConfigQueries
             .selectConfigVersion(configName = CONFIG_ITEMS_VERSION)
             .executeAsOneOrNull() ?: 0
-        if (currentItemsVersion == remoteConfig.itemsVersion) {
-            return@coroutineScope
+        if (currentItemsVersion == itemsVersion) {
+            return
         }
 
-        val assetsDirectory = File(applicationContext.filesDir, "assets")
+        val assetsDirectory = File(context.filesDir, "assets")
         val itemsDirectory = File(assetsDirectory, "items")
-        val currentItemsDirectory = File(itemsDirectory, "items_${remoteConfig.itemsVersion}")
+        val currentItemsDirectory = File(itemsDirectory, "items_${itemsVersion}")
         currentItemsDirectory.mkdirs()
 
         val items = mutableListOf<Pair<Long, String>>()
         ZipInputStream(network.getItemsAssets().byteStream()).use { zip ->
-            while (isActive) {
+            while (true) {
                 val zipEntry = zip.nextEntry ?: break
                 val file = File(currentItemsDirectory, zipEntry.name)
                 file.sink().buffer().use { sink ->
@@ -82,7 +81,7 @@ class AssetsWorker @AssistedInject constructor(
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_ITEMS_VERSION,
-                configVersion = remoteConfig.itemsVersion
+                configVersion = itemsVersion
             )
         }
 
@@ -93,22 +92,22 @@ class AssetsWorker @AssistedInject constructor(
         }
     }
 
-    private suspend fun handleHeroesAssets(remoteConfig: RemoteConfig) = coroutineScope {
+    private suspend fun handleHeroesAssets(heroesVersion: Long) {
         val currentHeroesVersion = database.localConfigQueries
             .selectConfigVersion(configName = CONFIG_HEROES_VERSION)
             .executeAsOneOrNull() ?: 0
-        if (currentHeroesVersion == remoteConfig.heroesVersion) {
-            return@coroutineScope
+        if (currentHeroesVersion == heroesVersion) {
+            return
         }
 
-        val assetsDirectory = File(applicationContext.filesDir, "assets")
+        val assetsDirectory = File(context.filesDir, "assets")
         val heroesDirectory = File(assetsDirectory, "heroes")
-        val currentHeroesDirectory = File(heroesDirectory, "heroes_${remoteConfig.heroesVersion}")
+        val currentHeroesDirectory = File(heroesDirectory, "heroes_${heroesVersion}")
         currentHeroesDirectory.mkdirs()
 
         val heroes = mutableListOf<Pair<Long, String>>()
         ZipInputStream(network.getHeroesAssets().byteStream()).use { zip ->
-            while (isActive) {
+            while (true) {
                 val zipEntry = zip.nextEntry ?: break
                 val file = File(currentHeroesDirectory, zipEntry.name)
                 file.sink().buffer().use { sink ->
@@ -125,7 +124,7 @@ class AssetsWorker @AssistedInject constructor(
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_HEROES_VERSION,
-                configVersion = remoteConfig.heroesVersion
+                configVersion = heroesVersion
             )
         }
 

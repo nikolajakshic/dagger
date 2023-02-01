@@ -90,15 +90,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycleVersion"
     // SQLDelight
     implementation "com.squareup.sqldelight:android-driver:$sqlDelightVersion"
     implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqlDelightVersion"
-    // WorkManager
-    implementation "androidx.work:work-runtime-ktx:2.7.1"
-    // Hilt
-    def hiltVersion = "1.0.0"
-    implementation "androidx.hilt:hilt-work:$hiltVersion"
-    kapt "androidx.hilt:hilt-compiler:$hiltVersion"
     // Paging
     implementation "androidx.paging:paging-runtime:2.0.0"
     // Navigation
