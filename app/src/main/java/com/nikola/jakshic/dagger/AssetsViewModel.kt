@@ -59,7 +59,7 @@ class AssetsViewModel @Inject constructor(
 
         val assetsDirectory = File(context.filesDir, "assets")
         val itemsDirectory = File(assetsDirectory, "items")
-        val currentItemsDirectory = File(itemsDirectory, "items_${itemsVersion}")
+        val currentItemsDirectory = File(itemsDirectory, "items_$itemsVersion")
         currentItemsDirectory.mkdirs()
 
         val items = mutableListOf<Pair<Long, String>>()
@@ -102,7 +102,7 @@ class AssetsViewModel @Inject constructor(
 
         val assetsDirectory = File(context.filesDir, "assets")
         val heroesDirectory = File(assetsDirectory, "heroes")
-        val currentHeroesDirectory = File(heroesDirectory, "heroes_${heroesVersion}")
+        val currentHeroesDirectory = File(heroesDirectory, "heroes_$heroesVersion")
         currentHeroesDirectory.mkdirs()
 
         val heroes = mutableListOf<Pair<Long, String>>()
