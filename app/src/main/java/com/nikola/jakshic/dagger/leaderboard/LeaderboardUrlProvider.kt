@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.shareIn
+import retrofit2.await
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,7 +36,7 @@ class LeaderboardUrlProvider @Inject constructor(
             lastUrl = sharedPreferences.getString(KEY_LAST_URL, null)
             val lastChecked = sharedPreferences.getLong(KEY_LAST_CHECKED, 0)
             if (System.currentTimeMillis() - lastChecked >= TimeUnit.HOURS.toMillis(3)) {
-                lastUrl = service.getRemoteConfig().leaderboardUrl
+                lastUrl = service.getRemoteConfig().await().leaderboardUrl
                 sharedPreferences.edit(commit = true) {
                     putString(KEY_LAST_URL, lastUrl)
                     putLong(KEY_LAST_CHECKED, System.currentTimeMillis())

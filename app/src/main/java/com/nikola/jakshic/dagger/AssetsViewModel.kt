@@ -6,6 +6,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.nikola.jakshic.dagger.common.Dispatchers
+import com.nikola.jakshic.dagger.common.extensions.awaitNonCancellably
 import com.nikola.jakshic.dagger.common.network.DaggerService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -36,7 +37,7 @@ class AssetsViewModel @Inject constructor(
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 while (isActive) {
                     try {
-                        val remoteConfig = network.getRemoteConfig()
+                        val remoteConfig = network.getRemoteConfig().awaitNonCancellably()
                         handleItemsAssets(remoteConfig.itemsVersion)
                         handleHeroesAssets(remoteConfig.heroesVersion)
                         break
@@ -62,8 +63,16 @@ class AssetsViewModel @Inject constructor(
         val currentItemsDirectory = File(itemsDirectory, "items_$itemsVersion")
         currentItemsDirectory.mkdirs()
 
+        // If we previously failed to remove obsolete files, try again, to clear some space before we
+        // download new files.
+        for (directory in itemsDirectory.listFiles() ?: emptyArray()) {
+            if (directory != currentItemsDirectory) {
+                directory.deleteRecursively()
+            }
+        }
+
         val items = mutableListOf<Pair<Long, String>>()
-        ZipInputStream(network.getItemsAssets().byteStream()).use { zip ->
+        ZipInputStream(network.getItemsAssets().awaitNonCancellably().byteStream()).use { zip ->
             while (true) {
                 val zipEntry = zip.nextEntry ?: break
                 val file = File(currentItemsDirectory, zipEntry.name)
@@ -84,8 +93,7 @@ class AssetsViewModel @Inject constructor(
                 configVersion = itemsVersion
             )
         }
-
-        for (directory in itemsDirectory.listFiles()) {
+        for (directory in itemsDirectory.listFiles() ?: emptyArray()) {
             if (directory != currentItemsDirectory) {
                 directory.deleteRecursively()
             }
@@ -105,8 +113,16 @@ class AssetsViewModel @Inject constructor(
         val currentHeroesDirectory = File(heroesDirectory, "heroes_$heroesVersion")
         currentHeroesDirectory.mkdirs()
 
+        // If we previously failed to remove obsolete files, try again to clear some space before we
+        // download new files.
+        for (directory in heroesDirectory.listFiles() ?: emptyArray()) {
+            if (directory != currentHeroesDirectory) {
+                directory.deleteRecursively()
+            }
+        }
+
         val heroes = mutableListOf<Pair<Long, String>>()
-        ZipInputStream(network.getHeroesAssets().byteStream()).use { zip ->
+        ZipInputStream(network.getHeroesAssets().awaitNonCancellably().byteStream()).use { zip ->
             while (true) {
                 val zipEntry = zip.nextEntry ?: break
                 val file = File(currentHeroesDirectory, zipEntry.name)
@@ -128,7 +144,7 @@ class AssetsViewModel @Inject constructor(
             )
         }
 
-        for (directory in heroesDirectory.listFiles()) {
+        for (directory in heroesDirectory.listFiles() ?: emptyArray()) {
             if (directory != currentHeroesDirectory) {
                 directory.deleteRecursively()
             }
