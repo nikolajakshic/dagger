@@ -5,7 +5,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.nikola.jakshic.dagger.bookmark.match.MatchBookmarkFragment
 import com.nikola.jakshic.dagger.bookmark.player.PlayerBookmarkFragment
 
-class BookmarkPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class BookmarkPagerAdapter(
+    fragment: Fragment
+) : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
