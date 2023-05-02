@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navHostFragment"
-    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/nav_graph"
-    tools:context="com.nikola.jakshic.dagger.MainActivity" />
+    android:orientation="vertical"
+    tools:context="com.nikola.jakshic.dagger.MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container_view"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
+
+    <TextView
+        android:id="@+id/tv_downloading_assets"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#212121"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:paddingVertical="2dp"
+        android:textColor="#fff"
+        android:textSize="12sp" />
+</LinearLayout>
