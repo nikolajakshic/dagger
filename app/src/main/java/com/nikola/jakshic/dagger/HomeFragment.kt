@@ -79,16 +79,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentHomeBinding.bind(view)
 
-        binding.btmNavigation.setOnNavigationItemSelectedListener {
+        binding.btmNavigation.setOnItemSelectedListener {
             onBackPressedCallback.isEnabled = it.itemId != R.id.action_competitive
             if (it.itemId == R.id.action_competitive) selectFragment(competitive)
             if (it.itemId == R.id.action_leaderboard) selectFragment(leaderboard)
             if (it.itemId == R.id.action_bookmark) selectFragment(bookmark)
             if (it.itemId == R.id.action_stream) selectFragment(stream)
-            return@setOnNavigationItemSelectedListener true
+            return@setOnItemSelectedListener true
         }
 
-        binding.btmNavigation.setOnNavigationItemReselectedListener {
+        binding.btmNavigation.setOnItemReselectedListener {
             when (it.itemId) {
                 R.id.action_competitive -> {
                     childFragmentManager.setFragmentResult(Key.COMPETITIVE.name, bundleOf())
