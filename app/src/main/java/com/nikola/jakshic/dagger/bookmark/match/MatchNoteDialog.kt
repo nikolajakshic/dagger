@@ -28,7 +28,7 @@ class MatchNoteDialog : DialogFragment(R.layout.dialog_note_match) {
             lifecycleOwner: LifecycleOwner,
             listener: (matchId: Long, note: String?) -> Unit
         ) {
-            fragmentManager.setFragmentResultListener(KEY_RESULT, lifecycleOwner) { key, result ->
+            fragmentManager.setFragmentResultListener(KEY_RESULT, lifecycleOwner) { _, result ->
                 listener.invoke(result.getLong(EXTRA_MATCH_ID), result.getString(EXTRA_NOTE))
             }
         }
