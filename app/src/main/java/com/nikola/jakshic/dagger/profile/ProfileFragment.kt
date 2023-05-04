@@ -1,7 +1,5 @@
 package com.nikola.jakshic.dagger.profile
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -48,11 +46,6 @@ class ProfileFragment : Fragment(R.layout.activity_profile) {
             tab.text = title
         }.attach()
 
-        // Change the color of the progress bar
-        binding.containerHeader.progressBar.indeterminateDrawable.setColorFilter(
-            Color.WHITE,
-            PorterDuff.Mode.MULTIPLY
-        )
         binding.containerHeader.btnRefresh.setOnClickListener { viewModel.fetchProfile() }
         binding.containerHeader.imgRankMedal.setOnClickListener {
             if (childFragmentManager.findFragmentByTag(TAG_MEDAL_DIALOG) == null) {
