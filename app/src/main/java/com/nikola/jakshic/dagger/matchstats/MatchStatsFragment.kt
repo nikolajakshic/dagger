@@ -1,7 +1,5 @@
 package com.nikola.jakshic.dagger.matchstats
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isInvisible
@@ -25,12 +23,6 @@ class MatchStatsFragment : Fragment(R.layout.activity_match_stats) {
 
         val binding = ActivityMatchStatsBinding.bind(view)
         val viewModel = ViewModelProvider(this)[MatchStatsViewModel::class.java]
-
-        // Change the color of the progress bar
-        binding.progressBar.indeterminateDrawable.setColorFilter(
-            Color.WHITE,
-            PorterDuff.Mode.MULTIPLY
-        )
 
         val id = MatchStatsFragmentArgs.fromBundle(requireArguments()).matchId
         binding.toolbar.title = "${getString(R.string.match)} $id"
