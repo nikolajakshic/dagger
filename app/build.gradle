@@ -80,7 +80,7 @@ dependencies {
     def moshiVersion = "1.14.0"
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
-    implementation platform("com.squareup.okhttp3:okhttp-bom:4.10.0")
+    implementation platform("com.squareup.okhttp3:okhttp-bom:4.11.0")
     implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor"
     // Coroutines
