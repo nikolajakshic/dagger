@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS local_config
 (
-    name    TEXT PRIMARY KEY,
-    version INTEGER NOT NULL
+    name    TEXT PRIMARY KEY NOT NULL,
+    version INTEGER          NOT NULL
 );
 
 selectConfigVersion:
