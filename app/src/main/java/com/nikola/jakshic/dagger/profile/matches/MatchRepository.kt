@@ -1,7 +1,7 @@
 package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.switchMap
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -102,7 +102,7 @@ class MatchRepository @Inject constructor(
 
         return PagedResponse(
             pagedList = livePagedList,
-            status = Transformations.switchMap(sourceFactory.sourceLiveData) { it.status },
+            status = sourceFactory.sourceLiveData.switchMap { it.status },
             refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
             retry = { sourceFactory.sourceLiveData.value?.retry() }
         )
