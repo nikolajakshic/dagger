@@ -88,7 +88,7 @@ dependencies {
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0"
     // ImageLoading
-    implementation "io.coil-kt:coil:2.2.2"
+    implementation "io.coil-kt:coil:2.3.0"
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerVersion"
