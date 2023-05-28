@@ -62,10 +62,12 @@ class AssetsViewModel @Inject constructor(
                             .selectConfigVersion(CONFIG_HEROES_VERSION)
                             .executeAsOneOrNull() ?: -1
                         val itemsHandled = handleItemsAssets(
+                            remoteConfig.itemsUrl,
                             localItemsVersion,
                             remoteConfig.itemsVersion
                         )
                         val heroesHandled = handleHeroesAssets(
+                            remoteConfig.heroesUrl,
                             localHeroesVersion,
                             remoteConfig.heroesVersion
                         )
@@ -85,6 +87,7 @@ class AssetsViewModel @Inject constructor(
     }
 
     private suspend fun handleItemsAssets(
+        itemsUrl: String,
         localItemsVersion: Long,
         remoteItemsVersion: Long
     ): Boolean {
@@ -110,7 +113,7 @@ class AssetsViewModel @Inject constructor(
         }
 
         val items = mutableListOf<Pair<Long, String>>()
-        val responseBody = network.getItemsAssets().awaitNonCancellably()
+        val responseBody = network.getAssets(itemsUrl).awaitNonCancellably()
         val contentLength = responseBody.contentLength().toFloat()
         ZipInputStream(responseBody.byteStream()).use { zip ->
             var totalBytesRead = 0L
@@ -158,6 +161,7 @@ class AssetsViewModel @Inject constructor(
     }
 
     private suspend fun handleHeroesAssets(
+        heroesUrl: String,
         localHeroesVersion: Long,
         remoteHeroesVersion: Long
     ): Boolean {
@@ -183,7 +187,7 @@ class AssetsViewModel @Inject constructor(
         }
 
         val heroes = mutableListOf<Pair<Long, String>>()
-        val responseBody = network.getHeroesAssets().awaitNonCancellably()
+        val responseBody = network.getAssets(heroesUrl).awaitNonCancellably()
         val contentLength = responseBody.contentLength().toFloat()
         ZipInputStream(responseBody.byteStream()).use { zip ->
             var totalBytesRead = 0L

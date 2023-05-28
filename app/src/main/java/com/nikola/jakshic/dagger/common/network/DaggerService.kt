@@ -5,6 +5,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Streaming
+import retrofit2.http.Url
 
 interface DaggerService {
     companion object {
@@ -14,11 +15,7 @@ interface DaggerService {
     @GET("remote-config.json")
     fun getRemoteConfig(): Call<RemoteConfig>
 
+    @GET
     @Streaming
-    @GET("static/items.zip")
-    fun getItemsAssets(): Call<ResponseBody>
-
-    @Streaming
-    @GET("static/heroes.zip")
-    fun getHeroesAssets(): Call<ResponseBody>
+    fun getAssets(@Url url: String): Call<ResponseBody>
 }
