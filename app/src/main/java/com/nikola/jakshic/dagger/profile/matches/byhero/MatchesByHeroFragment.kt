@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.Status
-import com.nikola.jakshic.dagger.databinding.ActivityMatchesPerHeroBinding
+import com.nikola.jakshic.dagger.databinding.FragmentMatchesByHeroBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,17 +22,17 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MatchesByHeroFragment : Fragment(R.layout.activity_matches_per_hero) {
+class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
     private val viewModel by viewModels<MatchesByHeroViewModel>()
 
     private var snackBar: Snackbar? = null
 
-    private var _binding: ActivityMatchesPerHeroBinding? = null
+    private var _binding: FragmentMatchesByHeroBinding? = null
     private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = ActivityMatchesPerHeroBinding.bind(view)
+        _binding = FragmentMatchesByHeroBinding.bind(view)
 
         val adapter = MatchAdapter(isMatchesByHero = true) {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))

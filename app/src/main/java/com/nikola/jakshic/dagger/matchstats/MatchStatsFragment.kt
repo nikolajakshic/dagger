@@ -11,17 +11,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.databinding.ActivityMatchStatsBinding
+import com.nikola.jakshic.dagger.databinding.FragmentMatchStatsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MatchStatsFragment : Fragment(R.layout.activity_match_stats) {
+class MatchStatsFragment : Fragment(R.layout.fragment_match_stats) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = ActivityMatchStatsBinding.bind(view)
+        val binding = FragmentMatchStatsBinding.bind(view)
         val viewModel = ViewModelProvider(this)[MatchStatsViewModel::class.java]
 
         val id = MatchStatsFragmentArgs.fromBundle(requireArguments()).matchId

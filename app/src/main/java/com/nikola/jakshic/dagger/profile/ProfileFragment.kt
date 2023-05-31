@@ -16,7 +16,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.extensions.getColor
 import com.nikola.jakshic.dagger.common.extensions.getDrawable
-import com.nikola.jakshic.dagger.databinding.ActivityProfileBinding
+import com.nikola.jakshic.dagger.databinding.FragmentProfileBinding
 import com.nikola.jakshic.dagger.util.DotaUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,11 +25,11 @@ import kotlinx.coroutines.launch
 private const val TAG_MEDAL_DIALOG = "medal-dialog"
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment(R.layout.activity_profile) {
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = ActivityProfileBinding.bind(view)
+        val binding = FragmentProfileBinding.bind(view)
         val viewModel = ViewModelProvider(this)[ProfileViewModel::class.java]
 
         val accountId = ProfileFragmentArgs.fromBundle(requireArguments()).accountId

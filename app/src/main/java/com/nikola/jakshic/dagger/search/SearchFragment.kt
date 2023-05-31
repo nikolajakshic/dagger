@@ -15,14 +15,14 @@ import com.nikola.jakshic.dagger.bookmark.player.PlayerAdapter
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
-import com.nikola.jakshic.dagger.databinding.ActivitySearchBinding
+import com.nikola.jakshic.dagger.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.activity_search) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
     private val viewModel by viewModels<SearchViewModel>()
 
-    private var _binding: ActivitySearchBinding? = null
+    private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
 
     private val STATE_QUERY = "query"
@@ -43,7 +43,7 @@ class SearchFragment : Fragment(R.layout.activity_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = ActivitySearchBinding.bind(view)
+        _binding = FragmentSearchBinding.bind(view)
 
         if (initialState) {
             viewModel.getAllQueries()

@@ -12,7 +12,7 @@
         android:id="@+id/matchStatsFragment"
         android:name="com.nikola.jakshic.dagger.matchstats.MatchStatsFragment"
         android:label="MatchStatsFragment"
-        tools:layout="@layout/activity_match_stats">
+        tools:layout="@layout/fragment_match_stats">
         <argument
             android:name="matchId"
             app:argType="long" />
@@ -21,7 +21,7 @@
         android:id="@+id/searchFragment"
         android:name="com.nikola.jakshic.dagger.search.SearchFragment"
         android:label="activity_search"
-        tools:layout="@layout/activity_search" />
+        tools:layout="@layout/fragment_search" />
     <action
         android:id="@+id/searchAction"
         app:destination="@id/searchFragment" />
@@ -46,7 +46,7 @@
         android:id="@+id/matchesByHeroFragment"
         android:name="com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroFragment"
         android:label="activity_matches_per_hero"
-        tools:layout="@layout/activity_matches_per_hero">
+        tools:layout="@layout/fragment_matches_by_hero">
         <argument
             android:name="accountId"
             app:argType="long" />
