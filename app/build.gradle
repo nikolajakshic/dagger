@@ -79,7 +79,7 @@ dependencies {
     def retrofitVersion = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-    def moshiVersion = "1.14.0"
+    def moshiVersion = "1.15.0"
     implementation "com.squareup.moshi:moshi:$moshiVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation platform("com.squareup.okhttp3:okhttp-bom:4.11.0")
