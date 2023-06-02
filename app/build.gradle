@@ -5,6 +5,7 @@ plugins {
     id "com.squareup.sqldelight"
     id "androidx.navigation.safeargs.kotlin"
     id "com.google.dagger.hilt.android"
+    id "com.google.devtools.ksp"
     id "com.diffplug.spotless"
 }
 
@@ -81,7 +82,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     def moshiVersion = "1.15.0"
     implementation "com.squareup.moshi:moshi:$moshiVersion"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation platform("com.squareup.okhttp3:okhttp-bom:4.11.0")
     implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor"
@@ -117,7 +118,7 @@ dependencies {
     // LeakCanary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.10"
     // Test
-    kaptTest "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+    kspTest "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test:runner:1.5.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.0"
