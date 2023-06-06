@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 // Not using @AndroidEntryPoint, ViewModel is instantiated by parent-fragment.
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
     private val viewModel by viewModels<MatchStatsViewModel>(
-        ownerProducer = { requireParentFragment() }
+        ownerProducer = { requireParentFragment() },
     )
 
     private var _binding: FragmentOverviewBinding? = null
@@ -112,7 +112,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         collapsedBinding.tvPlayerName.text = getPlayerName(item)
         val playerColor = ContextCompat.getColor(
             requireContext(),
-            if (item.playerSlot <= 4) R.color.color_green else R.color.color_red
+            if (item.playerSlot <= 4) R.color.color_green else R.color.color_red,
         )
         collapsedBinding.tvPlayerName.setTextColor(playerColor)
         collapsedBinding.tvKda.text =
@@ -158,14 +158,14 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 0,
                 0,
                 R.drawable.ic_trophy,
-                0
+                0,
             )
         } else {
             binding.tvDireName.setCompoundDrawablesWithIntrinsicBounds(
                 0,
                 0,
                 R.drawable.ic_trophy,
-                0
+                0,
             )
         }
 

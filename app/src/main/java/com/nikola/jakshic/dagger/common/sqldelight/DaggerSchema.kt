@@ -9,7 +9,7 @@ object DaggerSchema : SqlDriver.Schema by Database.Schema {
             driver.executeQuery(
                 identifier = null,
                 sql = "SELECT name FROM sqlite_master WHERE type = 'table';",
-                parameters = 0
+                parameters = 0,
             ).use { cursor ->
                 driver.execute(null, "PRAGMA foreign_keys = OFF;", 0)
                 while (cursor.next()) {

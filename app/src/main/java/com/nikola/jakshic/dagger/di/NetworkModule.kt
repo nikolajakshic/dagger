@@ -92,7 +92,7 @@ object NetworkModule {
                     chain.request()
                         .newBuilder()
                         .header("User-Agent", userAgent)
-                        .build()
+                        .build(),
                 )
             }
 

@@ -1,11 +1,11 @@
 package com.nikola.jakshic.dagger.common.network
 
 import com.nikola.jakshic.dagger.competitive.CompetitiveJson
-import com.nikola.jakshic.dagger.leaderboard._Leaderboard
+import com.nikola.jakshic.dagger.leaderboard.LeaderboardWrapperJson
 import com.nikola.jakshic.dagger.matchstats.MatchStatsJson
 import com.nikola.jakshic.dagger.profile.PlayerJson
 import com.nikola.jakshic.dagger.profile.PlayerWinLossJson
-import com.nikola.jakshic.dagger.profile._PlayerJson
+import com.nikola.jakshic.dagger.profile.PlayerWrapperJson
 import com.nikola.jakshic.dagger.profile.heroes.HeroJson
 import com.nikola.jakshic.dagger.profile.matches.MatchJson
 import com.nikola.jakshic.dagger.profile.peers.PeerJson
@@ -23,7 +23,7 @@ interface OpenDotaService {
     suspend fun searchPlayers(@Query("q") name: String): List<PlayerJson>
 
     @GET("players/{account_id}")
-    suspend fun getPlayerProfile(@Path("account_id") id: Long): _PlayerJson
+    suspend fun getPlayerProfile(@Path("account_id") id: Long): PlayerWrapperJson
 
     @GET("players/{account_id}/wl")
     suspend fun getPlayerWinLoss(@Path("account_id") playerId: Long): PlayerWinLossJson
@@ -32,7 +32,7 @@ interface OpenDotaService {
     suspend fun getMatches(
         @Path("account_id") playerId: Long,
         @Query("limit") limit: Int,
-        @Query("offset") offset: Int
+        @Query("offset") offset: Int,
     ): List<MatchJson>
 
     @GET("players/{account_id}/matches?significant=0")
@@ -40,7 +40,7 @@ interface OpenDotaService {
         @Path("account_id") playerId: Long,
         @Query("hero_id") heroId: Long,
         @Query("limit") limit: Int,
-        @Query("offset") offset: Int
+        @Query("offset") offset: Int,
     ): List<MatchJson>
 
     @GET("players/{account_id}/heroes")
@@ -56,5 +56,5 @@ interface OpenDotaService {
     suspend fun getCompetitiveMatches(): List<CompetitiveJson>
 
     @GET
-    suspend fun getLeaderboard(@Url url: String, @Query("division") region: String): _Leaderboard
+    suspend fun getLeaderboard(@Url url: String, @Query("division") region: String): LeaderboardWrapperJson
 }

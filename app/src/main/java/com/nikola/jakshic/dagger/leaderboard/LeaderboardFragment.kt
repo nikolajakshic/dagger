@@ -21,7 +21,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
             fragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
             key: Key,
-            listener: () -> Unit
+            listener: () -> Unit,
         ) {
             fragmentManager.setFragmentResultListener(key.name, lifecycleOwner) { _, _ ->
                 listener.invoke()
@@ -52,7 +52,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         HomeFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            HomeFragment.Key.LEADERBOARD
+            HomeFragment.Key.LEADERBOARD,
         ) {
             when (binding.viewPager.currentItem) {
                 0 -> childFragmentManager.setFragmentResult(Key.EUROPE.name, bundleOf())

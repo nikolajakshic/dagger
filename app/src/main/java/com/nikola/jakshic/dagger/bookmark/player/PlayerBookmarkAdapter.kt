@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemPlayerBinding
 
 class PlayerBookmarkAdapter(
-    private val listener: (PlayerBookmarkUI) -> Unit
+    private val listener: (PlayerBookmarkUI) -> Unit,
 ) : ListAdapter<PlayerBookmarkUI, PlayerBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_player))
@@ -52,14 +52,14 @@ class PlayerBookmarkAdapter(
     private companion object DIFF_CALLBACK : DiffUtil.ItemCallback<PlayerBookmarkUI>() {
         override fun areItemsTheSame(
             oldItem: PlayerBookmarkUI,
-            newItem: PlayerBookmarkUI
+            newItem: PlayerBookmarkUI,
         ): Boolean {
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
             oldItem: PlayerBookmarkUI,
-            newItem: PlayerBookmarkUI
+            newItem: PlayerBookmarkUI,
         ): Boolean {
             return oldItem == newItem
         }

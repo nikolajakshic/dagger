@@ -26,7 +26,7 @@ class MatchNoteDialog : DialogFragment(R.layout.dialog_note_match) {
         fun setOnNoteSavedListener(
             fragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            listener: (matchId: Long, note: String?) -> Unit
+            listener: (matchId: Long, note: String?) -> Unit,
         ) {
             fragmentManager.setFragmentResultListener(KEY_RESULT, lifecycleOwner) { _, result ->
                 listener.invoke(result.getLong(EXTRA_MATCH_ID), result.getString(EXTRA_NOTE))
@@ -41,7 +41,7 @@ class MatchNoteDialog : DialogFragment(R.layout.dialog_note_match) {
 
         requireDialog().window!!.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
+            WindowManager.LayoutParams.WRAP_CONTENT,
         )
 
         val args = MatchNoteDialogArgs.fromBundle(requireArguments())
@@ -60,8 +60,8 @@ class MatchNoteDialog : DialogFragment(R.layout.dialog_note_match) {
                 KEY_RESULT,
                 bundleOf(
                     EXTRA_MATCH_ID to args.matchId,
-                    EXTRA_NOTE to binding.etMatchNote.text.toString()
-                )
+                    EXTRA_NOTE to binding.etMatchNote.text.toString(),
+                ),
             )
             dismiss()
         }

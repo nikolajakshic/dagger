@@ -15,7 +15,7 @@ data class MatchJson(
     @Json(name = "game_mode") val gameMode: Long,
     @Json(name = "lobby_type") val lobbyType: Long,
     @Json(name = "radiant_win") val isRadiantWin: Boolean,
-    @Json(name = "start_time") val startTime: Long
+    @Json(name = "start_time") val startTime: Long,
 )
 
 data class MatchUI(
@@ -27,7 +27,7 @@ data class MatchUI(
     val gameMode: Long,
     val lobbyType: Long,
     val isRadiantWin: Boolean,
-    val startTime: Long
+    val startTime: Long,
 )
 
 fun MatchJson.mapToUi(): MatchUI {
@@ -40,7 +40,7 @@ fun MatchJson.mapToUi(): MatchUI {
         gameMode = this.gameMode,
         lobbyType = this.lobbyType,
         isRadiantWin = this.isRadiantWin,
-        startTime = this.startTime
+        startTime = this.startTime,
     )
 }
 
@@ -55,7 +55,7 @@ fun MatchJson.mapToDb(accountId: Long): Matches {
         mode = this.gameMode,
         lobby = this.lobbyType,
         radiant_win = if (this.isRadiantWin) 1 else 0,
-        start_time = this.startTime
+        start_time = this.startTime,
     )
 }
 
@@ -69,6 +69,6 @@ fun SelectAll.mapToUi(): MatchUI {
         gameMode = this.mode,
         lobbyType = this.lobby,
         isRadiantWin = this.radiant_win == 1L,
-        startTime = this.start_time
+        startTime = this.start_time,
     )
 }

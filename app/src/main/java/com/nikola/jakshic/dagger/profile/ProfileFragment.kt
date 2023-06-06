@@ -35,7 +35,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         val accountId = ProfileFragmentArgs.fromBundle(requireArguments()).accountId
 
         binding.viewPager.offscreenPageLimit = 2
-        binding.viewPager.adapter = ProfilePagerAdapter(accountId, /* fragment */ this)
+        binding.viewPager.adapter = ProfilePagerAdapter(accountId = accountId, fragment = this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             val title = when (position) {
                 0 -> getString(R.string.matches)
@@ -82,12 +82,12 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     val medal = DotaUtil.getMedal(
                         requireContext(),
                         player.rankTier,
-                        player.leaderboardRank
+                        player.leaderboardRank,
                     )
                     val stars = DotaUtil.getStars(
                         requireContext(),
                         player.rankTier,
-                        player.leaderboardRank
+                        player.leaderboardRank,
                     )
                     binding.containerHeader.imgRankMedal.load(medal)
                     binding.containerHeader.imgRankStars.load(stars)
@@ -105,21 +105,21 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                     binding.containerHeader.tvPlayerId.text = player.id.toString()
                     binding.containerHeader.tvPlayerGames.text = getString(
                         R.string.player_games,
-                        (player.wins + player.losses)
+                        (player.wins + player.losses),
                     )
                     binding.containerHeader.tvPlayerWins.text = getString(
                         R.string.player_wins,
-                        player.wins
+                        player.wins,
                     )
                     binding.containerHeader.tvPlayerLosses.text = getString(
                         R.string.player_losses,
-                        player.losses
+                        player.losses,
                     )
 
                     val winRate = (player.wins.toDouble() / (player.wins + player.losses)) * 100
                     binding.containerHeader.tvPlayerWinRate.text = getString(
                         R.string.player_winrate,
-                        winRate
+                        winRate,
                     )
                 }
             }

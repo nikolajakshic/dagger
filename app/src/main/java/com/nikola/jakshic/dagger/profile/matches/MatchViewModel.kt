@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchViewModel @Inject constructor(
     private val repository: MatchRepository,
-    private val matchQueries: MatchQueries
+    private val matchQueries: MatchQueries,
 ) : ViewModel() {
     private lateinit var response: Response
 
@@ -46,7 +46,7 @@ class MatchViewModel @Inject constructor(
             factory = QueryDataSourceFactory(
                 queryProvider = queryProvider,
                 countQuery = matchQueries.countMatches(id),
-                transacter = matchQueries
+                transacter = matchQueries,
             )
             response =
                 repository.getMatchesLiveData(viewModelScope, factory!!.map(SelectAll::mapToUi), id)

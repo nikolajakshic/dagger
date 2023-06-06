@@ -23,7 +23,7 @@ suspend fun <T : Any> Call<T>.awaitNonCancellably(): T {
                                 method.declaringClass.name +
                                 '.' +
                                 method.name +
-                                " was null but response body type was declared as non-null"
+                                " was null but response body type was declared as non-null",
                         )
                         continuation.resumeWithException(e)
                     } else {

@@ -11,7 +11,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemHeroBinding
 
 class HeroAdapter(
-    private val listener: (Long) -> Unit
+    private val listener: (Long) -> Unit,
 ) : ListAdapter<HeroUI, HeroAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_hero))
@@ -45,7 +45,7 @@ class HeroAdapter(
             binding.tvHeroWinLose.text = itemView.context.resources.getString(
                 R.string.hero_win_loss,
                 item.gamesWon,
-                item.gamesPlayed - item.gamesWon
+                item.gamesPlayed - item.gamesWon,
             )
         }
 

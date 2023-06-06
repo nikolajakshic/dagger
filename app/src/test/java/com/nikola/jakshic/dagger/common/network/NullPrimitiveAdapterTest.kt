@@ -52,6 +52,6 @@ class NullPrimitiveAdapterTest {
         val long: Long,
         val float: Float,
         val double: Double,
-        val boolean: Boolean
+        val boolean: Boolean,
     )
 }

@@ -12,7 +12,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemPeerBinding
 
 class PeerAdapter(
-    private val listener: (Long) -> Unit
+    private val listener: (Long) -> Unit,
 ) : ListAdapter<PeerUI, PeerAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_peer))

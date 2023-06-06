@@ -16,14 +16,14 @@ import javax.inject.Singleton
 class CompetitiveRepository @Inject constructor(
     private val dispatchers: Dispatchers,
     private val competitiveQueries: CompetitiveQueries,
-    private val service: OpenDotaService
+    private val service: OpenDotaService,
 ) {
     /**
      * Constructs the [LiveData] which emits every time
      * the requested data in the database has changed
      */
     fun getCompetitiveLiveData(
-        factory: DataSource.Factory<Int, CompetitiveUI>
+        factory: DataSource.Factory<Int, CompetitiveUI>,
     ): LiveData<PagedList<CompetitiveUI>> {
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(80)
@@ -52,7 +52,7 @@ class CompetitiveRepository @Inject constructor(
                 league_name = it.leagueName,
                 radiant_score = it.radiantScore,
                 dire_score = it.direScore,
-                radiant_win = if (it.isRadiantWin) 1 else 0
+                radiant_win = if (it.isRadiantWin) 1 else 0,
             )
         }
         competitiveQueries.transaction {

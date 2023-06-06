@@ -16,7 +16,7 @@ import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchAdapter(
     private val isMatchesByHero: Boolean,
-    private val listener: (Long) -> Unit
+    private val listener: (Long) -> Unit,
 ) : PagedListAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
     var heroImage: String? = null
         set(value) {
@@ -56,7 +56,7 @@ class MatchAdapter(
                     itemView.context.getString(R.string.won)
                 } else {
                     itemView.context.getString(
-                        R.string.lost
+                        R.string.lost,
                     )
                 }
             val resultColor = if (isWin(item)) {

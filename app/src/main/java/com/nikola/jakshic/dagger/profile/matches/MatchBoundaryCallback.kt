@@ -16,7 +16,7 @@ class MatchBoundaryCallback(
     private val service: OpenDotaService,
     private val matchQueries: MatchQueries,
     private val dispatchers: Dispatchers,
-    private val id: Long
+    private val id: Long,
 ) : PagedList.BoundaryCallback<MatchUI>() {
 
     private val _status = MutableLiveData<Status>()

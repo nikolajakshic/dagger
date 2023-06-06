@@ -17,11 +17,11 @@ class HeroSortDialog : DialogFragment() {
         fun setOnSortListener(
             childFragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            listener: (sortBy: SortBy) -> Unit
+            listener: (sortBy: SortBy) -> Unit,
         ) {
             childFragmentManager.setFragmentResultListener(
                 KEY_RESULT,
-                lifecycleOwner
+                lifecycleOwner,
             ) { _, result ->
                 val sortBy = when (result.getInt(EXTRA_SORT_INDEX)) {
                     0 -> SortBy.GAMES
@@ -39,8 +39,10 @@ class HeroSortDialog : DialogFragment() {
         return AlertDialog.Builder(requireContext()).setTitle(getString(R.string.sort_by))
             .setItems(R.array.sort_hero_options) { _, which ->
                 parentFragmentManager.setFragmentResult(
-                    /* requestKey */ KEY_RESULT,
-                    /* result */ bundleOf(EXTRA_SORT_INDEX to which)
+                    /* requestKey */
+                    KEY_RESULT,
+                    /* result */
+                    bundleOf(EXTRA_SORT_INDEX to which),
                 )
             }.create()
     }

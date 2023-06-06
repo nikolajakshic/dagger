@@ -17,7 +17,7 @@ class LeaderboardRepository @Inject constructor(
     private val dispatchers: Dispatchers,
     private val leaderboardQueries: LeaderboardQueries,
     private val service: OpenDotaService,
-    private val leaderboardUrlProvider: LeaderboardUrlProvider
+    private val leaderboardUrlProvider: LeaderboardUrlProvider,
 ) {
     /**
      * Constructs the [Flow] which emits every time

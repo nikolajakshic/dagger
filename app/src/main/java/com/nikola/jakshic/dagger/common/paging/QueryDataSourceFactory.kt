@@ -8,7 +8,7 @@ import com.squareup.sqldelight.Transacter
 class QueryDataSourceFactory<RowType : Any>(
     private val queryProvider: (limit: Long, offset: Long) -> Query<RowType>,
     private val countQuery: Query<Long>,
-    private val transacter: Transacter
+    private val transacter: Transacter,
 ) : DataSource.Factory<Int, RowType>() {
     private var dataSource: QueryDataSource<RowType>? = null
 
@@ -23,7 +23,7 @@ class QueryDataSourceFactory<RowType : Any>(
 private class QueryDataSource<RowType : Any>(
     private val queryProvider: (limit: Long, offset: Long) -> Query<RowType>,
     private val countQuery: Query<Long>,
-    private val transacter: Transacter
+    private val transacter: Transacter,
 ) : PositionalDataSource<RowType>(),
     Query.Listener {
     private var query: Query<RowType>? = null
@@ -55,7 +55,7 @@ private class QueryDataSource<RowType : Any>(
 
     override fun loadRange(
         params: LoadRangeParams,
-        callback: LoadRangeCallback<RowType>
+        callback: LoadRangeCallback<RowType>,
     ) {
         query?.removeListener(this)
         queryProvider(params.loadSize.toLong(), params.startPosition.toLong()).let { query ->
@@ -71,7 +71,7 @@ private class QueryDataSource<RowType : Any>(
 
     override fun loadInitial(
         params: LoadInitialParams,
-        callback: LoadInitialCallback<RowType>
+        callback: LoadInitialCallback<RowType>,
     ) {
         query?.removeListener(this)
         transacter.transaction {
@@ -85,9 +85,12 @@ private class QueryDataSource<RowType : Any>(
                 this@QueryDataSource.query = query
                 if (!isInvalid) {
                     callback.onResult(
-                        /* data = */ query.executeAsList(),
-                        /* position = */ initialLoadPosition,
-                        /* totalCount = */ totalCount
+                        /* data = */
+                        query.executeAsList(),
+                        /* position = */
+                        initialLoadPosition,
+                        /* totalCount = */
+                        totalCount,
                     )
                 }
             }

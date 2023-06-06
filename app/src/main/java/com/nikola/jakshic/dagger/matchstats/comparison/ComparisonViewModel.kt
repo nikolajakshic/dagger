@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ComparisonViewModel @Inject constructor(
     heroAssetQueries: HeroAssetQueries,
     dispatchers: Dispatchers,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val args = ComparisonDialogArgs.fromSavedStateHandle(savedStateHandle)
     val heroes = heroAssetQueries.selectHeroImagesById(
@@ -34,7 +34,7 @@ class ComparisonViewModel @Inject constructor(
         args.heroIds[6],
         args.heroIds[7],
         args.heroIds[8],
-        args.heroIds[9]
+        args.heroIds[9],
     ).asFlow()
         .mapToOne(dispatchers.io)
         .map(SelectHeroImagesById::mapToUi)
@@ -46,6 +46,6 @@ class ComparisonViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 }

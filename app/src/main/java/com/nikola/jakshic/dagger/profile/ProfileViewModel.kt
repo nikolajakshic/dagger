@@ -30,7 +30,7 @@ class ProfileViewModel @Inject constructor(
     private val playerBookmarkQueries: PlayerBookmarkQueries,
     private val repo: PlayerRepository,
     private val dispatchers: Dispatchers,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val accountId = ProfileFragmentArgs.fromSavedStateHandle(savedStateHandle).accountId
 
@@ -48,7 +48,7 @@ class ProfileViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null
+            initialValue = null,
         )
     val isBookmarked: StateFlow<Boolean> = playerBookmarkQueries.select(accountId)
         .asFlow()
@@ -63,7 +63,7 @@ class ProfileViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = false
+            initialValue = false,
         )
 
     private val _isLoading = MutableStateFlow(false)

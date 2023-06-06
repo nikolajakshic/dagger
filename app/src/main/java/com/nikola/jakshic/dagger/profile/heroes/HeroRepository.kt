@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class HeroRepository @Inject constructor(
     private val heroQueries: HeroQueries,
     private val service: OpenDotaService,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) {
     /**
      * Constructs the [Flow] which emits every time

@@ -31,7 +31,7 @@ class MatchRepository @Inject constructor(
     private val matchQueries: MatchQueries,
     private val matchStatsQueries: MatchStatsQueries,
     private val playerStatsQueries: PlayerStatsQueries,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) {
 
     /**
@@ -41,7 +41,7 @@ class MatchRepository @Inject constructor(
     fun getMatchesLiveData(
         scope: CoroutineScope,
         factory: DataSource.Factory<Int, MatchUI>,
-        id: Long
+        id: Long,
     ): Response {
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -59,7 +59,7 @@ class MatchRepository @Inject constructor(
         return Response(
             pagedList = pagedList,
             status = boundaryCallback.status,
-            retry = { boundaryCallback.retry() }
+            retry = { boundaryCallback.retry() },
         )
     }
 
@@ -104,7 +104,7 @@ class MatchRepository @Inject constructor(
             pagedList = livePagedList,
             status = sourceFactory.sourceLiveData.switchMap { it.status },
             refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
-            retry = { sourceFactory.sourceLiveData.value?.retry() }
+            retry = { sourceFactory.sourceLiveData.value?.retry() },
         )
     }
 
@@ -144,7 +144,7 @@ class MatchRepository @Inject constructor(
                 direTowers = matchDb.dire_towers,
                 radiantName = matchDb.radiant_name,
                 direName = matchDb.dire_name,
-                matchId = matchDb.match_id
+                matchId = matchDb.match_id,
             )
             match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
         }

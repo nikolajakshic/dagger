@@ -18,7 +18,7 @@ private const val KEY_SORT_BY = "sort-by"
 @HiltViewModel
 class PeerViewModel @Inject constructor(
     private val repository: PeerRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val accountId = PeerFragment.getAccountId(savedStateHandle)
 
@@ -33,7 +33,7 @@ class PeerViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
+        initialValue = emptyList(),
     )
 
     private val _isLoading = MutableStateFlow(false)

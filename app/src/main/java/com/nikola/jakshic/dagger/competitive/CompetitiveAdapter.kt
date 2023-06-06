@@ -11,7 +11,7 @@ import com.nikola.jakshic.dagger.common.timeElapsed
 import com.nikola.jakshic.dagger.databinding.ItemCompetitiveBinding
 
 class CompetitiveAdapter(
-    private val listener: (matchId: Long) -> Unit
+    private val listener: (matchId: Long) -> Unit,
 ) : PagedListAdapter<CompetitiveUI, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {
         return CompetitiveViewHolder(parent.inflate(R.layout.item_competitive))

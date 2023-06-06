@@ -11,7 +11,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemStreamBinding
 
 class StreamAdapter(
-    private val listener: (userName: String) -> Unit
+    private val listener: (userName: String) -> Unit,
 ) : ListAdapter<StreamUI, StreamAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_stream))

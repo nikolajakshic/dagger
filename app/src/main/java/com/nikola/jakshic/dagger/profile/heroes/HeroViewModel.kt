@@ -17,7 +17,7 @@ private const val KEY_SORT_BY = "sort-by"
 @HiltViewModel
 class HeroViewModel @Inject constructor(
     private val repository: HeroRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val accountId = HeroFragment.getAccountId(savedStateHandle)
 
@@ -34,7 +34,7 @@ class HeroViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
+        initialValue = emptyList(),
     )
 
     private val _isLoading = MutableStateFlow(false)

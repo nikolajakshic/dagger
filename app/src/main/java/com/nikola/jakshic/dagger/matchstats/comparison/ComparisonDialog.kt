@@ -34,11 +34,11 @@ class ComparisonDialog : BottomSheetDialogFragment(R.layout.dialog_comparison) {
         fun setOnClickListener(
             childFragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            listener: (playerIndex: Int) -> Unit
+            listener: (playerIndex: Int) -> Unit,
         ) {
             childFragmentManager.setFragmentResultListener(
                 KEY_RESULT,
-                lifecycleOwner
+                lifecycleOwner,
             ) { _, result ->
                 listener(result.getInt(EXTRA_PLAYER_INDEX))
             }
@@ -62,7 +62,7 @@ class ComparisonDialog : BottomSheetDialogFragment(R.layout.dialog_comparison) {
             imgHero.setOnClickListener {
                 parentFragmentManager.setFragmentResult(
                     KEY_RESULT,
-                    bundleOf(EXTRA_PLAYER_INDEX to i)
+                    bundleOf(EXTRA_PLAYER_INDEX to i),
                 )
                 dismiss()
             }

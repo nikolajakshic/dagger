@@ -26,7 +26,7 @@ class MatchStatsViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchBookmarkQueries: MatchBookmarkQueries,
     private val dispatchers: Dispatchers,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val matchId = MatchStatsFragmentArgs.fromSavedStateHandle(savedStateHandle).matchId
 
@@ -34,7 +34,7 @@ class MatchStatsViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null
+            initialValue = null,
         )
 
     val isBookmarked = matchBookmarkQueries.isBookmarked(matchId)
@@ -43,7 +43,7 @@ class MatchStatsViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = 0L
+            initialValue = 0L,
         )
 
     private val _isLoading = MutableStateFlow(false)

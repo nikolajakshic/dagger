@@ -10,7 +10,7 @@ import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.databinding.ItemSearchHistoryBinding
 
 class HistoryAdapter(
-    private val listener: (String) -> Unit
+    private val listener: (String) -> Unit,
 ) : ListAdapter<SearchHistoryUI, HistoryAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_search_history))
@@ -42,14 +42,14 @@ class HistoryAdapter(
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SearchHistoryUI>() {
             override fun areItemsTheSame(
                 oldItem: SearchHistoryUI,
-                newItem: SearchHistoryUI
+                newItem: SearchHistoryUI,
             ): Boolean {
                 return oldItem.query == newItem.query
             }
 
             override fun areContentsTheSame(
                 oldItem: SearchHistoryUI,
-                newItem: SearchHistoryUI
+                newItem: SearchHistoryUI,
             ): Boolean {
                 return oldItem == newItem
             }

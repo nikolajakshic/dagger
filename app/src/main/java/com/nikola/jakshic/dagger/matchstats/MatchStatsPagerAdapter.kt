@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.matchstats.comparison.ComparisonFragment
 import com.nikola.jakshic.dagger.matchstats.overview.OverviewFragment
 
 class MatchStatsPagerAdapter(
-    fragment: Fragment
+    fragment: Fragment,
 ) : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
     override fun getItemCount() = 2
 

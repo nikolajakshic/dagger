@@ -5,10 +5,10 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class _PlayerJson(
+class PlayerWrapperJson(
     @Json(name = "profile") val player: PlayerJson?,
     @Json(name = "rank_tier") val rankTier: Long,
-    @Json(name = "leaderboard_rank") val leaderboardRank: Long
+    @Json(name = "leaderboard_rank") val leaderboardRank: Long,
 )
 
 @JsonClass(generateAdapter = true)
@@ -16,13 +16,13 @@ data class PlayerJson(
     @Json(name = "account_id") val id: Long = 0,
     @Json(name = "name") val name: String?,
     @Json(name = "personaname") val personaName: String?,
-    @Json(name = "avatarfull") val avatarUrl: String?
+    @Json(name = "avatarfull") val avatarUrl: String?,
 )
 
 @JsonClass(generateAdapter = true)
 data class PlayerWinLossJson(
     @Json(name = "win") val wins: Long,
-    @Json(name = "lose") val losses: Long
+    @Json(name = "lose") val losses: Long,
 )
 
 data class PlayerUI(
@@ -33,7 +33,7 @@ data class PlayerUI(
     val rankTier: Long = 0,
     val leaderboardRank: Long = 0,
     val wins: Long = 0,
-    val losses: Long = 0
+    val losses: Long = 0,
 )
 
 fun Players.mapToUi(): PlayerUI {
@@ -45,7 +45,7 @@ fun Players.mapToUi(): PlayerUI {
         rank_tier,
         leaderboard_rank,
         wins,
-        losses
+        losses,
     )
 }
 
@@ -54,6 +54,6 @@ fun PlayerJson.mapToUi(): PlayerUI {
         id = id,
         name = name,
         personaName = personaName,
-        avatarUrl = avatarUrl
+        avatarUrl = avatarUrl,
     )
 }

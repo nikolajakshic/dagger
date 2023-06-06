@@ -22,7 +22,7 @@ data class MatchStatsJson(
     @Json(name = "tower_status_dire") val direTowers: Long = 0,
     @Json(name = "radiant_team") val radiantTeam: Team? = null,
     @Json(name = "dire_team") val direTeam: Team? = null,
-    @Json(name = "players") val players: List<PlayerStatsJson>? = null
+    @Json(name = "players") val players: List<PlayerStatsJson>? = null,
 )
 
 @JsonClass(generateAdapter = true)
@@ -58,7 +58,7 @@ data class PlayerStatsJson(
     @Json(name = "tower_damage") val towerDamage: Long,
     @Json(name = "xp_per_min") val xpPerMin: Long,
     @Json(name = "purchase_ward_observer") val purchaseWardObserver: Long = 0,
-    @Json(name = "purchase_ward_sentry") val purchaseWardSentry: Long = 0
+    @Json(name = "purchase_ward_sentry") val purchaseWardSentry: Long = 0,
 )
 
 data class MatchStatsUI(
@@ -76,7 +76,7 @@ data class MatchStatsUI(
     val direTowers: Long,
     val radiantName: String?,
     val direName: String?,
-    val players: List<PlayerStatsUI>
+    val players: List<PlayerStatsUI>,
 ) {
     data class PlayerStatsUI(
         val id: Long,
@@ -107,7 +107,7 @@ data class MatchStatsUI(
         val towerDamage: Long,
         val xpPerMin: Long,
         val purchaseWardObserver: Long,
-        val purchaseWardSentry: Long
+        val purchaseWardSentry: Long,
     )
 }
 
@@ -126,7 +126,7 @@ fun MatchStatsJson.mapToDb(): Match_stats {
         radiant_towers = radiantTowers,
         dire_towers = direTowers,
         radiant_name = radiantTeam?.name,
-        dire_name = direTeam?.name
+        dire_name = direTeam?.name,
     )
 }
 
@@ -165,8 +165,8 @@ fun List<SelectAllMatchStats>.mapToUi(): MatchStatsUI? {
                 towerDamage = player.tower_damage,
                 xpPerMin = player.xpm,
                 purchaseWardObserver = player.observers,
-                purchaseWardSentry = player.sentries
-            )
+                purchaseWardSentry = player.sentries,
+            ),
         )
     }
     return MatchStatsUI(
@@ -184,7 +184,7 @@ fun List<SelectAllMatchStats>.mapToUi(): MatchStatsUI? {
         direTowers = this[0].dire_towers,
         radiantName = this[0].radiant_name,
         direName = this[0].dire_name,
-        players = players
+        players = players,
     )
 }
 
@@ -218,6 +218,6 @@ fun PlayerStatsJson.mapToDb(): Player_stats {
         tower_damage = towerDamage,
         xpm = xpPerMin,
         observers = purchaseWardObserver,
-        sentries = purchaseWardSentry
+        sentries = purchaseWardSentry,
     )
 }

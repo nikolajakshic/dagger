@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class PlayerBookmarkViewModel @Inject constructor(
     playerBookmarkQueries: PlayerBookmarkQueries,
-    dispatchers: Dispatchers
+    dispatchers: Dispatchers,
 ) : ViewModel() {
     val list = playerBookmarkQueries.selectAllPlayerBookmark()
         .asFlow()
@@ -26,6 +26,6 @@ class PlayerBookmarkViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 }

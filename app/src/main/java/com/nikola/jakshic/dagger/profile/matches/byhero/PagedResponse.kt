@@ -8,5 +8,5 @@ data class PagedResponse<T>(
     val pagedList: LiveData<PagedList<T>>,
     val status: LiveData<Status>,
     val refresh: () -> Unit,
-    val retry: suspend () -> Unit
+    val retry: suspend () -> Unit,
 )

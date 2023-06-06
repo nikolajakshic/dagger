@@ -5,11 +5,11 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class _Leaderboard(@Json(name = "leaderboard") val leaderboard: List<LeaderboardJson>?)
+class LeaderboardWrapperJson(@Json(name = "leaderboard") val leaderboard: List<LeaderboardJson>?)
 
 @JsonClass(generateAdapter = true)
 data class LeaderboardJson(
-    @Json(name = "name") val name: String?
+    @Json(name = "name") val name: String?,
 )
 
 @JsonClass(generateAdapter = true)
@@ -18,19 +18,19 @@ data class RemoteConfig(
     @Json(name = "items_version") val itemsVersion: Long,
     @Json(name = "items_url") val itemsUrl: String,
     @Json(name = "heroes_version") val heroesVersion: Long,
-    @Json(name = "heroes_url") val heroesUrl: String
+    @Json(name = "heroes_url") val heroesUrl: String,
 )
 
 enum class Region {
     AMERICAS,
     CHINA,
     EUROPE,
-    SE_ASIA
+    SE_ASIA,
 }
 
 data class LeaderboardUI(
     val rank: Long,
-    val name: String?
+    val name: String?,
 )
 
 fun List<SelectAll>.mapToUi(): List<LeaderboardUI> {

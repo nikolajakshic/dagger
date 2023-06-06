@@ -23,7 +23,7 @@ class MatchesByHeroViewModel @Inject constructor(
     heroAssetQueries: HeroAssetQueries,
     repository: MatchRepository,
     dispatchers: Dispatchers,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val args = MatchesByHeroFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
@@ -43,7 +43,7 @@ class MatchesByHeroViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = null
+            initialValue = null,
         )
 
     fun retry() {

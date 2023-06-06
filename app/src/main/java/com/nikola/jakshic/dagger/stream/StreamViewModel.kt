@@ -21,7 +21,7 @@ class StreamViewModel @Inject constructor(private val repository: StreamReposito
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = StreamUiState.DEFAULT
+            initialValue = StreamUiState.DEFAULT,
         )
 
     init {

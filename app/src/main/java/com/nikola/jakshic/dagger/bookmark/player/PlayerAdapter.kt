@@ -13,7 +13,7 @@ import com.nikola.jakshic.dagger.databinding.ItemPlayerBinding
 import com.nikola.jakshic.dagger.profile.PlayerUI
 
 class PlayerAdapter(
-    private val listener: (PlayerUI) -> Unit
+    private val listener: (PlayerUI) -> Unit,
 ) : ListAdapter<PlayerUI, PlayerAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_player))

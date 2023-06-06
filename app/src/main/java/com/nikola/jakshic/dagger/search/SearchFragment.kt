@@ -64,8 +64,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.recViewPlayers.addItemDecoration(
             DividerItemDecoration(
                 requireContext(),
-                DividerItemDecoration.VERTICAL
-            )
+                DividerItemDecoration.VERTICAL,
+            ),
         )
         binding.recViewPlayers.adapter = playerAdapter
         binding.recViewPlayers.setHasFixedSize(true)

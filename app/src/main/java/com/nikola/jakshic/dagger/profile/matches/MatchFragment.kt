@@ -44,8 +44,8 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         binding.recView.addItemDecoration(
             DividerItemDecoration(
                 context,
-                DividerItemDecoration.VERTICAL
-            )
+                DividerItemDecoration.VERTICAL,
+            ),
         )
         binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
@@ -73,13 +73,13 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
                     snackbar = Snackbar.make(
                         binding.swipeRefresh,
                         getString(R.string.error_network),
-                        Snackbar.LENGTH_INDEFINITE
+                        Snackbar.LENGTH_INDEFINITE,
                     )
                     snackbar?.setActionTextColor(
                         ContextCompat.getColor(
                             requireContext(),
-                            android.R.color.white
-                        )
+                            android.R.color.white,
+                        ),
                     )
                     snackbar?.setAction(getString(R.string.retry)) {
                         viewModel.retry()

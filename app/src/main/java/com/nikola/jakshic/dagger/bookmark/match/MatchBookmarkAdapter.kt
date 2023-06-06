@@ -13,7 +13,7 @@ import com.nikola.jakshic.dagger.databinding.ItemBookmarkMatchBinding
 
 class MatchBookmarkAdapter(
     private val onClick: (matchId: Long) -> Unit,
-    private val onHold: (matchId: Long, note: String?) -> Unit
+    private val onHold: (matchId: Long, note: String?) -> Unit,
 ) : ListAdapter<MatchBookmarkUI, MatchBookmarkAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.item_bookmark_match))
@@ -88,7 +88,7 @@ class MatchBookmarkAdapter(
 
         override fun areContentsTheSame(
             oldItem: MatchBookmarkUI,
-            newItem: MatchBookmarkUI
+            newItem: MatchBookmarkUI,
         ): Boolean {
             return oldItem == newItem
         }

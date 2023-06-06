@@ -39,7 +39,7 @@ fun getDuration(context: Context, duration: Long): String {
             R.string.match_duration,
             hours,
             minutes,
-            seconds
+            seconds,
         )
     }
     return context.resources.getString(R.string.match_duration_zero_hours, minutes, seconds)
@@ -48,7 +48,7 @@ fun getDuration(context: Context, duration: Long): String {
 suspend inline fun <T> withRetry(
     times: Int = 2,
     delayMillis: Long = 100,
-    block: () -> T
+    block: () -> T,
 ): T {
     repeat(times) {
         try {

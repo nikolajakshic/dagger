@@ -28,7 +28,7 @@ class LeaderboardUrlProvider @Inject constructor(
     applicationScope: CoroutineScope,
     dispatchers: Dispatchers,
     private val sharedPreferences: SharedPreferences,
-    private val service: DaggerService
+    private val service: DaggerService,
 ) {
     private val url = flow {
         var lastUrl: String? = null
@@ -50,9 +50,9 @@ class LeaderboardUrlProvider @Inject constructor(
             scope = applicationScope,
             started = SharingStarted.WhileSubscribed(
                 stopTimeoutMillis = 3000,
-                replayExpirationMillis = 0
+                replayExpirationMillis = 0,
             ),
-            replay = 1
+            replay = 1,
         )
 
     suspend fun get() = url.first()

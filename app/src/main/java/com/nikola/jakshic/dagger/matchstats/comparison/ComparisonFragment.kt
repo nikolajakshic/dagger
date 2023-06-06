@@ -25,7 +25,7 @@ private const val TAG_COMPARISON_DIALOG = "comparison-dialog"
 @AndroidEntryPoint
 class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
     private val viewModel by viewModels<MatchStatsViewModel>(
-        ownerProducer = { requireParentFragment() }
+        ownerProducer = { requireParentFragment() },
     )
 
     private var _binding: FragmentComparisonBinding? = null
@@ -60,7 +60,7 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
 
         ComparisonDialog.setOnClickListener(
             childFragmentManager,
-            viewLifecycleOwner
+            viewLifecycleOwner,
         ) { playerIndex ->
             if (stats != null) {
                 when (SELECTED_PLAYER) {
@@ -83,7 +83,7 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
                                 val args = ComparisonDialogArgs(
                                     leftPlayerIndex,
                                     rightPlayerIndex,
-                                    stats.players.map { it.heroId }
+                                    stats.players.map { it.heroId },
                                 )
                                 ComparisonDialog.newInstance(args)
                                     .showNow(childFragmentManager, TAG_COMPARISON_DIALOG)
@@ -131,7 +131,7 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
             100 * player1.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
             100 * player1.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
             100 * player1.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
-            100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes)
+            100 * player1.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
         )
 
         val entries2 = floatArrayOf(
@@ -140,7 +140,7 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
             100 * player2.towerDamage.toFloat() / (MAX_TOWER_DAMAGE_PER_MINUTE * durationInMinutes),
             100 * player2.goldPerMin.toFloat() / (MAX_GOLD_PER_MINUTE),
             100 * player2.xpPerMin.toFloat() / (MAX_EXPERIENCE_PER_MINUTE),
-            100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes)
+            100 * player2.heroDamage / (MAX_HERO_DAMAGE_PER_MINUTE * durationInMinutes),
         )
 
         val color1 = ContextCompat.getColor(requireContext(), R.color.comparison_player1)
@@ -149,8 +149,8 @@ class ComparisonFragment : Fragment(R.layout.fragment_comparison) {
         binding.spiderChart.setData(
             listOf(
                 SpiderData(entries1, color1),
-                SpiderData(entries2, color2)
-            )
+                SpiderData(entries2, color2),
+            ),
         )
         binding.spiderChart.setLabels(labels)
         binding.spiderChart.setRotationAngle(120f)

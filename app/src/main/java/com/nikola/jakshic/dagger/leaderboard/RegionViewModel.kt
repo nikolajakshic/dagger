@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegionViewModel @Inject constructor(
     private val repository: LeaderboardRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val region = RegionFragment.getRegion(savedStateHandle)
 
@@ -23,7 +23,7 @@ class RegionViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 
     private val _isLoading = MutableStateFlow(false)

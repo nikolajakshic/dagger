@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MatchBookmarkViewModel @Inject constructor(
     private val matchBookmarkQueries: MatchBookmarkQueries,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) : ViewModel() {
     val list = matchBookmarkQueries.selectAllMatchBookmark()
         .asFlow()
@@ -28,7 +28,7 @@ class MatchBookmarkViewModel @Inject constructor(
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
+            initialValue = emptyList(),
         )
 
     fun updateNote(matchId: Long, note: String?) {

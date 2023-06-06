@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class PlayerRepository @Inject constructor(
     private val service: OpenDotaService,
     private val playerQueries: PlayerQueries,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) {
     suspend fun fetchProfile(id: Long) = coroutineScope {
         val profileDef = async(dispatchers.io) { service.getPlayerProfile(id) }
@@ -31,7 +31,7 @@ class PlayerRepository @Inject constructor(
                 leaderboardRank = profile.leaderboardRank,
                 wins = winsLosses.wins,
                 losses = winsLosses.losses,
-                accountId = profile.player.id
+                accountId = profile.player.id,
             )
         }
     }

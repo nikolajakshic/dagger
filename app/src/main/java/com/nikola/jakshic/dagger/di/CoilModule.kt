@@ -17,7 +17,7 @@ object CoilModule {
     @Singleton
     fun provideImageLoader(
         @ApplicationContext context: Context,
-        client: OkHttpClient
+        client: OkHttpClient,
     ): ImageLoader {
         return ImageLoader.Builder(context)
             .okHttpClient(client)

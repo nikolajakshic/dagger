@@ -39,7 +39,7 @@ class PlayerBookmarkFragment : Fragment(R.layout.fragment_bookmark_player) {
         BookmarkFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            BookmarkFragment.Key.PLAYERS
+            BookmarkFragment.Key.PLAYERS,
         ) {
             binding.recView.smoothScrollToPosition(0)
         }

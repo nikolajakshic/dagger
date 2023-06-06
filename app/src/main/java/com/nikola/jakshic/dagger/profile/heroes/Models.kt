@@ -12,14 +12,14 @@ import com.squareup.moshi.JsonClass
 data class HeroJson(
     @Json(name = "hero_id") val heroId: Long,
     @Json(name = "games") val gamesPlayed: Long,
-    @Json(name = "win") val gamesWon: Long
+    @Json(name = "win") val gamesWon: Long,
 )
 
 data class HeroUI(
     val heroId: Long,
     val imagePath: String?,
     val gamesPlayed: Long,
-    val gamesWon: Long
+    val gamesWon: Long,
 )
 
 fun HeroJson.mapToDb(accountId: Long): Heroes {
@@ -27,7 +27,7 @@ fun HeroJson.mapToDb(accountId: Long): Heroes {
         account_id = accountId,
         hero_id = this.heroId,
         games = this.gamesPlayed,
-        wins = this.gamesWon
+        wins = this.gamesWon,
     )
 }
 
@@ -36,7 +36,7 @@ fun SelectAllByGames.mapToUi(): HeroUI {
         heroId = hero_id,
         imagePath = image_path,
         gamesPlayed = games,
-        gamesWon = wins
+        gamesWon = wins,
     )
 }
 
@@ -45,7 +45,7 @@ fun SelectAllByWinrate.mapToUi(): HeroUI {
         heroId = hero_id,
         imagePath = image_path,
         gamesPlayed = games,
-        gamesWon = wins
+        gamesWon = wins,
     )
 }
 
@@ -54,7 +54,7 @@ fun SelectAllByWins.mapToUi(): HeroUI {
         heroId = hero_id,
         imagePath = image_path,
         gamesPlayed = games,
-        gamesWon = wins
+        gamesWon = wins,
     )
 }
 
@@ -63,6 +63,6 @@ fun SelectAllByLosses.mapToUi(): HeroUI {
         heroId = hero_id,
         imagePath = image_path,
         gamesPlayed = games,
-        gamesWon = wins
+        gamesWon = wins,
     )
 }

@@ -11,7 +11,7 @@ data class PlayerBookmarkUI(
     var rankTier: Long,
     var leaderboardRank: Long,
     var wins: Long,
-    var losses: Long
+    var losses: Long,
 )
 
 fun Select.mapToUi(): PlayerBookmarkUI {
@@ -23,7 +23,7 @@ fun Select.mapToUi(): PlayerBookmarkUI {
         rankTier = this.rank_tier,
         leaderboardRank = this.leaderboard_rank,
         wins = this.wins,
-        losses = this.losses
+        losses = this.losses,
     )
 }
 
@@ -39,8 +39,8 @@ fun List<SelectAllPlayerBookmark>.mapToUi(): List<PlayerBookmarkUI> {
                 item.rank_tier,
                 item.leaderboard_rank,
                 item.wins,
-                item.losses
-            )
+                item.losses,
+            ),
         )
     }
     return list

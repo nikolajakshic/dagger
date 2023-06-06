@@ -62,8 +62,8 @@ class HeroFragment : Fragment(R.layout.fragment_hero) {
             findNavController().navigate(
                 ProfileFragmentDirections.matchesByHeroAction(
                     accountId = accountId,
-                    heroId = it
-                )
+                    heroId = it,
+                ),
             )
         }
 

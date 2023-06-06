@@ -36,13 +36,13 @@ class AssetsViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val network: DaggerService,
     private val database: Database,
-    dispatchers: Dispatchers
+    dispatchers: Dispatchers,
 ) : LifecycleOwner by ProcessLifecycleOwner.get(),
     CoroutineScope by ProcessLifecycleOwner.get().lifecycleScope {
     private val _statusMessage = MutableSharedFlow<String?>(
         replay = 1,
         extraBufferCapacity = Int.MAX_VALUE,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
     )
     val statusMessage: Flow<String?> = _statusMessage
 
@@ -64,12 +64,12 @@ class AssetsViewModel @Inject constructor(
                         val itemsHandled = handleItemsAssets(
                             remoteConfig.itemsUrl,
                             localItemsVersion,
-                            remoteConfig.itemsVersion
+                            remoteConfig.itemsVersion,
                         )
                         val heroesHandled = handleHeroesAssets(
                             remoteConfig.heroesUrl,
                             localHeroesVersion,
-                            remoteConfig.heroesVersion
+                            remoteConfig.heroesVersion,
                         )
                         if (itemsHandled || heroesHandled) {
                             _statusMessage.tryEmit("Assets downloaded")
@@ -89,7 +89,7 @@ class AssetsViewModel @Inject constructor(
     private suspend fun handleItemsAssets(
         itemsUrl: String,
         localItemsVersion: Long,
-        remoteItemsVersion: Long
+        remoteItemsVersion: Long,
     ): Boolean {
         if (localItemsVersion == remoteItemsVersion) {
             return false
@@ -143,7 +143,7 @@ class AssetsViewModel @Inject constructor(
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_ITEMS_VERSION,
-                configVersion = remoteItemsVersion
+                configVersion = remoteItemsVersion,
             )
         }
 
@@ -163,7 +163,7 @@ class AssetsViewModel @Inject constructor(
     private suspend fun handleHeroesAssets(
         heroesUrl: String,
         localHeroesVersion: Long,
-        remoteHeroesVersion: Long
+        remoteHeroesVersion: Long,
     ): Boolean {
         if (localHeroesVersion == remoteHeroesVersion) {
             return false
@@ -217,7 +217,7 @@ class AssetsViewModel @Inject constructor(
             }
             database.localConfigQueries.insert(
                 configName = CONFIG_HEROES_VERSION,
-                configVersion = remoteHeroesVersion
+                configVersion = remoteHeroesVersion,
             )
         }
 

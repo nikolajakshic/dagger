@@ -43,7 +43,7 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive) {
         HomeFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            HomeFragment.Key.COMPETITIVE
+            HomeFragment.Key.COMPETITIVE,
         ) {
             binding.recyclerView.smoothScrollToPosition(0)
         }

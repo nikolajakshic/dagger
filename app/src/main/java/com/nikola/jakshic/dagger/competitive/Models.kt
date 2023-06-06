@@ -14,7 +14,7 @@ data class CompetitiveJson(
     @Json(name = "league_name") val leagueName: String?,
     @Json(name = "radiant_score") val radiantScore: Long,
     @Json(name = "dire_score") val direScore: Long,
-    @Json(name = "radiant_win") val isRadiantWin: Boolean
+    @Json(name = "radiant_win") val isRadiantWin: Boolean,
 )
 
 data class CompetitiveUI(
@@ -26,7 +26,7 @@ data class CompetitiveUI(
     val leagueName: String?,
     val radiantScore: Long,
     val direScore: Long,
-    val isRadiantWin: Boolean
+    val isRadiantWin: Boolean,
 )
 
 fun Competitive.mapToUi(): CompetitiveUI {
@@ -39,6 +39,6 @@ fun Competitive.mapToUi(): CompetitiveUI {
         leagueName = league_name,
         radiantScore = radiant_score,
         direScore = dire_score,
-        isRadiantWin = radiant_win == 1L
+        isRadiantWin = radiant_win == 1L,
     )
 }

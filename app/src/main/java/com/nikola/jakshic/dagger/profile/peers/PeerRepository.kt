@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class PeerRepository @Inject constructor(
     private val service: OpenDotaService,
     private val peerQueries: PeerQueries,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) {
     /**
      * Constructs the [Flow] which emits every time

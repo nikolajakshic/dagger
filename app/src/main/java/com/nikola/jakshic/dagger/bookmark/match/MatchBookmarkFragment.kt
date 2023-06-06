@@ -38,7 +38,7 @@ class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match) {
                     MatchNoteDialog.newInstance(MatchNoteDialogArgs(matchId, note))
                         .showNow(childFragmentManager, TAG_MATCH_NOTE_DIALOG)
                 }
-            }
+            },
         )
         binding.recView.layoutManager = LinearLayoutManager(requireContext())
         binding.recView.addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
@@ -48,13 +48,13 @@ class MatchBookmarkFragment : Fragment(R.layout.fragment_bookmark_match) {
         BookmarkFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            BookmarkFragment.Key.MATCHES
+            BookmarkFragment.Key.MATCHES,
         ) {
             binding.recView.smoothScrollToPosition(0)
         }
         MatchNoteDialog.setOnNoteSavedListener(
             childFragmentManager,
-            viewLifecycleOwner
+            viewLifecycleOwner,
         ) { matchId, note ->
             viewModel.updateNote(matchId, note)
         }

@@ -43,7 +43,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         HomeFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            HomeFragment.Key.STREAM
+            HomeFragment.Key.STREAM,
         ) {
             binding.recyclerView.smoothScrollToPosition(0)
         }

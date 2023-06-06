@@ -8,7 +8,7 @@ import com.nikola.jakshic.dagger.profile.peers.PeerFragment
 
 class ProfilePagerAdapter(
     private val accountId: Long,
-    fragment: Fragment
+    fragment: Fragment,
 ) : FragmentStateAdapter(fragment.childFragmentManager, fragment.viewLifecycleOwner.lifecycle) {
     override fun getItemCount() = 3
 

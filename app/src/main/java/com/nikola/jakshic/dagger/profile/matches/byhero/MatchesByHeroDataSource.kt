@@ -16,7 +16,7 @@ class MatchesByHeroDataSource(
     private val accountId: Long,
     private val heroId: Long,
     private val service: OpenDotaService,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) : PositionalDataSource<MatchUI>() {
 
     private val _status = MutableLiveData<Status>()

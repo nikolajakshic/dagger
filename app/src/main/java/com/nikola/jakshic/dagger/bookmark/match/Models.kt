@@ -6,7 +6,7 @@ import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 data class MatchBookmarkUI(
     val matchId: Long,
     val note: String?,
-    val matchStats: MatchStatsUI
+    val matchStats: MatchStatsUI,
 )
 
 fun List<SelectAllMatchBookmark>.mapToUi(): List<MatchBookmarkUI> {
@@ -33,15 +33,15 @@ fun List<SelectAllMatchBookmark>.mapToUi(): List<MatchBookmarkUI> {
             direTowers = item.value[0].dire_towers,
             radiantName = item.value[0].radiant_name,
             direName = item.value[0].dire_name,
-            players = playerStatsList
+            players = playerStatsList,
         )
 
         matchBookmarkList.add(
             MatchBookmarkUI(
                 matchId = item.value[0].match_id,
                 note = item.value[0].note,
-                matchStats = matchStats
-            )
+                matchStats = matchStats,
+            ),
         )
     }
     return matchBookmarkList
@@ -77,6 +77,6 @@ private fun SelectAllMatchBookmark.mapToPlayerStatsUi(): MatchStatsUI.PlayerStat
         towerDamage = this.tower_damage,
         xpPerMin = this.xpm,
         purchaseWardObserver = this.observers,
-        purchaseWardSentry = this.sentries
+        purchaseWardSentry = this.sentries,
     )
 }

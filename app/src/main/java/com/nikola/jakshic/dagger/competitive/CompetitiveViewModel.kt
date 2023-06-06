@@ -15,13 +15,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CompetitiveViewModel @Inject constructor(
     private val repo: CompetitiveRepository,
-    competitiveQueries: CompetitiveQueries
+    competitiveQueries: CompetitiveQueries,
 ) : ViewModel() {
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
     private val factory = QueryDataSourceFactory(
         queryProvider = competitiveQueries::getMatches,
         countQuery = competitiveQueries.countMatches(),
-        transacter = competitiveQueries
+        transacter = competitiveQueries,
     )
 
     val list = repo.getCompetitiveLiveData(factory.map(Competitive::mapToUi)).asFlow()

@@ -10,7 +10,7 @@ data class MatchNoteDialogArgs(val matchId: Long, val note: String?) {
     fun toBundle(): Bundle {
         return bundleOf(
             EXTRA_MATCH_ID to matchId,
-            EXTRA_NOTE to note
+            EXTRA_NOTE to note,
         )
     }
 
@@ -24,7 +24,7 @@ data class MatchNoteDialogArgs(val matchId: Long, val note: String?) {
             }
             return MatchNoteDialogArgs(
                 bundle.getLong(EXTRA_MATCH_ID),
-                bundle.getString(EXTRA_NOTE)
+                bundle.getString(EXTRA_NOTE),
             )
         }
     }

@@ -21,7 +21,7 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmark) {
             fragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
             key: Key,
-            listener: () -> Unit
+            listener: () -> Unit,
         ) {
             fragmentManager.setFragmentResultListener(key.name, lifecycleOwner) { _, _ ->
                 listener.invoke()
@@ -49,7 +49,7 @@ class BookmarkFragment : Fragment(R.layout.fragment_bookmark) {
         HomeFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            HomeFragment.Key.BOOKMARK
+            HomeFragment.Key.BOOKMARK,
         ) {
             when (binding.viewPager.currentItem) {
                 0 -> childFragmentManager.setFragmentResult(Key.PLAYERS.name, bundleOf())

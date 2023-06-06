@@ -11,13 +11,13 @@ private const val EXTRA_HERO_IDS = "hero-ids"
 data class ComparisonDialogArgs(
     val leftPlayerIndex: Int,
     val rightPlayerIndex: Int,
-    val heroIds: List<Long>
+    val heroIds: List<Long>,
 ) {
     fun toBundle(): Bundle {
         return bundleOf(
             EXTRA_LEFT_PLAYER_INDEX to leftPlayerIndex,
             EXTRA_RIGHT_PLAYER_INDEX to rightPlayerIndex,
-            EXTRA_HERO_IDS to heroIds.toLongArray()
+            EXTRA_HERO_IDS to heroIds.toLongArray(),
         )
     }
 
@@ -35,7 +35,7 @@ data class ComparisonDialogArgs(
             return ComparisonDialogArgs(
                 bundle.getInt(EXTRA_LEFT_PLAYER_INDEX),
                 bundle.getInt(EXTRA_RIGHT_PLAYER_INDEX),
-                bundle.getLongArray(EXTRA_HERO_IDS)!!.toList()
+                bundle.getLongArray(EXTRA_HERO_IDS)!!.toList(),
             )
         }
 
@@ -52,7 +52,7 @@ data class ComparisonDialogArgs(
             return ComparisonDialogArgs(
                 savedStateHandle.get<Int>(EXTRA_LEFT_PLAYER_INDEX)!!,
                 savedStateHandle.get<Int>(EXTRA_RIGHT_PLAYER_INDEX)!!,
-                savedStateHandle.get<LongArray>(EXTRA_HERO_IDS)!!.toList()
+                savedStateHandle.get<LongArray>(EXTRA_HERO_IDS)!!.toList(),
             )
         }
     }

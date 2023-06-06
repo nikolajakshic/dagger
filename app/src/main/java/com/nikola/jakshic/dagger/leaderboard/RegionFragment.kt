@@ -69,7 +69,7 @@ class RegionFragment : Fragment(R.layout.fragment_region) {
         LeaderboardFragment.setOnReselectListener(
             parentFragmentManager,
             viewLifecycleOwner,
-            key
+            key,
         ) {
             binding.recView.smoothScrollToPosition(0)
         }

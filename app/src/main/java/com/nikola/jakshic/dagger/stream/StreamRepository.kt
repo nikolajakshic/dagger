@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Singleton
 class StreamRepository @Inject constructor(
     private val dispatchers: Dispatchers,
-    private val service: TwitchService
+    private val service: TwitchService,
 ) {
     suspend fun getStreams(): List<StreamUI> = withContext(dispatchers.io) {
         return@withContext service.getStreams().stream.map(StreamJson::mapToUi)

@@ -11,7 +11,7 @@ class MatchesByHeroDataSourceFactory(
     private val accountId: Long,
     private val heroId: Long,
     private val service: OpenDotaService,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) : DataSource.Factory<Int, MatchUI>() {
 
     private val _sourceLiveData = MutableLiveData<MatchesByHeroDataSource>()

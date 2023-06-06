@@ -23,7 +23,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchHistoryQueries: SearchHistoryQueries,
     private val repository: PlayerRepository,
-    private val dispatchers: Dispatchers
+    private val dispatchers: Dispatchers,
 ) : ViewModel() {
     private var job = Job()
     private val scope = CoroutineScope(dispatchers.main + job)

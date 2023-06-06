@@ -38,7 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             fragmentManager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
             key: Key,
-            listener: () -> Unit
+            listener: () -> Unit,
         ) {
             fragmentManager.setFragmentResultListener(key.name, lifecycleOwner) { _, _ ->
                 listener.invoke()
