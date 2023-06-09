@@ -83,9 +83,9 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp"
     implementation "com.squareup.okhttp3:logging-interceptor"
     // Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1"
     // ImageLoading
-    implementation "io.coil-kt:coil:2.3.0"
+    implementation "io.coil-kt:coil:2.4.0"
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     kapt "com.google.dagger:hilt-android-compiler:$daggerVersion"
