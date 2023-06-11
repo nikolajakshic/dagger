@@ -10,6 +10,8 @@ class LeaderboardWrapperJson(@Json(name = "leaderboard") val leaderboard: List<L
 @JsonClass(generateAdapter = true)
 data class LeaderboardJson(
     @Json(name = "name") val name: String?,
+    @Json(name = "team_tag") val teamTag: String?,
+    @Json(name = "sponsor") val sponsor: String?,
 )
 
 @JsonClass(generateAdapter = true)
@@ -36,7 +38,16 @@ data class LeaderboardUI(
 fun List<SelectAll>.mapToUi(): List<LeaderboardUI> {
     val list = mutableListOf<LeaderboardUI>()
     for ((index, item) in this.withIndex()) {
-        list.add(LeaderboardUI(index + 1L, item.name))
+        val name = buildString {
+            if (!item.team_tag.isNullOrEmpty()) {
+                append("${item.team_tag}.")
+            }
+            append("${item.name}")
+            if (!item.sponsor.isNullOrEmpty()) {
+                append(".${item.sponsor}")
+            }
+        }
+        list.add(LeaderboardUI(index + 1L, name))
     }
     return list
 }

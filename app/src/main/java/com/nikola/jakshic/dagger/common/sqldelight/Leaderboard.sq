@@ -1,19 +1,21 @@
 CREATE TABLE IF NOT EXISTS leaderboards
 (
-    id     INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    name   TEXT,
-    region TEXT
+    id       INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    name     TEXT,
+    region   TEXT,
+    team_tag TEXT,
+    sponsor  TEXT
 );
 
 selectAll:
-SELECT name
+SELECT name, team_tag, sponsor
 FROM leaderboards
 WHERE region = :region COLLATE NOCASE
 ORDER BY id;
 
 insert:
-INSERT INTO leaderboards (name, region)
-VALUES (:name, :region);
+INSERT INTO leaderboards (name, region, team_tag, sponsor)
+VALUES (:name, :region, :teamTag, :sponsor);
 
 deleteAllByRegion:
 DELETE

@@ -52,7 +52,9 @@ class LeaderboardRepository @Inject constructor(
             // the fresh ones.
             leaderboardQueries.transaction {
                 leaderboardQueries.deleteAllByRegion(region.name)
-                list.forEach { leaderboardQueries.insert(it.name, region.name) }
+                list.forEach {
+                    leaderboardQueries.insert(it.name, region.name, it.teamTag, it.sponsor)
+                }
             }
         }
     }
