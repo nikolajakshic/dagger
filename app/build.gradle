@@ -61,6 +61,8 @@ sqldelight {
     Database {
         sourceFolders = ["java"]
         dialect = "sqlite:3.18"
+        schemaOutputDirectory = file("src/debug/java/com/nikola/jakshic/dagger/common/sqldelight")
+        verifyMigrations = true
     }
 }
 
