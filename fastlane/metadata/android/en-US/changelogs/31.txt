@@ -1,0 +1,1 @@
+- Leaderboards: show sponsor and team tag
