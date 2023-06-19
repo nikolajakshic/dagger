@@ -2,7 +2,7 @@ plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
     id "org.jetbrains.kotlin.kapt"
-    id "com.squareup.sqldelight"
+    id "app.cash.sqldelight"
     id "androidx.navigation.safeargs.kotlin"
     id "com.google.dagger.hilt.android"
     id "com.google.devtools.ksp"
@@ -58,12 +58,15 @@ spotless {
 }
 
 sqldelight {
-    Database {
-        sourceFolders = ["java"]
-        dialect = "sqlite:3.18"
-        schemaOutputDirectory = file("src/debug/java/com/nikola/jakshic/dagger/common/sqldelight")
-        // if true - generateSqlDelightInterface fails, verify migrations manually with verifyDebugDatabaseMigration
-        verifyMigrations = false
+    databases {
+        Database {
+            packageName = "com.nikola.jakshic.dagger"
+            srcDirs("/src/main/java", "/src/debug/java")
+            dialect "app.cash.sqldelight:sqlite-3-18-dialect:$sqlDelightVersion"
+            schemaOutputDirectory = file("src/debug/java/com/nikola/jakshic/dagger/common/sqldelight")
+            // if true - generateSqlDelightInterface fails, verify migrations manually with verifyDebugDatabaseMigration
+            verifyMigrations = false
+        }
     }
 }
 
@@ -99,10 +102,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycleVersion"
     // SQLDelight
-    implementation "com.squareup.sqldelight:android-driver:$sqlDelightVersion"
-    implementation "com.squareup.sqldelight:coroutines-extensions-jvm:$sqlDelightVersion"
+    implementation "app.cash.sqldelight:android-driver:$sqlDelightVersion"
+    implementation "app.cash.sqldelight:coroutines-extensions:$sqlDelightVersion"
+    implementation "app.cash.sqldelight:androidx-paging3-extensions:$sqlDelightVersion"
     // Paging
-    implementation "androidx.paging:paging-runtime:2.0.0"
+    implementation "androidx.paging:paging-runtime:3.1.1"
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"

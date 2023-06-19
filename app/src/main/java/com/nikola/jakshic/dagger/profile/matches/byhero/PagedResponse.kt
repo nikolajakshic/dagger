@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import com.nikola.jakshic.dagger.common.Status
 
-data class PagedResponse<T>(
+data class PagedResponse<T : Any>(
     val pagedList: LiveData<PagedList<T>>,
     val status: LiveData<Status>,
     val refresh: () -> Unit,

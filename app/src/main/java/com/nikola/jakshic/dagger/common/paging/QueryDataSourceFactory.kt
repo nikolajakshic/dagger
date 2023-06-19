@@ -2,8 +2,8 @@ package com.nikola.jakshic.dagger.common.paging
 
 import androidx.paging.DataSource
 import androidx.paging.PositionalDataSource
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.Transacter
+import app.cash.sqldelight.Query
+import app.cash.sqldelight.Transacter
 
 class QueryDataSourceFactory<RowType : Any>(
     private val queryProvider: (limit: Long, offset: Long) -> Query<RowType>,
@@ -76,7 +76,9 @@ private class QueryDataSource<RowType : Any>(
         query?.removeListener(this)
         transacter.transaction {
             val totalCount = countQuery.executeAsOne().toInt()
+            //noinspection RestrictedApi
             val initialLoadPosition = computeInitialLoadPosition(params, totalCount)
+            //noinspection RestrictedApi
             val initialLoadSize = computeInitialLoadSize(params, initialLoadPosition, totalCount)
             queryProvider(initialLoadSize.toLong(), initialLoadPosition.toLong()).let { query ->
                 if (callbacks.isNotEmpty()) {

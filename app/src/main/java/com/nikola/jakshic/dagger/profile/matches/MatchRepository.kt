@@ -5,6 +5,8 @@ import androidx.lifecycle.switchMap
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
@@ -15,8 +17,6 @@ import com.nikola.jakshic.dagger.matchstats.mapToDb
 import com.nikola.jakshic.dagger.matchstats.mapToUi
 import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
 import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

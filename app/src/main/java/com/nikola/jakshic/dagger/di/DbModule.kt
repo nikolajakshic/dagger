@@ -2,10 +2,10 @@ package com.nikola.jakshic.dagger.di
 
 import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.nikola.jakshic.dagger.Database
 import com.nikola.jakshic.dagger.common.sqldelight.DaggerSchema
-import com.squareup.sqldelight.android.AndroidSqliteDriver
-import com.squareup.sqldelight.db.SqlDriver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

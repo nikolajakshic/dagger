@@ -1,5 +1,7 @@
 package com.nikola.jakshic.dagger.profile.heroes
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
 import com.nikola.jakshic.dagger.common.sqldelight.HeroQueries
@@ -7,8 +9,6 @@ import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByGames
 import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByLosses
 import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWinrate
 import com.nikola.jakshic.dagger.common.sqldelight.SelectAllByWins
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext

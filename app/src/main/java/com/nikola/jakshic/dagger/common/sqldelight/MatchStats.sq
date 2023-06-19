@@ -1,3 +1,5 @@
+import kotlin.Boolean;
+
 CREATE TABLE IF NOT EXISTS match_stats (
     match_id INTEGER PRIMARY KEY NOT NULL,
     radiant_win INTEGER AS Boolean NOT NULL,

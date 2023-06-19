@@ -3,11 +3,11 @@ package com.nikola.jakshic.dagger.profile.matches.byhero
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.sqldelight.HeroAssetQueries
 import com.nikola.jakshic.dagger.profile.matches.MatchRepository
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToOneOrNull
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
