@@ -35,6 +35,7 @@ object DaggerSchema : SqlSchema<QueryResult.Value<Unit>> by Database.Schema {
             }
             driver.execute(null, "PRAGMA foreign_keys = ON;", 0)
             Database.Schema.create(driver)
+            return QueryResult.Unit
         }
         Database.Schema.migrate(driver, oldVersion, newVersion, *callbacks)
 
