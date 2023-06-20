@@ -2,17 +2,18 @@ package com.nikola.jakshic.dagger.competitive
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.common.inflate
 import com.nikola.jakshic.dagger.common.timeElapsed
+import com.nikola.jakshic.dagger.competitive.CompetitiveAdapter.CompetitiveViewHolder
 import com.nikola.jakshic.dagger.databinding.ItemCompetitiveBinding
 
 class CompetitiveAdapter(
     private val listener: (matchId: Long) -> Unit,
-) : PagedListAdapter<CompetitiveUI, CompetitiveAdapter.CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
+) : PagingDataAdapter<CompetitiveUI, CompetitiveViewHolder>(COMPETITIVE_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompetitiveViewHolder {
         return CompetitiveViewHolder(parent.inflate(R.layout.item_competitive))
     }

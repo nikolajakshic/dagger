@@ -68,7 +68,7 @@ class CompetitiveFragment : Fragment(R.layout.fragment_competitive) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
-                    viewModel.list.collectLatest(adapter::submitList)
+                    viewModel.data.collectLatest(adapter::submitData)
                 }
                 launch {
                     viewModel.isLoading.collectLatest(binding.swipeRefresh::setRefreshing)
