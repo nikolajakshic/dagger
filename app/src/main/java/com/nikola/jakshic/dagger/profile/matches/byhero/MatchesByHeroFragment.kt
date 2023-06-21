@@ -4,40 +4,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.databinding.FragmentMatchesByHeroBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
-import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
-    private val viewModel by viewModels<MatchesByHeroViewModel>()
-
     private var snackBar: Snackbar? = null
-
-    private var _binding: FragmentMatchesByHeroBinding? = null
-    private val binding get() = _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentMatchesByHeroBinding.bind(view)
+        val binding = FragmentMatchesByHeroBinding.bind(view)
+        val viewModel = ViewModelProvider(this)[MatchesByHeroViewModel::class.java]
 
-        val adapter = MatchAdapter(isMatchesByHero = true) {
+        val adapter = MatchesByHeroAdapter {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
-
         binding.recView.layoutManager = LinearLayoutManager(requireContext())
         binding.recView.addItemDecoration(
             DividerItemDecoration(
@@ -45,35 +39,27 @@ class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
                 DividerItemDecoration.VERTICAL,
             ),
         )
-        binding.recView.adapter = adapter
         binding.recView.setHasFixedSize(true)
+        binding.recView.adapter = adapter
 
-        viewModel.matches.observe(viewLifecycleOwner) {
-            // If we submit empty or null list, previous data will be deleted,
-            // and there will be nothing to show to the user
-            if (it != null && it.size > 0) adapter.submitList(it)
+        binding.swipeRefresh.setOnRefreshListener {
+            adapter.refresh()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.heroImage.collectLatest {
-                    adapter.heroImage = it
-                }
+                viewModel.data.collectLatest(adapter::submitData)
             }
         }
-
-        viewModel.status.observe(viewLifecycleOwner) { status ->
-            when (status) {
-                Status.LOADING -> {
-                    binding.swipeRefresh.isRefreshing = true
-                    snackBar?.dismiss()
-                }
-                Status.SUCCESS -> {
-                    binding.swipeRefresh.isRefreshing = false
-                    snackBar?.dismiss()
-                }
-                else -> {
-                    binding.swipeRefresh.isRefreshing = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest {
+                    val error = it.source.refresh as? LoadState.Error
+                        ?: it.source.prepend as? LoadState.Error
+                        ?: it.source.append as? LoadState.Error
+                    if (error != null) {
+                        return@collectLatest
+                    }
                     snackBar = Snackbar.make(
                         binding.swipeRefresh,
                         getString(R.string.error_network),
@@ -86,21 +72,25 @@ class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
                         ),
                     )
                     snackBar?.setAction(getString(R.string.retry)) {
-                        viewModel.retry()
+                        adapter.retry()
                     }
                     snackBar?.show()
                 }
             }
         }
-
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.refresh()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest {
+                    binding.swipeRefresh.isRefreshing = it.refresh is LoadState.Loading ||
+                        it.prepend is LoadState.Loading ||
+                        it.append is LoadState.Loading
+                }
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         snackBar?.dismiss()
         snackBar = null
     }

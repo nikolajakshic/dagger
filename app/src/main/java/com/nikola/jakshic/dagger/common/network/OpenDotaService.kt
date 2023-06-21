@@ -39,8 +39,8 @@ interface OpenDotaService {
     suspend fun getMatchesByHero(
         @Path("account_id") playerId: Long,
         @Query("hero_id") heroId: Long,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
+        @Query("limit") limit: Long,
+        @Query("offset") offset: Long,
     ): List<MatchJson>
 
     @GET("players/{account_id}/heroes")
@@ -56,5 +56,8 @@ interface OpenDotaService {
     suspend fun getCompetitiveMatches(): List<CompetitiveJson>
 
     @GET
-    suspend fun getLeaderboard(@Url url: String, @Query("division") region: String): LeaderboardWrapperJson
+    suspend fun getLeaderboard(
+        @Url url: String,
+        @Query("division") region: String,
+    ): LeaderboardWrapperJson
 }

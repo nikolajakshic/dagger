@@ -1,7 +1,6 @@
 package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.switchMap
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -15,8 +14,6 @@ import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
 import com.nikola.jakshic.dagger.matchstats.mapToUi
-import com.nikola.jakshic.dagger.profile.matches.byhero.MatchesByHeroDataSourceFactory
-import com.nikola.jakshic.dagger.profile.matches.byhero.PagedResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -87,25 +84,6 @@ class MatchRepository @Inject constructor(
                 list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
             }
         }
-    }
-
-    fun fetchMatchesByHero(accountId: Long, heroId: Long): PagedResponse<MatchUI> {
-        val sourceFactory = MatchesByHeroDataSourceFactory(accountId, heroId, service, dispatchers)
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(60)
-            .setPageSize(20)
-            .setPrefetchDistance(15)
-            .build()
-        val livePagedList = LivePagedListBuilder(sourceFactory, config)
-            .build()
-
-        return PagedResponse(
-            pagedList = livePagedList,
-            status = sourceFactory.sourceLiveData.switchMap { it.status },
-            refresh = { sourceFactory.sourceLiveData.value?.invalidate() },
-            retry = { sourceFactory.sourceLiveData.value?.retry() },
-        )
     }
 
     /**
