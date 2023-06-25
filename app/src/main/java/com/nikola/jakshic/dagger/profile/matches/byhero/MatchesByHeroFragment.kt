@@ -54,12 +54,10 @@ class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 adapter.loadStateFlow.collectLatest {
-                    val error = it.source.refresh as? LoadState.Error
+                    it.source.refresh as? LoadState.Error
                         ?: it.source.prepend as? LoadState.Error
                         ?: it.source.append as? LoadState.Error
-                    if (error != null) {
-                        return@collectLatest
-                    }
+                        ?: return@collectLatest
                     snackBar = Snackbar.make(
                         binding.swipeRefresh,
                         getString(R.string.error_network),
