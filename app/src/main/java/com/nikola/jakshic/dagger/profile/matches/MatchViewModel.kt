@@ -2,6 +2,7 @@ package com.nikola.jakshic.dagger.profile.matches
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
@@ -18,8 +19,11 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchQueries: MatchQueries,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-    private lateinit var response: Response
+    private val accountId = MatchFragment.getAccountId(savedStateHandle)
+
+    private var response: Response
 
     val list: LiveData<PagedList<MatchUI>>
         get() = response.pagedList
@@ -31,34 +35,31 @@ class MatchViewModel @Inject constructor(
     val loadMoreStatus: LiveData<Status>
         get() = response.status
 
-    private var initialFetch = false
-
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
     private var factory: QueryDataSourceFactory<SelectAll>? = null
 
-    fun initialFetch(id: Long) {
-        if (!initialFetch) {
-            initialFetch = true
-
-            val queryProvider = { limit: Long, offset: Long ->
-                matchQueries.selectAll(id, limit, offset)
-            }
-            factory = QueryDataSourceFactory(
-                queryProvider = queryProvider,
-                countQuery = matchQueries.countMatches(id),
-                transacter = matchQueries,
-            )
-            response =
-                repository.getMatchesLiveData(viewModelScope, factory!!.map(SelectAll::mapToUi), id)
-            fetchMatches(id)
+    init {
+        val queryProvider = { limit: Long, offset: Long ->
+            matchQueries.selectAll(accountId, limit, offset)
         }
+        factory = QueryDataSourceFactory(
+            queryProvider = queryProvider,
+            countQuery = matchQueries.countMatches(accountId),
+            transacter = matchQueries,
+        )
+        response = repository.getMatchesLiveData(
+            scope = viewModelScope,
+            factory = factory!!.map(SelectAll::mapToUi),
+            id = accountId,
+        )
+        fetchMatches()
     }
 
-    fun fetchMatches(id: Long) {
+    fun fetchMatches() {
         viewModelScope.launch {
             try {
                 _refreshStatus.value = Status.LOADING
-                repository.fetchMatches(id)
+                repository.fetchMatches(accountId)
                 _refreshStatus.value = Status.SUCCESS
             } catch (e: Exception) {
                 Timber.e(e)
