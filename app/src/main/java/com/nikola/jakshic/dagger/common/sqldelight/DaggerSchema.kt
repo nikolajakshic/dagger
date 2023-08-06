@@ -9,8 +9,8 @@ import com.nikola.jakshic.dagger.Database
 object DaggerSchema : SqlSchema<QueryResult.Value<Unit>> by Database.Schema {
     override fun migrate(
         driver: SqlDriver,
-        oldVersion: Int,
-        newVersion: Int,
+        oldVersion: Long,
+        newVersion: Long,
         vararg callbacks: AfterVersion,
     ): QueryResult.Value<Unit> {
         if (oldVersion <= 8 && newVersion > 8) {
