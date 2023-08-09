@@ -11,6 +11,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.requery.android.database.sqlite.RequerySQLiteOpenHelperFactory
 import javax.inject.Singleton
 
 @Module
@@ -59,6 +60,7 @@ object DbModule {
             schema = DaggerSchema,
             context = context,
             name = "dagger.db",
+            factory = RequerySQLiteOpenHelperFactory(),
             callback = object : AndroidSqliteDriver.Callback(DaggerSchema) {
                 override fun onOpen(db: SupportSQLiteDatabase) {
                     db.execSQL("PRAGMA foreign_keys = ON;")

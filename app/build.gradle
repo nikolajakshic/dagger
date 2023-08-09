@@ -105,6 +105,8 @@ dependencies {
     implementation "app.cash.sqldelight:android-driver:$sqlDelightVersion"
     implementation "app.cash.sqldelight:coroutines-extensions:$sqlDelightVersion"
     implementation "app.cash.sqldelight:androidx-paging3-extensions:$sqlDelightVersion"
+    // Requery
+    implementation "com.github.requery:sqlite-android:3.42.0"
     // Paging
     implementation "androidx.paging:paging-runtime:3.2.0"
     // Navigation
