@@ -6,11 +6,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
+import app.cash.sqldelight.paging3.QueryPagingSource
+import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.paging.QueryDataSourceFactory
 import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.match.SelectAll
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -19,6 +25,8 @@ import javax.inject.Inject
 class MatchViewModel @Inject constructor(
     private val repository: MatchRepository,
     private val matchQueries: MatchQueries,
+    private val matchQueriesExt: MatchQueriesExt,
+    private val dispatchers: Dispatchers,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val accountId = MatchFragment.getAccountId(savedStateHandle)
@@ -34,6 +42,37 @@ class MatchViewModel @Inject constructor(
 
     val loadMoreStatus: LiveData<Status>
         get() = response.status
+
+    val data = Pager(
+        config = PagingConfig(
+            pageSize = 40,
+            prefetchDistance = 10,
+            enablePlaceholders = false,
+            initialLoadSize = 40,
+        ),
+        pagingSourceFactory = {
+            QueryPagingSource(
+                transacter = matchQueries,
+                context = dispatchers.io,
+                pageBoundariesProvider = { anchor: Long?, limit: Long ->
+                    matchQueriesExt.pageBoundaries(
+                        limit,
+                        anchor,
+                        accountId,
+                    )
+                },
+                queryProvider = { beginInclusive: Long, endExclusive: Long? ->
+                    matchQueries.keyedQuery(
+                        accountId,
+                        beginInclusive,
+                        endExclusive,
+                    )
+                },
+            )
+        },
+    ).flow
+        .cachedIn(viewModelScope)
+        .flowOn(dispatchers.io)
 
     // Workaround for leaky QueryDataSource, store the reference so we can release the resources.
     private var factory: QueryDataSourceFactory<SelectAll>? = null
