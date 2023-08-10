@@ -62,7 +62,7 @@ sqldelight {
         Database {
             packageName = "com.nikola.jakshic.dagger"
             srcDirs("src/main/java", "src/debug/java")
-            dialect "app.cash.sqldelight:sqlite-3-18-dialect:$sqlDelightVersion"
+            dialect "app.cash.sqldelight:sqlite-3-38-dialect:$sqlDelightVersion"
             schemaOutputDirectory = file("src/debug/java/com/nikola/jakshic/dagger/common/sqldelight")
             // if true - generateSqlDelightInterface fails, verify migrations manually with verifyDebugDatabaseMigration
             verifyMigrations = false
