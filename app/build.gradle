@@ -1,7 +1,6 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    id "org.jetbrains.kotlin.kapt"
     id "app.cash.sqldelight"
     id "androidx.navigation.safeargs.kotlin"
     id "com.google.dagger.hilt.android"
@@ -94,7 +93,7 @@ dependencies {
     implementation "io.coil-kt:coil:2.4.0"
     // Dependency Injection
     implementation "com.google.dagger:hilt-android:$daggerVersion"
-    kapt "com.google.dagger:hilt-android-compiler:$daggerVersion"
+    ksp "com.google.dagger:hilt-android-compiler:$daggerVersion"
     // Lifecycle
     def lifecycleVersion = "2.6.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
