@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace "com.nikola.jakshic.dagger"
-    compileSdk 33
+    compileSdk 34
     defaultConfig {
         applicationId "com.nikola.jakshic.dagger"
         minSdk 24
@@ -74,7 +74,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:1.6.1"
     implementation "androidx.activity:activity-ktx:1.7.2"
     implementation "androidx.fragment:fragment-ktx:1.6.1"
-    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.core:core-ktx:1.12.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.google.android.material:material:1.9.0"
     // Networking
@@ -95,7 +95,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     ksp "com.google.dagger:hilt-android-compiler:$daggerVersion"
     // Lifecycle
-    def lifecycleVersion = "2.6.1"
+    def lifecycleVersion = "2.6.2"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -107,7 +107,7 @@ dependencies {
     // Requery
     implementation "com.github.requery:sqlite-android:3.42.0"
     // Paging
-    implementation "androidx.paging:paging-runtime:3.2.0"
+    implementation "androidx.paging:paging-runtime:3.2.1"
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
