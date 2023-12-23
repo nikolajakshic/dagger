@@ -124,7 +124,7 @@ class MatchRepository @Inject constructor(
                 direName = matchDb.dire_name,
                 matchId = matchDb.match_id,
             )
-            match.players?.forEach { playerStatsQueries.insert(it.mapToDb()) }
+            match.players?.forEach { playerStatsQueries.insert(it.mapToDb(matchId)) }
         }
     }
 }

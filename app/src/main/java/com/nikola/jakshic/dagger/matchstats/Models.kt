@@ -31,7 +31,6 @@ data class Team(@Json(name = "name") val name: String?)
 @JsonClass(generateAdapter = true)
 data class PlayerStatsJson(
     @Json(name = "account_id") val id: Long,
-    @Json(name = "match_id") val matchId: Long,
     @Json(name = "name") val name: String?,
     @Json(name = "personaname") val personaName: String?,
     @Json(name = "player_slot") val playerSlot: Long,
@@ -188,7 +187,7 @@ fun List<SelectAllMatchStats>.mapToUi(): MatchStatsUI? {
     )
 }
 
-fun PlayerStatsJson.mapToDb(): Player_stats {
+fun PlayerStatsJson.mapToDb(matchId: Long): Player_stats {
     return Player_stats(
         account_id = id,
         match_id = matchId,
