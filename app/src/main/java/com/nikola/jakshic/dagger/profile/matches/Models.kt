@@ -10,7 +10,7 @@ data class MatchJson(
     @Json(name = "match_id") val matchId: Long,
     @Json(name = "hero_id") val heroId: Long,
     @Json(name = "player_slot") val playerSlot: Long,
-    @Json(name = "skill") val skill: Long,
+    @Json(name = "skill") val skill: Long = 0,
     @Json(name = "duration") val duration: Long,
     @Json(name = "game_mode") val gameMode: Long,
     @Json(name = "lobby_type") val lobbyType: Long,
