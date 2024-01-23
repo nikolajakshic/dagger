@@ -5,6 +5,7 @@ import android.os.Build.MANUFACTURER
 import android.os.Build.MODEL
 import android.os.Build.VERSION.RELEASE
 import android.os.Build.VERSION.SDK_INT
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.nikola.jakshic.dagger.BuildConfig
 import com.nikola.jakshic.dagger.BuildConfig.VERSION_NAME
 import com.nikola.jakshic.dagger.common.network.DaggerService
@@ -99,6 +100,8 @@ object NetworkModule {
         if (BuildConfig.DEBUG) {
             clientBuilder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
         }
+
+        clientBuilder.addInterceptor(ChuckerInterceptor(context))
 
         return clientBuilder.build()
     }
