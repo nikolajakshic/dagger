@@ -30,7 +30,7 @@ data class Team(@Json(name = "name") val name: String?)
 
 @JsonClass(generateAdapter = true)
 data class PlayerStatsJson(
-    @Json(name = "account_id") val id: Long,
+    @Json(name = "account_id") val id: Long = 0,
     @Json(name = "name") val name: String?,
     @Json(name = "personaname") val personaName: String?,
     @Json(name = "player_slot") val playerSlot: Long,
@@ -41,8 +41,8 @@ data class PlayerStatsJson(
     @Json(name = "deaths") val deaths: Long,
     @Json(name = "denies") val denies: Long,
     @Json(name = "gold_per_min") val goldPerMin: Long,
-    @Json(name = "hero_damage") val heroDamage: Long,
-    @Json(name = "hero_healing") val heroHealing: Long,
+    @Json(name = "hero_damage") val heroDamage: Long = 0,
+    @Json(name = "hero_healing") val heroHealing: Long = 0,
     @Json(name = "hero_id") val heroId: Long,
     @Json(name = "item_0") val item0: Long,
     @Json(name = "item_1") val item1: Long,
@@ -54,7 +54,7 @@ data class PlayerStatsJson(
     @Json(name = "kills") val kills: Long,
     @Json(name = "last_hits") val lastHits: Long,
     @Json(name = "level") val level: Long,
-    @Json(name = "tower_damage") val towerDamage: Long,
+    @Json(name = "tower_damage") val towerDamage: Long = 0,
     @Json(name = "xp_per_min") val xpPerMin: Long,
     @Json(name = "purchase_ward_observer") val purchaseWardObserver: Long = 0,
     @Json(name = "purchase_ward_sentry") val purchaseWardSentry: Long = 0,
