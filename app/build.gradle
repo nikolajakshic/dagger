@@ -95,7 +95,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     ksp "com.google.dagger:hilt-android-compiler:$daggerVersion"
     // Lifecycle
-    def lifecycleVersion = "2.6.2"
+    def lifecycleVersion = "2.7.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
