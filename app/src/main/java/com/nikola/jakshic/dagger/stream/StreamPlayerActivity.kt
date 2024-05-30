@@ -37,9 +37,9 @@ class StreamPlayerActivity : AppCompatActivity() {
         binding.webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val userName = intent?.getStringExtra(EXTRA_USER_NAME)
+        val userName = intent.getStringExtra(EXTRA_USER_NAME)
             ?: throw IllegalArgumentException("Intent with user-name extra must be passed.")
         binding.webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
     }
