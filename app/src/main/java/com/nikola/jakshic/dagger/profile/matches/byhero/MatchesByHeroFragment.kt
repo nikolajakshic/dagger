@@ -59,7 +59,7 @@ class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
                         ?: it.source.append as? LoadState.Error
                         ?: return@collectLatest
                     snackBar = Snackbar.make(
-                        binding.swipeRefresh,
+                        requireActivity().findViewById(android.R.id.content),
                         getString(R.string.error_network),
                         Snackbar.LENGTH_INDEFINITE,
                     )

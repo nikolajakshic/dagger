@@ -84,7 +84,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
                 else -> {
                     binding.swipeRefresh.isRefreshing = false
                     snackbar = Snackbar.make(
-                        binding.swipeRefresh,
+                        requireActivity().findViewById(android.R.id.content),
                         getString(R.string.error_network),
                         Snackbar.LENGTH_INDEFINITE,
                     )
