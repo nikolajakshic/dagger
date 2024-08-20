@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.nikola.jakshic.dagger.databinding.ActivityStreamPlayerBinding
 
@@ -35,6 +36,19 @@ class StreamPlayerActivity : AppCompatActivity() {
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.settings.domStorageEnabled = true
         binding.webView.loadUrl("https://player.twitch.tv/?channel=$userName&parent=twitch.tv&player=popout")
+
+        onBackPressedDispatcher.addCallback(this) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val isInPictureInPictureMode =
+                    enterPictureInPictureMode(PictureInPictureParams.Builder().build())
+                if (isInPictureInPictureMode) {
+                    return@addCallback
+                }
+            }
+            isEnabled = false
+            onBackPressedDispatcher.onBackPressed()
+            isEnabled = true
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -49,16 +63,5 @@ class StreamPlayerActivity : AppCompatActivity() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             enterPictureInPictureMode(PictureInPictureParams.Builder().build())
         }
-    }
-
-    override fun onBackPressed() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            val isInPictureInPictureMode =
-                enterPictureInPictureMode(PictureInPictureParams.Builder().build())
-            if (isInPictureInPictureMode) {
-                return
-            }
-        }
-        super.onBackPressed()
     }
 }
