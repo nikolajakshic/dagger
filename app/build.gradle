@@ -72,8 +72,8 @@ sqldelight {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "androidx.appcompat:appcompat:1.7.0"
-    implementation "androidx.activity:activity-ktx:1.9.0"
-    implementation "androidx.fragment:fragment-ktx:1.7.1"
+    implementation "androidx.activity:activity-ktx:1.9.1"
+    implementation "androidx.fragment:fragment-ktx:1.8.2"
     implementation "androidx.core:core-ktx:1.13.1"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation "com.google.android.material:material:1.12.0"
@@ -95,7 +95,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$daggerVersion"
     ksp "com.google.dagger:hilt-android-compiler:$daggerVersion"
     // Lifecycle
-    def lifecycleVersion = "2.8.1"
+    def lifecycleVersion = "2.8.4"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -124,9 +124,11 @@ dependencies {
     // Chucker
     debugImplementation "com.github.chuckerteam.chucker:library:4.0.0"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:4.0.0"
+    // Process-Farewell
+    debugImplementation "com.nikolajaksic:process-farewell:1.0.0"
     // Test
     kspTest "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test:runner:1.5.2"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.6.1"
 }
