@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.R
 import com.nikola.jakshic.dagger.databinding.FragmentMatchesByHeroBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
+import com.nikola.jakshic.dagger.profile.matches.MatchAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class MatchesByHeroFragment : Fragment(R.layout.fragment_matches_by_hero) {
         val binding = FragmentMatchesByHeroBinding.bind(view)
         val viewModel = ViewModelProvider(this)[MatchesByHeroViewModel::class.java]
 
-        val adapter = MatchesByHeroAdapter {
+        val adapter = MatchAdapter {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
         binding.recView.layoutManager = LinearLayoutManager(requireContext())

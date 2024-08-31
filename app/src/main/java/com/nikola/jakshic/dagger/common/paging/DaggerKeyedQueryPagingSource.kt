@@ -1,72 +1,97 @@
 package com.nikola.jakshic.dagger.common.paging
 
-import app.cash.paging.PagingSourceLoadParams
-import app.cash.paging.PagingSourceLoadResult
-import app.cash.paging.PagingSourceLoadResultError
-import app.cash.paging.PagingSourceLoadResultPage
-import app.cash.paging.PagingState
+import androidx.paging.PagingState
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.SuspendingTransacter
 import app.cash.sqldelight.Transacter
 import app.cash.sqldelight.TransacterBase
 import app.cash.sqldelight.TransactionCallbacks
+import com.nikola.jakshic.dagger.common.sqldelight.KeyedQuery
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class DaggerKeyedQueryPagingSource<Key : Any, RowType : Any>(
-    private val queryProvider: (beginInclusive: Key, endExclusive: Key?) -> Query<RowType>,
-    private val pageBoundariesProvider: (anchor: Key?, limit: Long) -> Query<Key>,
+class DaggerKeyedQueryPagingSource(
+    private val queryProvider: (beginInclusive: Long?, endExclusive: Long?) -> Query<KeyedQuery>,
+    private val pageBoundariesProvider: () -> Query<Long>,
     private val transacter: TransacterBase,
     private val context: CoroutineContext,
-) : DaggerQueryPagingSource<Key, RowType>() {
-    private var pageBoundaries: List<Key>? = null
+) : DaggerQueryPagingSource<Long, KeyedQuery>() {
+    private var pageBoundaries: List<Long>? = null
     override val jumpingSupported: Boolean get() = false
 
-    override fun getRefreshKey(state: PagingState<Key, RowType>): Key? {
-        val boundaries = pageBoundaries ?: return null
-        val last = state.pages.lastOrNull() ?: return null
-        val keyIndexFromNext = last.nextKey?.let { boundaries.indexOf(it) - 1 }
-        val keyIndexFromPrev = last.prevKey?.let { boundaries.indexOf(it) + 1 }
-        val keyIndex = keyIndexFromNext ?: keyIndexFromPrev ?: return null
+    override fun getRefreshKey(state: PagingState<Long, KeyedQuery>): Long? {
+        // boundaries: 526, 417, 371, 343, 270, 255, 202
+        val boundaries = pageBoundaries
+            ?: pageBoundariesProvider()
+                .executeAsList()
+                .also { pageBoundaries = it }
 
-        return boundaries.getOrNull(keyIndex)
+        return state.anchorPosition?.let anchorPosition@{ anchorPosition ->
+            state.closestItemToPosition(anchorPosition)?.let closestItem@{ closestItem ->
+                var boundary: Long? = null
+                boundaries.forEach {
+                    // closestItem.match_id: 317
+                    // boundaries: 526, 417, 371, 343, 270, 255, 202
+                    // boundary/key: 343
+                    if (it >= closestItem.match_id) {
+                        boundary = it
+                    } else {
+                        return@forEach
+                    }
+                }
+                return@closestItem boundary
+            }
+        }
     }
 
-    override suspend fun load(params: PagingSourceLoadParams<Key>): PagingSourceLoadResult<Key, RowType> {
-        return withContext(context) {
-            try {
-                val getPagingSourceLoadResult: TransactionCallbacks.() -> PagingSourceLoadResult<Key, RowType> =
-                    {
-                        val boundaries = pageBoundaries
-                            ?: pageBoundariesProvider(params.key, params.loadSize.toLong())
-                                .executeAsList()
-                                .also { pageBoundaries = it }
+    override suspend fun load(
+        params: LoadParams<Long>,
+    ): LoadResult<Long, KeyedQuery> = withContext(context) {
+        try {
+            val getPagingSourceLoadResult: TransactionCallbacks.() -> LoadResult<Long, KeyedQuery> =
+                {
+                    // boundaries: 526, 417, 371, 343, 270, 255, 202
+                    val boundaries = pageBoundaries
+                        ?: pageBoundariesProvider()
+                            .executeAsList()
+                            .also { pageBoundaries = it }
 
-                        val key = params.key ?: boundaries.first()
+                    val key = params.key ?: boundaries.firstOrNull() // 343
+                    val keyIndex = boundaries.indexOf(key)
+                    var previousKey = boundaries.getOrNull(keyIndex - 1) // 371
+                    var nextKey = boundaries.getOrNull(keyIndex + 1) // 270
 
-                        require(key in boundaries)
+                    val results = mutableListOf<KeyedQuery>()
 
-                        val keyIndex = boundaries.indexOf(key)
-                        val previousKey = boundaries.getOrNull(keyIndex - 1)
-                        val nextKey = boundaries.getOrNull(keyIndex + 1)
-                        val results = queryProvider(key, nextKey)
+                    if (key != null && params is LoadParams.Refresh) {
+                        val beginInclusive = previousKey ?: key // 371
+                        val endExclusive = boundaries.getOrNull(keyIndex + 2) // 255
+                        results += queryProvider(beginInclusive, endExclusive)
                             .also { currentQuery = it }
                             .executeAsList()
-
-                        PagingSourceLoadResultPage(
-                            data = results,
-                            prevKey = previousKey,
-                            nextKey = nextKey,
-                        )
+                        previousKey = boundaries.getOrNull(keyIndex - 2) // 417
+                        nextKey = endExclusive // 255
+                    } else if (key != null) {
+                        results += queryProvider(key, nextKey)
+                            .also { currentQuery = it }
+                            .executeAsList()
+                    } else {
+                        currentQuery = queryProvider(null, null)
                     }
-                when (transacter) {
-                    is Transacter -> transacter.transactionWithResult(bodyWithReturn = getPagingSourceLoadResult)
-                    is SuspendingTransacter -> transacter.transactionWithResult(bodyWithReturn = getPagingSourceLoadResult)
+
+                    LoadResult.Page(
+                        data = results,
+                        prevKey = previousKey,
+                        nextKey = nextKey,
+                    )
                 }
-            } catch (e: Exception) {
-                if (e is IllegalArgumentException) throw e
-                PagingSourceLoadResultError(e)
+            when (transacter) {
+                is Transacter -> transacter.transactionWithResult(bodyWithReturn = getPagingSourceLoadResult)
+                is SuspendingTransacter -> transacter.transactionWithResult(bodyWithReturn = getPagingSourceLoadResult)
             }
+        } catch (e: Exception) {
+            if (e is IllegalArgumentException) throw e
+            LoadResult.Error(e)
         }
     }
 }

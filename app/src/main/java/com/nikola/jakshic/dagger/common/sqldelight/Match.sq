@@ -44,7 +44,7 @@ SELECT matches.account_id,
 FROM matches
          LEFT JOIN hero_asset ON hero_asset.id = matches.hero_id
 WHERE matches.account_id = :accountId
-  AND matches.match_id <= :beginInclusive
+  AND (matches.match_id <= :beginInclusive OR :beginInclusive IS NULL)
   AND (matches.match_id > :endExclusive OR :endExclusive IS NULL)
 ORDER BY matches.match_id DESC;
 

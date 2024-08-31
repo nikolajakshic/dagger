@@ -1,6 +1,6 @@
 package com.nikola.jakshic.dagger.common.paging
 
-import app.cash.paging.PagingSource
+import androidx.paging.PagingSource
 import app.cash.sqldelight.Query
 import kotlin.properties.Delegates
 

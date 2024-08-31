@@ -12,10 +12,9 @@ import javax.inject.Singleton
 class MatchQueriesExt @Inject constructor(
     driver: SqlDriver,
 ) : TransacterImpl(driver) {
-    fun pageBoundaries(limit: Long, anchor: Long?, accountId: Long): Query<Long> =
+    fun pageBoundaries(limit: Long, accountId: Long): Query<Long> =
         PageBoundariesQuery(
             limit,
-            anchor,
             accountId,
         ) { cursor ->
             cursor.getLong(0)!!
@@ -23,7 +22,6 @@ class MatchQueriesExt @Inject constructor(
 
     private inner class PageBoundariesQuery<out T : Any>(
         val limit: Long,
-        val anchor: Long?,
         val accountId: Long,
         mapper: (SqlCursor) -> T,
     ) : Query<T>(mapper) {
@@ -43,7 +41,6 @@ class MatchQueriesExt @Inject constructor(
                     |FROM (SELECT matches.match_id,
                     |             CASE
                     |                 WHEN ((row_number() OVER (ORDER BY matches.match_id DESC) - 1) % :limit) = 0 THEN 1
-                    |                 WHEN matches.match_id = :anchor THEN 1
                     |                 ELSE 0
                     |                 END page_boundary
                     |      FROM matches
@@ -52,11 +49,10 @@ class MatchQueriesExt @Inject constructor(
                     |WHERE page_boundary = 1
                 """.trimMargin(),
                 mapper = mapper,
-                parameters = 3,
+                parameters = 2,
             ) {
                 bindLong(0, limit)
-                bindLong(1, anchor)
-                bindLong(2, accountId)
+                bindLong(1, accountId)
             }
 
         override fun toString(): String = "Match.sq:pageBoundaries"

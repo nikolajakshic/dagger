@@ -31,8 +31,8 @@ interface OpenDotaService {
     @GET("players/{account_id}/matches?significant=0")
     suspend fun getMatches(
         @Path("account_id") playerId: Long,
-        @Query("limit") limit: Int,
-        @Query("offset") offset: Int,
+        @Query("limit") limit: Long,
+        @Query("offset") offset: Long,
     ): List<MatchJson>
 
     @GET("players/{account_id}/matches?significant=0")

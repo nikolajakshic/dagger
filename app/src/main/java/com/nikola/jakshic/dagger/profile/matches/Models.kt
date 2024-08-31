@@ -1,5 +1,6 @@
 package com.nikola.jakshic.dagger.profile.matches
 
+import com.nikola.jakshic.dagger.common.sqldelight.KeyedQuery
 import com.nikola.jakshic.dagger.common.sqldelight.Matches
 import com.nikola.jakshic.dagger.common.sqldelight.match.SelectAll
 import com.squareup.moshi.Json
@@ -70,5 +71,19 @@ fun SelectAll.mapToUi(): MatchUI {
         lobbyType = this.lobby,
         isRadiantWin = this.radiant_win == 1L,
         startTime = this.start_time,
+    )
+}
+
+fun KeyedQuery.mapToUi(): MatchUI {
+    return MatchUI(
+        matchId = match_id,
+        heroImage = hero_image,
+        playerSlot = player_slot,
+        skill = skill,
+        duration = duration,
+        gameMode = mode,
+        lobbyType = lobby,
+        isRadiantWin = radiant_win == 1L,
+        startTime = start_time,
     )
 }

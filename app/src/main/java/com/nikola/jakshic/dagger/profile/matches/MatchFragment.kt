@@ -5,28 +5,29 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.nikola.jakshic.dagger.R
-import com.nikola.jakshic.dagger.common.Status
 import com.nikola.jakshic.dagger.common.hasNetworkConnection
 import com.nikola.jakshic.dagger.common.toast
 import com.nikola.jakshic.dagger.databinding.FragmentMatchBinding
 import com.nikola.jakshic.dagger.matchstats.MatchStatsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MatchFragment : Fragment(R.layout.fragment_match) {
-    private val viewModel by viewModels<MatchViewModel>()
     private var snackbar: Snackbar? = null
-
-    private var _binding: FragmentMatchBinding? = null
-    private val binding get() = _binding!!
 
     companion object {
         private const val EXTRA_ACCOUNT_ID = "account-id"
@@ -47,42 +48,35 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentMatchBinding.bind(view)
+        val binding = FragmentMatchBinding.bind(view)
 
-        val adapter = MatchAdapter(isMatchesByHero = false) {
+        val viewModel = ViewModelProvider(this)[MatchViewModel::class.java]
+
+        val adapter = MatchAdapter {
             findNavController().navigate(MatchStatsFragmentDirections.matchStatsAction(matchId = it))
         }
 
-        binding.recView.layoutManager = LinearLayoutManager(context)
+        binding.recView.layoutManager = LinearLayoutManager(requireContext())
         binding.recView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL,
-            ),
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL),
         )
+        binding.recView.setHasFixedSize(false)
         binding.recView.adapter = adapter
-        binding.recView.setHasFixedSize(true)
 
-        viewModel.list.observe(viewLifecycleOwner, Observer(adapter::submitList))
-        viewModel.refreshStatus.observe(viewLifecycleOwner) {
-            when (it) {
-                Status.LOADING -> binding.swipeRefresh.isRefreshing = true
-                else -> binding.swipeRefresh.isRefreshing = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.data.collectLatest {
+                    adapter.submitData(it)
+                }
             }
         }
-
-        viewModel.loadMoreStatus.observe(viewLifecycleOwner) { status ->
-            when (status) {
-                Status.LOADING -> {
-                    binding.swipeRefresh.isRefreshing = true
-                    snackbar?.dismiss()
-                }
-                Status.SUCCESS -> {
-                    binding.swipeRefresh.isRefreshing = false
-                    snackbar?.dismiss()
-                }
-                else -> {
-                    binding.swipeRefresh.isRefreshing = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow.collectLatest {
+                    it.refresh as? LoadState.Error
+                        ?: it.prepend as? LoadState.Error
+                        ?: it.append as? LoadState.Error
+                        ?: return@collectLatest
                     snackbar = Snackbar.make(
                         requireActivity().findViewById(android.R.id.content),
                         getString(R.string.error_network),
@@ -95,7 +89,7 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
                         ),
                     )
                     snackbar?.setAction(getString(R.string.retry)) {
-                        viewModel.retry()
+                        adapter.retry()
                     }
                     snackbar?.show()
                 }
@@ -103,17 +97,32 @@ class MatchFragment : Fragment(R.layout.fragment_match) {
         }
         binding.swipeRefresh.setOnRefreshListener {
             if (hasNetworkConnection()) {
-                viewModel.fetchMatches()
+                adapter.refresh()
             } else {
                 toast(getString(R.string.error_network_connection))
                 binding.swipeRefresh.isRefreshing = false
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                adapter.loadStateFlow
+                    .debounce {
+                        val loading = it.refresh is LoadState.Loading ||
+                            it.prepend is LoadState.Loading ||
+                            it.append is LoadState.Loading
+                        if (loading) 0 else 300
+                    }
+                    .collectLatest {
+                        binding.swipeRefresh.isRefreshing = it.refresh is LoadState.Loading ||
+                            it.prepend is LoadState.Loading ||
+                            it.append is LoadState.Loading
+                    }
             }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         snackbar?.dismiss()
         snackbar = null
     }

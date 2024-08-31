@@ -1,20 +1,14 @@
 package com.nikola.jakshic.dagger.profile.matches
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.nikola.jakshic.dagger.common.Dispatchers
 import com.nikola.jakshic.dagger.common.network.OpenDotaService
-import com.nikola.jakshic.dagger.common.sqldelight.MatchQueries
 import com.nikola.jakshic.dagger.common.sqldelight.MatchStatsQueries
 import com.nikola.jakshic.dagger.common.sqldelight.PlayerStatsQueries
 import com.nikola.jakshic.dagger.matchstats.MatchStatsUI
 import com.nikola.jakshic.dagger.matchstats.mapToDb
 import com.nikola.jakshic.dagger.matchstats.mapToUi
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -25,67 +19,10 @@ import javax.inject.Singleton
 @Singleton
 class MatchRepository @Inject constructor(
     private val service: OpenDotaService,
-    private val matchQueries: MatchQueries,
     private val matchStatsQueries: MatchStatsQueries,
     private val playerStatsQueries: PlayerStatsQueries,
     private val dispatchers: Dispatchers,
 ) {
-
-    /**
-     * Constructs the [LiveData] which emits every time
-     * the requested data in the database has changed
-     */
-    fun getMatchesLiveData(
-        scope: CoroutineScope,
-        factory: DataSource.Factory<Int, MatchUI>,
-        id: Long,
-    ): Response {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(40)
-            .setPageSize(20)
-            .setPrefetchDistance(5)
-            .build()
-
-        val boundaryCallback = MatchBoundaryCallback(scope, service, matchQueries, dispatchers, id)
-
-        val pagedList = LivePagedListBuilder(factory, config)
-            .setBoundaryCallback(boundaryCallback)
-            .build()
-
-        return Response(
-            pagedList = pagedList,
-            status = boundaryCallback.status,
-            retry = { boundaryCallback.retry() },
-        )
-    }
-
-    /**
-     * Fetches the matches from the network and inserts them into database.
-     *
-     * Whenever the database is updated, the observers of [LiveData]
-     * returned by [getMatchesLiveData] are notified.
-     */
-    suspend fun fetchMatches(id: Long): Unit = withContext(dispatchers.io) {
-        val count = matchQueries.countMatches(id).executeAsOne()
-        val list = if (count != 0L) {
-            // There are already some matches in the database
-            // we want to refresh all of them
-            service.getMatches(id, count.toInt(), 0)
-        } else {
-            // There are no matches in the database,
-            // we want to fetch only 20 from the network
-            service.getMatches(id, 20, 0)
-        }
-
-        if (list.isNotEmpty()) {
-            matchQueries.transaction {
-                matchQueries.deleteAll(id)
-                list.forEach { matchQueries.insert(it.mapToDb(accountId = id)) }
-            }
-        }
-    }
-
     /**
      * Constructs the [Flow] which emits every time
      * the requested data in the database has changed

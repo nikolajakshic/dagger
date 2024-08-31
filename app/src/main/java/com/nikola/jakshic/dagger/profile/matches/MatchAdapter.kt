@@ -3,7 +3,7 @@ package com.nikola.jakshic.dagger.profile.matches
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.paging.PagedListAdapter
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -15,15 +15,8 @@ import com.nikola.jakshic.dagger.databinding.ItemMatchBinding
 import com.nikola.jakshic.dagger.util.DotaUtil
 
 class MatchAdapter(
-    private val isMatchesByHero: Boolean,
-    private val listener: (Long) -> Unit,
-) : PagedListAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
-    var heroImage: String? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
+    private val listener: (matchId: Long) -> Unit,
+) : PagingDataAdapter<MatchUI, MatchAdapter.MatchVH>(MATCH_COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchVH {
         return MatchVH(parent.inflate(R.layout.item_match))
     }
@@ -46,11 +39,7 @@ class MatchAdapter(
         }
 
         fun bind(item: MatchUI) {
-            if (isMatchesByHero) {
-                binding.imgHero.load(heroImage)
-            } else {
-                binding.imgHero.load(item.heroImage)
-            }
+            binding.imgHero.load(item.heroImage)
             binding.tvMatchResult.text =
                 if (isWin(item)) {
                     itemView.context.getString(R.string.won)
