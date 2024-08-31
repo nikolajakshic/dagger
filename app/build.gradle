@@ -107,7 +107,7 @@ dependencies {
     // Requery
     implementation "com.github.requery:sqlite-android:3.42.0"
     // Paging
-    implementation "androidx.paging:paging-runtime:3.3.0"
+    implementation "androidx.paging:paging-runtime:3.3.2"
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
