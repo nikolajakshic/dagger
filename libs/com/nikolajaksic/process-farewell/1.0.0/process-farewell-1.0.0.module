@@ -1,0 +1,78 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.nikolajaksic",
+    "module": "process-farewell",
+    "version": "1.0.0",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "process-farewell-1.0.0.aar",
+          "url": "process-farewell-1.0.0.aar",
+          "size": 20892,
+          "sha512": "2e5a2c3ce35f3cad90432ef1e27f220f442b0a5ebe38067d0277feee65c2cc58f4285b20a6a8f318333f7c2dcc42dfb6de1fcab2de8d244286f9cffd9e20f4f0",
+          "sha256": "afc5a9bb6942645bb546ad8fd002bf82569a382dc8c074e77a5b049e364c697b",
+          "sha1": "586d6e144e47a8bfff5fe4cbbaa308aa31c9af7d",
+          "md5": "97126cd98404949cb249716ef0230700"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "process-farewell-1.0.0.aar",
+          "url": "process-farewell-1.0.0.aar",
+          "size": 20892,
+          "sha512": "2e5a2c3ce35f3cad90432ef1e27f220f442b0a5ebe38067d0277feee65c2cc58f4285b20a6a8f318333f7c2dcc42dfb6de1fcab2de8d244286f9cffd9e20f4f0",
+          "sha256": "afc5a9bb6942645bb546ad8fd002bf82569a382dc8c074e77a5b049e364c697b",
+          "sha1": "586d6e144e47a8bfff5fe4cbbaa308aa31c9af7d",
+          "md5": "97126cd98404949cb249716ef0230700"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "process-farewell-1.0.0-sources.jar",
+          "url": "process-farewell-1.0.0-sources.jar",
+          "size": 5623,
+          "sha512": "475db1543dc7dcb1d9eb3da1eeb572af022d3b971e40808c4a76e388cea5d903c121d1b19c2c4a32ac204b5eb1960f900051f0d22cd258993b0c0dc9700646a7",
+          "sha256": "d82d6767abdc36c3a7ef6d9046ccb6901276880a8f3b325499d1f9c73837ba7b",
+          "sha1": "09a4deff706d572e1b6405ae63b31ed3772fa530",
+          "md5": "59e78f3d71d48e5e4a1e25fd9c7d0381"
+        }
+      ]
+    }
+  ]
+}

@@ -20,7 +20,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        mavenLocal()
+        mavenLocal { url "libs" }
         maven { url "https://jitpack.io" }
     }
 }
