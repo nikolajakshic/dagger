@@ -1,7 +1,7 @@
 {
   "leaderboard_url": "https://www.dota2.com/webapi/ILeaderboard/GetDivisionLeaderboard/v0001?leaderboard=0",
-  "items_version": 1,
-  "items_url": "https://github.com/nikolajakshic/dagger/releases/download/1.2.4/items.zip",
-  "heroes_version": 1,
-  "heroes_url": "https://github.com/nikolajakshic/dagger/releases/download/1.2.4/heroes.zip"
+  "items_version": 2,
+  "items_url": "https://github.com/nikolajakshic/dagger/releases/download/1.3.8/items.zip",
+  "heroes_version": 2,
+  "heroes_url": "https://github.com/nikolajakshic/dagger/releases/download/1.3.8/heroes.zip"
 }
